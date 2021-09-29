@@ -1,2 +1,2 @@
-# WedemyClient
-Frontend Repo. A Udemy clone, built using of Vue.js 3 + Springboot
+# wedemy
+Frontend repo. Clone of Udemy, built using Vue.js 3 + Element Plus.
