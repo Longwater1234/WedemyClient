@@ -1,3 +1,4 @@
+import store from '@/store';
 import http from '../axiosconfig';
 
 interface User {

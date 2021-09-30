@@ -47,12 +47,11 @@
 
       <el-form-item style="margin-top: 8px">
         <el-button
-          plain
           class="btn-accent field login-btn"
           @click="handleSignup('signupForm')"
           style="font-weight: 600"
-          type="success"
-          :loading="isLoading"
+          type="submit"
+          :loading ="isLoading"
         >
           Sign Up
         </el-button>
@@ -71,7 +70,6 @@
 
 <script>
 import AuthService from "@/services/AuthService";
-// import { ref } from "vue";
 
 export default {
   data() {
@@ -121,8 +119,7 @@ export default {
       }
     };
 
-    // validation for re-enter password
-
+    // validation for confirm password
     const checkReenter = (rule, value, callback) => {
       if (!value) {
         callback(new Error("Re-enter the password"));
@@ -159,12 +156,9 @@ export default {
     handleSignup(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.isLoading = true;
           this.submitToServer(this.signupForm)
-            .catch((error) => {
-              this.signupError = error.response
-                ? error.response.data.message
-                : error.message;
-            })
+            .catch((error) => this.displayError(error))
             .finally(() => (this.isLoading = false));
         } else {
           return false;
@@ -172,9 +166,12 @@ export default {
       });
     },
     submitToServer: async (load) => {
-      await AuthService.registerUser(
-        {email : load.email, fullname : load.fullname, password : load.password, confirmPass : load.confirmPass}
-      );
+      await AuthService.registerUser({ ...load });
+    },
+    displayError(error) {
+      this.signupError = error.response
+        ? error.response.data.message
+        : error.message;
     },
   },
 };

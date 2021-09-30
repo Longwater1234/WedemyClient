@@ -5,7 +5,13 @@
       {{ loginError }}
     </p>
 
-    <el-form @submit.prevent status-icon :model="loginForm" :rules="rules" ref="loginForm">
+    <el-form
+      @submit.prevent
+      status-icon
+      :model="loginForm"
+      :rules="rules"
+      ref="loginForm"
+    >
       <el-form-item style="margin-top: 8px" prop="email">
         <el-input
           type="email"
@@ -31,17 +37,17 @@
           @click="handleLogin('loginForm')"
           style="font-weight: 600"
           type="submit"
-          :loading="isLoading"
+          :disabled="isLoading"
         >
           Log In
         </button>
       </div>
     </el-form>
-
+    <div v-loading="isLoading"></div>
     <div style="margin-top: 13px">
       Don't have an account?
-      <router-link to="/signup" class="none" :style="{ fontWeight: '800' }"
-        >SignUp
+      <router-link to="/signup" class="none" :style="{ fontWeight: '800' }">
+        SignUp
       </router-link>
     </div>
   </div>
@@ -49,8 +55,9 @@
 
 <script>
 import AuthService from "@/services/AuthService";
+import store from "@/store";
 export default {
-  inject: ["store", "actions"],
+  inject: ["store"],
   data() {
     document.title = "Login | Wedemy";
 
@@ -100,9 +107,7 @@ export default {
         if (valid) {
           this.isLoading = true;
           this.submitToServer(this.loginForm)
-            .catch((error) => {
-              this.loginError = error.message;
-            })
+            .catch((error) => this.displayError(error))
             .finally(() => (this.isLoading = false));
         } else {
           return false;
@@ -110,8 +115,17 @@ export default {
       });
     },
     submitToServer: async (load) => {
-     let res = await AuthService.loginUser(load.email, load.password);
-    // res.data.user.fullname   <==== attach this to Store
+      let res = await AuthService.loginUser(load.email, load.password);
+      store.setAuthStatus(res.data.user.fullname);
+    },
+    redirectToHome() {
+      this.$router.replace("/");
+    },
+    displayError(error) {
+      this.loginError =
+        error.response.status === 401
+          ? "Incorrect email or password."
+          : error.message;
     },
   },
 };

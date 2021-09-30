@@ -58,7 +58,11 @@
     </div>
 
     <!-- cart icon if signed in -->
-    <div v-if="loggedIn" style="margin-top: 6px" class="main-only">
+    <div
+      v-if="store.getters.isLoggedIn"
+      style="margin-top: 6px"
+      class="main-only"
+    >
       <el-badge :value="cartCount" class="item">
         <router-link to="/cart">
           <font-awesome-icon
@@ -71,44 +75,42 @@
     </div>
 
     <!-- log in/ sign up buttons -->
-    <div class="">
-      <!-- show buttons if NOT logged in -->
-      <div v-if="!loggedIn">
-        <router-link to="/login" class="none main-only">
-          <button class="btn btn-accent">Log In</button>
-        </router-link>
+    <!-- show buttons if NOT logged in -->
+    <div v-if="!store.getters.isLoggedIn">
+      <router-link to="/login" class="none main-only">
+        <button class="btn btn-accent">Log In</button>
+      </router-link>
 
-        <router-link to="/signup" class="none main-only">
-          <button class="btn btn-accent-outline" style="margin-left: 0.75em">
-            Sign Up
-          </button>
-        </router-link>
-      </div>
+      <router-link to="/signup" class="none main-only">
+        <button class="btn btn-accent-outline" style="margin-left: 0.75em">
+          Sign Up
+        </button>
+      </router-link>
+    </div>
 
-      <!-- START DROPDOWN + AVATAR (if logged IN) -->
-      <div
-        class="main-only"
-        v-else
-        :style="{ textDecoration: 'none', display: 'flex' }"
-      >
-        <el-dropdown>
-          <el-avatar
-            :size="36"
-            style="margin-top: 1px"
-            :src="attachAvatarLink(store.state.username)"
-          ></el-avatar>
-          <span class="el-dropdown-link" style="font-size: 16px"> </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item disabled>
-                {{ store.state.username }}
-              </el-dropdown-item>
-              <el-dropdown-item divided>My Account</el-dropdown-item>
-              <el-dropdown-item @click="logout()">Logout</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
+    <!-- START DROPDOWN + AVATAR (if logged IN) -->
+    <div
+      class="main-only"
+      v-else
+      :style="{ textDecoration: 'none', display: 'flex' }"
+    >
+      <el-dropdown>
+        <el-avatar
+          :size="36"
+          style="margin-top: 1px"
+          :src="attachAvatarLink(store.state.username)"
+        ></el-avatar>
+        <span class="el-dropdown-link" style="font-size: 16px"> </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item disabled>
+              {{ store.state.username }}
+            </el-dropdown-item>
+            <el-dropdown-item divided>My Account</el-dropdown-item>
+            <el-dropdown-item @click="logout()">Logout</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </el-row>
 </template>
@@ -128,8 +130,6 @@ export default defineComponent({
   data() {
     return {
       search: "",
-      loggedIn: ref(false),
-      username: ref(""),
       cartCount: ref(0),
     };
   },
@@ -141,8 +141,12 @@ export default defineComponent({
       //TODO add search logic here
     },
     logout: async () => {
-      await AuthService.logoutUser();
-      //TODO clear store, refresh page.
+      try {
+        await AuthService.logoutUser();
+        store.setLogout();
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 });

@@ -1,3 +1,4 @@
+import store from "@/store";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 
@@ -10,6 +11,10 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/login",
         name: "Login",
+        beforeEnter: (to, from, next) => {
+            if (store.getters.isLoggedIn) next({ name: "Home" })
+            else next()
+        },
         component: () => import("../views/Login.vue")
     },
     {
