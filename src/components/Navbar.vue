@@ -144,6 +144,7 @@ export default defineComponent({
       try {
         await AuthService.logoutUser();
         store.setLogout();
+        window.location.reload()
       } catch (error) {
         console.error(error);
       }

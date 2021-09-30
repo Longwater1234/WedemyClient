@@ -56,6 +56,7 @@
 <script>
 import AuthService from "@/services/AuthService";
 import store from "@/store";
+import { ElMessage } from "element-plus";
 export default {
   inject: ["store"],
   data() {
@@ -107,6 +108,7 @@ export default {
         if (valid) {
           this.isLoading = true;
           this.submitToServer(this.loginForm)
+            .then(() => this.redirectToHome())
             .catch((error) => this.displayError(error))
             .finally(() => (this.isLoading = false));
         } else {
@@ -119,6 +121,7 @@ export default {
       store.setAuthStatus(res.data.user.fullname);
     },
     redirectToHome() {
+      ElMessage.success("Welcome Back");
       this.$router.replace("/");
     },
     displayError(error) {

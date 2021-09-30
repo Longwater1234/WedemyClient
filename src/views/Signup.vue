@@ -51,7 +51,7 @@
           @click="handleSignup('signupForm')"
           style="font-weight: 600"
           type="submit"
-          :loading ="isLoading"
+          :loading="isLoading"
         >
           Sign Up
         </el-button>
@@ -158,6 +158,7 @@ export default {
         if (valid) {
           this.isLoading = true;
           this.submitToServer(this.signupForm)
+            //===TODO DISPLAY SUCCESS notif + REDIRECT TO LOGIN ===
             .catch((error) => this.displayError(error))
             .finally(() => (this.isLoading = false));
         } else {

@@ -20,11 +20,12 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
+import { ref } from "vue";
 
 export default defineComponent({
   data() {
     return {
-      cartCount: 0,
+      cartCount: ref(0),
     };
   },
 });
