@@ -43,13 +43,13 @@
         </p>
         <p>{{ singleCourse.author }}</p>
         <h3>${{ singleCourse.price }}</h3>
-        <el-button type="success" class="course-btn" @click="cartNotif()">
+        <el-button type="success" class="course-btn" @click="addtoCart()">
           Add to Cart
         </el-button>
         <el-button
-          type="danger"
+          :type="wishlisted ? 'danger' : 'info'"
           class="course-btn"
-          @click="toggleWishlist(singleCourse.courseId)"
+          @click="toggleWishlist(singleCourse.id)"
           :icon="wishlisted ? 'el-icon-star-on' : 'el-icon-star-off'"
           :loading="loadingWishlist"
           plain
@@ -75,9 +75,9 @@
 <script lang="ts">
 import CourseService from "@/services/CourseService";
 import WishlistService from "@/services/WishlistService";
+import store from "@/store";
 import { defineComponent } from "@vue/runtime-core";
 import { ElMessage, ElNotification } from "element-plus";
-import { ref } from "vue";
 
 export default defineComponent({
   data() {
@@ -85,8 +85,8 @@ export default defineComponent({
       activeName: "first",
       courseId: 0,
       errorMessage: "",
-      wishlisted: ref(false),
-      loadingWishlist: ref(false),
+      wishlisted: false,
+      loadingWishlist: false,
       isLoading: true,
       singleCourse: {
         title: "",
@@ -98,7 +98,7 @@ export default defineComponent({
     };
   },
   methods: {
-    cartNotif() {
+    addtoCart() {
       ElNotification({
         title: "Cart",
         type: "success",
@@ -108,9 +108,9 @@ export default defineComponent({
     },
     toggleWishlist(courseId: number) {
       const self = this;
+      if (!store.getters.isLoggedIn) return self.LoginMessage();
       self.loadingWishlist = true;
-      let myAction;
-      myAction =
+      let myAction =
         self.wishlisted === true
           ? WishlistService.removeOne(courseId)
           : WishlistService.addNew(courseId);
@@ -130,10 +130,13 @@ export default defineComponent({
         })
         .finally(() => (this.isLoading = false));
     },
-    fetchWishlistStatus(courseId: number) {
+    checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
         this.wishlisted = res.data.isWishlist;
       });
+    },
+    LoginMessage() {
+      ElMessage.warning("Must be logged in");
     },
   },
   mounted() {
@@ -141,15 +144,12 @@ export default defineComponent({
     this.isLoading = true;
     this.courseId = parseInt(this.$route.path.split(/course\//)[1]);
     this.fetchSingleCourse(this.courseId);
-    this.fetchWishlistStatus(this.courseId);
+    store.getters.isLoggedIn && this.checkWishlistStatus(this.courseId);
   },
 });
 </script>
 
 <style>
-.el-notification__content {
-  font-family: "Public Sans", system-ui, sans-serif;
-}
 .course-view {
   display: flex;
   flex-direction: row;

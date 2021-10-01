@@ -32,7 +32,7 @@
 
       <!-- if NOT logged in -->
       <el-row
-        v-if="!loggedIn"
+        v-if="!state.getters.isLoggedIn"
         type="flex"
         justify="space-around"
         style="margin-top: 10px"
@@ -52,18 +52,15 @@
 <script>
 export default {
   name: "Drawer",
-
   data() {
     return {
       drawer: false,
-      loggedIn: false,
-      username: "",
       search: "",
     };
   },
   methods: {
     handleSearch() {
-      //TODO add search logic here
+      //FIXME: add search logic here
     },
     showDrawer(){
       this.drawer = !this.drawer

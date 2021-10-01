@@ -1,9 +1,6 @@
 <template>
   <div class="main-view login-view wrapper">
     <h2>Login to Continue Learning!</h2>
-    <p style="color: red; margin-top: 10px; font-weight: 600">
-      {{ loginError }}
-    </p>
 
     <el-form
       @submit.prevent
@@ -32,18 +29,18 @@
       </el-form-item>
 
       <div style="margin-top: 8px">
-        <button
+        <el-button
           class="btn-accent field login-btn"
           @click="handleLogin('loginForm')"
           style="font-weight: 600"
-          type="submit"
-          :disabled="isLoading"
+          native-type="submit"
+          type="success"
+          :loading="isLoading"
         >
           Log In
-        </button>
+        </el-button>
       </div>
     </el-form>
-    <div v-loading="isLoading"></div>
     <div style="margin-top: 13px">
       Don't have an account?
       <router-link to="/signup" class="none" :style="{ fontWeight: '800' }">
@@ -97,11 +94,9 @@ export default {
       },
 
       //other
-      loginError: "",
       isLoading: false,
     };
   },
-
   methods: {
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
@@ -118,17 +113,19 @@ export default {
     },
     submitToServer: async (load) => {
       let res = await AuthService.loginUser(load.email, load.password);
-      store.setAuthStatus(res.data.user.fullname);
+      let { fullname, id } = res.data.user;
+      store.updateAuthStatus(fullname, id);
     },
     redirectToHome() {
-      ElMessage.success("Welcome Back");
-      this.$router.replace("/");
+      ElMessage.success("Welcome back!");
+      this.$router.push("/");
     },
     displayError(error) {
-      this.loginError =
+      let mama =
         error.response.status === 401
-          ? "Incorrect email or password."
+          ? "Wrong email or password"
           : error.message;
+      ElMessage.error(mama);
     },
   },
 };

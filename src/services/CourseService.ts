@@ -1,12 +1,14 @@
 import http from '../axiosconfig';
 
 interface Course {
+    id?: number;
     title: string;
     price: number;
     rating: number;
     thumbUrl?: string;
     category: string;
 }
+
 
 class CourseService {
 

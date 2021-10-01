@@ -50,8 +50,9 @@
           class="btn-accent field login-btn"
           @click="handleSignup('signupForm')"
           style="font-weight: 600"
-          type="submit"
+          type="success"
           :loading="isLoading"
+          native-type="submit"
         >
           Sign Up
         </el-button>
@@ -70,6 +71,7 @@
 
 <script>
 import AuthService from "@/services/AuthService";
+import { ElMessage } from "element-plus";
 
 export default {
   data() {
@@ -77,7 +79,7 @@ export default {
 
     /* validation for fullname */
     const checkName = (rule, value, callback) => {
-      let reg = /[^ 0-9A-Za-z_.]/gi;
+      let reg = /[^ 0-9A-Za-z_\.\-\']/gi;
 
       if (!value) {
         return callback(new Error("Name can't be empty"));
@@ -159,7 +161,7 @@ export default {
           this.isLoading = true;
           this.submitToServer(this.signupForm)
             //===TODO DISPLAY SUCCESS notif + REDIRECT TO LOGIN ===
-            .catch((error) => this.displayError(error))
+            .catch((error) => ElMessage.error(error.message))
             .finally(() => (this.isLoading = false));
         } else {
           return false;
@@ -168,11 +170,6 @@ export default {
     },
     submitToServer: async (load) => {
       await AuthService.registerUser({ ...load });
-    },
-    displayError(error) {
-      this.signupError = error.response
-        ? error.response.data.message
-        : error.message;
     },
   },
 };

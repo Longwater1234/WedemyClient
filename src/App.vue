@@ -6,23 +6,24 @@
   <!-- </el-scrollbar> -->
 </template>
 
-<script>
+<script lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import store from "./store";
+import { defineComponent } from "@vue/runtime-core";
 
-export default {
+export default defineComponent({
   name: "App",
   components: {
     Navbar,
     Footer,
   },
   mounted() {
-  store.getAuthStatusServer().catch(error =>{
-    console.error(error)
-  })
+    store.isAuthenticated().catch((error) => {
+      console.error("AUTH_ERROR", error);
+    });
   },
-};
+});
 </script>
 
 
@@ -30,6 +31,7 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  font-family: "Public Sans", system-ui, sans-serif;
 }
 
 :root {
@@ -156,6 +158,10 @@ body {
   color: #636362;
   font-size: 14px;
 }
+
+/* .el-message el-message--error {
+  font-family: "Public Sans", system-ui, sans-serif;
+} */
 
 /* product images in a catalog */
 .product-img {

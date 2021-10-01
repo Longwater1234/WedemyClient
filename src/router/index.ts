@@ -20,6 +20,10 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/signup",
         name: "Signup",
+        beforeEnter: (to, from, next) => {
+            if (store.getters.isLoggedIn) next({ name: "Home" })
+            else next()
+        },
         component: () => import("../views/Signup.vue")
     },
     {

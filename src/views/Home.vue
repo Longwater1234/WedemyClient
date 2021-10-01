@@ -25,15 +25,15 @@
           style="margin-top: 20px; margin-left: 20px"
         >
           <!-- START OF SINGLE CARD -->
-          <el-space v-if="courses.length" wrap :size="size">
+          <el-space v-if="courses.length" wrap size="large">
             <el-card
               class="courseCard"
               :body-style="{ padding: '0px' }"
               shadow="hover"
               style="margin-bottom: 13px"
               v-for="course in courses"
-              :key="course.courseId"
-              @click="goToCourse(course.courseId)"
+              :key="course.id"
+              @click="goToCourse(course.id)"
             >
               <img
                 :src="course.thumbUrl"
@@ -95,7 +95,6 @@ export default defineComponent({
     document.title = "Home | Wedemy";
 
     return {
-      size: "large",
       courses: [],
       serverError: false,
       loading: true,
@@ -115,8 +114,8 @@ export default defineComponent({
           this.loading = false;
         });
     },
-    goToCourse(courseId: number) {
-      this.$router.push(`/course/${courseId}`);
+    goToCourse(id: number) {
+      this.$router.push(`/course/${id}`);
     },
   },
   mounted() {

@@ -1,46 +1,64 @@
 import { computed, reactive } from "vue";
 import http from "@/axiosconfig";
 
-type authState = {
+//FOR USER STATE
+interface userState {
+    id: number;
     username: string;
     loggedIn: boolean;
-};
+    cartCount: number;
+}
 
-const state: authState = reactive({
+const user: userState = reactive({
+    id: 0,
     username: "",
-    loggedIn: false
+    loggedIn: false,
+    cartCount: 0
 });
 
+//GETTERS
 const getters = reactive({
-    isLoggedIn: computed(() => state.loggedIn)
+    isLoggedIn: computed(() => user.loggedIn),
+    getCartCount: computed(() => user.cartCount)
 });
 
 const myActions = {
     setLogout() {
-        state.loggedIn = false;
-        state.username = "";
+        user.loggedIn = false;
+        user.username = "";
     },
 
-    setAuthStatus(fullname: string) {
-        state.loggedIn = true;
-        state.username = fullname;
+    updateAuthStatus(fullname: string, userId: number) {
+        user.loggedIn = true;
+        user.username = fullname;
+        user.id = userId
     },
 
-    async getAuthStatusServer() {
+    async isAuthenticated() {
         try {
             let res = await http.post("/auth/statuslogin", null);
-            state.loggedIn = res.data.success;
-            state.username = res.data.user.fullname;
-            return true;
+            user.loggedIn = res.data.success;
+            user.username = res.data.user.fullname;
         } catch (error) {
-            console.error("AUTH_ERROR", error);
-            return false;
+            throw error;
+        }
+    },
+
+    async getCartCount(): Promise<number> {
+        if (!getters.isLoggedIn) return 0;
+        try {
+            let res = await http.get("/cart/count");
+            user.cartCount = res.data.count
+            return user.cartCount;
+        } catch (error) {
+           console.error(error);
+           return 0;
         }
     }
 };
 
 export default {
-    state,
+    state: user,
     getters,
     ...myActions
 };

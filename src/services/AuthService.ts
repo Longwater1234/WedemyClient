@@ -1,11 +1,11 @@
-import store from '@/store';
 import http from '../axiosconfig';
 
 interface User {
     email: string;
     fullname: string;
-    password: string;
-    confirmPass: string;
+    password?: string;
+    confirmPass?: string;
+    datejoined?: string
 }
 
 class AuthService {
@@ -32,7 +32,7 @@ class AuthService {
     }
 
 
-    registerUser({email, fullname, password, confirmPass}: User) {
+    registerUser({ email, fullname, password, confirmPass }: User) {
         return http.post("/auth/register", {
             fullname,
             email,

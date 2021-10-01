@@ -63,7 +63,7 @@
       style="margin-top: 6px"
       class="main-only"
     >
-      <el-badge :value="cartCount" class="item">
+      <el-badge :value="store.getters.getCartCount" class="item">
         <router-link to="/cart">
           <font-awesome-icon
             :icon="['fas', 'shopping-cart']"
@@ -118,7 +118,7 @@
 <script lang="ts">
 import AuthService from "@/services/AuthService";
 import store from "@/store";
-import { defineComponent, ref } from "@vue/runtime-core";
+import { defineComponent } from "@vue/runtime-core";
 import Drawer from "./Drawer.vue";
 
 export default defineComponent({
@@ -130,7 +130,7 @@ export default defineComponent({
   data() {
     return {
       search: "",
-      cartCount: ref(0),
+      cartCount: 0,
     };
   },
   methods: {
@@ -144,7 +144,7 @@ export default defineComponent({
       try {
         await AuthService.logoutUser();
         store.setLogout();
-        window.location.reload()
+        window.location.reload();
       } catch (error) {
         console.error(error);
       }
