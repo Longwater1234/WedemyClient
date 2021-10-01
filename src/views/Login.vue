@@ -122,9 +122,7 @@ export default {
     },
     displayError(error) {
       let mama =
-        error.response.status === 401
-          ? "Wrong email or password"
-          : error.message;
+        error.response.status === 401 ? "Wrong credentials" : error.message;
       ElMessage.error(mama);
     },
   },
