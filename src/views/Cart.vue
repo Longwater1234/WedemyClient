@@ -24,8 +24,7 @@ import store from "../store"
 
 export default defineComponent({
   data() {
-    return {
-    };
+    return {};
   },
   inject: ["store"]
 });

@@ -11,7 +11,7 @@
     >
       <el-form-item style="margin-top: 8px" prop="email">
         <el-input
-            type="email"
+            native-type="email"
             autofocus="true"
             placeholder="E-mail"
             v-model.trim="loginForm.email"
@@ -113,8 +113,8 @@ export default {
         }
       });
     },
-    submitToServer: async ({email, password}) => {
-      let res = await AuthService.loginUser(email, password);
+    submitToServer: async (load) => {
+      let res = await AuthService.loginUser(load.email, load.password);
       let {fullname, id} = res.data.user;
       store.updateAuthStatus(fullname, id);
     },
@@ -123,7 +123,7 @@ export default {
       this.$router.push("/");
     },
     displayError(error) {
-      let mama = error.response ? "Wrong credentials" : error.message;
+      let mama = error.message;
       ElMessage.error(mama);
     },
   },

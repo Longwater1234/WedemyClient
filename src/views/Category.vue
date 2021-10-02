@@ -3,6 +3,7 @@
     <h2 class="most-pop">${category}</h2>
 
     <!-- <el-skeleton animated :loading="loading" style="margin-top: 15px"> -->
+    <div v-loading="loading"></div>
     <el-space
       direction="vertical"
       alignment="start"
@@ -36,35 +37,22 @@
         </el-card>
       </el-space>
     </el-space>
-    <!-- </el-skeleton> -->
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     document.title = "${category} | Wedemy";
     return {
       size: "large",
       value: 4.7,
-      // api: [],
-      // work: [],
-      // loading: true,
+      loading: false,
     };
   },
-
-  // mounted() {
-  //   axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
-  //     this.api = res.data;
-  //     this.work = res.data[0];
-  //     setTimeout(() => {
-  //       this.loading = false;
-  //     }, 2000);
-  //     console.log(res.data);
-  //     console.log(res.data[0]);
-  //   });
-  // },
+  mounted() {
+    //TODO fetch Cart from SERVER for currentUser
+  },
 };
 </script>
 

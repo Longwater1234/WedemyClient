@@ -1,8 +1,8 @@
-<template >
+<template>
   <el-row type="flex" justify="space-between" class="footer">
     <div style="padding-top: 5px">
       <router-link to="/">
-        <img src="@/images/android-chrome-512x512.png" class="icon"  alt="Home"/>
+        <img src="@/images/android-chrome-512x512.png" class="icon" alt="Home"/>
       </router-link>
     </div>
 

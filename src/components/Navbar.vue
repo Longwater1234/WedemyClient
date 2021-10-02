@@ -9,8 +9,8 @@
             src="../images/android-chrome-512x512.png"
             class="icon"
             style="margin-top: 3px"
-            alt="Home"/>
-        <img src="../images/WedemyLogo.png" alt="Wedemy" class="textlogo"/>
+            alt="Logo"/>
+        <img src="../images/WedemyLogo.png" alt="Home" class="logo"/>
       </router-link>
     </div>
 
@@ -99,7 +99,8 @@
             :size="36"
             style="margin-top: 1px"
             :src="attachAvatarLink(store.state.username)"
-        ></el-avatar>
+        >
+        </el-avatar>
         <span class="el-dropdown-link" style="font-size: 16px"> </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -120,6 +121,7 @@ import AuthService from "@/services/AuthService";
 import store from "@/store";
 import {defineComponent} from "@vue/runtime-core";
 import Drawer from "./Drawer.vue";
+import {ElMessage} from "element-plus";
 
 export default defineComponent({
   name: "Navbar",
@@ -145,7 +147,7 @@ export default defineComponent({
         store.setLogout();
         window.location.reload();
       } catch (error) {
-        console.error(error);
+        ElMessage.error(error.message)
       }
     },
   },
@@ -191,7 +193,6 @@ input::placeholder {
   color: grey;
 }
 
-
 .input-sidebar {
   width: 250px;
 }
@@ -231,8 +232,7 @@ input::placeholder {
 @media only screen and (max-width: 600px) {
   .logo,
   .main-only,
-  i,
-  .nav-link {
+  i {
     display: none;
   }
 

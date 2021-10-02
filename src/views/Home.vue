@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
     <img
-        src="../images/al-ghazali.jpg"
-        alt="home"
-        class="home-image"
-        rel="preload"
-        as="image"
+      src="../images/al-ghazali.jpg"
+      alt="home"
+      class="home-image"
+      rel="preload"
+      as="image"
     />
 
     <div class="home main-view" style="margin-top: 40px">
@@ -15,33 +15,35 @@
         <h3>Recommended for you</h3>
 
         <div style="margin-top: 2%">
-          <div class="server-error" v-if="serverError.length"> {{ serverError }} </div>
+          <div class="server-error" v-if="serverError.length">
+            {{ serverError }}
+          </div>
           <div v-loading="loading"></div>
         </div>
 
         <!-- category catalog -->
         <!-- <router-link to="/course" style="text-decoration: none"> -->
         <el-space
-            direction="vertical"
-            alignment="start"
-            :size="30"
-            style="margin-top: 20px; margin-left: 20px"
+          direction="vertical"
+          alignment="start"
+          :size="30"
+          style="margin-top: 20px; margin-left: 20px"
         >
           <!-- START OF SINGLE CARD -->
           <el-space v-if="courses.length" wrap size="large">
             <el-card
-                class="courseCard"
-                :body-style="{ padding: '0px' }"
-                shadow="hover"
-                style="margin-bottom: 13px"
-                v-for="course in courses"
-                :key="course.id"
-                @click="goToCourse(course.id)"
+              class="courseCard"
+              :body-style="{ padding: '0px' }"
+              shadow="hover"
+              style="margin-bottom: 13px"
+              v-for="course in courses"
+              :key="course.id"
+              @click="goToCourse(course.id)"
             >
               <img
-                  :src="course.thumbUrl"
-                  class="product-img"
-                  :alt="course.title"
+                :src="course.thumbUrl"
+                class="product-img"
+                :alt="course.title"
               />
               <div style="padding: 14px">
                 <div class="card-title">{{ course.title }}</div>
@@ -50,11 +52,11 @@
                 </div>
                 <!-- rating from users -->
                 <el-rate
-                    v-model="course.rating"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value} rating"
+                  v-model="course.rating"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value} rating"
                 >
                 </el-rate>
                 <div>${{ course.price }}</div>
@@ -71,14 +73,14 @@
 
         <div class="flex top">
           <el-card
-              :body-style="{ padding: '0px' }"
-              shadow="hover"
-              style="margin-right: 25px"
-              v-for="o in 4"
-              :key="o"
-              class="top-img"
+            :body-style="{ padding: '0px' }"
+            shadow="hover"
+            style="margin-right: 25px"
+            v-for="o in 4"
+            :key="o"
+            class="top-img"
           >
-            <img src="../images/1613872731202.webp" class="top-image"/>
+            <img src="../images/1613872731202.webp" class="top-image" />
             <div style="padding: 14px">
               <span class="card-title">Category</span>
             </div>
@@ -91,7 +93,8 @@
 
 <script lang="ts">
 import CourseService from "../services/CourseService";
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
+import axiosconfig from "@/axiosconfig";
 
 export default defineComponent({
   name: "Home",
@@ -107,16 +110,17 @@ export default defineComponent({
   methods: {
     fetchAllCourses() {
       CourseService.getAll()
-          .then((res) => {
-            this.courses = res.data;
-          })
-          .catch((error) => {
-            this.serverError = error.message;
-            console.error(error);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
+        .then((res) => {
+          this.courses = res.data;
+          axiosconfig.defaults.xsrfHeaderName = "X-XSRF-TOKEN"
+        })
+        .catch((error) => {
+          this.serverError = error.message;
+          console.error(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     goToCourse(id: number) {
       this.$router.push(`/course/${id}`);
@@ -139,7 +143,6 @@ export default defineComponent({
   border-radius: 6px;
   padding: 26px;
 }
-
 
 .home-section2 {
   border: 1px solid #dcdacb;
