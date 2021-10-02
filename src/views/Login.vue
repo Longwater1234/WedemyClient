@@ -3,39 +3,40 @@
     <h2>Login to Continue Learning!</h2>
 
     <el-form
-      @submit.prevent
-      status-icon
-      :model="loginForm"
-      :rules="rules"
-      ref="loginForm"
+        @submit.prevent
+        status-icon
+        :model="loginForm"
+        :rules="rules"
+        ref="loginForm"
     >
       <el-form-item style="margin-top: 8px" prop="email">
         <el-input
-          type="email"
-          placeholder="E-mail"
-          v-model.trim="loginForm.email"
-          class="field"
-          clearable
+            type="email"
+            autofocus="true"
+            placeholder="E-mail"
+            v-model.trim="loginForm.email"
+            class="field"
+            clearable
         ></el-input>
       </el-form-item>
 
       <el-form-item prop="password">
         <el-input
-          placeholder="Password"
-          v-model.trim="loginForm.password"
-          class="field"
-          show-password
+            placeholder="Password"
+            v-model.trim="loginForm.password"
+            class="field"
+            show-password
         ></el-input>
       </el-form-item>
 
       <div style="margin-top: 8px">
         <el-button
-          class="btn-accent field login-btn"
-          @click="handleLogin('loginForm')"
-          style="font-weight: 600"
-          native-type="submit"
-          type="success"
-          :loading="isLoading"
+            class="btn-accent field login-btn"
+            @click="handleLogin('loginForm')"
+            style="font-weight: 600"
+            native-type="submit"
+            type="success"
+            :loading="isLoading"
         >
           Log In
         </el-button>
@@ -53,7 +54,8 @@
 <script>
 import AuthService from "@/services/AuthService";
 import store from "@/store";
-import { ElMessage } from "element-plus";
+import {ElMessage} from "element-plus";
+
 export default {
   inject: ["store"],
   data() {
@@ -89,8 +91,8 @@ export default {
 
       // rules for the validation
       rules: {
-        email: [{ validator: checkEmail, trigger: "blur" }],
-        password: [{ validator: checkPassword, trigger: "blur" }],
+        email: [{validator: checkEmail, trigger: "blur"}],
+        password: [{validator: checkPassword, trigger: "blur"}],
       },
 
       //other
@@ -103,17 +105,17 @@ export default {
         if (valid) {
           this.isLoading = true;
           this.submitToServer(this.loginForm)
-            .then(() => this.redirectToHome())
-            .catch((error) => this.displayError(error))
-            .finally(() => (this.isLoading = false));
+              .then(() => this.redirectToHome())
+              .catch((error) => this.displayError(error))
+              .finally(() => (this.isLoading = false));
         } else {
           return false;
         }
       });
     },
-    submitToServer: async (load) => {
-      let res = await AuthService.loginUser(load.email, load.password);
-      let { fullname, id } = res.data.user;
+    submitToServer: async ({email, password}) => {
+      let res = await AuthService.loginUser(email, password);
+      let {fullname, id} = res.data.user;
       store.updateAuthStatus(fullname, id);
     },
     redirectToHome() {
@@ -121,8 +123,7 @@ export default {
       this.$router.push("/");
     },
     displayError(error) {
-      let mama =
-        error.response.status === 401 ? "Wrong credentials" : error.message;
+      let mama = error.response ? "Wrong credentials" : error.message;
       ElMessage.error(mama);
     },
   },

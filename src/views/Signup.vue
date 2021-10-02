@@ -1,11 +1,8 @@
 <template>
   <div class="main-view login-view wrapper">
     <h2>Create An Account!</h2>
-    <p style="color: red; margin-top: 10px; font-weight: 600">
-      {{ signupError }}
-    </p>
 
-    <el-form status-icon :model="signupForm" :rules="rules" ref="signupForm">
+    <el-form @submit.prevent status-icon :model="signupForm" :rules="rules" ref="signupForm">
       <el-form-item style="margin-top: 8px" prop="fullname">
         <el-input
           placeholder="Name"
@@ -79,7 +76,7 @@ export default {
 
     /* validation for fullname */
     const checkName = (rule, value, callback) => {
-      let reg = /[^ 0-9A-Za-z_\.\-\']/gi;
+      let reg = /[^ 0-9A-Za-z_.\-']/gi;
 
       if (!value) {
         return callback(new Error("Name can't be empty"));
@@ -114,7 +111,7 @@ export default {
         callback(new Error("Password can't be empty"));
       } else if (value.length < 8) {
         return callback(
-          new Error("Password should be atleast 8 characters long")
+          new Error("Minimum length is 8 characters long")
         );
       } else {
         callback();
@@ -149,7 +146,6 @@ export default {
       },
 
       //other
-      signupError: "",
       isLoading: false,
     };
   },

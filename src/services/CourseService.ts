@@ -9,7 +9,6 @@ interface Course {
     category: string;
 }
 
-
 class CourseService {
 
     getAll() {

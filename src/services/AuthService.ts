@@ -1,6 +1,7 @@
 import http from '../axiosconfig';
 
 interface User {
+    id?: number;
     email: string;
     fullname: string;
     password?: string;

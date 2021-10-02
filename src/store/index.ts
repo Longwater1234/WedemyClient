@@ -44,15 +44,14 @@ const myActions = {
         }
     },
 
-    async getCartCount(): Promise<number> {
+    async getCartCountServer(): Promise<number> {
         if (!getters.isLoggedIn) return 0;
         try {
-            let res = await http.get("/cart/count");
+            let res = await http.get("/cart/mine/count");
             user.cartCount = res.data.count
             return user.cartCount;
         } catch (error) {
-           console.error(error);
-           return 0;
+           throw error;
         }
     }
 };

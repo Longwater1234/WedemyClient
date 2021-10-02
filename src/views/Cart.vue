@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
-    <p class="cart-header main-view">Your cart ({{cartCount}})</p>
+    <p class="cart-header main-view">Your cart ({{store.getters.getCartCount}})</p>
 
     <div class="main-view top-margin">
 
       <!-- if nothing in cart -->
-      <div v-if="cartCount === 0" class="cart-view">
+      <div v-if="store.getters.getCartCount === 0" class="cart-view">
         <div>Your cart is empty. Go and explore</div>
 
         <router-link to="/">
@@ -20,14 +20,14 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
-import { ref } from "vue";
+import store from "../store"
 
 export default defineComponent({
   data() {
     return {
-      cartCount: ref(0),
     };
   },
+  inject: ["store"]
 });
 </script>
 

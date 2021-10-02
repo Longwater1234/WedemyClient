@@ -1,8 +1,8 @@
 <template>
   <div
-    v-loading.fullscreen.lock="isLoading"
-    class="wrapper main-view"
-    style="margin-top: 24px"
+      v-loading.fullscreen.lock="isLoading"
+      class="wrapper main-view"
+      style="margin-top: 24px"
   >
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/category' }">
@@ -15,15 +15,15 @@
 
     <!-- START SINGLE COUSE -->
     <div
-      v-if="!errorMessage.length"
-      class="course-view"
-      style="margin-top: 24px"
+        v-if="!errorMessage.length"
+        class="course-view"
+        style="margin-top: 24px"
     >
       <div class="course-preview">
         <img
-          :src="singleCourse.thumbUrl"
-          :alt="singleCourse.title"
-          class="course-thumbnail"
+            :src="singleCourse.thumbUrl"
+            :alt="singleCourse.title"
+            class="course-thumbnail"
         />
       </div>
 
@@ -32,11 +32,11 @@
         <p style="font-size: 19px">{{ singleCourse.category }}</p>
         <p class="course-view" style="margin-top: 9px">
           <el-rate
-            v-model="singleCourse.rating"
-            disabled
-            show-score
-            text-color="#ff9900"
-            score-template="{value} rating"
+              v-model="singleCourse.rating"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value} rating"
           >
           </el-rate>
           <!-- &nbsp; (N ratings) -->
@@ -47,12 +47,12 @@
           Add to Cart
         </el-button>
         <el-button
-          :type="wishlisted ? 'danger' : 'info'"
-          class="course-btn"
-          @click="toggleWishlist(singleCourse.id)"
-          :icon="wishlisted ? 'el-icon-star-on' : 'el-icon-star-off'"
-          :loading="loadingWishlist"
-          plain
+            :type="wishlisted ? 'danger' : 'info'"
+            class="course-btn"
+            @click="toggleWishlist(singleCourse.id)"
+            :icon="wishlisted ? 'el-icon-star-on' : 'el-icon-star-off'"
+            :loading="loadingWishlist"
+            plain
         >
           {{ wishlisted ? "Wishlisted" : "Wishlist" }}
         </el-button>
@@ -76,8 +76,8 @@
 import CourseService from "@/services/CourseService";
 import WishlistService from "@/services/WishlistService";
 import store from "@/store";
-import { defineComponent } from "@vue/runtime-core";
-import { ElMessage, ElNotification } from "element-plus";
+import {defineComponent} from "@vue/runtime-core";
+import {ElMessage, ElNotification} from "element-plus";
 
 export default defineComponent({
   data() {
@@ -111,24 +111,24 @@ export default defineComponent({
       if (!store.getters.isLoggedIn) return self.LoginMessage();
       self.loadingWishlist = true;
       let myAction =
-        self.wishlisted === true
-          ? WishlistService.removeOne(courseId)
-          : WishlistService.addNew(courseId);
+          self.wishlisted
+              ? WishlistService.removeOne(courseId)
+              : WishlistService.addNew(courseId);
       myAction
-        .then(() => (self.wishlisted = !self.wishlisted))
-        .catch((error) => ElMessage.error(error.message))
-        .finally(() => (self.loadingWishlist = false));
+          .then(() => (self.wishlisted = !self.wishlisted))
+          .catch((error) => ElMessage.error(error.message))
+          .finally(() => (self.loadingWishlist = false));
     },
     fetchSingleCourse(courseId: number) {
       CourseService.getById(courseId)
-        .then((res) => {
-          this.singleCourse = res.data;
-          document.title = `${this.singleCourse.title} | Wedemy`;
-        })
-        .catch((error) => {
-          this.errorMessage = error.message;
-        })
-        .finally(() => (this.isLoading = false));
+          .then((res) => {
+            this.singleCourse = res.data;
+            document.title = `${this.singleCourse.title} | Wedemy`;
+          })
+          .catch((error) => {
+            this.errorMessage = error.message;
+          })
+          .finally(() => (this.isLoading = false));
     },
     checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
@@ -154,17 +154,21 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
 }
+
 .course-preview {
   float: left;
   max-width: 50%;
 }
+
 .course-details {
   float: right;
   padding: 2%;
 }
+
 .course-thumbnail {
   width: 100%;
 }
+
 .course-btn {
   width: 10em;
   margin-top: 10px;
@@ -174,7 +178,7 @@ export default defineComponent({
   .course-thumbnail {
     width: 95vw;
     align-self: center;
-    margin: 0px auto;
+    margin: 0 auto;
   }
 
   .course-view {
