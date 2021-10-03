@@ -19,7 +19,7 @@ export default defineComponent({
     Footer,
   },
   mounted() {
-    store.isAuthenticated().catch((error) => {
+    store.getAuthStatusServer().catch((error) => {
       console.error("AUTH_ERROR", error);
     });
   },

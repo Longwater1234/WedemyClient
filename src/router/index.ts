@@ -12,8 +12,8 @@ const routes: Array<RouteRecordRaw> = [
         path: "/login",
         name: "Login",
         beforeEnter: (to, from, next) => {
-            if (store.getters.isLoggedIn) next({ name: "Home" })
-            else next()
+            if (store.getters.isLoggedIn) next({ name: "Home" });
+            else next();
         },
         component: () => import("../views/Login.vue")
     },
@@ -21,8 +21,8 @@ const routes: Array<RouteRecordRaw> = [
         path: "/signup",
         name: "Signup",
         beforeEnter: (to, from, next) => {
-            if (store.getters.isLoggedIn) next({ name: "Home" })
-            else next()
+            if (store.getters.isLoggedIn) next({ name: "Home" });
+            else next();
         },
         component: () => import("../views/Signup.vue")
     },
@@ -40,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "/cart",
         name: "Cart",
         component: () => import("../views/Cart.vue")
+    },
+    {
+        path: "/wishlist",
+        name: "Wishlist",
+        component: () => import("../views/Wishlist.vue")
     },
     {
         path: "/:pathMatch(.*)*",

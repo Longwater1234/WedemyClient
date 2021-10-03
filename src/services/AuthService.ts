@@ -1,17 +1,10 @@
+import { User } from '@/types';
 import http from '../axiosconfig';
 
-interface User {
-    id?: number;
-    email: string;
-    fullname: string;
-    password?: string;
-    confirmPass?: string;
-    datejoined?: string
-}
 
 class AuthService {
     loginUser(email: string, password: string) {
-        const url = "/auth/statuslogin";
+        const url = "/auth/login";
 
         const options = {
             headers: {

@@ -95,14 +95,16 @@
 import CourseService from "../services/CourseService";
 import { defineComponent } from "vue";
 import axiosconfig from "@/axiosconfig";
+import { Course } from "@/types";
 
 export default defineComponent({
   name: "Home",
   data() {
     document.title = "Home | Wedemy";
+    const courses = new Array<Course>();
 
     return {
-      courses: [],
+      courses,
       serverError: "",
       loading: true,
     };
@@ -111,8 +113,8 @@ export default defineComponent({
     fetchAllCourses() {
       CourseService.getAll()
         .then((res) => {
-          this.courses = res.data;
-          axiosconfig.defaults.xsrfHeaderName = "X-XSRF-TOKEN"
+          this.courses.push(...res.data);
+          axiosconfig.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
         })
         .catch((error) => {
           this.serverError = error.message;

@@ -28,17 +28,13 @@ const myActions = {
         user.username = "";
     },
 
-    updateAuthStatus(fullname: string, userId: number) {
-        user.loggedIn = true;
-        user.username = fullname;
-        user.id = userId
-    },
 
-    async isAuthenticated() {
+    async getAuthStatusServer() {
         try {
-            let res = await http.post("/auth/statuslogin", null);
-            user.loggedIn = res.data.success;
+            let res = await http.get("/auth/statuslogin");
+            user.loggedIn = res.data.loggedIn;
             user.username = res.data.user.fullname;
+            user.id = res.data.user.id;
         } catch (error) {
             throw error;
         }
@@ -51,7 +47,7 @@ const myActions = {
             user.cartCount = res.data.count
             return user.cartCount;
         } catch (error) {
-           throw error;
+            throw error;
         }
     }
 };

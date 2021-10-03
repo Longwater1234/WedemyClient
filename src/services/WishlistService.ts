@@ -9,7 +9,7 @@ class WishlistService {
         return http.delete(`/wishlist/course/${courseId}`);
     }
 
-    getAll() {
+    getAllMine() {
         return http.get(`/wishlist/mine`);
     }
 
