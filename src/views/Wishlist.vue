@@ -3,7 +3,7 @@
     <p class="cart-header main-view">Your wishlist ({{ wishlistCount }})</p>
 
     <div v-loading="isLoading" class="main-view top-margin">
-      <!-- if nothing in cart -->
+      <!-- if nothing in wishlist -->
       <div v-if="wishlistCount === 0" class="cart-view">
         <!-- TODO: ADD IMAGE (empty) HERE -->
         <el-empty description="Your wishlist is empty. :("></el-empty>
@@ -18,22 +18,26 @@
       <div v-else>
         <el-col>
           <el-row
-            :gutter="6" 
+            :gutter="6"
             v-for="wish in wishlistItems"
-            :key="wish.wishlistId" 
+            :key="wish.wishlistId"
           >
-          <el-card shadow="hover">
-            <el-row justify="flex">
-              <el-col :sm="6">
-                <img :src="wish.course.thumbUrl" alt="Thumbnail" style="width: 100%;">
-              </el-col>
-              <el-col>
-                <div>{{wish.course.title}}</div>
-                <div>{{wish.course.author}}</div>
-                <div>${{wish.course.price}}</div>
-              </el-col>
-            </el-row>
-          </el-card>
+            <el-card shadow="hover">
+              <el-row justify="flex">
+                <el-col :sm="6">
+                  <img
+                    :src="wish.course.thumbUrl"
+                    alt="Thumbnail"
+                    style="width: 100%"
+                  />
+                </el-col>
+                <el-col>
+                  <div>{{ wish.course.title }}</div>
+                  <div>{{ wish.course.author }}</div>
+                  <div>${{ wish.course.price }}</div>
+                </el-col>
+              </el-row>
+            </el-card>
           </el-row>
         </el-col>
       </div>

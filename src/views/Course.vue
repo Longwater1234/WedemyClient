@@ -76,7 +76,6 @@
 import CourseService from "@/services/CourseService";
 import WishlistService from "@/services/WishlistService";
 import store from "@/store";
-import { Course } from "@/types";
 import { defineComponent } from "@vue/runtime-core";
 import { ElMessage, ElNotification } from "element-plus";
 
@@ -142,7 +141,8 @@ export default defineComponent({
   mounted() {
     window.scrollTo(0, 0);
     this.isLoading = true;
-    this.courseId = parseInt(this.$route.path.split(/course\//)[1]);
+    let { id } = this.$route.params;
+    this.courseId = parseInt(id.toString());
     this.fetchSingleCourse(this.courseId);
     store.getters.isLoggedIn && this.checkWishlistStatus(this.courseId);
   },

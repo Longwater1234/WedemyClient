@@ -111,7 +111,7 @@ export default defineComponent({
   },
   methods: {
     fetchAllCourses() {
-      CourseService.getAll()
+      CourseService.getTop()
         .then((res) => {
           this.courses.push(...res.data);
           axiosconfig.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
@@ -120,9 +120,7 @@ export default defineComponent({
           this.serverError = error.message;
           console.error(error);
         })
-        .finally(() => {
-          this.loading = false;
-        });
+        .finally(() => (this.loading = false));
     },
     goToCourse(id: number) {
       this.$router.push(`/course/${id}`);
@@ -177,6 +175,10 @@ export default defineComponent({
 
 .courseCard {
   width: 285px;
+}
+
+.courseCard:hover {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {

@@ -31,7 +31,7 @@ const myActions = {
 
     async getAuthStatusServer() {
         try {
-            let res = await http.get("/auth/statuslogin");
+            const res = await http.get("/auth/statuslogin");
             user.loggedIn = res.data.loggedIn;
             user.username = res.data.user.fullname;
             user.id = res.data.user.id;
@@ -43,8 +43,8 @@ const myActions = {
     async getCartCountServer(): Promise<number> {
         if (!getters.isLoggedIn) return 0;
         try {
-            let res = await http.get("/cart/mine/count");
-            user.cartCount = res.data.count
+            const res = await http.get("/cart/mine/count");
+            user.cartCount = res.data.count;
             return user.cartCount;
         } catch (error) {
             throw error;
