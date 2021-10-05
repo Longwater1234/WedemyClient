@@ -25,27 +25,23 @@
           Categories
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
+        <!-- START DROPDOWN LIST -->
         <template #dropdown>
           <el-dropdown-menu>
-            <router-link to="/category">
-              <!-- QUERY FROM DATABASE -->
-              <el-dropdown-item>Development</el-dropdown-item>
-            </router-link>
-            <el-dropdown-item>Finance</el-dropdown-item>
-            <el-dropdown-item>Design</el-dropdown-item>
-            <el-dropdown-item>Health</el-dropdown-item>
-            <el-dropdown-item>Videography</el-dropdown-item>
-            <el-dropdown-item>Real estate</el-dropdown-item>
-            <el-dropdown-item>Music</el-dropdown-item>
-            <el-dropdown-item>Office</el-dropdown-item>
-            <el-dropdown-item>IT &amp; Software</el-dropdown-item>
+            <el-dropdown-item
+              v-for="item in categories"
+              :key="item.id"
+              @click="goToCategory(item.category)"
+            >
+              {{ item.category }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
 
     <!-- search bar -->
-    <div class="demo-input-suffix main-only" style="width: 40%">
+    <div id="searchBar" class="demo-input-suffix main-only" style="width: 40%">
       <form @submit.prevent="handleSearch">
         <el-input
           placeholder="What do you want to learn?"
@@ -129,6 +125,7 @@ import store from "@/store";
 import { defineComponent } from "@vue/runtime-core";
 import Drawer from "./Drawer.vue";
 import { ElMessage } from "element-plus";
+import CourseService from "@/services/CourseService";
 
 export default defineComponent({
   name: "Navbar",
@@ -137,8 +134,10 @@ export default defineComponent({
   },
   inject: ["store"],
   data() {
+    const categories = new Array<{ id: number; category: string }>();
     return {
       search: "",
+      categories,
     };
   },
   methods: {
@@ -160,6 +159,17 @@ export default defineComponent({
         ElMessage.error(error.message);
       }
     },
+    fetchCategoryList() {
+      CourseService.getAllCategories().then((res) =>
+        this.categories.push(...res.data)
+      );
+    },
+    goToCategory(cat: string){
+      this.$router.push(`/category/${cat}`)
+    }
+  },
+  mounted() {
+    this.fetchCategoryList();
   },
 });
 </script>
@@ -237,6 +247,16 @@ input::placeholder {
 
 .phone-only {
   display: none;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 830px) {
+  #searchBar {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 600px) {
