@@ -1,15 +1,22 @@
-<template >
+<template>
   <div class="wrapper main-view" style="margin-top: 24px">
-    <h2 class="most-pop">{{ categoryName }}</h2>
+    <h2 class="most-pop">Search Results for '{{ searchQuery }}'</h2>
 
+    <!-- DISPLAY ERROR div -->
+    <div class="server-error" v-if="serverError.length">
+      {{ serverError }}
+    </div>
+
+    <!-- START CARDS OF RESULTS -->
     <el-space
       direction="vertical"
       alignment="start"
       v-loading="isLoading"
+      v-if="courses.length > 0"
       :size="30"
       style="margin-top: 20px; margin-left: 20px"
     >
-      <el-space wrap :size="size" v-if="courses.length > 0">
+      <el-space wrap :size="size">
         <el-card
           :body-style="{ padding: '0px' }"
           shadow="hover"
@@ -46,66 +53,54 @@
 import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
 import { defineComponent } from "@vue/runtime-core";
-import { ElMessage } from "element-plus";
 
 export default defineComponent({
-  name: "Category",
+  name: "SearchResults",
   data() {
-    document.title = "Wedemy";
+    document.title = `Search Results | Wedemy`;
     var courses = new Array<Course>();
     return {
-      size: "large",
-      value: 4.7,
-      categoryName: "",
-      isLoading: true,
+      searchQuery: "",
+      isLoading: false,
+      serverError: "",
       courses,
     };
   },
-  mounted() {
-    let { name } = this.$route.params;
-    this.categoryName = name.toString();
-    document.title = `Courses in ${this.categoryName} | Wedemy`;
-    this.fetchCoursesbyCategory(this.categoryName);
-  },
   methods: {
-    fetchCoursesbyCategory(name: string) {
-      CourseService.getByCategory(name)
+    fetchCoursesByTitle(title: string) {
+      CourseService.findByTitle(title)
         .then((res) => (this.courses = res.data))
-        .catch((error) => ElMessage.error(error.message))
+        .catch((error) => (this.serverError = error.message))
         .finally(() => (this.isLoading = false));
     },
     goToCourse(id: number) {
       this.$router.push(`/course/${id}`);
     },
   },
+  mounted() {
+    let { q } = this.$route.query;
+    this.searchQuery = q ? q.toString() : "";
+  },
   watch: {
     //watch 4 address bar changes
-    "$route.params.name": {
+    "$route.query.q": {
       deep: false,
       immediate: true,
       handler: function (newVal: string) {
         if (!newVal) return;
         this.isLoading = true;
-        this.categoryName = newVal;
-        this.fetchCoursesbyCategory(this.categoryName);
-        document.title = `Courses in ${this.categoryName} | Wedemy`;
+        this.searchQuery = newVal;
+        this.courses = [];
+        this.serverError = "";
+        this.fetchCoursesByTitle(this.searchQuery);
       },
     },
   },
 });
 </script>
-
-<style >
+<style>
 .most-pop {
   border-bottom: 1px solid darkkhaki;
   padding-bottom: 10px;
-}
-
-.courseCard {
-  width: 285px;
-}
-
-.courseCard:hover {
-  cursor: pointer;
 }
 </style>

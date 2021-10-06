@@ -94,7 +94,6 @@
 <script lang="ts">
 import CourseService from "../services/CourseService";
 import { defineComponent } from "vue";
-import axiosconfig from "@/axiosconfig";
 import { Course } from "@/types";
 
 export default defineComponent({
@@ -114,7 +113,6 @@ export default defineComponent({
       CourseService.getTop()
         .then((res) => {
           this.courses.push(...res.data);
-          axiosconfig.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
         })
         .catch((error) => {
           this.serverError = error.message;
@@ -167,10 +165,6 @@ export default defineComponent({
 
 .top-image {
   width: 100%;
-}
-
-.server-error {
-  color: red;
 }
 
 .courseCard {

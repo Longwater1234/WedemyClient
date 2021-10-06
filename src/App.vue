@@ -1,9 +1,7 @@
 <template id="app">
-  <!-- <el-scrollbar height="400px" > -->
   <Navbar v-if="!this.$route.meta.hideNavbar" />
   <router-view />
   <Footer v-if="!this.$route.meta.hideNavbar" />
-  <!-- </el-scrollbar> -->
 </template>
 
 <script lang="ts">
@@ -11,6 +9,7 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import store from "./store";
 import { defineComponent } from "@vue/runtime-core";
+import axiosconfig from "./axiosconfig";
 
 export default defineComponent({
   name: "App",
@@ -22,6 +21,7 @@ export default defineComponent({
     store.getAuthStatusServer().catch((error) => {
       console.error("AUTH_ERROR", error);
     });
+    axiosconfig.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
   },
 });
 </script>
@@ -176,6 +176,10 @@ body {
 
 .phone-only {
   display: none;
+}
+
+.server-error {
+  color: red;
 }
 
 @media only screen and (max-width: 600px) {

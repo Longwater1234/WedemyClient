@@ -39,12 +39,25 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/cart",
         name: "Cart",
+        beforeEnter: (to, from, next) => {
+            if (store.getters.isLoggedIn) next({ name: "Login" });
+            else next();
+        },
         component: () => import("../views/Cart.vue")
     },
     {
         path: "/wishlist",
         name: "Wishlist",
+        beforeEnter: (to, from, next) => {
+            if (store.getters.isLoggedIn) next({ name: "Login" });
+            else next();
+        },
         component: () => import("../views/Wishlist.vue")
+    },
+    {
+        path: "/search",
+        name: "SearchResults",
+        component: () => import("../views/SearchResults.vue")
     },
     {
         path: "/:pathMatch(.*)*",

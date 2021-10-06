@@ -47,7 +47,7 @@
           placeholder="What do you want to learn?"
           prefix-icon="el-icon-search"
           class="main-only"
-          maxlength="20"
+          maxlength="40"
           v-model="search"
           clearable
         >
@@ -124,7 +124,7 @@ import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { defineComponent } from "@vue/runtime-core";
 import Drawer from "./Drawer.vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 import CourseService from "@/services/CourseService";
 
 export default defineComponent({
@@ -146,6 +146,19 @@ export default defineComponent({
     },
     handleSearch() {
       //TODO add search logic here
+      if (this.search.length < 4) {
+        return ElNotification({
+          title: "Error",
+          type: "error",
+          duration: 2000,
+          message: "Query too short",
+        });
+      }
+      this.$router.push({
+        path: "search",
+        query: { q: encodeURI(this.search) },
+        force: true
+      });
     },
     goWishlist() {
       this.$router.push("/wishlist");
@@ -164,9 +177,9 @@ export default defineComponent({
         this.categories.push(...res.data)
       );
     },
-    goToCategory(cat: string){
-      this.$router.push(`/category/${cat}`)
-    }
+    goToCategory(cat: string) {
+      this.$router.push(`/category/${cat}`);
+    },
   },
   mounted() {
     this.fetchCategoryList();

@@ -69,6 +69,7 @@
 <script>
 import AuthService from "@/services/AuthService";
 import { ElMessage } from "element-plus";
+import isEmail from "validator/lib/isEmail";
 
 export default {
   data() {
@@ -94,11 +95,9 @@ export default {
 
     // validation for email
     const checkEmail = (rule, value, callback) => {
-      let reg = /(^[0-9A-Za-z][\w.-]+@[\w]+\.[\w]\S+\w)$/gi;
-
       if (!value) {
         return callback(new Error("E-mail can't be empty"));
-      } else if (!reg.test(this.signupForm.email)) {
+      } else if (!isEmail(this.signupForm.email)) {
         callback(new Error("Email is invalid"));
       } else {
         callback();

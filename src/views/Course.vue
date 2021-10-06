@@ -5,7 +5,7 @@
     style="margin-top: 24px"
   >
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/category' }">
+      <el-breadcrumb-item :to="{ path: '/category/' + singleCourse.category }">
         {{ singleCourse.category }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>{{ singleCourse.title }}</el-breadcrumb-item>
@@ -102,7 +102,7 @@ export default defineComponent({
       ElNotification({
         title: "Cart",
         type: "success",
-        message: "Item was successfully added to cart",
+        message: "Successfully added to cart",
         duration: 2500,
       });
     },
@@ -135,7 +135,7 @@ export default defineComponent({
       });
     },
     LoginMessage() {
-      ElMessage.warning("Must be logged in");
+      ElMessage.error("Must be logged in");
     },
   },
   mounted() {
