@@ -23,11 +23,6 @@ const getters = reactive({
 });
 
 const myActions = {
-    setLogout() {
-        user.loggedIn = false;
-        user.username = "";
-    },
-
 
     async getAuthStatusServer() {
         try {

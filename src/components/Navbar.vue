@@ -166,7 +166,7 @@ export default defineComponent({
     logout: async () => {
       try {
         await AuthService.logoutUser();
-        store.setLogout();
+        await store.getAuthStatusServer();
         window.location.replace("/");
       } catch (error: any) {
         ElMessage.error(error.message);
