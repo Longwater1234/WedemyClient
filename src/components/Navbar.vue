@@ -168,7 +168,7 @@ export default defineComponent({
         await AuthService.logoutUser();
         store.setLogout();
         window.location.replace("/");
-      } catch (error) {
+      } catch (error: any) {
         ElMessage.error(error.message);
       }
     },

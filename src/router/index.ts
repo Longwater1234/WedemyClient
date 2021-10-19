@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/cart",
         name: "Cart",
         beforeEnter: (to, from, next) => {
-            if (store.getters.isLoggedIn) next({ name: "Login" });
+            if (!store.getters.isLoggedIn) next({ name: "Login" });
             else next();
         },
         component: () => import("../views/Cart.vue")
@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/wishlist",
         name: "Wishlist",
         beforeEnter: (to, from, next) => {
-            if (store.getters.isLoggedIn) next({ name: "Login" });
+            if (!store.getters.isLoggedIn) next({ name: "Login" });
             else next();
         },
         component: () => import("../views/Wishlist.vue")
