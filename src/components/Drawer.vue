@@ -9,33 +9,33 @@
 
   <!-- the sideview -->
   <el-drawer
-      size="70%"
-      title="More"
-      v-model="drawer"
-      :with-header="false"
-      direction="ltr"
+    size="70%"
+    title="More"
+    v-model="drawer"
+    :with-header="false"
+    direction="ltr"
   >
     <!-- side searchbar -->
     <div style="padding: 16px; margin-top: 15px">
       <form @submit.prevent="handleSearch">
         <el-input
-            placeholder="Search anything"
-            prefix-icon="el-icon-search"
-            class="main-only"
-            maxlength="20"
-            required
-            v-model.trim="search"
-            clearable
+          placeholder="Search anything"
+          prefix-icon="el-icon-search"
+          class="main-only"
+          maxlength="20"
+          required
+          v-model.trim="search"
+          clearable
         >
         </el-input>
       </form>
 
       <!-- if NOT logged in -->
       <el-row
-          v-if="!store.getters.isLoggedIn"
-          type="flex"
-          justify="space-around"
-          style="margin-top: 10px"
+        v-if="!store.getters.isLoggedIn"
+        type="flex"
+        justify="space-around"
+        style="margin-top: 10px"
       >
         <router-link to="/login" class="none">
           <button class="btn btn-accent">Log In</button>
@@ -48,7 +48,8 @@
 
       <!--  ELSE SHOW NAME + SIDE_MENU LIST-->
       <div class="sideMenu" v-else>
-        <el-row class="sideList">Logged in as: &nbsp;
+        <el-row class="sideList"
+          >Logged in as: &nbsp;
           <strong>{{ store.state.username }}</strong>
         </el-row>
         <el-row class="sideList">More Items</el-row>
@@ -63,10 +64,10 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "@vue/runtime-core";
+import { defineComponent } from "@vue/runtime-core";
 import AuthService from "@/services/AuthService";
 import store from "@/store";
-import {ElMessage} from "element-plus";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Drawer",
@@ -75,7 +76,7 @@ export default defineComponent({
     return {
       drawer: false,
       search: "",
-      isLoading: false
+      isLoading: false,
     };
   },
   methods: {
@@ -83,15 +84,15 @@ export default defineComponent({
       //FIXME: add search logic here
     },
     showDrawer() {
-      this.drawer = !this.drawer
+      this.drawer = !this.drawer;
     },
     logout: async () => {
       try {
         await AuthService.logoutUser();
-        store.setLogout();
+        await store.getAuthStatusServer();
         window.location.reload();
-      } catch (error) {
-        ElMessage.error(error.message)
+      } catch (error: any) {
+        ElMessage.error(error.message);
       }
     },
   },
