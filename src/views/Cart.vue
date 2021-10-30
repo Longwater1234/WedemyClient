@@ -29,6 +29,7 @@ export default defineComponent({
     return {};
   },
   inject: ["store"],
+  methods: {},
 });
 </script>
 
