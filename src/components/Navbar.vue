@@ -177,8 +177,8 @@ export default defineComponent({
         this.categories.push(...res.data)
       );
     },
-    goToCategory(cat: string) {
-      this.$router.push(`/category/${cat}`);
+    goToCategory(name: string) {
+      this.$router.push(`/category/${name}`);
     },
   },
   mounted() {

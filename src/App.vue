@@ -138,8 +138,6 @@ body {
 
 /* card */
 .card {
-  /* width: 25%; */
-  /* width: 10px; */
   transition: ease-in-out 0.3s;
   overflow: hidden;
 }
