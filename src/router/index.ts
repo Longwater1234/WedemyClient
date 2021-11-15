@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("../views/Category.vue")
     },
     {
-        path: "/course/:id",
+        path: "/course/:id(\\d+)",
         name: "Course",
         component: () => import("../views/Course.vue")
     },

@@ -66,7 +66,7 @@
           Description
         </el-tab-pane>
         <el-tab-pane label="Content" name="second">List of lessons</el-tab-pane>
-        <el-tab-pane label="Reviews" name="third">review cards</el-tab-pane>
+        <el-tab-pane label="Reviews" name="third">review List</el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -91,6 +91,7 @@ export default defineComponent({
       singleCourse: {
         title: "",
         price: 0,
+        author: "",
         rating: 0.0,
         thumbUrl: "",
         category: "",
