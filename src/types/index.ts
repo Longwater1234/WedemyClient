@@ -1,4 +1,4 @@
- export type Course = {
+export type Course = {
     id?: number;
     author: string;
     title: string;
@@ -15,10 +15,16 @@ export type User = {
     password?: string;
     confirmPass?: string;
     datejoined?: string;
-}
+};
 
 export type Wishlist = {
     wishlistId: number;
     course: Course;
-    createdAt: string
-}
+    createdAt: string;
+};
+
+export type Lesson = {
+    id: number;
+    lessonName: string;
+    videokey?: string;
+};

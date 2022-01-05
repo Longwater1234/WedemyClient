@@ -1,70 +1,106 @@
 <template>
-  <div class="main-view login-view wrapper">
-    <h2>Create An Account!</h2>
+  <div align="center">
+    <div class="loginContainer">
+      <h3 class="loginHeader">Sign Up and Start Learning!</h3>
 
-    <el-form @submit.prevent status-icon :model="signupForm" :rules="rules" ref="signupForm">
-      <el-form-item style="margin-top: 8px" prop="fullname">
-        <el-input
-          placeholder="Name"
-          v-model.trim="signupForm.fullname"
-          class="field"
-          clearable
-        >
-        </el-input>
-      </el-form-item>
+      <!-- GOOGLE SIGN UP  -->
+      <div
+        id="g_id_onload"
+        :data-client_id="GOOGLE_CLIENT_ID"
+        data-context="signup"
+        data-ux_mode="popup"
+        :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
+        data-auto_prompt="false"
+      ></div>
 
-      <el-form-item prop="email">
-        <el-input
-          placeholder="E-mail"
-          v-model.trim="signupForm.email"
-          class="field"
-          type="email"
-          clearable
-        ></el-input>
-      </el-form-item>
+      <div
+        class="g_id_signin"
+        data-type="standard"
+        data-shape="rectangular"
+        data-theme="outline"
+        data-text="signup_with"
+        data-size="large"
+        data-logo_alignment="left"
+      ></div>
+      <!-- END OF GOOGLE BUTTON -->
 
-      <el-form-item prop="password">
-        <el-input
-          type="password"
-          placeholder="Password"
-          v-model.trim="signupForm.password"
-          class="field"
-          show-password
-        ></el-input>
-      </el-form-item>
+      <!-- START SIGNUP FORM -->
+      <el-form
+        @submit.prevent
+        status-icon
+        :model="signupForm"
+        :rules="rules"
+        ref="signupForm"
+      >
+        <el-form-item style="margin-top: 10px" prop="fullname">
+          <el-input
+            placeholder="Name"
+            v-model="signupForm.fullname"
+            prefix-icon="el-icon-user"
+            maxlength="70"
+            class="field"
+            clearable
+          >
+          </el-input>
+        </el-form-item>
 
-      <el-form-item prop="confirmPass">
-        <el-input
-          placeholder="Re-Enter Password"
-          v-model.trim="signupForm.confirmPass"
-          class="field"
-          show-password
-        ></el-input>
-      </el-form-item>
+        <el-form-item prop="email">
+          <el-input
+            placeholder="E-mail"
+            native-type="email"
+            v-model.trim="signupForm.email"
+            maxlength="70"
+            class="field"
+            type="email"
+            clearable
+          ></el-input>
+        </el-form-item>
 
-      <el-form-item style="margin-top: 8px">
-        <el-button
-          class="btn-accent field login-btn"
-          @click="handleSignup('signupForm')"
-          style="font-weight: 600"
-          type="success"
-          :loading="isLoading"
-          native-type="submit"
-        >
-          Sign Up
-        </el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item prop="password">
+          <el-input
+            type="password"
+            placeholder="Password"
+            v-model.trim="signupForm.password"
+            prefix-icon="el-icon-lock"
+            maxlength="80"
+            class="field"
+            show-password
+          ></el-input>
+        </el-form-item>
 
-    <div style="margin-top: 13px">
-      Already have an account?
-      <router-link to="/login" class="none" :style="{ fontWeight: '800' }">
-        LogIn
-      </router-link>
+        <el-form-item prop="confirmPass">
+          <el-input
+            placeholder="Re-Enter Password"
+            v-model.trim="signupForm.confirmPass"
+            prefix-icon="el-icon-lock"
+            maxlength="80"
+            class="field"
+            show-password
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item style="margin-top: 8px">
+          <el-button
+            class="btn purple"
+            @click="handleSignup('signupForm')"
+            style="font-weight: bold"
+            :loading="isLoading"
+            native-type="submit"
+          >
+            Sign Up
+          </el-button>
+        </el-form-item>
+      </el-form>
+
+      <div style="margin-top: 13px">
+        Already have an account?
+        <router-link to="/login" class="none" :style="{ fontWeight: '800' }">
+          LogIn
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import AuthService from "@/services/AuthService";
@@ -72,8 +108,9 @@ import { ElMessage } from "element-plus";
 import isEmail from "validator/lib/isEmail";
 
 export default {
+  name: "SignUp",
   data() {
-    document.title = "Signup | Wedemy";
+    document.title = "SignUp | Wedemy";
 
     /* validation for fullname */
     const checkName = (rule, value, callback) => {
@@ -90,7 +127,7 @@ export default {
         } else {
           callback();
         }
-      }, 1000);
+      }, 100);
     };
 
     // validation for email
@@ -109,9 +146,7 @@ export default {
       if (!value) {
         callback(new Error("Password can't be empty"));
       } else if (value.length < 8) {
-        return callback(
-          new Error("Minimum length is 8 characters long")
-        );
+        return callback(new Error("Minimum length is 8 characters long"));
       } else {
         callback();
       }
@@ -146,9 +181,10 @@ export default {
 
       //other
       isLoading: false,
+      GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
+      SERVER_ROOT: process.env.VUE_APP_SERVER_ROOT_URL,
     };
   },
-
   methods: {
     handleSignup(formName) {
       this.$refs[formName].validate((valid) => {
@@ -167,9 +203,38 @@ export default {
       await AuthService.registerUser({ ...load });
     },
   },
+  mounted() {
+    //attach GoogleAuth script
+    const scripta = document.createElement("script");
+    scripta.src = `https://accounts.google.com/gsi/client`;
+    scripta.id = "google_client";
+    document.getElementById("baba").appendChild(scripta);
+  },
+  beforeUnmount() {
+    //detach above script
+    document.getElementById("google_client").remove();
+  },
 };
 </script>
 
+<style>
+.loginHeader {
+  border-bottom: solid 1px #d1d7dc;
+  color: #1c1d1f;
+  display: block;
+  font-weight: 700;
+  padding: 24px 64px 24px 24px;
+}
 
-<style >
+.loginContainer {
+  color: #1c1d1f;
+  width: 380px;
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  .loginContainer {
+    width: 250px;
+  }
+}
 </style>

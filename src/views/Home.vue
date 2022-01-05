@@ -1,33 +1,47 @@
 <template>
-  <div class="wrapper">
-    <img
-      src="../images/al-ghazali.jpg"
-      alt="home"
-      class="home-image"
-      rel="preload"
-      as="image"
-    />
+  <div class="home">
+    <div class="banner-image">
+      <div id="header-box">
+        <h2 class="serif-head">Find the right fit</h2>
+        <p>
+          The topics you want, taught by real-world experts. Courses as low as
+          $15.99
+        </p>
+        <form @submit.prevent="handleSearch">
+          <el-input
+            suffix-icon="el-icon-search"
+            native-type="search"
+            v-model="search"
+            clearable
+            maxlength="40"
+            placeholder="Search anything"
+          >
+          </el-input>
+        </form>
+      </div>
+    </div>
+    <!-- end of header banner -->
 
-    <div class="home main-view" style="margin-top: 40px">
-      <h1>View some of our finest courses</h1>
+    <div class="main-body">
+      <h2 class="serif-head">Recommended for you</h2>
+      <h3 class="sub-heading">Expand your skillset with these courses</h3>
 
-      <div class="home-view" style="margin-top: 20px">
-        <h3>Recommended for you</h3>
+      <el-alert
+        v-if="serverError"
+        :title="serverError"
+        type="error"
+        :closable="false"
+      >
+      </el-alert>
 
-        <div style="margin-top: 2%">
-          <div class="server-error" v-if="serverError.length">
-            {{ serverError }}
-          </div>
-          <div v-loading="loading"></div>
-        </div>
+      <div v-loading="isLoading"></div>
 
-        <!-- category catalog -->
-        <!-- <router-link to="/course" style="text-decoration: none"> -->
+      <div class="course-box" :style="{ borderRadius: baseRadius }">
         <el-space
           direction="vertical"
           alignment="start"
           :size="30"
-          style="margin-top: 20px; margin-left: 20px"
+          style="margin-top: 2%; margin-left: 10%"
         >
           <!-- START OF SINGLE CARD -->
           <el-space v-if="courses.length" wrap size="large">
@@ -64,27 +78,19 @@
             </el-card>
           </el-space>
         </el-space>
-        <!-- END OF SINGLE CARD -->
       </div>
+      <!-- END OF SINGLE CARD -->
 
-      <!-- top categories -->
-      <div style="margin-top: 40px">
-        <h1>Top Categories</h1>
-
-        <div class="flex top">
-          <el-card
-            :body-style="{ padding: '0px' }"
-            shadow="hover"
-            style="margin-right: 25px"
-            v-for="o in 4"
-            :key="o"
-            class="top-img"
-          >
-            <img src="../images/1613872731202.webp" class="top-image" />
-            <div style="padding: 14px">
-              <span class="card-title">Category</span>
-            </div>
-          </el-card>
+      <h2 class="serif-head">Top Categories</h2>
+      <h3 class="sub-heading">Most Viewed by Students</h3>
+      <div class="categArea">
+        <div
+          class="categSingle"
+          v-for="(item, index) in topcategs"
+          :key="index"
+          @click="goToCategory(item)"
+        >
+          {{ item }}
         </div>
       </div>
     </div>
@@ -92,20 +98,25 @@
 </template>
 
 <script lang="ts">
-import CourseService from "../services/CourseService";
-import { defineComponent } from "vue";
+import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
+import { ElNotification } from "element-plus";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Home",
+  components: {},
+  inject: ["store"],
   data() {
     document.title = "Home | Wedemy";
     const courses = new Array<Course>();
-
     return {
+      search: "",
+      baseRadius: "var(--el-border-radius-base)",
       courses,
+      isLoading: true,
+      topcategs: ["Development", "Music", "PhotoVideo", "Finance"],
       serverError: "",
-      loading: true,
     };
   },
   methods: {
@@ -118,10 +129,30 @@ export default defineComponent({
           this.serverError = error.message;
           console.error(error);
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.isLoading = false));
+    },
+    handleSearch() {
+      if (!this.search.trim().length) return;
+      if (this.search.trim().length < 4) {
+        return ElNotification({
+          title: "Error",
+          type: "error",
+          duration: 2000,
+          message: "Query too short",
+        });
+      }
+      this.$router.push({
+        name: "SearchResults",
+        query: { q: encodeURI(this.search.trim()) },
+        force: true,
+      });
     },
     goToCourse(id: number) {
+      //TODO write nav logic here
       this.$router.push(`/course/${id}`);
+    },
+    goToCategory(name: string) {
+      this.$router.push(`/category/${name}`);
     },
   },
   mounted() {
@@ -132,62 +163,96 @@ export default defineComponent({
 </script>
 
 <style>
-.home-image {
+.main-body {
+  /* border: grey 1px solid; */
+  margin: 2%;
+  padding: 1em;
+}
+
+.course-box {
+  display: flex;
+  align-content: space-around;
+  width: 95%;
+  border: 1px solid var(--el-border-color-base);
+}
+
+.banner-image {
+  height: 20em;
+  aspect-ratio: 16 / 9;
   width: 100%;
+  background: url("../assets/avi-richards-unsplash.jpg") center no-repeat;
+  /* background-color: blueviolet; */
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
-.home-view {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 26px;
-}
-
-.home-section2 {
-  border: 1px solid #dcdacb;
-  width: 100%;
-  /* height: 20%; */
-  padding: 2%;
-}
-
-.top {
-  /* justify-content: space-between; */
-  margin-right: -1.6rem;
-}
-
-/* .top-img {
-  width: 80%;
-  height: 100%;
-} */
-.top-img {
-  width: 90vw;
-  height: auto;
-}
-
-.top-image {
-  width: 100%;
+#header-box {
+  text-align: left;
+  color: aliceblue;
+  padding-left: 10%;
+  padding-top: 5%;
+  width: 20%;
+  height: 200px;
 }
 
 .courseCard {
   width: 285px;
+  height: 300px;
 }
 
 .courseCard:hover {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 600px) {
-  .home-image {
-    width: 100%;
-    height: 150px;
+.serif-head {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.sub-heading {
+  color: gray;
+}
+
+.categArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 95%;
+}
+
+.categSingle {
+  width: 10em;
+  font-weight: 700;
+  border: rgba(0, 0, 0, 0.2) solid 1px;
+  text-align: center;
+  align-items: baseline;
+  padding: 2em;
+  margin: 1em;
+  border-radius: 1em;
+}
+
+.categSingle:hover {
+  background-color: var(--primary);
+  cursor: pointer;
+  border: none;
+  color: var(--background);
+}
+
+@media screen and (max-width: 770px) {
+  #header-box {
+    width: 60%;
+  }
+
+  .courseCard {
+    height: 100%;
   }
 
   .flex {
     display: block;
   }
 
-  .courseCard {
-    width: 80vw;
+  .categArea {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
   }
 }
 </style>
-

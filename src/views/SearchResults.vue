@@ -1,51 +1,15 @@
 <template>
-  <div class="wrapper main-view" style="margin-top: 24px">
-    <h2 class="most-pop">Search Results for '{{ searchQuery }}'</h2>
-
-    <!-- DISPLAY ERROR div -->
-    <div class="server-error" v-if="serverError.length">
-      {{ serverError }}
-    </div>
-
-    <!-- START CARDS OF RESULTS -->
-    <el-space
-      direction="vertical"
-      alignment="start"
-      v-loading="isLoading"
-      v-if="courses.length > 0"
-      :size="30"
-      style="margin-top: 20px; margin-left: 20px"
-    >
-      <el-space wrap :size="size">
-        <el-card
-          :body-style="{ padding: '0px' }"
-          shadow="hover"
-          style="margin-bottom: 13px"
-          v-for="course in courses"
-          @click="goToCourse(course.id)"
-          :key="course.id"
-          class="courseCard"
-        >
-          <img :src="course.thumbUrl" class="product-img" :alt="course.title" />
-          <div style="padding: 14px">
-            <span class="card-title">{{ course.title }}</span>
-            <div class="card-author">
-              <span>{{ course.author }}</span>
-            </div>
-            <!-- rating from users -->
-            <el-rate
-              v-model="course.rating"
-              disabled
-              show-score
-              text-color="#ff9900"
-              score-template="{value} points"
-            >
-            </el-rate>
-            <div>${{ course.price }}</div>
-          </div>
-        </el-card>
-      </el-space>
-    </el-space>
+  <div>
+    <h2 class="most-pop">
+      {{ numOfResults }} results for '{{ decodeURI(searchQuery) }}'
+    </h2>
+    <el-alert
+      v-if="serverError.length"
+      :title="serverError"
+      type="error"
+      :closable="false"
+    ></el-alert>
+    <!-- TODO: ADD GRIDVIEw for results HERE -->
   </div>
 </template>
 
@@ -53,28 +17,32 @@
 import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
 import { defineComponent } from "@vue/runtime-core";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "SearchResults",
   data() {
     document.title = `Search Results | Wedemy`;
-    var courses = new Array<Course>();
     return {
       searchQuery: "",
       isLoading: false,
       serverError: "",
-      courses,
+      courses: Array<Course>()
     };
   },
   methods: {
     fetchCoursesByTitle(title: string) {
       CourseService.findByTitle(title)
         .then((res) => (this.courses = res.data))
-        .catch((error) => (this.serverError = error.message))
+        .catch((error) => this.handleError(error))
         .finally(() => (this.isLoading = false));
     },
     goToCourse(id: number) {
       this.$router.push(`/course/${id}`);
+    },
+    handleError(error: any) {
+      if (error.response) this.serverError = error.response.data.message;
+      else ElMessage.error(error.message);
     },
   },
   mounted() {
@@ -96,11 +64,18 @@ export default defineComponent({
       },
     },
   },
+  computed: {
+    numOfResults(): number {
+      return this.courses.length;
+    },
+  },
 });
 </script>
+
 <style>
 .most-pop {
-  border-bottom: 1px solid darkkhaki;
+  text-align: center;
+  border-bottom: 1px solid grey;
   padding-bottom: 10px;
 }
 </style>

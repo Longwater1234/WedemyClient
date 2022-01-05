@@ -1,15 +1,15 @@
-<template id="app">
-  <Navbar v-if="!this.$route.meta.hideNavbar" />
+<template>
+  <Navbar :categories="categories" v-if="!this.$route.meta.hideNavbar" />
   <router-view />
-  <Footer v-if="!this.$route.meta.hideNavbar" />
+  <!-- <Footer v-if="!this.$route.meta.hideNavbar" /> -->
 </template>
 
 <script lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
-import store from "./store";
+import store from "@/store";
 import { defineComponent } from "@vue/runtime-core";
-import axiosconfig from "./axiosconfig";
+import CourseService from "./services/CourseService";
 
 export default defineComponent({
   name: "App",
@@ -17,153 +17,72 @@ export default defineComponent({
     Navbar,
     Footer,
   },
+  data() {
+    return {
+      categories: [],
+    };
+  },
   mounted() {
     store.getAuthStatusServer().catch((error) => {
       console.error("AUTH_ERROR", error);
     });
-    axiosconfig.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
+    CourseService.getAllCategories().then(
+      (res) => (this.categories = res.data)
+    );
   },
 });
 </script>
 
-
 <style>
 * {
-  margin: 0;
-  padding: 0;
-  font-family: "Public Sans", system-ui, sans-serif;
+  font-family: "Fira Sans", system-ui, sans-serif;
 }
-
 :root {
-  --accent1: #6fb650;
-  --accent2: #95a1b8;
-  --background: #f4f4f4;
-  --dark: #26222b;
-  --border: #cfcfcf;
+  --primary: #5943be;
+  --secondary: #3b2b83;
+  --background: #ffff;
+  --dark: #0000;
 }
-
-body {
-  /* background-color: #535353; */
-  background-color: var(--background);
-}
-
 #app {
-  font-family: "Public Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #262a34;
-  min-height: 100vh;
-  max-width: 100vw;
-  /* margin-bottom: 90px; */
+  background-color: var(--background);
+  max-height: 100vh;
+  width: auto;
 }
 
-.wrapper {
-  min-height: 91vh;
-  margin-bottom: 90px;
-}
-.top-margin {
-  margin-top: 24px;
+.btn {
+  width: 100%;
+  height: 3em;
 }
 
-/* this is basically like container in bootstrap */
+.btn.purple {
+  background-color: var(--primary);
+  font-weight: 700;
+  color: white;
+}
+
+.btn.purple:hover {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.btn.white {
+  background-color: aliceblue;
+  font-weight: 700;
+  color: var(--primary);
+}
+
 .main-view {
   padding: 0 10% 0 10%;
 }
-/* button properties for navbar */
-.btn {
-  padding: 1%;
-  height: 40px;
-  width: 100px;
-  outline: none;
-  border-radius: 8px;
-  font-weight: 600;
-  border: 0;
-}
-.btn-auto {
-  width: auto;
-}
-.btn:hover,
-.login-btn:hover {
-  cursor: pointer;
-  border: 0;
+
+.server-error {
+  color: red;
 }
 
-/* button colors */
-.btn-accent {
-  background-color: var(--accent1);
-}
-.btn-accent:hover {
-  background-color: #619f46;
-}
-.btn-accent2 {
-  /* background-color: #939bb1; */
-  background-color: #95a1b8;
-}
-.btn-accent2:hover {
-  background-color: #70798a;
-}
-.btn-accent-outline {
-  border: 0;
-
-  background-color: #dbedd3;
-}
-.btn-accent-outline:hover {
-  background-color: #f0fff0;
-  border: 2px solid #6fb650;
-}
-
-/* login or signup pages */
-.login-view {
-  padding: 0 40% 0 39%;
-  margin-top: 4%;
-  text-align: center;
-}
-
-/* button for login and signup */
-.login-btn {
-  height: 40px;
-  width: 7em;
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  outline: none;
-  border: 0;
-}
-.none {
-  text-decoration: none;
-}
-.flex {
-  display: flex;
-}
-
-/* card */
-.card {
-  transition: ease-in-out 0.3s;
-  overflow: hidden;
-}
-.card-card {
-  width: 25%;
-}
-.card:hover {
-  cursor: pointer;
-  box-shadow: 70px 70px 70px grey;
-}
-.card-title {
-  font-size: 19px;
-  font-weight: 600;
-}
-.card-author {
-  color: #636362;
-  font-size: 14px;
-}
-
-/* .el-message el-message--error {
-  font-family: "Public Sans", system-ui, sans-serif;
-} */
-
-/* product images in a catalog */
 .product-img {
-  /* width: 100%; */
+  aspect-ratio: 16/9;
   height: 160px;
   /* height: 1%; */
   transition: ease-in-out 0.6s;
@@ -172,28 +91,16 @@ body {
   transform: scale(1.2);
 }
 
-.phone-only {
-  display: none;
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
 }
-
-.server-error {
-  color: red;
+.card-author {
+  color: #636362;
+  font-size: 14px;
 }
 
 @media only screen and (max-width: 600px) {
-  .btn {
-    width: 80px;
-  }
-
-  .phone-only {
-    display: block;
-  }
-  .login-view {
-    padding: 5px;
-  }
-  .main-view {
-    padding: 0 2% 0 2%;
-  }
   .product-img {
     width: 100%;
     height: 200px;
