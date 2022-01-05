@@ -1,33 +1,56 @@
 <template>
-  <el-row type="flex" justify="space-between" class="footer">
-    <div style="padding-top: 5px">
-      <router-link to="/">
-        <img src="@/images/android-chrome-512x512.png" class="icon" alt="Home"/>
-      </router-link>
+  <footer class="footer">
+    <div class="lefty">
+      <el-row>Photo Credits</el-row>
+      <el-row>About Us</el-row>
     </div>
-
-    <div> &copy; 2021 Wedemy, Inc.</div>
-  </el-row>
+    <div class="righty">&copy; 2021, Wedemy</div>
+    <!-- TODO: ADD PAYMENT METHODS HERE -->
+  </footer>
 </template>
 
+<script lang="ts">
+import { defineComponent } from "vue";
 
-<script>
-export default {
+export default defineComponent({
   name: "Footer",
-};
+  data() {
+    return {
+      key: "value",
+    };
+  },
+  methods: {
+    name() {},
+  },
+});
 </script>
 
-
 <style>
-
 .footer {
-  position: absolute;
+  text-align: center;
+  position: fixed;
+  display: flex;
+  padding: 1em;
+  justify-content: space-around;
+  width: 100%;
+  height: max-content;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 10vh;
-  padding: 2% 10% 3% 10%;
-  border-top: 1px solid rgb(170, 164, 164);
-  background-color: #c0c3be;
+  color: white;
+  background-color: black;
+}
+
+.lefty {
+  float: left;
+}
+
+.righty {
+  float: right;
+}
+
+.logoFooter {
+  width: 100%;
+  height: 70%;
 }
 </style>

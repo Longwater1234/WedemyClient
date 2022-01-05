@@ -1,4 +1,3 @@
-import { Course } from "@/types";
 import http from "../axiosconfig";
 
 class CourseService {
@@ -14,15 +13,16 @@ class CourseService {
     return http.get(`/courses/cat/${category}`);
   }
 
-  createOne(payload: Course) {
-    return http.post("/courses/create", payload);
-  }
-
+  
   findByTitle(title: string) {
     return http.get(`/courses/search?title=${title}`);
   }
 
-  getAllCategories(){
+  getObjectivesbyCourse(id: number) {
+    return http.get(`/objectives/course/${id}`);
+  }
+
+  getAllCategories() {
     return http.get("/courses/categories");
   }
 }

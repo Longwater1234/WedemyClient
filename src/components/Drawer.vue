@@ -1,112 +1,73 @@
 <template>
-  <!-- <Drawer /> -->
-  <!-- button for sideview, only shows on smaller screens -->
-  <div class="phone-only">
-    <el-button @click="showDrawer()" type="primary" class="phone-only">
-      <i class="el-icon-s-unfold phone-only"></i>
-    </el-button>
-  </div>
-
-  <!-- the sideview -->
-  <el-drawer
-      size="70%"
-      title="More"
-      v-model="drawer"
-      :with-header="false"
-      direction="ltr"
-  >
-    <!-- side searchbar -->
-    <div style="padding: 16px; margin-top: 15px">
-      <form @submit.prevent="handleSearch">
-        <el-input
-            placeholder="Search anything"
-            prefix-icon="el-icon-search"
-            class="main-only"
-            maxlength="20"
-            required
-            v-model.trim="search"
-            clearable
-        >
-        </el-input>
-      </form>
-
-      <!-- if NOT logged in -->
-      <el-row
-          v-if="!store.getters.isLoggedIn"
-          type="flex"
-          justify="space-around"
-          style="margin-top: 10px"
-      >
-        <router-link to="/login" class="none">
-          <button class="btn btn-accent">Log In</button>
-        </router-link>
-
-        <router-link to="/signup" class="none">
-          <button class="btn btn-accent-outline">Sign Up</button>
-        </router-link>
-      </el-row>
-
-      <!--  ELSE SHOW NAME + SIDE_MENU LIST-->
-      <div class="sideMenu" v-else>
-        <el-row class="sideList">Logged in as: &nbsp;
-          <strong>{{ store.state.username }}</strong>
-        </el-row>
-        <el-row class="sideList">More Items</el-row>
-        <el-row class="sideList">Here below</el-row>
-        <el-row class="sideList">And another</el-row>
-        <el-row>
-          <el-button type="danger" @click="logout()">Logout</el-button>
-        </el-row>
-      </div>
+  <div>
+    <div @click="launch = true" class="drawer">
+      <img src="@/assets/menu.png" alt="More" class="hamburger" />
     </div>
-  </el-drawer>
+    <el-drawer
+      title="More"
+      v-model="launch"
+      direction="ltr"
+      size="60%"
+      custom-class="demo-drawer"
+      ref="drawer"
+    >
+      <div class="auth-buttons" v-if="!store.getters.isLoggedIn">
+        <router-link to="/login">
+          <el-button class="btn purple">Log in</el-button>
+        </router-link>
+        &nbsp; &nbsp;
+        <router-link to="/signup">
+          <el-button class="btn white">Sign up</el-button>
+        </router-link>
+      </div>
+
+      <div v-else>
+        <el-avatar :src="attachAvatarLink(store.state.username)" :size="36">
+        </el-avatar>
+      </div>
+    </el-drawer>
+  </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "@vue/runtime-core";
-import AuthService from "@/services/AuthService";
-import store from "@/store";
-import {ElMessage} from "element-plus";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Drawer",
   inject: ["store"],
   data() {
     return {
-      drawer: false,
-      search: "",
-      isLoading: false
+      launch: false,
     };
   },
   methods: {
-    handleSearch() {
-      //FIXME: add search logic here
-    },
-    showDrawer() {
-      this.drawer = !this.drawer
-    },
-    logout: async () => {
-      try {
-        await AuthService.logoutUser();
-        store.setLogout();
-        window.location.reload();
-      } catch (error) {
-        ElMessage.error(error.message)
-      }
+    attachAvatarLink: (username: string) => {
+      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
     },
   },
 });
 </script>
 
 <style>
-.phone-only {
+.drawer {
+  width: 30px;
+  height: 30px;
+  margin-top: 0.25em;
+}
+.hamburger {
+  width: 100%;
+  height: 100%;
+}
+
+.auth-buttons {
+  width: 70%;
+  margin: 0 auto;
   text-align: center;
 }
 
-.sideList {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-bottom: rgba(0, 0, 0, 0.5) 1px solid;
-  height: 30px;
+@media screen and (min-width: 780px) {
+  .drawer {
+    display: none;
+  }
 }
 </style>

@@ -1,20 +1,16 @@
 <template>
-  <div class="wrapper">
-    <p class="cart-header main-view">
-      Your cart ({{ store.getters.getCartCount }})
-    </p>
+  <h3 class="cart-header">Your Cart ({{ store.getters.getCartCount }})</h3>
 
-    <div class="main-view top-margin">
-      <!-- if nothing in cart -->
-      <div v-if="store.getters.getCartCount === 0" class="cart-view">
-        <el-empty description="Your cart is empty :("></el-empty>
+  <div class="main-view">
+    <!-- if nothing in cart -->
+    <div v-if="!store.getters.getCartCount" class="cart-view">
+      <el-empty description="Your cart is empty :("></el-empty>
 
-        <router-link to="/">
-          <button class="btn btn-auto btn-accent" style="color: white">
-            Keep shopping
-          </button>
-        </router-link>
-      </div>
+      <router-link to="/">
+        <el-button plain class="btn purple" style="width: 15em">
+          Keep shopping
+        </el-button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -33,17 +29,37 @@ export default defineComponent({
 </script>
 
 <style>
-.cart-header {
-  background-color: var(--dark);
-  padding-top: 2.5%;
-  padding-bottom: 2.5%;
-  font-size: 24px;
-  color: white;
+.main-view {
+  text-align: center;
+  justify-content: center;
 }
+
+.main-view {
+  padding: 0 10% 0 10%;
+}
+
 .cart-view {
-  border: 1px solid var(--border);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   padding: 32px;
   text-align: center;
+}
+
+.cart-header {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  background-color: black;
+  color: white;
+  margin-top: 0;
+  top: 0;
+  padding: 2% 10%;
+}
+
+@media screen and (max-width: 770px) {
+  .main-view {
+    padding: 0 2% 0 2%;
+  }
+  .cart-header {
+    padding: 5% 10%;
+  }
 }
 </style>
