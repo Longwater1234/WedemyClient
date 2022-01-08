@@ -1,5 +1,5 @@
 <template>
-  <div align="center">
+  <div align="center" style="height: 80vh">
     <div class="loginContainer">
       <h3 class="loginHeader">Login to your Wedemy Account</h3>
 
@@ -66,7 +66,7 @@
           </el-button>
         </div>
       </el-form>
-      <!-- END FORM ABOVE -->
+      <!-- END FORM -->
 
       <div style="margin-top: 13px">
         New user?

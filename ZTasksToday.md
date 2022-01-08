@@ -1,4 +1,9 @@
-### today 2021.11.16
+### today 2022.01.06
 
-- added Course view
-- TODO: (what you'll learn), Reviews, course content.
+- footer is now perfect, hopefully.
+- after successful signup, redirect to login
+- adjusted floating details card width to `max-width`
+- addd wishlist button
+- added cart button.
+- both functional.
+- fixed `max-width` of main content on Home page

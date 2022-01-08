@@ -1,5 +1,5 @@
 <template>
-  <div align="center">
+  <div align="center" style="height: 80vh">
     <div class="loginContainer">
       <h3 class="loginHeader">Sign Up and Start Learning!</h3>
 
@@ -191,16 +191,26 @@ export default {
         if (valid) {
           this.isLoading = true;
           this.submitToServer(this.signupForm)
-            //===TODO DISPLAY SUCCESS notif + REDIRECT TO LOGIN ===
-            .catch((error) => ElMessage.error(error.message))
+            .then(() => this.redirectToLogin())
+            .catch((error) => displayError(error))
             .finally(() => (this.isLoading = false));
         } else {
           return false;
         }
       });
     },
-    submitToServer: async (load) => {
-      await AuthService.registerUser({ ...load });
+    submitToServer: async (payload) => {
+      await AuthService.registerUser({ ...payload });
+    },
+    redirectToLogin() {
+      ElMessage.success("Welcome to Wedemy. Please Login");
+      this.$router.replace("/login");
+    },
+    displayError(error) {
+      if (error.response) {
+        return ElMessage.error(error.response.data.message);
+      }
+      return ElMessage.error(error.message);
     },
   },
   mounted() {

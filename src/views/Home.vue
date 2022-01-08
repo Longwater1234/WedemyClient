@@ -22,6 +22,7 @@
     </div>
     <!-- end of header banner -->
 
+    <!-- START MAIN BODY -->
     <div class="main-body">
       <h2 class="serif-head">Recommended for you</h2>
       <h3 class="sub-heading">Expand your skillset with these courses</h3>
@@ -164,15 +165,17 @@ export default defineComponent({
 
 <style>
 .main-body {
-  /* border: grey 1px solid; */
   margin: 2%;
+  width: 70%;
+  margin: auto auto;
   padding: 1em;
 }
 
 .course-box {
   display: flex;
+  align-self: center;
+  margin: auto auto;
   align-content: space-around;
-  width: 95%;
   border: 1px solid var(--el-border-color-base);
 }
 

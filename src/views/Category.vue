@@ -1,5 +1,5 @@
 <template>
-  <div class="main-body">
+  <div class="main-body" style="height: 80vh">
     <h2 class="serif-head">{{ categoryName }} Courses</h2>
 
     <el-alert

@@ -1,6 +1,6 @@
 <template>
   <el-affix :offset="10" class="fixed-baby">
-    <el-card :shadow="false" class="details-card">
+    <el-card shadow="hover" class="details-card">
       <div>
         <img
           :src="singleCourse.thumbUrl"
@@ -10,10 +10,24 @@
       </div>
       <h1>${{ singleCourse.price }}</h1>
       <div class="btn-block">
-        <el-button :loading="isLoading" class="btn purple">
+        <el-button
+          id="cart-btn"
+          :loading="isLoading"
+          class="btn purple"
+          @click="addToCart(singleCourse.id)"
+        >
           Add to Cart
         </el-button>
-        <!-- TO-DO MAKE A HEART BUTTON BESIDE ADD_TO_CART -->
+        <el-button
+          id="wishlist-btn"
+          :class="{ pressed: InWishlist === true }"
+          :title="setBtnTitle"
+          @click="addToWishlist(singleCourse.id)"
+          circle
+        >
+          {{ InWishlist ? "&#9829;" : "&#9825;" }}
+          <!-- wishlist button -->
+        </el-button>
       </div>
       <div>
         <h4>This course includes:</h4>
@@ -28,13 +42,18 @@
 </template>
 
 <script lang="ts">
+import WishlistService from "@/services/WishlistService";
 import { Star } from "@element-plus/icons";
 import { defineComponent } from "vue";
+import store from "@/store";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   data() {
     return {
       isLoading: false,
+      InCart: false,
+      btnTitle: ["Add to Wishlist", "Remove from Wishlist"],
     };
   },
   props: {
@@ -42,14 +61,39 @@ export default defineComponent({
       type: Object,
       default: {},
     },
+    InWishlist: {
+      type: Number,
+      default: false,
+    },
   },
   methods: {
-    name() {},
+    addToCart(id: number) {
+      //TODO complete task
+    },
+    addToWishlist(id: number) {
+      const self = this;
+      if (!store.getters.isLoggedIn) return self.LoginMessage();
+      //TODO EMIT RESULT BACK
+      // this.InWishlist = !this.InWishlist;
+    },
+    checkWishlistStatus(courseId: number) {
+      WishlistService.checkifWishlisted(courseId).then((res) => {
+        //  this.InWishlist = res.data.isWishlist;
+      });
+    },
+    LoginMessage() {
+      ElMessage.error("Must be logged in");
+    },
   },
-  mounted() {},
   components: {
     Star,
   },
+  computed: {
+    setBtnTitle(): string {
+      return this.InWishlist ? this.btnTitle[1] : this.btnTitle[0];
+    },
+  },
+  mounted() {},
 });
 </script>
 
@@ -57,15 +101,32 @@ export default defineComponent({
 .fixed-baby {
   width: 40%;
   float: right;
+  text-align: start;
   top: 0;
 }
 
 .details-card {
-  width: 80%;
+  width: max-content;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+#cart-btn {
+  width: 80% !important;
+}
+
+.pressed {
+  color: red !important;
+  border-color: red !important;
+}
+
+#wishlist-btn {
+  width: auto;
+  aspect-ratio: 1/1;
+  font-size: 20px;
+  border-radius: 50%;
 }
 
 .small-img {
@@ -76,6 +137,6 @@ export default defineComponent({
 
 .btn-block {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 </style>

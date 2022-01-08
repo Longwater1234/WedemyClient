@@ -3,8 +3,14 @@
     <div class="lefty">
       <el-row>Photo Credits</el-row>
       <el-row>About Us</el-row>
+      <el-row>(Github Links)</el-row>
     </div>
-    <div class="righty">&copy; 2021, Wedemy</div>
+    <div class="righty">
+      <el-row>&copy; 2021, Wedemy</el-row>
+      <el-row
+        ><img src="@/assets/final_white.png" alt="logo" id="ft-logo"
+      /></el-row>
+    </div>
     <!-- TODO: ADD PAYMENT METHODS HERE -->
   </footer>
 </template>
@@ -28,15 +34,16 @@ export default defineComponent({
 <style>
 .footer {
   text-align: center;
-  position: fixed;
+  position: relative;
   display: flex;
   padding: 1em;
+  margin: auto;
   justify-content: space-around;
-  width: 100%;
-  height: max-content;
+  width: 98%;
+  overflow: hidden;
+  height: 5em;
   bottom: 0;
-  left: 0;
-  right: 0;
+  margin-bottom: 0;
   color: white;
   background-color: black;
 }
@@ -45,12 +52,17 @@ export default defineComponent({
   float: left;
 }
 
+.lefty el-row {
+  margin-bottom: 20px;
+}
+
 .righty {
   float: right;
 }
 
-.logoFooter {
-  width: 100%;
-  height: 70%;
+#ft-logo {
+  width: 10em;
+  margin-top: 1em;
+  height: 100%;
 }
 </style>
