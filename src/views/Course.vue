@@ -38,11 +38,13 @@
       <h3 class="courseAuthor">Created by {{ singleCourse.author }}</h3>
     </div>
   </div>
-  <!-- floaty card -->
+  <!-- FLOATING CARD: COMPONENT -->
   <course-details
     style="margin-top: -300px"
+    :InWishlist="InWishlist"
     :singleCourse="singleCourse"
-  ></course-details>
+  >
+  </course-details>
   <!--  START OF details-->
   <div class="course-info">
     <h2>What You'll Learn</h2>
@@ -78,6 +80,7 @@ import LessonService from "@/services/LessonService";
 import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
 import { Lock } from "@element-plus/icons";
+import WishlistService from "@/services/WishlistService";
 
 export default defineComponent({
   data() {
@@ -89,6 +92,7 @@ export default defineComponent({
       courseId: 0,
       objectives: new Array<String>(),
       lessons: new Array<Lesson>(),
+      InWishlist: false,
       singleCourse: {
         title: "",
         subtitle: "",
@@ -125,11 +129,16 @@ export default defineComponent({
         (res) => (this.lessons = res.data)
       );
     },
+    checkWishlistStatus(courseId: number) {
+      WishlistService.checkifWishlisted(courseId).then((res) => {
+        this.InWishlist = res.data.isWishlist;
+      });
+    },
   },
   computed: {
     lessonCount(): number {
-      return this.lessons.length 
-    }
+      return this.lessons.length;
+    },
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -138,6 +147,7 @@ export default defineComponent({
     this.courseId = parseInt(id.toString());
     this.fetchSingleCourse(this.courseId);
     this.fetchObjectives(this.courseId);
+    this.checkWishlistStatus(this.courseId);
     this.fetchLessonList(this.courseId);
   },
 });

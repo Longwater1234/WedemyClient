@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100vh">
     <h2 class="most-pop">
       {{ numOfResults }} results for '{{ decodeURI(searchQuery) }}'
     </h2>
@@ -27,7 +27,7 @@ export default defineComponent({
       searchQuery: "",
       isLoading: false,
       serverError: "",
-      courses: Array<Course>()
+      courses: Array<Course>(),
     };
   },
   methods: {
