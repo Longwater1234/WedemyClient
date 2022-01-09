@@ -1,9 +1,5 @@
-### today 2022.01.06
+### today 2022.01.09
+- Now using `emits` to pass _AddToWishlist_ event from CourseDetails --> Parent.
+- So wishlist "Add", "Remove" is done.✔
+- Next is wishlist "View", Cart "add", Cart "remove"
 
-- footer is now perfect, hopefully.
-- after successful signup, redirect to login
-- adjusted floating details card width to `max-width`
-- addd wishlist button
-- added cart button.
-- both functional.
-- fixed `max-width` of main content on Home page
