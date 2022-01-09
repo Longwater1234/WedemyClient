@@ -22,7 +22,7 @@
           id="wishlist-btn"
           :class="{ pressed: InWishlist === true }"
           :title="setBtnTitle"
-          @click="addToWishlist(singleCourse.id)"
+          @click="emitWishlist(singleCourse.id)"
           circle
         >
           {{ InWishlist ? "&#9829;" : "&#9825;" }}
@@ -62,24 +62,20 @@ export default defineComponent({
       default: {},
     },
     InWishlist: {
-      type: Number,
+      type: Boolean,
       default: false,
     },
   },
+  emits: ["toggleWishlist"],
   methods: {
     addToCart(id: number) {
       //TODO complete task
     },
-    addToWishlist(id: number) {
+     // emit event back to Parent, pass courseId
+    emitWishlist(id: number) {
       const self = this;
       if (!store.getters.isLoggedIn) return self.LoginMessage();
-      //TODO EMIT RESULT BACK
-      // this.InWishlist = !this.InWishlist;
-    },
-    checkWishlistStatus(courseId: number) {
-      WishlistService.checkifWishlisted(courseId).then((res) => {
-        //  this.InWishlist = res.data.isWishlist;
-      });
+      this.$emit("toggleWishlist", id);
     },
     LoginMessage() {
       ElMessage.error("Must be logged in");

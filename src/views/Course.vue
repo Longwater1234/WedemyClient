@@ -9,7 +9,7 @@
       >
       </el-alert>
     </div>
-    <div v-if="!errorMessage.length" class="mainStart">
+    <div v-if="errorMessage.length === 0" class="mainStart">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item
           :to="{ path: '/category/' + singleCourse.category }"
@@ -40,6 +40,7 @@
   </div>
   <!-- FLOATING CARD: COMPONENT -->
   <course-details
+    @toggleWishlist="onToggleWishlist"
     style="margin-top: -300px"
     :InWishlist="InWishlist"
     :singleCourse="singleCourse"
@@ -81,6 +82,8 @@ import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
 import { Lock } from "@element-plus/icons";
 import WishlistService from "@/services/WishlistService";
+import store from "@/store";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   data() {
@@ -129,6 +132,16 @@ export default defineComponent({
         (res) => (this.lessons = res.data)
       );
     },
+    //listen for event from child
+    onToggleWishlist(courseId: number) {
+      const self = this;
+      let myAction = self.InWishlist
+        ? WishlistService.removeOne(courseId)
+        : WishlistService.addNew(courseId);
+      myAction
+        .then(() => (self.InWishlist = !self.InWishlist))
+        .catch((error) => ElMessage.error(error.message));
+    },
     checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
         this.InWishlist = res.data.isWishlist;
@@ -147,8 +160,8 @@ export default defineComponent({
     this.courseId = parseInt(id.toString());
     this.fetchSingleCourse(this.courseId);
     this.fetchObjectives(this.courseId);
-    this.checkWishlistStatus(this.courseId);
     this.fetchLessonList(this.courseId);
+    store.getters.isLoggedIn && this.checkWishlistStatus(this.courseId);
   },
 });
 </script>
