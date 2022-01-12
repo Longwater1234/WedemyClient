@@ -9,6 +9,7 @@
       >
       </el-alert>
     </div>
+
     <div v-if="errorMessage.length === 0" class="mainStart">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item
@@ -20,7 +21,7 @@
         <el-breadcrumb-item>{{ singleCourse.title }}</el-breadcrumb-item>
       </el-breadcrumb>
 
-      <!--  start course view -->
+      <!--  START course view -->
       <h1 class="courseTitle">
         {{ singleCourse.title }}
       </h1>
@@ -38,15 +39,20 @@
       <h3 class="courseAuthor">Created by {{ singleCourse.author }}</h3>
     </div>
   </div>
+
   <!-- FLOATING CARD: COMPONENT -->
   <course-details
     @toggleWishlist="onToggleWishlist"
+    @toggleCart="onToggleCart"
     style="margin-top: -300px"
     :InWishlist="InWishlist"
+    :InCart="InCart"
     :singleCourse="singleCourse"
   >
   </course-details>
-  <!--  START OF details-->
+  <!-- END of FLOATING CARD -->
+
+  <!--  START OF objectives -->
   <div class="course-info">
     <h2>What You'll Learn</h2>
     <ul>
@@ -55,6 +61,7 @@
       </li>
     </ul>
   </div>
+
   <!--  START OF lessons-->
   <div class="course-info">
     <h2>Course Content</h2>
@@ -82,8 +89,9 @@ import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
 import { Lock } from "@element-plus/icons";
 import WishlistService from "@/services/WishlistService";
+import CartService from "@/services/CartService";
 import store from "@/store";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 
 export default defineComponent({
   data() {
@@ -96,6 +104,7 @@ export default defineComponent({
       objectives: new Array<String>(),
       lessons: new Array<Lesson>(),
       InWishlist: false,
+      InCart: false,
       singleCourse: {
         title: "",
         subtitle: "",
@@ -136,7 +145,7 @@ export default defineComponent({
     onToggleWishlist(courseId: number) {
       const self = this;
       let myAction = self.InWishlist
-        ? WishlistService.removeOne(courseId)
+        ? WishlistService.removeOneByCourse(courseId)
         : WishlistService.addNew(courseId);
       myAction
         .then(() => (self.InWishlist = !self.InWishlist))
@@ -144,13 +153,40 @@ export default defineComponent({
     },
     checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
-        this.InWishlist = res.data.isWishlist;
+        this.InWishlist = res.data.inWishlist;
+      });
+    },
+    //listen for event from child
+    onToggleCart(courseId: number) {
+      const self = this;
+      let myAction = self.InCart
+        ? CartService.removeOneByCourse(courseId)
+        : CartService.addNew(courseId);
+      myAction
+        .then(() => self.handleSuccessCart(self.InCart))
+        .catch((error) => ElMessage.error(error.message));
+    },
+    checkCartStatus(courseId: number) {
+      CartService.checkItemInCart(courseId).then((res) => {
+        this.InCart = res.data.inCart;
+      });
+    },
+    handleSuccessCart(InCart: boolean) {
+      this.InCart = !InCart;
+      store.getCartCountServer().then(() => {}); //refresh
+      return ElNotification({
+        type: "success",
+        title: this.notifMessage,
+        duration: 2500,
       });
     },
   },
   computed: {
     lessonCount(): number {
       return this.lessons.length;
+    },
+    notifMessage(): string {
+      return this.InCart ? "Added to Cart" : "Removed from Cart";
     },
   },
   mounted() {
@@ -162,6 +198,7 @@ export default defineComponent({
     this.fetchObjectives(this.courseId);
     this.fetchLessonList(this.courseId);
     store.getters.isLoggedIn && this.checkWishlistStatus(this.courseId);
+    store.getters.isLoggedIn && this.checkCartStatus(this.courseId);
   },
 });
 </script>

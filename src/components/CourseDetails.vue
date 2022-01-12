@@ -14,14 +14,15 @@
           id="cart-btn"
           :loading="isLoading"
           class="btn purple"
-          @click="addToCart(singleCourse.id)"
+          :class="{ black: InCart === true }"
+          @click="emitCart(singleCourse.id)"
         >
-          Add to Cart
+          {{ getCartTitle }}
         </el-button>
         <el-button
           id="wishlist-btn"
           :class="{ pressed: InWishlist === true }"
-          :title="setBtnTitle"
+          :title="getBtnTitle"
           @click="emitWishlist(singleCourse.id)"
           circle
         >
@@ -42,7 +43,6 @@
 </template>
 
 <script lang="ts">
-import WishlistService from "@/services/WishlistService";
 import { Star } from "@element-plus/icons";
 import { defineComponent } from "vue";
 import store from "@/store";
@@ -52,8 +52,8 @@ export default defineComponent({
   data() {
     return {
       isLoading: false,
-      InCart: false,
       btnTitle: ["Add to Wishlist", "Remove from Wishlist"],
+      cartTitle: ["Add to Cart", "Remove from Cart"],
     };
   },
   props: {
@@ -65,28 +65,38 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-  },
-  emits: ["toggleWishlist"],
-  methods: {
-    addToCart(id: number) {
-      //TODO complete task
+    InCart: {
+      type: Boolean,
+      default: false,
     },
-     // emit event back to Parent, pass courseId
+  },
+  emits: ["toggleWishlist", "toggleCart"],
+  methods: {
+    /* emit events back to Parent, pass courseId */
+    emitCart(id: number) {
+      const self = this;
+      if (!store.getters.isLoggedIn) return self.LoginMessage();
+      this.$emit("toggleCart", id);
+    },
     emitWishlist(id: number) {
       const self = this;
       if (!store.getters.isLoggedIn) return self.LoginMessage();
       this.$emit("toggleWishlist", id);
     },
     LoginMessage() {
-      ElMessage.error("Must be logged in");
+      ElMessage.error("Must be logged in!");
+      this.$router.push("/login");
     },
   },
   components: {
     Star,
   },
   computed: {
-    setBtnTitle(): string {
+    getBtnTitle(): string {
       return this.InWishlist ? this.btnTitle[1] : this.btnTitle[0];
+    },
+    getCartTitle(): string {
+      return this.InCart ? this.cartTitle[1] : this.cartTitle[0];
     },
   },
   mounted() {},
@@ -116,6 +126,17 @@ export default defineComponent({
 .pressed {
   color: red !important;
   border-color: red !important;
+}
+
+.black {
+  background-color: black !important;
+  font-weight: 700 !important;
+  color: white !important;
+}
+
+.black:hover {
+  background-color: rgb(26, 26, 26) !important;
+  color: white !important;
 }
 
 #wishlist-btn {

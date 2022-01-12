@@ -5,9 +5,14 @@ class WishlistService {
     return http.post(`/wishlist/course/${courseId}`);
   }
 
-  removeOne(courseId: number) {
+  removeOneByCourse(courseId: number) {
     return http.delete(`/wishlist/course/${courseId}`);
   }
+
+  removeOneById(wishlistId: number) {
+    return http.delete(`/wishlist/id/${wishlistId}`);
+  }
+
 
   getAllMine() {
     return http.get("/wishlist/mine");

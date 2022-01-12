@@ -1,7 +1,7 @@
 <template>
   <h3 class="cart-header">Your Cart ({{ store.getters.getCartCount }})</h3>
 
-  <div class="main-view">
+  <div class="main-view" style="height: 70vh">
     <!-- if nothing in cart -->
     <div v-if="!store.getters.getCartCount" class="cart-view">
       <el-empty description="Your cart is empty :("></el-empty>
