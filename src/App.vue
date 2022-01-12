@@ -22,9 +22,15 @@ export default defineComponent({
       categories: [],
     };
   },
+  methods: {
+    fetchCartCount() {
+      store.getCartCountServer().then(() => {});
+    },
+  },
   mounted() {
-    store.getAuthStatusServer().catch((error) => {
-      console.error("AUTH_ERROR", error);
+    store.getAuthStatusServer().then((loggedIn) => {
+      console.log({ loggedIn });
+      if (loggedIn) this.fetchCartCount();
     });
     CourseService.getAllCategories().then(
       (res) => (this.categories = res.data)
@@ -50,7 +56,6 @@ export default defineComponent({
   max-height: 100vh;
   width: auto;
 }
-
 
 .btn {
   width: 100%;

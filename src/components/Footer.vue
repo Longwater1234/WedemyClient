@@ -36,8 +36,8 @@ export default defineComponent({
   text-align: center;
   position: relative;
   display: flex;
+  flex-direction: row;
   padding: 1em;
-  margin: auto;
   justify-content: space-around;
   width: 98%;
   overflow: hidden;
