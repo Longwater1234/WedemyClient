@@ -3,7 +3,7 @@ import axios from "axios";
 import http from "../axiosconfig";
 
 class AuthService {
-  /** Uses BasicAuth of Springboot */
+  /** Targets BasicAuth of backend */
   loginUser(email: string, password: string) {
     const url = "/auth/login";
 
@@ -17,12 +17,8 @@ class AuthService {
     return http.post(url, null, options);
   }
 
-  /** Obviously does what it says */
-  logoutUser() {
-    return http.post("/logout");
-  }
-
-  /**  Uses FormLogin of Springboot  */
+  
+  /**  Targets FormLogin of backend server  */
   loginUserForm(email: string, password: string) {
     const params = new URLSearchParams();
     params.append("email", email);
@@ -47,6 +43,11 @@ class AuthService {
       password,
       confirmPass
     });
+  }
+  
+  /** Obviously does what it says */
+  logoutUser() {
+    return http.post("/logout");
   }
 }
 
