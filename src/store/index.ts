@@ -34,7 +34,6 @@ const myActions = {
     },
 
     async getCartCountServer(): Promise<number> {
-        if (!getters.isLoggedIn) return 0;
         try {
             const res = await http.get("/cart/mine/count");
             user.cartCount = res.data.cartCount;

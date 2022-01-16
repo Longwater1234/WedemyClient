@@ -1,6 +1,5 @@
-### today 2022.01.12
+### today 2022.01.16
 
-- Added `Cart` service, with all needed methods.
-- Check cart count on first FULL launch (in `App.vue`), save it in global Store.
-- Only do above ^ if logged in.
-- Can ADD + REMOVE from Cart.Then refreshes global store. 🎉🎉
+- cart now refreshes onLogin success, as it should!
+- Created Wishlist page and fetch data
+- MORE WORK NEEDED on design

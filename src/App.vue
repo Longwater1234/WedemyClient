@@ -29,7 +29,6 @@ export default defineComponent({
   },
   mounted() {
     store.getAuthStatusServer().then((loggedIn) => {
-      console.log({ loggedIn });
       if (loggedIn) this.fetchCartCount();
     });
     CourseService.getAllCategories().then(

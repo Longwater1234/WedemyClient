@@ -52,7 +52,7 @@
       <div class="cartIcon">
         <router-link to="/cart" title="Cart">
           <el-badge
-            v-if="store.getters.getCartCount"
+            v-if="store.getters.getCartCount > 0"
             :value="store.getters.getCartCount"
             class="itemCart"
           >
@@ -85,7 +85,9 @@
                 {{ store.state.username }}
               </el-dropdown-item>
               <el-dropdown-item divided>My Account</el-dropdown-item>
-              <el-dropdown-item> My Wishlist </el-dropdown-item>
+              <el-dropdown-item @click="goWishlist()">
+                My Wishlist
+              </el-dropdown-item>
               <el-dropdown-item>My Courses</el-dropdown-item>
               <el-dropdown-item>Billing History</el-dropdown-item>
               <el-dropdown-item @click="logout()">Logout</el-dropdown-item>
