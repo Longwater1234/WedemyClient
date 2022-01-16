@@ -143,6 +143,7 @@ export default {
     submitToServer: async (load) => {
       await AuthService.loginUser(load.email, load.password);
       await store.getAuthStatusServer();
+      await store.getCartCountServer();
     },
     redirectToHome() {
       ElMessage.success("Welcome back!");
