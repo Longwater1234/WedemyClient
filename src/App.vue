@@ -1,7 +1,7 @@
 <template>
   <Navbar :categories="categories" v-if="!this.$route.meta.hideNavbar" />
   <router-view />
-  <Footer v-if="!this.$route.meta.hideNavbar" />
+  <!-- <Footer v-if="!this.$route.meta.hideNavbar" /> -->
 </template>
 
 <script lang="ts">

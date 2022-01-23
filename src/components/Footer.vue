@@ -7,9 +7,9 @@
     </div>
     <div class="righty">
       <el-row>&copy; 2021, Wedemy</el-row>
-      <el-row
-        ><img src="@/assets/final_white.png" alt="logo" id="ft-logo"
-      /></el-row>
+      <el-row>
+        <img src="@/assets/final_white.png" alt="logo" id="ft-logo" />
+      </el-row>
     </div>
     <!-- TODO: ADD PAYMENT METHODS HERE -->
   </footer>
@@ -33,7 +33,6 @@ export default defineComponent({
 
 <style>
 .footer {
-  text-align: center;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -43,7 +42,6 @@ export default defineComponent({
   overflow: hidden;
   height: 5em;
   bottom: 0;
-  margin-bottom: 0;
   color: white;
   background-color: black;
 }

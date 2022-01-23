@@ -12,24 +12,87 @@
         </el-button>
       </router-link>
     </div>
+
+    <!-- otherwise show list of Cart tems -->
+    <div v-else>
+      <el-row v-for="course in cartItems" :key="course.id">
+        <el-space size="large" direction="vertical">
+          <router-link :to="{ name: 'Course', params: { id: course.id } }">
+            <el-card class="w-card" shadow="hover">
+              <el-col :span="10">
+                <img :src="course.thumbUrl" alt="Thumbnail" class="w-thumb" />
+              </el-col>
+              <el-col style="text-align: left; padding-left: 1em">
+                <div class="w-title">{{ course.title }}</div>
+                <div>{{ course.author }}</div>
+                <div>${{ course.price }}</div>
+              </el-col>
+            </el-card>
+          </router-link>
+          <el-icon class="w-delete" @click="removeCart(course.id)">
+            <delete-filled /> Remove
+          </el-icon>
+        </el-space>
+      </el-row>
+    </div>
+
+    <!-- start of floaty card RIGHT -->
+    <div class="floaty"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
+import store from "@/store";
+import { Course } from "@/types";
+import { DeleteFilled } from "@element-plus/icons";
+import { ElMessage, ElNotification } from "element-plus";
+import CartService from "@/services/CartService";
 
 export default defineComponent({
   name: "Cart",
   data() {
     document.title = "Cart | Wedemy";
-    return {};
+    const cartItems = new Array<Course>();
+    return {
+      cartItems,
+      isLoading: true,
+    };
   },
   inject: ["store"],
-  methods: {},
+  methods: {
+    fetchCartIems() {
+      CartService.getAllMine()
+        .then((res) => (this.cartItems = res.data))
+        .catch((error) => ElMessage.error(error.message))
+        .finally(() => (this.isLoading = false));
+    },
+    removeCart(id: number) {
+      CartService.removeOneByCourse(id)
+        .then(() => this.handleSuccessCart())
+        .then(() => store.getCartCountServer())
+        .catch((err) => ElMessage.error(err.message));
+    },
+    handleSuccessCart() {
+      store.getCartCountServer();
+      this.fetchCartIems();
+      return ElNotification({
+        type: "success",
+        title: "Removed from cart",
+        duration: 2500,
+      });
+    },
+  },
+  mounted() {
+    store.getters.isLoggedIn && this.fetchCartIems();
+  },
+  components: {
+    DeleteFilled,
+  },
 });
 </script>
 
-<style>
+<style scoped>
 .main-view {
   text-align: center;
   justify-content: center;
@@ -44,6 +107,36 @@ export default defineComponent({
   border-radius: 6px;
   padding: 32px;
   text-align: center;
+}
+
+.w-card {
+  width: 40em;
+  height: min-content;
+}
+
+.w-thumb {
+  width: 10em;
+  aspect-ratio: 16/9;
+  margin-bottom: 20px;
+}
+
+.w-card:hover {
+  cursor: pointer;
+  background-color: ghostwhite;
+}
+
+.w-delete {
+  cursor: pointer;
+  color: red;
+  width: max-content;
+  margin-left: 35em;
+}
+
+.w-title {
+  font-weight: 700;
+  max-width: inherit;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .cart-header {
@@ -61,6 +154,21 @@ export default defineComponent({
   }
   .cart-header {
     padding: 5% 10%;
+  }
+
+  .w-card {
+    max-width: 27em;
+    font-size: small;
+  }
+
+  .w-thumb {
+    width: 5em;
+    aspect-ratio: 16/9;
+  }
+
+  .w-delete {
+    margin-left: 20em;
+    font-size: small;
   }
 }
 </style>
