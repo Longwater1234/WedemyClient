@@ -13,24 +13,25 @@
       </router-link>
     </div>
 
-    <!-- otherwise show list cards of Wishlist -->
+    <!-- otherwise show list of Wishlist items -->
     <div v-else>
-      <el-row v-for="wish in wishlistItems" :key="wish.wishlistId">
+      <el-row v-for="course in wishlistItems" :key="course.id">
         <el-space size="large" direction="vertical">
-          <el-card shadow="hover" :body-style="{ width: '500px' }">
-            <el-col :span="10">
-              <img
-                :src="wish.course.thumbUrl"
-                alt="Thumbnail"
-                style="width: 10em; aspect-ratio: 16/9"
-              />
-            </el-col>
-            <el-col style="text-align: left; padding-left: 1em">
-              <div>{{ wish.course.title }}</div>
-              <div>{{ wish.course.author }}</div>
-              <div>${{ wish.course.price }}</div>
-            </el-col>
-          </el-card>
+          <router-link :to="{ name: 'Course', params: { id: course.id } }">
+            <el-card class="w-card" shadow="hover">
+              <el-col :span="10">
+                <img :src="course.thumbUrl" alt="Thumbnail" class="w-thumb" />
+              </el-col>
+              <el-col style="text-align: left; padding-left: 1em">
+                <div class="w-title">{{ course.title }}</div>
+                <div>{{ course.author }}</div>
+                <div>${{ course.price }}</div>
+              </el-col>
+            </el-card>
+          </router-link>
+          <el-icon class="w-delete" @click="removeWish(course.id)">
+            <delete-filled /> Remove
+          </el-icon>
         </el-space>
       </el-row>
     </div>
@@ -40,15 +41,16 @@
 <script lang="ts">
 import WishlistService from "@/services/WishlistService";
 import store from "@/store";
-import { Wishlist } from "@/types";
+import { Course } from "@/types";
+import { DeleteFilled } from "@element-plus/icons";
 import { defineComponent } from "@vue/runtime-core";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 
 export default defineComponent({
   name: "Wishlist",
   data() {
     document.title = "Wishlist | Wedemy";
-    const wishlistItems = new Array<Wishlist>();
+    const wishlistItems = new Array<Course>();
     return {
       wishlistItems,
       isLoading: true,
@@ -62,9 +64,25 @@ export default defineComponent({
         .catch((error) => ElMessage.error(error.message))
         .finally(() => (this.isLoading = false));
     },
+    removeWish(id: number) {
+      WishlistService.removeOneByCourse(id)
+        .then(() => this.handleSuccessWishlist())
+        .catch((err) => ElMessage.error(err.message));
+    },
+    handleSuccessWishlist() {
+      this.fetchWishlist();
+      return ElNotification({
+        type: "success",
+        title: "Removed from Wishlist",
+        duration: 2500,
+      });
+    },
   },
   mounted() {
     store.getters.isLoggedIn && this.fetchWishlist();
+  },
+  components: {
+    DeleteFilled,
   },
   computed: {
     wishlistCount(): number {
@@ -74,7 +92,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .main-view {
   text-align: center;
   justify-content: center;
@@ -89,6 +107,36 @@ export default defineComponent({
   border-radius: 6px;
   padding: 32px;
   text-align: center;
+}
+
+.w-card {
+  width: 40em;
+  height: min-content;
+}
+
+.w-thumb {
+  width: 10em;
+  aspect-ratio: 16/9;
+  margin-bottom: 20px;
+}
+
+.w-card:hover {
+  cursor: pointer;
+  background-color: ghostwhite;
+}
+
+.w-delete {
+  cursor: pointer;
+  color: red;
+  width: max-content;
+  margin-left: 35em;
+}
+
+.w-title {
+  font-weight: 700;
+  max-width: inherit;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .cart-header {
@@ -106,6 +154,21 @@ export default defineComponent({
   }
   .cart-header {
     padding: 5% 10%;
+  }
+
+  .w-card {
+    max-width: 27em;
+    font-size: small;
+  }
+
+  .w-thumb {
+    width: 5em;
+    aspect-ratio: 16/9;
+  }
+
+  .w-delete {
+    margin-left: 20em;
+    font-size: small;
   }
 }
 </style>

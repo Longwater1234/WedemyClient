@@ -46,6 +46,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    window.scrollTo(0, 0);
     let { q } = this.$route.query;
     this.searchQuery = q ? q.toString() : "";
   },

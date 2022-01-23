@@ -149,7 +149,6 @@ export default defineComponent({
       });
     },
     goToCourse(id: number) {
-      //TODO write nav logic here
       this.$router.push(`/course/${id}`);
     },
     goToCategory(name: string) {

@@ -8,10 +8,10 @@
 - [x] Mobile Layout, Single COurse View
 - [x] _Drawer_:  add list -> user ICON, my account, wishlist. and logout
 - [x] some PHOTOS + PROMO TEXT on homepage. (unsplash)
-- [ ] Layout mobile fix.
+- [ ] Layout mobile fix. (continous)
 - [x] Login, Logout, wishlist to server.
-- [ ] View all Wislist Items
-- [ ] Lessons.
+- [x] View all Wislist Items
+- [x] Lessons.
 - [ ] _Checkout_ -> Paypal, credit card, Transactions.
 - [ ] Descriptions
 - [ ] Reviews
