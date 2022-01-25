@@ -55,11 +55,11 @@
   <!--  START OF objectives -->
   <div class="course-info">
     <h2>What You'll Learn</h2>
-    <ul>
-      <li class="obj-item" v-for="item in objectives" :key="item.id">
+    <div>
+      <p class="obj-item" v-for="item in objectives" :key="item.id">
         &#10003; &nbsp;{{ item.objective }}
-      </li>
-    </ul>
+      </p>
+    </div>
   </div>
 
   <!--  START OF lessons-->

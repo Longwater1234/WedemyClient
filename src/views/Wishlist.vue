@@ -35,6 +35,7 @@
         </el-space>
       </el-row>
     </div>
+    <!-- end of card list -->
   </div>
 </template>
 
