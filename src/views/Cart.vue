@@ -37,7 +37,12 @@
     </div>
 
     <!-- start of floaty card RIGHT -->
-    <div class="floaty"></div>
+    <div class="floaty">
+      <cart-summary
+        :totalPrice="totalPrice"
+        style="margin-top: -300px"
+      ></cart-summary>
+    </div>
   </div>
 </template>
 
@@ -48,6 +53,7 @@ import { Course } from "@/types";
 import { DeleteFilled } from "@element-plus/icons";
 import { ElMessage, ElNotification } from "element-plus";
 import CartService from "@/services/CartService";
+import CartSummary from "@/components/CartSummary.vue";
 
 export default defineComponent({
   name: "Cart",
@@ -70,7 +76,6 @@ export default defineComponent({
     removeCart(id: number) {
       CartService.removeOneByCourse(id)
         .then(() => this.handleSuccessCart())
-        .then(() => store.getCartCountServer())
         .catch((err) => ElMessage.error(err.message));
     },
     handleSuccessCart() {
@@ -88,6 +93,12 @@ export default defineComponent({
   },
   components: {
     DeleteFilled,
+    CartSummary,
+  },
+  computed: {
+    totalPrice(): number {
+      return this.cartItems.map((x) => x.price).reduce((a, b) => a + b, 0);
+    },
   },
 });
 </script>
@@ -110,7 +121,7 @@ export default defineComponent({
 }
 
 .w-card {
-  width: 40em;
+  width: 50em;
   height: min-content;
 }
 
@@ -129,7 +140,7 @@ export default defineComponent({
   cursor: pointer;
   color: red;
   width: max-content;
-  margin-left: 35em;
+  margin-left: 45em;
 }
 
 .w-title {
