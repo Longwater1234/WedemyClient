@@ -1,4 +1,4 @@
-### today 2022.01.23
-- Wishlist CRUD completed
-- Cart display and CRUD completed
-- Both notify on Delete.
+### today 2022.01.28
+- hide floaty CourseDetails card on smaller displays
+- some layout fixes.
+- managed to fix the floaty card on Cart
