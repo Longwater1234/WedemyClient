@@ -6,7 +6,7 @@
         <h2>${{ totalPrice }}</h2>
       </div>
       <div>
-        <el-button id="checkout-btn" class="btn purple"> Checkout </el-button>
+        <el-button id="checkout-btn" class="btn purple">Checkout</el-button>
       </div>
     </el-card>
   </el-affix>
@@ -22,42 +22,32 @@ export default defineComponent({
       cartPrice: 0.0,
     };
   },
-  methods: {
-    name() {},
-  },
-  computed: {
-    name() {
-      // return this.data
-    },
-  },
   props: {
-      totalPrice: {
-          type: Number,
-          default: 0
-      },
+    totalPrice: {
+      type: Number,
+      default: 0,
+    },
   },
 });
 </script>
 
-<style>
+<style scoped>
 .fixed-baby {
-  width: 300px;
-  margin-right: 350px;
-  margin-bottom: 300px;
-  float: right;
+  width: max-content;
   text-align: start;
+  top: 0;
 }
 
 .summary-card {
-  width: 100%;
+  width: 400px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
-#checkout-btn{
-    width: 80% important;
-    text-align: center;
+#checkout-btn {
+  width: 80% important;
+  text-align: center;
 }
 </style>

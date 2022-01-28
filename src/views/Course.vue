@@ -22,12 +22,8 @@
       </el-breadcrumb>
 
       <!--  START course view -->
-      <h1 class="courseTitle">
-        {{ singleCourse.title }}
-      </h1>
-      <p class="courseSubtitle">
-        {{ singleCourse.subtitle }}
-      </p>
+      <h1 class="courseTitle">{{ singleCourse.title }}</h1>
+      <p class="courseSubtitle">{{ singleCourse.subtitle }}</p>
       <el-rate
         v-model="singleCourse.rating"
         disabled
@@ -249,5 +245,11 @@ ul.lessonlist {
   list-style-type: none;
   margin: 0 1em;
   padding: 0;
+}
+
+@media screen and (max-width: 770px) {
+  course-details {
+    display: none;
+  }
 }
 </style>

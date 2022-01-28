@@ -158,7 +158,7 @@ export default defineComponent({
   }
 
   .w-card {
-    max-width: 27em;
+    width: 90vw;
     font-size: small;
   }
 
