@@ -1,8 +1,8 @@
 <template>
   <h3 class="cart-header">Your Cart ({{ store.getters.getCartCount }})</h3>
 
-  <div class="mpenzi">
-    <div class="main-view">
+  <div class="jojo">
+    <div class="main-view" :class="{ wider: cartItems.length === 0 }">
       <!-- if nothing in cart -->
       <div v-if="!store.getters.getCartCount" class="cart-view">
         <el-empty description="Your cart is empty :("></el-empty>
@@ -18,27 +18,27 @@
       <div v-else>
         <el-row v-for="course in cartItems" :key="course.id">
           <el-space size="large" direction="vertical">
-            <router-link :to="{ name: 'Course', params: { id: course.id } }">
-              <el-card class="w-card" shadow="hover">
+            <el-card class="w-card" shadow="hover">
+              <router-link :to="{ name: 'Course', params: { id: course.id } }">
                 <el-col :span="10">
                   <img :src="course.thumbUrl" alt="Thumbnail" class="w-thumb" />
                 </el-col>
                 <el-col style="text-align: left; padding-left: 1em">
                   <div class="w-title">{{ course.title }}</div>
-                  <div>{{ course.author }}</div>
-                  <div>${{ course.price }}</div>
+                  <div class="noblue">{{ course.author }}</div>
+                  <div class="noblue">${{ course.price }}</div>
                 </el-col>
-              </el-card>
-            </router-link>
-            <el-icon class="w-delete" @click="removeCart(course.id)">
-              <delete-filled /> Remove
-            </el-icon>
+              </router-link>
+              <el-icon class="w-delete" @click="removeCart(course.id)">
+                <delete-filled /> <span>Remove</span>
+              </el-icon>
+            </el-card>
           </el-space>
         </el-row>
       </div>
     </div>
     <!-- start of floaty card RIGHT -->
-    <div class="floaty">
+    <div class="floaty" v-if="cartItems.length">
       <cart-summary :totalPrice="totalPrice"></cart-summary>
     </div>
   </div>
@@ -101,8 +101,8 @@ export default defineComponent({
 });
 </script>
 
-<style>
-.mpenzi {
+<style scoped>
+.jojo {
   display: flex;
   width: 100%;
   flex-direction: row;
@@ -115,6 +115,7 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
 }
+
 
 .cart-view {
   border: 1px solid rgba(0, 0, 0, 0.25);
@@ -134,24 +135,33 @@ export default defineComponent({
   margin-bottom: 20px;
 }
 
+.wider {
+  width: 90vw;
+}
+
 .w-card:hover {
-  cursor: pointer;
   background-color: ghostwhite;
 }
 
 .w-delete {
   cursor: pointer;
   color: red;
+  float: right;
   width: max-content;
-  margin-left: 45em;
+}
+
+.w-delete:hover {
+  text-decoration: solid underline red 1px;
 }
 
 .w-title {
+  color: black !important;
   font-weight: 700;
   max-width: inherit;
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
 
 .cart-header {
   font-family: Georgia, "Times New Roman", Times, serif;
@@ -189,7 +199,12 @@ export default defineComponent({
 
   .w-delete {
     margin-left: 20em;
-    font-size: small;
+    bottom: 10px;
+    font-size: 20px;
+  }
+
+  .w-delete span {
+    display: none;
   }
 
   .floaty {

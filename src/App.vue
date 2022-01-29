@@ -105,6 +105,10 @@ export default defineComponent({
   font-size: 14px;
 }
 
+.noblue {
+  color: black !important;
+}
+
 @media only screen and (max-width: 600px) {
   .product-img {
     width: 100%;
