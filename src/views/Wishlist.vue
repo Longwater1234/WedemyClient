@@ -2,7 +2,7 @@
   <h3 class="cart-header">Your wishlist ({{ wishlistCount }})</h3>
 
   <div class="main-view" style="height: 70vh">
-    <!-- if nothing in cart -->
+    <!-- if nothing in wishlist -->
     <div v-if="wishlistCount === 0" class="cart-view">
       <el-empty description="Your wishlist is empty :("></el-empty>
 
@@ -13,25 +13,24 @@
       </router-link>
     </div>
 
-    <!-- otherwise show list of Wishlist items -->
     <div v-else>
       <el-row v-for="course in wishlistItems" :key="course.id">
         <el-space size="large" direction="vertical">
-          <router-link :to="{ name: 'Course', params: { id: course.id } }">
-            <el-card class="w-card" shadow="hover">
+          <el-card class="w-card" shadow="hover">
+            <router-link :to="{ name: 'Course', params: { id: course.id } }">
               <el-col :span="10">
                 <img :src="course.thumbUrl" alt="Thumbnail" class="w-thumb" />
               </el-col>
               <el-col style="text-align: left; padding-left: 1em">
                 <div class="w-title">{{ course.title }}</div>
-                <div>{{ course.author }}</div>
-                <div>${{ course.price }}</div>
+                <div class="noblue">{{ course.author }}</div>
+                <div class="noblue">${{ course.price }}</div>
               </el-col>
-            </el-card>
-          </router-link>
-          <el-icon class="w-delete" @click="removeWish(course.id)">
-            <delete-filled /> Remove
-          </el-icon>
+            </router-link>
+            <el-icon class="w-delete" @click="removeWish(course.id)">
+              <delete-filled /> <span>Remove</span>
+            </el-icon>
+          </el-card>
         </el-space>
       </el-row>
     </div>
@@ -99,10 +98,6 @@ export default defineComponent({
   justify-content: center;
 }
 
-.main-view {
-  padding: 0 10% 0 10%;
-}
-
 .cart-view {
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 6px;
@@ -122,18 +117,22 @@ export default defineComponent({
 }
 
 .w-card:hover {
-  cursor: pointer;
   background-color: ghostwhite;
 }
 
 .w-delete {
   cursor: pointer;
   color: red;
+  float: right;
   width: max-content;
-  margin-left: 35em;
+}
+
+.w-delete:hover {
+  text-decoration: solid underline red 1px;
 }
 
 .w-title {
+  color: black !important;
   font-weight: 700;
   max-width: inherit;
   overflow-x: hidden;

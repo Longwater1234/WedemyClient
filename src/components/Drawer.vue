@@ -21,9 +21,17 @@
         </router-link>
       </div>
 
-      <div v-else>
+      <div style="margin: 1em" v-else>
         <el-avatar :src="attachAvatarLink(store.state.username)" :size="36">
         </el-avatar>
+        <span>{{ store.state.username }}</span>
+        <div>
+          <el-row> My Account</el-row>
+          <el-row> My Wishlist</el-row>
+          <el-row> My Courses</el-row>
+          <el-row> Billing History</el-row>
+          <el-row> Logout</el-row>
+        </div>
       </div>
     </el-drawer>
   </div>
