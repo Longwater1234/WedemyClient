@@ -4,7 +4,6 @@
       <img src="@/assets/menu.png" alt="More" class="hamburger" />
     </div>
     <el-drawer
-      title="More"
       v-model="launch"
       direction="ltr"
       size="60%"
@@ -24,13 +23,18 @@
       <div style="margin: 1em" v-else>
         <el-avatar :src="attachAvatarLink(store.state.username)" :size="36">
         </el-avatar>
-        <span>{{ store.state.username }}</span>
-        <div>
+        <span class="sidename">{{ store.state.username }}</span>
+        <div style="margin-top: 30px">
           <el-row> My Account</el-row>
+          <el-divider></el-divider>
           <el-row> My Wishlist</el-row>
+          <el-divider></el-divider>
           <el-row> My Courses</el-row>
+          <el-divider></el-divider>
           <el-row> Billing History</el-row>
+          <el-divider></el-divider>
           <el-row> Logout</el-row>
+          <el-divider></el-divider>
         </div>
       </div>
     </el-drawer>
@@ -66,7 +70,10 @@ export default defineComponent({
   width: 100%;
   height: 100%;
 }
-
+.sidename {
+  color: rgb(61, 61, 61);
+  margin: 0 10px;
+}
 .auth-buttons {
   width: 70%;
   margin: 0 auto;

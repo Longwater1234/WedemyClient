@@ -6,8 +6,13 @@
         <h2>${{ totalPrice }}</h2>
       </div>
       <div>
-        <el-button id="checkout-btn" class="btn purple">Checkout</el-button>
+        <el-button id="checkout-btn" class="btn purple">
+          Proceed to Checkout
+        </el-button>
       </div>
+      <el-row style="font-size: small">
+        All Payments are secure and handled by Braintree Payments
+      </el-row>
     </el-card>
   </el-affix>
 </template>

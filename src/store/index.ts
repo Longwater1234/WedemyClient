@@ -1,7 +1,7 @@
 import { computed, reactive } from "vue";
 import http from "@/axiosconfig";
 
-//FOR USER's state
+// FOR USER's state
 interface userState {
     username: string;
     loggedIn: boolean;
