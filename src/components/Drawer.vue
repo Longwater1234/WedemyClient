@@ -27,10 +27,15 @@
         <span>{{ store.state.username }}</span>
         <div>
           <el-row> My Account</el-row>
+          <el-divider></el-divider>
           <el-row> My Wishlist</el-row>
+          <el-divider></el-divider>
           <el-row> My Courses</el-row>
+          <el-divider></el-divider>
           <el-row> Billing History</el-row>
+          <el-divider></el-divider>
           <el-row> Logout</el-row>
+          <el-divider></el-divider>
         </div>
       </div>
     </el-drawer>
