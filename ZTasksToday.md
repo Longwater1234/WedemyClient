@@ -1,3 +1,3 @@
-### today 2022.01.29
-- Delete button now inside Card
-- Added some items inside drawer
+### today 2022.02.01
+- completed braintree integration + checkout
+- added items on Drawer menu

@@ -6,17 +6,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/cart",
     name: "Cart",
-    component: () => import("../views/Cart.vue")
+    component: () => import("../views/Cart.vue"),
   },
   {
     path: "/wishlist",
     name: "Wishlist",
-    component: () => import("../views/Wishlist.vue")
+    component: () => import("../views/Wishlist.vue"),
   },
   {
     path: "/login",
@@ -26,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
       let isLoggedIn = await store.getAuthStatusServer();
       if (isLoggedIn) next({ name: "Home" });
       else next();
-    }
+    },
   },
   {
     path: "/signup",
@@ -36,36 +36,41 @@ const routes: Array<RouteRecordRaw> = [
       let isLoggedIn = store.getters.isLoggedIn;
       if (isLoggedIn) next({ name: "Home" });
       else next();
-    }
+    },
   },
   {
     path: "/search",
     name: "SearchResults",
-    component: () => import("../views/SearchResults.vue")
+    component: () => import("../views/SearchResults.vue"),
   },
   {
     path: "/category/:name",
     name: "Category",
-    component: () => import("../views/Category.vue")
+    component: () => import("../views/Category.vue"),
   },
   {
     path: "/course/:id(\\d+)",
     name: "Course",
-    component: () => import("../views/Course.vue")
+    component: () => import("../views/Course.vue"),
+  },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    component: () => import("../views/Checkout.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("../views/NotFound404.vue"),
     meta: {
-      hideNavbar: true
-    }
-  }
+      hideNavbar: true,
+    },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 export default router;

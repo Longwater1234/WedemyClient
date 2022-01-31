@@ -4,7 +4,7 @@
   <div class="jojo">
     <div class="main-view" :class="{ wider: cartItems.length === 0 }">
       <!-- if nothing in cart -->
-      <div v-if="!store.getters.getCartCount" class="cart-view">
+      <div v-if="!store.getters.getCartCount" class="empty-view">
         <el-empty description="Your cart is empty :("></el-empty>
 
         <router-link to="/">
@@ -116,8 +116,7 @@ export default defineComponent({
   justify-content: center;
 }
 
-
-.cart-view {
+.empty-view {
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   padding: 32px;

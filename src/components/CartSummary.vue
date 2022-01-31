@@ -6,13 +6,22 @@
         <h2>${{ totalPrice }}</h2>
       </div>
       <div>
-        <el-button id="checkout-btn" class="btn purple">Checkout</el-button>
+        <router-link to="/checkout">
+          <el-button id="checkout-btn" class="btn purple">
+            Proceed to Checkout <arrow-right style="width: 1em"></arrow-right>
+          </el-button>
+        </router-link>
+      </div>
+      <div class="footnote">
+        <p>All payments are handled by Braintree (a PayPal Service)</p>
+        <p>Accepting all major credit cards and PayPal.</p>
       </div>
     </el-card>
   </el-affix>
 </template>
 
 <script lang="ts">
+import { ArrowRight } from "@element-plus/icons";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -27,6 +36,9 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+  },
+  components: {
+    ArrowRight,
   },
 });
 </script>
@@ -44,6 +56,11 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+.footnote {
+  font-size: small;
+  text-align: center;
 }
 
 #checkout-btn {
