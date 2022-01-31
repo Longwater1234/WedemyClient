@@ -6,6 +6,7 @@ import router from "./router";
 import store from "./store";
 import "element-plus/lib/theme-chalk/index.css";
 
+//everything is surely good
 const app = createApp(App);
 app.use(router);
 app.use(ElementPlus);
