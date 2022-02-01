@@ -4,7 +4,6 @@
       <img src="@/assets/menu.png" alt="More" class="hamburger" />
     </div>
     <el-drawer
-      title="More"
       v-model="launch"
       direction="ltr"
       size="60%"
@@ -83,7 +82,10 @@ export default defineComponent({
   width: 100%;
   height: 100%;
 }
-
+.sidename {
+  color: rgb(61, 61, 61);
+  margin: 0 10px;
+}
 .auth-buttons {
   width: 70%;
   margin: 0 auto;

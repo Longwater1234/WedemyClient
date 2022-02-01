@@ -12,7 +12,7 @@
     "axios": "^0.21.4",
     "braintree-web-drop-in": "^1.32.1",
     "core-js": "^3.6.5",
-    "element-plus": "^1.0.2-beta.28",
+    "element-plus": "^1.3.0-beta.9",
     "register-service-worker": "^1.7.1",
     "validator": "^13.7.0",
     "vue": "^3.0.0",
@@ -34,6 +34,6 @@
     "sass": "^1.43.4",
     "sass-loader": "^10.2.0",
     "typescript": "~4.1.5",
-    "vue-cli-plugin-element-plus": "0.0.13"
+    "vue-cli-plugin-element-plus": "~0.0.13"
   }
 }

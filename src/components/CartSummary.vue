@@ -16,6 +16,9 @@
         <p>All payments are handled by Braintree (a PayPal Service)</p>
         <p>Accepting all major credit cards and PayPal.</p>
       </div>
+      <el-row style="font-size: small">
+        All Payments are secure and handled by Braintree Payments
+      </el-row>
     </el-card>
   </el-affix>
 </template>
