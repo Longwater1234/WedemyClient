@@ -21,9 +21,8 @@ import dropin, { Dropin } from "braintree-web-drop-in";
 export default defineComponent({
   data() {
     let paymentInstance: Dropin | undefined;
-    let clientToken = "";
     return {
-      clientToken,
+      clientToken: "",
       paymentInstance,
       isReady: false,
     };
@@ -50,7 +49,7 @@ export default defineComponent({
           self.paymentInstance = instance;
           self.isReady = true;
         })
-        .catch((error) => console.error(JSON.stringify(error)));
+        .catch((error) => console.error(error));
     },
     submitPayment() {
       let self = this;
@@ -62,10 +61,9 @@ export default defineComponent({
     },
   },
   mounted() {
-    //TODO call server to generate token
     this.getClientToken();
   },
-  beforeMount() {
+  beforeUnmount() {
     this.paymentInstance
       ?.teardown()
       .then(() => console.log("torn down"))
