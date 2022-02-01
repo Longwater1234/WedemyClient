@@ -4,7 +4,7 @@
     <div style="width: 60%; border: 1px solid black">
       <div id="paymentContainer"></div>
       <div>
-        <el-button @click="submitPayment" type="success" class="btn purple">
+        <el-button @click="submitPayment" :disabled="true" type="success" class="btn purple">
           Pay USD 10
         </el-button>
       </div>
@@ -24,7 +24,7 @@ export default defineComponent({
     return {
       clientToken: "",
       paymentInstance,
-      isReady: false,
+      isReady: false
     };
   },
   methods: {
@@ -54,6 +54,7 @@ export default defineComponent({
     submitPayment() {
       let self = this;
       if (!self.isReady) return;
+
       this.paymentInstance?.requestPaymentMethod().then((payload) => {
        // here submit everything to Server 
        //payload.nonce, amount
@@ -61,7 +62,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.getClientToken();
+  //  this.getClientToken();
   },
   beforeUnmount() {
     this.paymentInstance

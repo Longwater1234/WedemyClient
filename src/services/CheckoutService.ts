@@ -1,3 +1,4 @@
+import { PaymentObj } from "@/types";
 import http from "../axiosconfig";
 
 class CheckoutService {
@@ -6,7 +7,10 @@ class CheckoutService {
         return http.get("/checkout/token");
     }
 
-    
+    pay(load: PaymentObj) {
+        return http.post("/checkout/complete", load)
+    }
+
 
 }
 
