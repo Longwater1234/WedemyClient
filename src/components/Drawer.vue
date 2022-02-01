@@ -23,8 +23,8 @@
       <div style="margin: 1em" v-else>
         <el-avatar :src="attachAvatarLink(store.state.username)" :size="36">
         </el-avatar>
-        <span class="sidename">{{ store.state.username }}</span>
-        <div style="margin-top: 30px">
+        <span style="margin-left: 10px">{{ store.state.username }}</span>
+        <div style="margin-top: 2em">
           <el-row> My Account</el-row>
           <el-divider></el-divider>
           <el-row> My Wishlist</el-row>
@@ -33,7 +33,7 @@
           <el-divider></el-divider>
           <el-row> Billing History</el-row>
           <el-divider></el-divider>
-          <el-row> Logout</el-row>
+          <el-row @click="logout()"> Logout</el-row>
           <el-divider></el-divider>
         </div>
       </div>
@@ -42,6 +42,9 @@
 </template>
 
 <script lang="ts">
+import AuthService from "@/services/AuthService";
+import store from "@/store";
+import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -55,6 +58,15 @@ export default defineComponent({
   methods: {
     attachAvatarLink: (username: string) => {
       return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+    },
+    logout: async () => {
+      try {
+        await AuthService.logoutUser();
+        await store.getAuthStatusServer();
+        window.location.replace("/");
+      } catch (error: any) {
+        ElMessage.error(error.message);
+      }
     },
   },
 });

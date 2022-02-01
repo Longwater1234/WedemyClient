@@ -3,7 +3,7 @@
 
   <div class="main-view" style="height: 70vh">
     <!-- if nothing in wishlist -->
-    <div v-if="wishlistCount === 0" class="cart-view">
+    <div v-if="wishlistCount === 0" class="empty-view">
       <el-empty description="Your wishlist is empty :("></el-empty>
 
       <router-link to="/">
@@ -98,7 +98,7 @@ export default defineComponent({
   justify-content: center;
 }
 
-.cart-view {
+.empty-view {
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   padding: 32px;
