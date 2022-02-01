@@ -54,6 +54,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Course.vue"),
   },
   {
+    path: "/successpay",
+    name: "SuccessPay",
+    component: () => import("../views/SuccessPay.vue"),
+  },
+  {
     path: "/checkout",
     name: "Checkout",
     component: () => import("../views/Checkout.vue"),

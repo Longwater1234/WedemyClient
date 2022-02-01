@@ -1,5 +1,5 @@
 export type Course = {
-    id?: number;
+    id: number;
     author: string;
     title: string;
     price: number;
@@ -9,7 +9,7 @@ export type Course = {
 };
 
 export type User = {
-    id?: number;
+    id: number;
     email: string;
     fullname: string;
     password?: string;
@@ -26,5 +26,13 @@ export type Wishlist = {
 export type Lesson = {
     id: number;
     lessonName: string;
-    videokey?: string;
+    videokey: string;
 };
+
+/* for submitting Payment to server */
+export interface PaymentObj {
+    nonce: string,
+    paymentMethod: string,
+    totalAmount: string | number,
+    courses: number[] | unknown[],
+}

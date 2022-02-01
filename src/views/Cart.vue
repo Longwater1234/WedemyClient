@@ -1,7 +1,7 @@
 <template>
   <h3 class="cart-header">Your Cart ({{ store.getters.getCartCount }})</h3>
 
-  <div class="jojo">
+  <div class="jojo" v-loading="store.getters.isLoggedIn && isLoading">
     <div class="main-view" :class="{ wider: cartItems.length === 0 }">
       <!-- if nothing in cart -->
       <div v-if="!store.getters.getCartCount" class="empty-view">
@@ -38,10 +38,16 @@
       </div>
     </div>
     <!-- start of floaty card RIGHT -->
-    <div class="floaty" v-if="cartItems.length">
-      <cart-summary :totalPrice="totalPrice"></cart-summary>
-    </div>
+    
+  <!-- floaty card on right -->
+  <div class="floaty" v-if="cartItems.length">
+  <cart-summary
+    :courseArray="courseIdArray"
+    :totalPrice="totalPrice"
+  ></cart-summary>
+   </div>
   </div>
+
 </template>
 
 <script lang="ts">
@@ -94,8 +100,11 @@ export default defineComponent({
     CartSummary,
   },
   computed: {
-    totalPrice(): number {
-      return this.cartItems.map((x) => x.price).reduce((a, b) => a + b, 0);
+    totalPrice(): string {
+      return this.cartItems.map((x) => x.price).reduce((a, b) => a + b, 0).toFixed(2);
+    },
+    courseIdArray(): number[] {
+      return this.cartItems.map((c) => c.id);
     },
   },
 });
@@ -113,7 +122,6 @@ export default defineComponent({
   display: flex;
   width: 60%;
   flex-direction: column;
-  justify-content: center;
 }
 
 .empty-view {
@@ -160,7 +168,6 @@ export default defineComponent({
   overflow-x: hidden;
   overflow-y: hidden;
 }
-
 
 .cart-header {
   font-family: Georgia, "Times New Roman", Times, serif;

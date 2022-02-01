@@ -169,7 +169,7 @@ export default defineComponent({
     },
     handleSuccessCart(InCart: boolean) {
       this.InCart = !InCart;
-      store.getCartCountServer().then(() => {}); //refresh
+      store.getCartCountServer(); //refresh
       return ElNotification({
         type: "success",
         title: this.notifMessage,
