@@ -42,6 +42,7 @@
     @toggleCart="onToggleCart"
     style="margin-top: -300px"
     :InWishlist="InWishlist"
+    :IsOwned="isOwned"
     :InCart="InCart"
     :singleCourse="singleCourse"
   >
@@ -81,6 +82,7 @@
 import { defineComponent } from "vue";
 import CourseService from "@/services/CourseService";
 import LessonService from "@/services/LessonService";
+import EnrollService from "@/services/EnrollService";
 import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
 import { Lock } from "@element-plus/icons";
@@ -101,6 +103,7 @@ export default defineComponent({
       lessons: new Array<Lesson>(),
       InWishlist: false,
       InCart: false,
+      isOwned: false,
       singleCourse: {
         title: "",
         subtitle: "",
@@ -136,6 +139,16 @@ export default defineComponent({
       LessonService.getLessonsByCourse(courseId).then(
         (res) => (this.lessons = res.data)
       );
+    },
+    checkEnrollStatus(courseId: number) {
+      let self = this;
+      EnrollService.checkStatus(courseId)
+        .then((res) => (self.isOwned = res.data.isOwned))
+        .then(() => {
+          if (self.isOwned) return;
+          self.checkWishlistStatus(courseId);
+          self.checkCartStatus(courseId);
+        });
     },
     //listen for event from child
     onToggleWishlist(courseId: number) {
@@ -193,8 +206,7 @@ export default defineComponent({
     this.fetchSingleCourse(this.courseId);
     this.fetchObjectives(this.courseId);
     this.fetchLessonList(this.courseId);
-    store.getters.isLoggedIn && this.checkWishlistStatus(this.courseId);
-    store.getters.isLoggedIn && this.checkCartStatus(this.courseId);
+    store.getters.isLoggedIn && this.checkEnrollStatus(this.courseId);
   },
 });
 </script>
