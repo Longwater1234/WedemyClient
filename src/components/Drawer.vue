@@ -60,13 +60,9 @@ export default defineComponent({
       return `https://avatars.dicebear.com/api/initials/${username}.svg`;
     },
     logout: async () => {
-      try {
-        await AuthService.logoutUser();
-        await store.getAuthStatusServer();
-        window.location.replace("/");
-      } catch (error: any) {
-        ElMessage.error(error.message);
-      }
+      await AuthService.logoutUser();
+      await store.getAuthStatusServer();
+      window.location.replace("/");
     },
   },
 });
