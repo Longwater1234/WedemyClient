@@ -9,7 +9,9 @@
         />
       </div>
       <h1>${{ singleCourse.price }}</h1>
-      <div class="btn-block">
+
+      <!-- IF NOT OWN COURSE, show CART + WISHLIST Btn -->
+      <div v-if="!IsOwned" class="btn-block">
         <el-button
           id="cart-btn"
           :loading="isLoading"
@@ -30,6 +32,15 @@
           <!-- wishlist button -->
         </el-button>
       </div>
+
+      <!-- ELSE, direct to LESSONS -->
+      <div v-else>
+        <p class="grey-sub">You already own this course</p>
+        <el-button class="black btn">
+          Continue Learning <el-icon><arrow-right /></el-icon>
+        </el-button>
+      </div>
+
       <div>
         <h4>This course includes:</h4>
         <ul style="padding-left: 20px">
@@ -43,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { Star } from "@element-plus/icons";
+import { ArrowRight, Star } from "@element-plus/icons";
 import { defineComponent } from "vue";
 import store from "@/store";
 import { ElMessage } from "element-plus";
@@ -69,6 +80,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    IsOwned: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["toggleWishlist", "toggleCart"],
   methods: {
@@ -90,6 +105,7 @@ export default defineComponent({
   },
   components: {
     Star,
+    ArrowRight,
   },
   computed: {
     getBtnTitle(): string {
@@ -137,6 +153,10 @@ export default defineComponent({
 .black:hover {
   background-color: rgb(26, 26, 26) !important;
   color: white !important;
+}
+
+.grey-sub {
+  text-align: center;
 }
 
 #wishlist-btn {
