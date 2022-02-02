@@ -29,7 +29,8 @@ import { defineComponent } from "vue";
 import dropin, { Dropin } from "braintree-web-drop-in";
 import CheckoutService from "@/services/CheckoutService";
 import { ElMessage } from "element-plus";
-import {PaymentObj, Course} from "@/types"
+import { PaymentObj } from "@/types";
+import store from "@/store";
 
 export default defineComponent({
   name: "CartSummary",
@@ -84,30 +85,36 @@ export default defineComponent({
       this.isProcessing = true;
       this.paymentInstance?.requestPaymentMethod()
         .then((payload) => {
-          // here submit everything to Server   
-          let obj : PaymentObj = {
+          //CREATE PAYMENT OBJECT for Server
+          let obj: PaymentObj = {
             nonce: payload.nonce,
-            paymentMethod: String(payload.type).toUpperCase(),
+            paymentMethod: payload.type,
             totalAmount: this.totalPrice,
             courses: this.courseArray,
           };
           return obj;
         })
-        .then((obj) => this.processPayment(obj))
-        .catch((err) => ElMessage.error(err.message));
-    },
-    processPayment(obj: PaymentObj) {
-      CheckoutService.pay(obj)
-        .then((res) => this.$router.push("/"))
-        .catch((error) => ElMessage.error(error.response.data.message))
+        .then((obj) => CheckoutService.pay(obj))
+        .then((res) => this.handleSuccessPay(res))
+        .catch((err) => this.handleFailedPay(err))
         .finally(() => (this.isProcessing = false));
+    },
+    handleSuccessPay(res: any) {
+      store.getCartCountServer();
+      ElMessage.success(res.data.message);
+      this.$router.replace("/"); // <-REPLACE W/ DASHBOARD
+    },
+    handleFailedPay(err: any) {
+      let mama = err.response ? err.response.data.message : err.message;
+      ElMessage.error(mama);
     },
   },
   mounted() {
+    // from backend
     this.getClientToken();
   },
   beforeUnmount() {
-    //clear out Braintree
+    //clean up
     this.paymentInstance?.teardown();
   },
 });

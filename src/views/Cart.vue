@@ -37,17 +37,15 @@
         </el-row>
       </div>
     </div>
-    <!-- start of floaty card RIGHT -->
-    
-  <!-- floaty card on right -->
-  <div class="floaty" v-if="cartItems.length">
-  <cart-summary
-    :courseArray="courseIdArray"
-    :totalPrice="totalPrice"
-  ></cart-summary>
-   </div>
+  
+    <!-- floaty card on right -->
+    <div class="floaty" v-if="cartItems.length">
+      <cart-summary
+        :courseArray="courseIdArray"
+        :totalPrice="totalPrice"
+      ></cart-summary>
+    </div>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -101,7 +99,10 @@ export default defineComponent({
   },
   computed: {
     totalPrice(): string {
-      return this.cartItems.map((x) => x.price).reduce((a, b) => a + b, 0).toFixed(2);
+      return this.cartItems
+        .map((x) => x.price)
+        .reduce((a, b) => a + b, 0)
+        .toFixed(2);
     },
     courseIdArray(): number[] {
       return this.cartItems.map((c) => c.id);
