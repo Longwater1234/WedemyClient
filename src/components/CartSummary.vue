@@ -5,117 +5,39 @@
       <div>
         <h2>${{ totalPrice }}</h2>
       </div>
-      <div id="paymentContainer"></div>
       <div>
-        <el-button
-          @click="submitPayment"
-          :disabled="!isReady"
-          :loading="isProcessing"
-          id="checkout-btn"
-          class="btn purple"
-        >
-          Complete Payment
-        </el-button>
+        <router-link to="/checkout">
+          <el-button id="checkout-btn" class="btn purple">
+            Proceed to Checkout <arrow-right style="width: 1em"></arrow-right>
+          </el-button>
+        </router-link>
       </div>
       <div class="footnote">
-        <p>Payments are securely handled by Braintree (a PayPal Service)</p>
+        <p>Accepting all major credit cards and PayPal.</p>
       </div>
     </el-card>
   </el-affix>
 </template>
 
 <script lang="ts">
+import { ArrowRight } from "@element-plus/icons";
 import { defineComponent } from "vue";
-import dropin, { Dropin } from "braintree-web-drop-in";
-import CheckoutService from "@/services/CheckoutService";
-import { ElMessage } from "element-plus";
-import { PaymentObj } from "@/types";
-import store from "@/store";
 
 export default defineComponent({
   name: "CartSummary",
   data() {
-    let paymentInstance: Dropin | undefined;
     return {
-      clientToken: "",
-      paymentInstance,
-      isReady: false,
-      isProcessing: false,
+      cartPrice: 0.0,
     };
   },
   props: {
     totalPrice: {
-      type: String,
+      type: Number,
       default: 0,
     },
-    courseArray: {
-      type: Array,
-      default: [],
-    },
   },
-  methods: {
-    getClientToken() {
-      CheckoutService.getToken()
-        .then((res) => (this.clientToken = res.data.clientToken))
-        .then(() => this.initializePayment(this.clientToken))
-        .catch((error) => ElMessage.error(error.message));
-    },
-    //automatic onLoad
-    initializePayment(token: string) {
-      const self = this;
-      dropin.create({
-          authorization: token,
-          container: "#paymentContainer",
-          paypal: {
-            flow: "checkout",
-            amount: self.totalPrice,
-            currency: "USD",
-          },
-        })
-        .then((instance: any) => {
-          self.paymentInstance = instance;
-          self.isReady = true;
-        })
-        .catch((error) => console.error(error));
-    },
-    //on button click
-    submitPayment() {
-      let self = this;
-      if (!self.isReady) return;
-      this.isProcessing = true;
-      this.paymentInstance?.requestPaymentMethod()
-        .then((payload) => {
-          //CREATE PAYMENT OBJECT for Server
-          let obj: PaymentObj = {
-            nonce: payload.nonce,
-            paymentMethod: payload.type,
-            totalAmount: this.totalPrice,
-            courses: this.courseArray,
-          };
-          return obj;
-        })
-        .then((obj) => CheckoutService.pay(obj))
-        .then((res) => this.handleSuccessPay(res))
-        .catch((err) => this.handleFailedPay(err))
-        .finally(() => (this.isProcessing = false));
-    },
-    handleSuccessPay(res: any) {
-      store.getCartCountServer();
-      ElMessage.success(res.data.message);
-      this.$router.replace("/"); // <-REPLACE W/ DASHBOARD
-    },
-    handleFailedPay(err: any) {
-      let mama = err.response ? err.response.data.message : err.message;
-      ElMessage.error(mama);
-    },
-  },
-  mounted() {
-    // from backend
-    this.getClientToken();
-  },
-  beforeUnmount() {
-    //clean up
-    this.paymentInstance?.teardown();
+  components: {
+    ArrowRight,
   },
 });
 </script>

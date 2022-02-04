@@ -2,6 +2,9 @@
 
 Clone of Udemy, built using Vue 3 + Typescript + Element Plus + Injector/Provider API (No Vuex!). All pages and components have been built with Options API, despite Vue 3. This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree**).
 
+## Live Demo (coming soon)
+The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual moeny will be deducted on Checkout. You may use test credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).
+
 ## Main `npm` Libraries used
 
 - Axios

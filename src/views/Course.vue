@@ -62,9 +62,9 @@
   <!--  START OF lessons-->
   <div class="course-info">
     <h2>Course Content</h2>
-    <el-collapse v-model="activeName">
+    <el-collapse>
       <el-collapse-item
-        :title="`${lessonCount} lectures in this course`"
+       :title="`${lessonCount} lectures in this course`"     
         name="1"
       >
         <ul class="lessonlist">
