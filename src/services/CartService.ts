@@ -18,7 +18,7 @@ class CartService {
   }
 
   checkItemInCart(courseId: number) {
-    return http.get(`/cart/mine/course/${courseId}`);
+    return http.get(`/cart/status/c/${courseId}`);
   }
 }
 
