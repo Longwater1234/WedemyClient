@@ -88,8 +88,8 @@
               <el-dropdown-item @click="goWishlist()">
                 My Wishlist
               </el-dropdown-item>
-              <el-dropdown-item>My Courses</el-dropdown-item>
-              <el-dropdown-item>Billing History</el-dropdown-item>
+              <el-dropdown-item>My Learning</el-dropdown-item>
+              <el-dropdown-item>Purchase History</el-dropdown-item>
               <el-dropdown-item @click="logout()">Logout</el-dropdown-item>
             </el-dropdown-menu>
           </template>
