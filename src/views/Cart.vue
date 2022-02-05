@@ -186,6 +186,10 @@ export default defineComponent({
   }
   .cart-header {
     padding: 5% 10%;
+    height: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .w-card {

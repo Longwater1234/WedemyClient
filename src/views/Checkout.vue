@@ -1,7 +1,7 @@
 <template>
   <h3 class="cart-header">Checkout</h3>
-  <div class="main-view-checkout">
-    <div style="width: 50%; border: 2px solid grey">
+  <el-card class="main-view-checkout" :body-style="{ width: '80%' }">
+    <div style="">
       <div id="paymentContainer"></div>
       <div>
         <el-button
@@ -11,29 +11,30 @@
           id="checkout-btn"
           class="btn purple"
         >
-          Complete Payment
+          PAY NOW ${{ totalPrice }}
         </el-button>
       </div>
-      <!-- order summary here  -->
-      <div class="order-brief">
-        <el-collapse v-model="activeName">
-          <el-collapse-item
-           :style="{fontSize: '16px'}"
-           :title="`Order Summary`"
-            name="1"
-          >
-            <div class="cartlist">
-              <p class="carty" v-for="course in cartItems" :key="course.id">
-                {{ course.title }}
-                <el-divider></el-divider>
-              </p>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-      <!-- end of summary -->
     </div>
+  </el-card>
+
+  <!-- order summary here  -->
+  <div class="order-brief">
+    <el-collapse v-model="activeName">
+      <el-collapse-item
+        :style="{ fontSize: '16px' }"
+        :title="`Order Summary`"
+        name="1"
+      >
+        <div class="cartlist">
+          <div class="carty" v-for="course in cartItems" :key="course.id">
+            <div>{{ course.title }}</div>
+            <el-divider></el-divider>
+          </div>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
   </div>
+  <!-- end of summary -->
 </template>
 
 <script lang="ts">
@@ -51,6 +52,7 @@ export default defineComponent({
     const cartItems = new Array<Course>();
     return {
       clientToken: "",
+      activeName: "",
       paymentInstance,
       isReady: false,
       isLoading: false,
@@ -156,9 +158,9 @@ export default defineComponent({
 .main-view-checkout {
   text-align: center;
   display: flex;
-  margin: 0, 0;
+  margin: 0 auto;
   flex-direction: row;
-  width: 80vw;
+  width: 30vw;
   justify-content: center;
 }
 
@@ -166,11 +168,44 @@ export default defineComponent({
   color: rgb(75, 75, 75);
   text-align: left;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 #checkout-btn {
-  width: 80% important;
+  width: 50% important;
   text-align: center;
+}
+
+.order-brief {
+  margin: 2em auto;
+  display: flex;
+  width: 30vw;
+  flex-direction: column;
+  justify-self: center;
+}
+
+.total-x {
+  text-align: center;
+  margin: 0 auto;
+  width: 100vw;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 600px) {
+  .main-view-checkout,
+  .order-brief {
+    width: 90vw;
+  }
+
+  .carty {
+    font-size: 14px;
+  }
+
+  .cart-header {
+    height: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 </style>

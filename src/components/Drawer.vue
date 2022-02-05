@@ -25,15 +25,15 @@
         </el-avatar>
         <span style="margin-left: 10px">{{ store.state.username }}</span>
         <div style="margin-top: 2em">
-          <el-row> My Account</el-row>
+          <el-row>My Account</el-row>
           <el-divider></el-divider>
-          <el-row> My Wishlist</el-row>
+          <el-row>My Wishlist</el-row>
           <el-divider></el-divider>
-          <el-row> My Courses</el-row>
+          <el-row>My Learning</el-row>
           <el-divider></el-divider>
-          <el-row> Billing History</el-row>
+          <el-row>Purchase History</el-row>
           <el-divider></el-divider>
-          <el-row @click="logout()"> Logout</el-row>
+          <el-row @click="logout()">Logout</el-row>
           <el-divider></el-divider>
         </div>
       </div>
@@ -44,7 +44,6 @@
 <script lang="ts">
 import AuthService from "@/services/AuthService";
 import store from "@/store";
-import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -74,6 +73,11 @@ export default defineComponent({
   height: 30px;
   margin-top: 0.25em;
 }
+
+.drawer-item:hover {
+  background-color: rgb(197, 197, 197);
+}
+
 .hamburger {
   width: 100%;
   height: 100%;
