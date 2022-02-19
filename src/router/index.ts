@@ -14,16 +14,21 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Cart.vue"),
   },
   {
-    path: "/wishlist",
+    path: "/account/wishlist",
     name: "Wishlist",
-    component: () => import("../views/Wishlist.vue"),
+    component: () => import("../views/personal/Wishlist.vue"),
+    beforeEnter: (to, from, next) => {
+      let isLoggedIn = store.getters.isLoggedIn;
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
   },
   {
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
-    beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+    beforeEnter: (to, from, next) => {
+      let isLoggedIn = store.getters.isLoggedIn;
       if (isLoggedIn) next({ name: "Home" });
       else next();
     },

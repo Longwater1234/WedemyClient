@@ -84,12 +84,15 @@
               <el-dropdown-item disabled>
                 {{ store.state.username }}
               </el-dropdown-item>
-              <el-dropdown-item divided>My Account</el-dropdown-item>
-              <el-dropdown-item @click="goWishlist()">
-                My Wishlist
+              <el-dropdown-item divided></el-dropdown-item>
+              <!-- NAV BAR DROPDOWN -->
+              <el-dropdown-item
+                v-for="item in navMenuList"
+                :key="item.id"
+                @click="goTo(item.url)"
+              >
+                {{ item.title }}
               </el-dropdown-item>
-              <el-dropdown-item>My Learning</el-dropdown-item>
-              <el-dropdown-item>Purchase History</el-dropdown-item>
               <el-dropdown-item @click="logout()">Logout</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -106,6 +109,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { ElMessage, ElNotification } from "element-plus";
 import { ShoppingCart } from "@element-plus/icons";
 import Drawer from "./Drawer.vue";
+import navMenuList from "@/navmenu.json";
 
 export default defineComponent({
   name: "Navbar",
@@ -125,6 +129,7 @@ export default defineComponent({
     return {
       search: "",
       color: "black",
+      navMenuList,
     };
   },
   methods: {
@@ -147,8 +152,8 @@ export default defineComponent({
         force: true,
       });
     },
-    goWishlist() {
-      this.$router.push("/wishlist");
+    goTo(url: string) {
+      this.$router.push(url);
     },
     logout: async () => {
       try {

@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "title": "My Account",
+        "url": "/account"
+    },
+    {
+        "id": 2,
+        "title": "My Wishlist",
+        "url": "/account/wishlist"
+    },
+    {
+        "id": 3,
+        "title": "My Learning",
+        "url": "/account/learning"
+    },
+    {
+        "id": 4,
+        "title": "Purchase History",
+        "url": "/account/purchase-history"
+    }
+]

@@ -16,5 +16,5 @@ The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual moeny will be
 ## External services used
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
 - [Braintree](https://developer.paypal.com/braintree/docs) / PayPal Developer Account (for payments handling)
-- IMPORTANT ⚠: Make sure you obtain the API Client Keys from both services above and store them in `.env` file (see _.env.sample_)
+- IMPORTANT ⚠: Remember to create an `.env` file and fill in values appropriately (see _.env.sample_)
 - Also, remember to specify *SERVER_ROOT_URL* inside `.env`, which points to your backend.
