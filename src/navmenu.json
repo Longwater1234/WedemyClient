@@ -1,8 +1,8 @@
 [
     {
         "id": 1,
-        "title": "My Account",
-        "url": "/account"
+        "title": "My Profile",
+        "url": "/account/profile"
     },
     {
         "id": 2,

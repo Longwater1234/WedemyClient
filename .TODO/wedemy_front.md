@@ -12,11 +12,15 @@
 - [x] Login, Logout, wishlist to server.
 - [x] View all Wislist Items
 - [x] Lessons.
-- [ ] _Checkout_ -> Paypal, credit card, Transactions.
-- [ ] Descriptions
+- [x] _Checkout_ -> Paypal, credit card, Transactions.
+- [x] Descriptions
 - [ ] Reviews
-- [ ] Categories homepage. use clipart images.
-
+- [x] Categories homepage. use clipart images.
+- [ ] Show Purchase History
+- [ ] Export reciept to PDF
+- [ ] View all courses owned in Profile
+- [ ] MAIN video player - single course
+- [ ] Edit/View Profile 
 
 ### SIDEBAR MENU (if signed in)
 - avatar + name

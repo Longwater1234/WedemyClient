@@ -14,16 +14,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Cart.vue"),
   },
   {
-    path: "/account/wishlist",
-    name: "Wishlist",
-    component: () => import("../views/personal/Wishlist.vue"),
-    beforeEnter: (to, from, next) => {
-      let isLoggedIn = store.getters.isLoggedIn;
-      if (!isLoggedIn) next({ name: "Login" });
-      else next();
-    },
-  },
-  {
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
@@ -61,12 +51,32 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/checkout",
     name: "Checkout",
+    component: () => import("../views/Checkout.vue"),
     beforeEnter: (to, from, next) => {
       let itemCount = store.state.cartCount;
       if (itemCount === 0) next({ name: "Home" });
       else next();
     },
-    component: () => import("../views/Checkout.vue"),
+  },
+  {
+    path: "/account/wishlist",
+    name: "Wishlist",
+    component: () => import("../views/personal/Wishlist.vue"),
+    beforeEnter: (to, from, next) => {
+      let isLoggedIn = store.getters.isLoggedIn;
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
+  },
+  {
+    path: "/account/purchase-history",
+    name: "PurchaseHistory",
+    component: () => import("../views/personal/PurchaseHistory.vue"),
+    beforeEnter: (to, from, next) => {
+      let isLoggedIn = store.getters.isLoggedIn;
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
   },
   {
     path: "/:pathMatch(.*)*",
