@@ -16,6 +16,7 @@
 - [x] Descriptions
 - [ ] Reviews
 - [x] Categories homepage. use clipart images.
+- [ ] Axios interceptors (global error handling)
 - [ ] Show Purchase History
 - [ ] Export reciept to PDF
 - [ ] View all courses owned in Profile

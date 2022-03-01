@@ -1,3 +1,3 @@
-### today 2022.02.01
-- completed braintree integration + checkout
-- added items on Drawer menu
+### today 2022.03.01
+- removed _personal_ folder
+- purchase history table completed
