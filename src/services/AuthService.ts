@@ -29,7 +29,8 @@ class AuthService {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "X-Requested-With": "XMLHttpRequest"
-      }
+      },
+      timeout: 5000
     };
 
     return axios.post(process.env.VUE_APP_SERVER_ROOT_URL + "login", params, options);

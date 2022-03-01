@@ -36,3 +36,12 @@ export interface PaymentObj {
     totalAmount: string | number,
     courses: number[] | unknown[],
 }
+
+/* for purchaseHistory page  */
+export interface Sale {
+    transactionId: string;
+    createdAt: string;
+    paymentMethod: string;
+    totalPaid: number;
+    numOfItems: number;
+}

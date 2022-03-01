@@ -131,5 +131,6 @@ export default defineComponent({
 
 .course-box{
   border: none !important;
+  width: 60%;
 }
 </style>

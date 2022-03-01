@@ -1,5 +1,20 @@
 <template>
   <h3 class="cart-header">Checkout</h3>
+  <el-alert type="warning" center effect="dark">
+    <p style="font-family: sans-serif; font-weight: bold">
+      This is SANDBOX (TEST) MODE of Braintree Payments. Please use any of these
+      <a
+        href="https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/"
+        target="_blank"
+        rel="noopener"
+      >
+        test credit-card numbers.
+      </a>
+      Real CC info will NOT work.
+    </p>
+  </el-alert>
+
+  <!-- START OF PAYMENT BOX -->
   <el-card class="main-view-checkout" :body-style="{ width: '80%' }">
     <div style="">
       <div id="paymentContainer"></div>
@@ -25,12 +40,12 @@
         :title="`Order Summary`"
         name="1"
       >
-        <div class="cartlist">
+        <ol class="cartlist">
           <div class="carty" v-for="course in cartItems" :key="course.id">
-            <div>{{ course.title }}</div>
+            <li>{{ course.title }}</li>
             <el-divider></el-divider>
           </div>
-        </div>
+        </ol>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -67,13 +82,15 @@ export default defineComponent({
         .then(() => this.initializePayment(this.clientToken))
         .catch((error) => ElMessage.error(error.message));
     },
-    //automatic onLoad
+
+    //automatic onLoad, AFTER above^
     initializePayment(token: string) {
       const self = this;
       dropin.create({
           authorization: token,
           container: "#paymentContainer",
           paypal: {
+            //OPTIONAL
             flow: "checkout",
             amount: self.totalPrice,
             currency: "USD",
@@ -85,10 +102,10 @@ export default defineComponent({
         })
         .catch((error) => console.error(error));
     },
-    //on button click
+
+    //on PAY button click
     submitPayment() {
-      let self = this;
-      if (!self.isReady) return;
+      if (!this.isReady) return;
       this.isProcessing = true;
       this.paymentInstance?.requestPaymentMethod()
         .then((payload) => {
@@ -103,19 +120,22 @@ export default defineComponent({
         })
         .then((obj) => CheckoutService.pay(obj))
         .then((res) => this.handleSuccessPay(res))
-        .catch((err) => this.handleFailedPay(err))
+        .catch((err) => this.handleError(err))
         .finally(() => (this.isProcessing = false));
     },
+
     handleSuccessPay(res: any) {
       store.getCartCountServer();
       ElMessage.success(res.data.message);
       //TODO REPLACE WITH DASHOBARD
       this.$router.replace("/");
     },
-    handleFailedPay(err: any) {
+
+    handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
     },
+
     fetchCartItems() {
       CartService.getAllMine()
         .then((res) => (this.cartItems = res.data))
@@ -133,8 +153,7 @@ export default defineComponent({
   },
   computed: {
     totalPrice(): string {
-      return this.cartItems
-        .map((x) => x.price)
+      return this.cartItems.map((x) => x.price)
         .reduce((a, b) => a + b, 0)
         .toFixed(2);
     },
@@ -158,7 +177,7 @@ export default defineComponent({
 .main-view-checkout {
   text-align: center;
   display: flex;
-  margin: 0 auto;
+  margin: 2em auto;
   flex-direction: row;
   width: 30vw;
   justify-content: center;

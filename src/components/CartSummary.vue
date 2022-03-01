@@ -8,7 +8,7 @@
       <div>
         <router-link to="/checkout">
           <el-button id="checkout-btn" class="btn purple">
-            Proceed to Checkout <arrow-right style="width: 1em"></arrow-right>
+            Proceed to Checkout <arrow-right style="width: 1em"/>
           </el-button>
         </router-link>
       </div>
