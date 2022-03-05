@@ -114,5 +114,10 @@ export default defineComponent({
     width: 100%;
     height: 200px;
   }
+
+  .main-body {
+    width: 100% !important;
+  }
+
 }
 </style>
