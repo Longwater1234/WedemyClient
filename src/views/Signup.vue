@@ -94,7 +94,7 @@
 
       <div style="margin-top: 13px">
         Already have an account?
-        <router-link to="/login" class="none" :style="{ fontWeight: '800' }">
+        <router-link to="/login" :style="{ fontWeight: '800' }">
           LogIn
         </router-link>
       </div>

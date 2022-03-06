@@ -25,16 +25,15 @@
         </el-avatar>
         <span style="margin-left: 10px">{{ store.state.username }}</span>
         <div style="margin-top: 2em">
-          <el-row>My Account</el-row>
-          <el-divider></el-divider>
-          <el-row>My Wishlist</el-row>
-          <el-divider></el-divider>
-          <el-row>My Learning</el-row>
-          <el-divider></el-divider>
-          <el-row>Purchase History</el-row>
-          <el-divider></el-divider>
+          <el-row
+            v-for="item in navMenuList"
+            :key="item.id"
+            @click="goTo(item.url)"
+          >
+            {{ item.title }}
+            <el-divider />
+          </el-row>
           <el-row @click="logout()">Logout</el-row>
-          <el-divider></el-divider>
         </div>
       </div>
     </el-drawer>
@@ -45,6 +44,7 @@
 import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { defineComponent } from "vue";
+import navMenuList from "@/navmenu.json";
 
 export default defineComponent({
   name: "Drawer",
@@ -52,6 +52,7 @@ export default defineComponent({
   data() {
     return {
       launch: false,
+      navMenuList,
     };
   },
   methods: {
@@ -62,6 +63,9 @@ export default defineComponent({
       await AuthService.logoutUser();
       await store.getAuthStatusServer();
       window.location.replace("/");
+    },
+    goTo(url: string) {
+      this.$router.push(url);
     },
   },
 });

@@ -79,9 +79,22 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/account/purchase-history/view/:id(\\w+)",
+    name: "Receipt",
+    component: () => import("../views/Receipt.vue"),
+    beforeEnter: async (to, from, next) => {
+      let isLoggedIn = await store.getAuthStatusServer();
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
+    meta: {
+      hideNavbar: true,
+    },
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("../views/NotFound404.vue"),
+    component: () => import("../views/Error404.vue"),
     meta: {
       hideNavbar: true,
     },
