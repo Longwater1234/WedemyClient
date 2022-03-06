@@ -37,6 +37,7 @@
         </el-row>
       </div>
     </div>
+    <!-- END OF CARD LIST -->
 
     <!-- floaty card on right -->
     <div class="floaty" v-if="cartItems.length">

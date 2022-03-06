@@ -14,6 +14,7 @@
     </div>
 
     <div v-else>
+      <!-- START CARD LIST -->
       <el-row v-for="course in wishlistItems" :key="course.id">
         <el-space size="large" direction="vertical">
           <el-card class="w-card" shadow="hover">

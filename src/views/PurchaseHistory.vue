@@ -21,20 +21,19 @@
       </div>
       <!-- dialog footer -->
       <template #footer>
-        <span class="dialog-footer">
-          <el-button type="primary" @click="dialogVisible = false"
-            >Done</el-button
-          >
-        </span>
+        <el-button type="primary" @click="dialogVisible = false">
+          Done
+        </el-button>
       </template>
     </el-dialog>
+    <!-- END OF DIALOG -->
 
     <!-- TABLE START -->
     <div class="salesList" v-if="sales.length > 0" v-loading="isLoading">
       <el-table id="myTable" :data="sales" stripe style="width: 100%">
         <el-table-column
           prop="transactionId"
-          label="Transaction ID"
+          label="Transcation No."
           width="180"
         />
         <el-table-column
@@ -55,15 +54,32 @@
             >
               <info-filled style="width: 1em" /> Details
             </el-button>
-            <!-- RECIEPT -->
-            <el-button size="small">
-              <document style="width: 1em" /> Receipt
-            </el-button>
+
+            <!-- RECEIPT -->
+            <router-link
+              :to="{ name: 'Receipt', params: { id: scope.row.transactionId } }"
+              target="_blank"
+              class="link-receipt"
+            >
+              <el-button size="small">
+                <document style="width: 1em" /> Receipt
+              </el-button>
+            </router-link>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <!-- TABLE END -->
+
+    <!-- if nothing in PurchaseHistory  -->
+    <div v-else class="empty-view">
+      <el-empty description="You haven't bought anything yet!"></el-empty>
+      <router-link to="/">
+        <el-button plain class="btn purple" style="width: 15em">
+          Keep shopping
+        </el-button>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -92,7 +108,14 @@ export default defineComponent({
         .finally(() => (isLoading.value = false));
     };
 
-    const fetchItemsByTransactionId = (id: string) => {
+    /** format date */
+    const formatter = (row: Sale, column: TableColumnCtx<Sale>) => {
+      return new Date(row.createdAt).toDateString();
+    };
+
+    /** fetch specific transaction by ID */
+    const handleView = (id: string) => {
+      dialogVisible.value = true;
       courseLoading.value = true;
       EnrollService.getItemsByTransactionId(id)
         .then((res) => (courseList.value = res.data))
@@ -100,14 +123,8 @@ export default defineComponent({
         .finally(() => (courseLoading.value = false));
     };
 
-    /** format date */
-    const formatter = (row: Sale, column: TableColumnCtx<Sale>) => {
-      return new Date(row.createdAt).toDateString();
-    };
-
-    const handleView = (transactionId: string) => {
-      dialogVisible.value = true;
-      fetchItemsByTransactionId(transactionId);
+    const viewReceipt = (transactionId: string) => {
+      console.log(transactionId);
     };
 
     onMounted(() => {
@@ -122,6 +139,7 @@ export default defineComponent({
       dialogVisible,
       serverError,
       formatter,
+      viewReceipt,
       handleView,
     };
   },
@@ -147,8 +165,21 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-.el-dialog, #myDialog {
+.el-dialog,
+#myDialog {
   width: 30% !important;
+}
+
+.link-receipt {
+  text-decoration: none !important;
+  margin-left: 1em;
+}
+
+.empty-view {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  padding: 32px;
+  text-align: center;
 }
 
 @media screen and (max-width: 600px) {
@@ -170,7 +201,8 @@ export default defineComponent({
     flex-wrap: wrap;
   }
 
-  .el-dialog, #myDialog {
+  .el-dialog,
+  #myDialog {
     width: 80% !important;
   }
 }

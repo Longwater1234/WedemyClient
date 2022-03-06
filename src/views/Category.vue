@@ -10,12 +10,13 @@
     >
     </el-alert>
 
+     <div v-loading="isLoading"></div>
+
     <!-- START COURSE CARD -->
     <div class="course-box" :style="{ borderRadius: baseRadius }">
       <el-space
         direction="vertical"
         alignment="start"
-        v-loading="isLoading"
         :size="30"
         style="margin-top: 2%; margin-left: 10%"
       >
