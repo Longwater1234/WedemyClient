@@ -14,6 +14,8 @@
     </p>
   </el-alert>
 
+  <el-alert type="error" v-if="payError.length" :closable="false" :title="payError"/>
+
   <!-- START OF PAYMENT BOX -->
   <el-card class="main-view-checkout" :body-style="{ width: '80%' }">
     <div style="">
@@ -73,6 +75,7 @@ export default defineComponent({
       isLoading: false,
       isProcessing: false,
       cartItems,
+      payError: ""
     };
   },
   methods: {
@@ -133,7 +136,7 @@ export default defineComponent({
 
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
-      ElMessage.error(mama);
+      this.payError = mama;
     },
 
     fetchCartItems() {
