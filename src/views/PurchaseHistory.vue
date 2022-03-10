@@ -54,17 +54,6 @@
             >
               <info-filled style="width: 1em" /> Details
             </el-button>
-
-            <!-- RECEIPT -->
-            <router-link
-              :to="{ name: 'Receipt', params: { id: scope.row.transactionId } }"
-              target="_blank"
-              class="link-receipt"
-            >
-              <el-button size="small">
-                <document style="width: 1em" /> Receipt
-              </el-button>
-            </router-link>
           </template>
         </el-table-column>
       </el-table>
@@ -123,9 +112,6 @@ export default defineComponent({
         .finally(() => (courseLoading.value = false));
     };
 
-    const viewReceipt = (transactionId: string) => {
-      console.log(transactionId);
-    };
 
     onMounted(() => {
       fetchMyPurchaseHistory();
@@ -139,7 +125,6 @@ export default defineComponent({
       dialogVisible,
       serverError,
       formatter,
-      viewReceipt,
       handleView,
     };
   },
