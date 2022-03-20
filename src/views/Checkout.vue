@@ -14,23 +14,21 @@
     </p>
   </el-alert>
 
-  <el-alert type="error" v-if="payError.length" :closable="false" :title="payError"/>
+  <el-alert type="error" v-if="payError.length" :title="payError" />
 
   <!-- START OF PAYMENT BOX -->
   <el-card class="main-view-checkout" :body-style="{ width: '80%' }">
-    <div style="">
-      <div id="paymentContainer"></div>
-      <div>
-        <el-button
-          @click="submitPayment"
-          :disabled="!isReady"
-          :loading="isProcessing"
-          id="checkout-btn"
-          class="btn purple"
-        >
-          PAY NOW ${{ totalPrice }}
-        </el-button>
-      </div>
+    <div id="paymentContainer"></div>
+    <div>
+      <el-button
+        @click="submitPayment"
+        :disabled="!isReady"
+        :loading="isProcessing"
+        id="checkout-btn"
+        class="btn purple"
+      >
+        PAY NOW ${{ totalPrice }}
+      </el-button>
     </div>
   </el-card>
 
@@ -75,7 +73,7 @@ export default defineComponent({
       isLoading: false,
       isProcessing: false,
       cartItems,
-      payError: ""
+      payError: "",
     };
   },
   methods: {

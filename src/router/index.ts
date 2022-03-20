@@ -17,8 +17,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
-    beforeEnter: (to, from, next) => {
-      let isLoggedIn = store.getters.isLoggedIn;
+    beforeEnter: async (to, from, next) => {
+      let isLoggedIn = await store.getAuthStatusServer()
       if (isLoggedIn) next({ name: "Home" });
       else next();
     },
@@ -27,8 +27,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/signup",
     name: "SignUp",
     component: () => import("../views/Signup.vue"),
-    beforeEnter: (to, from, next) => {
-      let isLoggedIn = store.getters.isLoggedIn;
+    beforeEnter: async (to, from, next) => {
+      let isLoggedIn = await store.getAuthStatusServer();
       if (isLoggedIn) next({ name: "Home" });
       else next();
     },
@@ -59,11 +59,21 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/account/profile",
+    name: "Profile",
+    component: () => import("../views/MyAccount.vue"),
+    beforeEnter: async (to, from, next) => {
+      let isLoggedIn = await store.getAuthStatusServer()
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
+  },
+  {
     path: "/account/wishlist",
     name: "Wishlist",
     component: () => import("../views/Wishlist.vue"),
-    beforeEnter: (to, from, next) => {
-      let isLoggedIn = store.getters.isLoggedIn;
+    beforeEnter: async (to, from, next) => {
+      let isLoggedIn = await store.getAuthStatusServer()
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },

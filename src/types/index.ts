@@ -45,3 +45,10 @@ export interface Sale {
     totalPaid: number;
     numOfItems: number;
 }
+
+/** for Password Reset */
+export interface PasswordRequest {
+    currentPass: string,
+    newPass: string,
+    confirmPass: string
+}

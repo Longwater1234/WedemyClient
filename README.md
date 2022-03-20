@@ -13,8 +13,8 @@ The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual money will be
 - validator.js
 - [Braintree Web Drop-in ](https://www.npmjs.com/package/braintree-web-drop-in)
 
-## External services used
-- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
+## Required 3rd party API Keys
+- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
 - [Braintree](https://developer.paypal.com/braintree/docs) AND PayPal Developer Account (for payments handling)
 - IMPORTANT ⚠: Remember to create an `.env` file and fill in values appropriately (see _.env.sample_)
 - Also, remember to specify *SERVER_ROOT_URL* inside `.env`, which points to your backend.

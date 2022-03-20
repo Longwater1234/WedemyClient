@@ -1,4 +1,4 @@
-import { User } from "@/types";
+import { PasswordRequest, User } from "@/types";
 import axios from "axios";
 import http from "../axiosconfig";
 
@@ -17,7 +17,7 @@ class AuthService {
     return http.post(url, null, options);
   }
 
-  
+
   /**  Targets FormLogin of backend server  */
   loginUserForm(email: string, password: string) {
     const params = new URLSearchParams();
@@ -45,7 +45,16 @@ class AuthService {
       confirmPass
     });
   }
-  
+
+  //TODO Base64 encode the fields before send
+  changePassword({ currentPass, newPass, confirmPass }: PasswordRequest) {
+    return http.post("/profile/changepassword", {
+      currentPass,
+      newPass,
+      confirmPass
+    })
+  }
+
   /** Obviously does what it says */
   logoutUser() {
     return http.post("/logout");
