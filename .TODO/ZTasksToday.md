@@ -1,3 +1,5 @@
-### today 2022.03.01
-- removed _personal_ folder
-- purchase history table completed
+### today 2022.0.20
+
+- purchase history is OK on mobile
+- profile is completed
+- axios interceptors work

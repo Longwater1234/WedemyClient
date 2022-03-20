@@ -10,7 +10,7 @@
       :closable="false"
     ></el-alert>
     <!-- TODO: ADD GRIDVIEw for results HERE -->
-    
+
     <!-- START COURSE CARD -->
     <div class="course-box">
       <el-space
@@ -73,7 +73,7 @@ export default defineComponent({
     return {
       searchQuery: "",
       isLoading: false,
-       baseRadius: "var(--el-border-radius-base)",
+      baseRadius: "var(--el-border-radius-base)",
       serverError: "",
       courses: Array<Course>(),
     };
@@ -129,7 +129,7 @@ export default defineComponent({
   padding-bottom: 10px;
 }
 
-.course-box{
+.course-box {
   border: none !important;
   width: 60%;
 }

@@ -108,7 +108,7 @@ export default defineComponent({
 
 .w-card {
   width: 40em;
-  height: min-content;
+  height: max-content;
 }
 
 .w-thumb {
@@ -173,6 +173,7 @@ export default defineComponent({
 
   .w-delete {
     margin-left: 20em;
+    bottom: 1em;
     font-size: small;
   }
 }

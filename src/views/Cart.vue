@@ -205,7 +205,7 @@ export default defineComponent({
 
   .w-delete {
     margin-left: 20em;
-    bottom: 10px;
+    bottom: 1em;
     font-size: 20px;
   }
 

@@ -32,7 +32,7 @@
         :rules="rules"
         ref="signupForm"
       >
-        <el-form-item style="margin-top: 10px" prop="fullname">
+        <el-form-item style="margin-top: 10px" prop="fullname" required>
           <el-input
             placeholder="Name"
             v-model="signupForm.fullname"
@@ -44,7 +44,7 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="email">
+        <el-form-item prop="email" required>
           <el-input
             placeholder="E-mail"
             native-type="email"
@@ -56,7 +56,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item prop="password">
+        <el-form-item prop="password" required>
           <el-input
             type="password"
             placeholder="Password"
@@ -68,7 +68,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item prop="confirmPass">
+        <el-form-item prop="confirmPass" required>
           <el-input
             placeholder="Re-Enter Password"
             v-model.trim="signupForm.confirmPass"
@@ -188,15 +188,12 @@ export default {
   methods: {
     handleSignup(formName) {
       this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.isLoading = true;
-          this.submitToServer(this.signupForm)
-            .then(() => this.redirectToLogin())
-            .catch((error) => displayError(error))
-            .finally(() => (this.isLoading = false));
-        } else {
-          return false;
-        }
+        if (!valid) return;
+        this.isLoading = true;
+        this.submitToServer(this.signupForm)
+          .then(() => this.redirectToLogin())
+          .catch((error) => displayError(error))
+          .finally(() => (this.isLoading = false));
       });
     },
     submitToServer: async (payload) => {

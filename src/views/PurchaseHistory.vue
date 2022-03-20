@@ -45,7 +45,7 @@
         <el-table-column prop="totalPaid" label="Total Paid (USD)" />
         <el-table-column prop="paymentMethod" label="Payment Method" />
         <el-table-column prop="numOfItems" label="Items Bought" />
-        <el-table-column min-width="200px" label="USD">
+        <el-table-column min-width="200px" label="">
           <template #default="scope">
             <!-- DETAILS -->
             <el-button
@@ -111,7 +111,6 @@ export default defineComponent({
         .catch((err) => (serverError.value = err.message))
         .finally(() => (courseLoading.value = false));
     };
-
 
     onMounted(() => {
       fetchMyPurchaseHistory();
