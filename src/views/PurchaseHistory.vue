@@ -76,7 +76,6 @@
 import EnrollService from "@/services/EnrollService";
 import { Course, Sale } from "@/types";
 import { InfoFilled, Document } from "@element-plus/icons";
-import { TableColumnCtx } from "element-plus/lib/el-table/src/table-column/defaults";
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
@@ -98,7 +97,7 @@ export default defineComponent({
     };
 
     /** format date */
-    const formatter = (row: Sale, column: TableColumnCtx<Sale>) => {
+    const formatter = (row: Sale) => {
       return new Date(row.createdAt).toDateString();
     };
 

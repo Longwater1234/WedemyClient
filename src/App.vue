@@ -86,6 +86,10 @@ export default defineComponent({
   color: red;
 }
 
+a {
+  text-decoration: none;
+}
+
 .product-img {
   aspect-ratio: 16/9;
   height: 160px;
