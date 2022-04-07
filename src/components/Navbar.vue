@@ -106,7 +106,7 @@ import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { defineComponent } from "@vue/runtime-core";
 import { ElMessage, ElNotification } from "element-plus";
-import { ShoppingCart } from "@element-plus/icons";
+import { ShoppingCart } from "@element-plus/icons-vue";
 import Drawer from "./Drawer.vue";
 import navMenuList from "@/navmenu.json";
 

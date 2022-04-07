@@ -85,7 +85,7 @@ import LessonService from "@/services/LessonService";
 import EnrollService from "@/services/EnrollService";
 import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
-import { Lock } from "@element-plus/icons";
+import { Lock } from "@element-plus/icons-vue";
 import WishlistService from "@/services/WishlistService";
 import CartService from "@/services/CartService";
 import store from "@/store";

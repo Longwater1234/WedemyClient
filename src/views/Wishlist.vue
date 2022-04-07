@@ -43,7 +43,7 @@
 import WishlistService from "@/services/WishlistService";
 import store from "@/store";
 import { Course } from "@/types";
-import { DeleteFilled } from "@element-plus/icons";
+import { DeleteFilled } from "@element-plus/icons-vue";
 import { defineComponent } from "@vue/runtime-core";
 import { ElMessage, ElNotification } from "element-plus";
 

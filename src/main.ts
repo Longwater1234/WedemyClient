@@ -4,7 +4,7 @@ import ElementPlus from "element-plus";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-//import "element-plus/dist/index.css";
+// import "element-plus/dist/index.css";
 
 //everything is surely good
 const app = createApp(App);
