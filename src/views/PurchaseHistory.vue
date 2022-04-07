@@ -42,10 +42,10 @@
           :formatter="formatter"
           width="180"
         />
-        <el-table-column prop="totalPaid" label="Total Paid (USD)" />
-        <el-table-column prop="paymentMethod" label="Payment Method" />
-        <el-table-column prop="numOfItems" label="Items Bought" />
-        <el-table-column min-width="200px" label="">
+        <el-table-column prop="totalPaid"  min-width="150px" label="Total Paid (USD)" />
+        <el-table-column prop="paymentMethod" min-width="150px" label="Payment Method" />
+        <el-table-column prop="numOfItems"  min-width="150px" label="Items Bought" />
+        <el-table-column min-width="100px" label="">
           <template #default="scope">
             <!-- DETAILS -->
             <el-button
@@ -138,6 +138,7 @@ export default defineComponent({
   align-self: flex-start;
   width: 80% !important;
   border: none !important;
+  border: 1px solid black;
   margin: unset;
 }
 
@@ -166,9 +167,10 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
+
   #myTable > div > div {
     display: block;
-    max-width: 100px !important;
+    /* max-width: 100px !important; */
     overflow: hidden !important;
   }
 

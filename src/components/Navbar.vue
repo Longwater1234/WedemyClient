@@ -14,7 +14,7 @@
         <el-dropdown>
           <span class="el-dropdown-link">
             Categories
-            <i class="el-icon-arrow-down el-icon--right"></i>
+            <arrow-down style="width: 1em" />
           </span>
           <!-- START DROPDOWN LIST -->
           <template #dropdown>
@@ -36,11 +36,11 @@
       <div id="searchBar">
         <form @submit.prevent="handleSearch">
           <el-input
-            prefix-icon="el-icon-search"
+            :prefix-icon="Search"
             type="text"
             clearable
             maxlength="40"
-            v-model="search"
+            v-model="searchItem"
             placeholder="What do you want to learn?"
           >
           </el-input>
@@ -105,8 +105,9 @@
 import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { defineComponent } from "@vue/runtime-core";
-import { ElMessage, ElNotification } from "element-plus";
-import { ShoppingCart } from "@element-plus/icons-vue";
+import { ElNotification } from "element-plus";
+import { ShoppingCart, Search, ArrowDown } from "@element-plus/icons-vue";
+
 import Drawer from "./Drawer.vue";
 import navMenuList from "@/navmenu.json";
 
@@ -116,6 +117,8 @@ export default defineComponent({
   components: {
     ShoppingCart,
     Drawer,
+    Search,
+    ArrowDown,
   },
   props: {
     //from App.vue
@@ -126,7 +129,7 @@ export default defineComponent({
   },
   data() {
     return {
-      search: "",
+      searchItem: "",
       color: "black",
       navMenuList,
     };
@@ -136,8 +139,8 @@ export default defineComponent({
       return `https://avatars.dicebear.com/api/initials/${username}.svg`;
     },
     handleSearch() {
-      if (!this.search.trim().length) return;
-      if (this.search.trim().length < 4) {
+      if (!this.searchItem.trim().length) return;
+      if (this.searchItem.trim().length < 4) {
         return ElNotification({
           title: "Error",
           type: "error",
@@ -147,7 +150,7 @@ export default defineComponent({
       }
       this.$router.push({
         name: "SearchResults",
-        query: { q: encodeURI(this.search.trim()) },
+        query: { q: encodeURI(this.searchItem.trim()) },
         force: true,
       });
     },
@@ -155,13 +158,9 @@ export default defineComponent({
       this.$router.push(url);
     },
     logout: async () => {
-      try {
-        await AuthService.logoutUser();
-        await store.getAuthStatusServer();
-        window.location.replace("/");
-      } catch (error: any) {
-        ElMessage.error(error.message);
-      }
+      await AuthService.logoutUser();
+      await store.getAuthStatusServer();
+      window.location.replace("/");
     },
     goToCategory(name: string) {
       this.$router.push(`/category/${name}`);

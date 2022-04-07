@@ -46,6 +46,7 @@ export default defineComponent({
   --primary: #5943be;
   --secondary: #3b2b83;
   --background: #ffff;
+  --el-rate-text-color: var(--background);
   --dark: #0000;
 }
 #app {
@@ -122,6 +123,5 @@ a {
   .main-body {
     width: 100% !important;
   }
-
 }
 </style>
