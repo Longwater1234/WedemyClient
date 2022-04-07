@@ -50,7 +50,7 @@
 import { defineComponent } from "@vue/runtime-core";
 import store from "@/store";
 import { Course } from "@/types";
-import { DeleteFilled } from "@element-plus/icons";
+import { DeleteFilled } from "@element-plus/icons-vue";
 import { ElMessage, ElNotification } from "element-plus";
 import CartService from "@/services/CartService";
 import CartSummary from "@/components/CartSummary.vue";

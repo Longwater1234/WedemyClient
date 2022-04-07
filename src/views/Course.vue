@@ -28,7 +28,7 @@
         v-model="singleCourse.rating"
         disabled
         show-score
-        text-color="#ff9900"
+        text-color="#ffffff"
         score-template="{value} rating"
       >
       </el-rate>
@@ -85,11 +85,12 @@ import LessonService from "@/services/LessonService";
 import EnrollService from "@/services/EnrollService";
 import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
-import { Lock } from "@element-plus/icons";
+import { Lock } from "@element-plus/icons-vue";
 import WishlistService from "@/services/WishlistService";
 import CartService from "@/services/CartService";
 import store from "@/store";
 import { ElMessage, ElNotification } from "element-plus";
+
 
 export default defineComponent({
   data() {
@@ -221,7 +222,7 @@ export default defineComponent({
   margin: 0 2% 2% 7%;
   width: 50%;
   padding: 1em;
-  border: 1px solid var(--el-border-color-base);
+  border: 1px solid var(--el-border-color-darker);
 }
 
 .darkBox {
@@ -257,6 +258,10 @@ ul.lessonlist {
   list-style-type: none;
   margin: 0 1em;
   padding: 0;
+}
+
+.el-rate__text {
+  color: white;
 }
 
 @media screen and (max-width: 770px) {

@@ -1,39 +1,32 @@
 {
-  "name": "wedemyvue",
+  "name": "wedemytwo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@element-plus/icons": "0.0.11",
-    "axios": "^0.21.4",
-    "braintree-web-drop-in": "^1.32.1",
-    "core-js": "^3.6.5",
-    "element-plus": "^1.3.0-beta.9",
-    "register-service-worker": "^1.7.1",
+    "@element-plus/icons-vue": "^1.1.4",
+    "axios": "^0.26.1",
+    "braintree-web-drop-in": "^1.6.1",
+    "core-js": "^3.8.3",
+    "element-plus": "^2.1.8",
+    "register-service-worker": "^1.7.2",
     "validator": "^13.7.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0"
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
     "@types/braintree-web-drop-in": "^1.22.4",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "css-loader": "^6.3.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^7.19.1",
-    "sass": "^1.43.4",
-    "sass-loader": "^10.2.0",
-    "typescript": "~4.1.5",
-    "vue-cli-plugin-element-plus": "~0.0.13"
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-pwa": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "css-loader": "^6.7.1",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "typescript": "~4.5.5"
   }
 }

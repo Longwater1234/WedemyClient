@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { ArrowRight, Star } from "@element-plus/icons";
+import { ArrowRight, Star } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
 import store from "@/store";
 import { ElMessage } from "element-plus";

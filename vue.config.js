@@ -1,5 +1,4 @@
-module.exports = {
-  pwa: {
-    name: "Wedemy"
-  }
-};
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true
+})

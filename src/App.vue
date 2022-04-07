@@ -46,6 +46,7 @@ export default defineComponent({
   --primary: #5943be;
   --secondary: #3b2b83;
   --background: #ffff;
+  --el-rate-text-color: var(--background);
   --dark: #0000;
 }
 #app {
@@ -86,6 +87,10 @@ export default defineComponent({
   color: red;
 }
 
+a {
+  text-decoration: none;
+}
+
 .product-img {
   aspect-ratio: 16/9;
   height: 160px;
@@ -118,6 +123,5 @@ export default defineComponent({
   .main-body {
     width: 100% !important;
   }
-
 }
 </style>

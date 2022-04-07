@@ -9,7 +9,7 @@
         </p>
         <form @submit.prevent="handleSearch">
           <el-input
-            suffix-icon="el-icon-search"
+            :suffix-icon="Search"
             native-type="search"
             v-model="search"
             clearable
@@ -101,12 +101,12 @@
 <script lang="ts">
 import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
+import { Search } from "@element-plus/icons-vue";
 import { ElNotification } from "element-plus";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Home",
-  components: {},
   inject: ["store"],
   data() {
     document.title = "Home | Wedemy";
@@ -119,6 +119,9 @@ export default defineComponent({
       topcategs: ["Development", "Music", "PhotoVideo", "Finance"],
       serverError: "",
     };
+  },
+  components: {
+    Search,
   },
   methods: {
     fetchAllCourses() {
@@ -175,7 +178,8 @@ export default defineComponent({
   align-self: center;
   margin: auto auto;
   align-content: space-around;
-  border: 1px solid var(--el-border-color-base);
+  border: 0.5px solid var(--el-border-color-darker);
+  border-radius: 30%;
 }
 
 .banner-image {

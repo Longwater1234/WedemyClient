@@ -42,10 +42,10 @@
           :formatter="formatter"
           width="180"
         />
-        <el-table-column prop="totalPaid" label="Total Paid (USD)" />
-        <el-table-column prop="paymentMethod" label="Payment Method" />
-        <el-table-column prop="numOfItems" label="Items Bought" />
-        <el-table-column min-width="200px" label="">
+        <el-table-column prop="totalPaid"  min-width="150px" label="Total Paid (USD)" />
+        <el-table-column prop="paymentMethod" min-width="150px" label="Payment Method" />
+        <el-table-column prop="numOfItems"  min-width="150px" label="Items Bought" />
+        <el-table-column min-width="100px" label="">
           <template #default="scope">
             <!-- DETAILS -->
             <el-button
@@ -75,8 +75,7 @@
 <script lang="ts">
 import EnrollService from "@/services/EnrollService";
 import { Course, Sale } from "@/types";
-import { InfoFilled, Document } from "@element-plus/icons";
-import { TableColumnCtx } from "element-plus/lib/el-table/src/table-column/defaults";
+import { InfoFilled, Document } from "@element-plus/icons-vue";
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
@@ -98,7 +97,7 @@ export default defineComponent({
     };
 
     /** format date */
-    const formatter = (row: Sale, column: TableColumnCtx<Sale>) => {
+    const formatter = (row: Sale) => {
       return new Date(row.createdAt).toDateString();
     };
 
@@ -139,6 +138,7 @@ export default defineComponent({
   align-self: flex-start;
   width: 80% !important;
   border: none !important;
+  border: 1px solid black;
   margin: unset;
 }
 
@@ -167,9 +167,10 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
+
   #myTable > div > div {
     display: block;
-    max-width: 100px !important;
+    /* max-width: 100px !important; */
     overflow: hidden !important;
   }
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import http from "../axiosconfig";
 
 class AuthService {
-  /** Targets BasicAuth of backend */
+  /** When using BasicAuth in Springboot */
   loginUser(email: string, password: string) {
     const url = "/auth/login";
 
@@ -18,7 +18,7 @@ class AuthService {
   }
 
 
-  /**  Targets FormLogin of backend server  */
+  /**  When using FormLogin in Springboot  */
   loginUserForm(email: string, password: string) {
     const params = new URLSearchParams();
     params.append("email", email);
@@ -33,7 +33,7 @@ class AuthService {
       timeout: 5000
     };
 
-    return axios.post(process.env.VUE_APP_SERVER_ROOT_URL + "login", params, options);
+    return axios.post(process.env.VUE_APP_SERVER_ROOT_URL + "/login", params, options);
   }
 
   /** sends the whole package to Server */

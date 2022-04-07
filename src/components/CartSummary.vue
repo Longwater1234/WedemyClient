@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { ArrowRight } from "@element-plus/icons";
+import { ArrowRight } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
