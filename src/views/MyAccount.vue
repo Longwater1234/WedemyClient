@@ -3,17 +3,23 @@
   <div class="main-view" style="height: 70vh">
     <!-- START HEADER -->
     <div class="profile-header">
-      <el-avatar
-        :size="100"
-        shape="square"
-        :src="attachAvatarLink(store.state.username)"
-      />
+      <el-avatar :size="100" :src="attachAvatarLink()" />
       <p class="username">{{ store.state.username }}</p>
-      <div class="joined">Joined 2021-05-11</div>
+      <div class="joined">davisinyo@gmail.com</div>
     </div>
     <!-- END OF HEADER -->
 
-
+    <div class="summary">
+      <!-- <el-divider style="height: 2em; color: black" /> -->
+      <hr />
+      <el-row :gutter="50" justify="center">
+        <el-col v-for="item in 3" :key="item" span="12">
+          <div class="owned">8</div>
+          <div>courses</div>
+        </el-col>
+      </el-row>
+      <hr />
+    </div>
   </div>
 </template>
 
@@ -31,8 +37,11 @@ export default defineComponent({
     };
   },
   methods: {
-    attachAvatarLink(username: string) {
-      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+    // attachAvatarLink(username: string) {
+    //   return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+    // },
+    attachAvatarLink() {
+      return `https://i.pinimg.com/236x/8b/27/62/8b2762de1333e52a114fe2be5e3cac60.jpg`;
     },
   },
 });
@@ -54,12 +63,21 @@ export default defineComponent({
 }
 
 .joined {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .username {
   font-size: 1.5em;
   margin: 0.5em auto;
+}
+
+.summary {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.owned {
+  font-size: 2em;
 }
 
 .second-form {
@@ -80,6 +98,11 @@ export default defineComponent({
 
   .second-form {
     width: 90% !important;
+  }
+
+  .summary {
+    width: 80%;
+    margin: 0 auto;
   }
 }
 </style>

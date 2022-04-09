@@ -10,8 +10,8 @@
         <form @submit.prevent="handleSearch">
           <el-input
             :suffix-icon="Search"
-            native-type="search"
-            v-model="search"
+            native-type="searchItem"
+            v-model="searchItem"
             clearable
             maxlength="40"
             placeholder="Search anything"
@@ -112,7 +112,7 @@ export default defineComponent({
     document.title = "Home | Wedemy";
     const courses = new Array<Course>();
     return {
-      search: "",
+      searchItem: "",
       baseRadius: "var(--el-border-radius-base)",
       courses,
       isLoading: true,
@@ -136,8 +136,8 @@ export default defineComponent({
         .finally(() => (this.isLoading = false));
     },
     handleSearch() {
-      if (!this.search.trim().length) return;
-      if (this.search.trim().length < 4) {
+      if (!this.searchItem.trim().length) return;
+      if (this.searchItem.trim().length < 4) {
         return ElNotification({
           title: "Error",
           type: "error",
@@ -147,7 +147,7 @@ export default defineComponent({
       }
       this.$router.push({
         name: "SearchResults",
-        query: { q: encodeURI(this.search.trim()) },
+        query: { q: encodeURI(this.searchItem.trim()) },
         force: true,
       });
     },
