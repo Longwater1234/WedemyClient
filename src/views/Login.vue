@@ -35,7 +35,7 @@
         <el-form-item style="margin-top: 10px" prop="email">
           <el-input
             native-type="email"
-            prefix-icon="el-icon-user"
+              :prefix-icon="Message"
             placeholder="E-mail"
             maxlength="70"
             v-model.trim="loginForm.email"
@@ -47,7 +47,7 @@
         <el-form-item prop="password">
           <el-input
             placeholder="Password"
-            prefix-icon="el-icon-lock"
+            :prefix-icon="Lock"
             v-model.trim="loginForm.password"
             class="field"
             show-password
@@ -83,6 +83,9 @@ import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { ElMessage } from "element-plus";
 import isEmail from "validator/lib/isEmail";
+import { Lock, Message } from '@element-plus/icons-vue/dist/lib';
+import { markRaw } from '@vue/reactivity';
+
 
 export default {
   name: "Login",
@@ -121,6 +124,8 @@ export default {
       },
 
       //other data
+      Message: markRaw(Message),
+      Lock: markRaw(Lock),
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_SERVER_ROOT_URL,

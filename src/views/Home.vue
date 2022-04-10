@@ -10,7 +10,8 @@
         <form @submit.prevent="handleSearch">
           <el-input
             :suffix-icon="Search"
-            native-type="searchItem"
+            native-type="search"
+            type="search"
             v-model="searchItem"
             clearable
             maxlength="40"
@@ -103,7 +104,7 @@ import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
 import { Search } from "@element-plus/icons-vue";
 import { ElNotification } from "element-plus";
-import { defineComponent } from "vue";
+import { defineComponent, markRaw } from "vue";
 
 export default defineComponent({
   name: "Home",
@@ -115,13 +116,11 @@ export default defineComponent({
       searchItem: "",
       baseRadius: "var(--el-border-radius-base)",
       courses,
+      Search: markRaw(Search),
       isLoading: true,
       topcategs: ["Development", "Music", "PhotoVideo", "Finance"],
       serverError: "",
     };
-  },
-  components: {
-    Search,
   },
   methods: {
     fetchAllCourses() {
