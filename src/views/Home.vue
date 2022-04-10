@@ -11,7 +11,8 @@
           <el-input
             :suffix-icon="Search"
             native-type="search"
-            v-model="search"
+            type="search"
+            v-model="searchItem"
             clearable
             maxlength="40"
             placeholder="Search anything"
@@ -103,7 +104,7 @@ import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
 import { Search } from "@element-plus/icons-vue";
 import { ElNotification } from "element-plus";
-import { defineComponent } from "vue";
+import { defineComponent, markRaw } from "vue";
 
 export default defineComponent({
   name: "Home",
@@ -112,16 +113,14 @@ export default defineComponent({
     document.title = "Home | Wedemy";
     const courses = new Array<Course>();
     return {
-      search: "",
+      searchItem: "",
       baseRadius: "var(--el-border-radius-base)",
       courses,
+      Search: markRaw(Search),
       isLoading: true,
       topcategs: ["Development", "Music", "PhotoVideo", "Finance"],
       serverError: "",
     };
-  },
-  components: {
-    Search,
   },
   methods: {
     fetchAllCourses() {
@@ -136,8 +135,8 @@ export default defineComponent({
         .finally(() => (this.isLoading = false));
     },
     handleSearch() {
-      if (!this.search.trim().length) return;
-      if (this.search.trim().length < 4) {
+      if (!this.searchItem.trim().length) return;
+      if (this.searchItem.trim().length < 4) {
         return ElNotification({
           title: "Error",
           type: "error",
@@ -147,7 +146,7 @@ export default defineComponent({
       }
       this.$router.push({
         name: "SearchResults",
-        query: { q: encodeURI(this.search.trim()) },
+        query: { q: encodeURI(this.searchItem.trim()) },
         force: true,
       });
     },

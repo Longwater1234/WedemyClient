@@ -36,7 +36,7 @@
           <el-input
             placeholder="Name"
             v-model="signupForm.fullname"
-            prefix-icon="el-icon-user"
+            :prefix-icon="User"
             maxlength="70"
             class="field"
             clearable
@@ -47,9 +47,9 @@
         <el-form-item prop="email" required>
           <el-input
             placeholder="E-mail"
-            native-type="email"
             v-model.trim="signupForm.email"
             maxlength="70"
+            :prefix-icon="Message"
             class="field"
             type="email"
             clearable
@@ -61,7 +61,7 @@
             type="password"
             placeholder="Password"
             v-model.trim="signupForm.password"
-            prefix-icon="el-icon-lock"
+            :prefix-icon="Lock"
             maxlength="80"
             class="field"
             show-password
@@ -72,7 +72,7 @@
           <el-input
             placeholder="Re-Enter Password"
             v-model.trim="signupForm.confirmPass"
-            prefix-icon="el-icon-lock"
+            :prefix-icon="Lock"
             maxlength="80"
             class="field"
             show-password
@@ -106,6 +106,8 @@
 import AuthService from "@/services/AuthService";
 import { ElMessage } from "element-plus";
 import isEmail from "validator/lib/isEmail";
+import { Lock, User, Message } from "@element-plus/icons-vue/dist/lib";
+import { markRaw } from "@vue/reactivity";
 
 export default {
   name: "SignUp",
@@ -180,6 +182,9 @@ export default {
       },
 
       //other
+      User: markRaw(User),
+      Lock: markRaw(Lock),
+      Message:  markRaw(Message),
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_SERVER_ROOT_URL,

@@ -128,7 +128,7 @@ export default defineComponent({
           this.singleCourse = res.data;
           document.title = `${this.singleCourse.title} | Wedemy`;
         })
-        .catch((error) => (this.errorMessage = error.message))
+        .catch((error) => (this.handleError(error)))
         .finally(() => (this.isLoading = false));
     },
     fetchObjectives(courseId: number) {
@@ -190,6 +190,11 @@ export default defineComponent({
         duration: 2500,
       });
     },
+        handleError(err: any) {
+      let mama = err.response ? err.response.data.message : err.message;
+      this.errorMessage = mama;
+    },
+
   },
   computed: {
     lessonCount(): number {

@@ -160,9 +160,11 @@ export default defineComponent({
 }
 
 #wishlist-btn {
-  width: auto;
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 3px;
   aspect-ratio: 1/1;
-  font-size: 20px;
+  font-size: 1.5em;
   border-radius: 50%;
 }
 

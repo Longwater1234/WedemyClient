@@ -37,7 +37,8 @@
         <form @submit.prevent="handleSearch">
           <el-input
             :prefix-icon="Search"
-            type="text"
+            native-type="search"
+            type="search"
             clearable
             maxlength="40"
             v-model="searchItem"
@@ -104,7 +105,7 @@
 <script lang="ts">
 import AuthService from "@/services/AuthService";
 import store from "@/store";
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, markRaw } from "@vue/runtime-core";
 import { ElNotification } from "element-plus";
 import { ShoppingCart, Search, ArrowDown } from "@element-plus/icons-vue";
 
@@ -117,7 +118,6 @@ export default defineComponent({
   components: {
     ShoppingCart,
     Drawer,
-    Search,
     ArrowDown,
   },
   props: {
@@ -132,6 +132,7 @@ export default defineComponent({
       searchItem: "",
       color: "black",
       navMenuList,
+      Search: markRaw(Search)
     };
   },
   methods: {
