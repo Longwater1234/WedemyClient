@@ -52,13 +52,20 @@ class AuthService {
       currentPass,
       newPass,
       confirmPass
-    })
+    });
   }
+
+  getUserSummary() {
+    return http.get("/profile/summary");
+  }
+
 
   /** Obviously does what it says */
   logoutUser() {
     return http.post("/logout");
   }
+
+
 }
 
 export default new AuthService();

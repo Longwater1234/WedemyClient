@@ -132,7 +132,8 @@ export default defineComponent({
       searchItem: "",
       color: "black",
       navMenuList,
-      Search: markRaw(Search)
+      isBad: false,
+      Search: markRaw(Search),
     };
   },
   methods: {
@@ -201,7 +202,11 @@ export default defineComponent({
   margin-right: 1em;
   flex-direction: row;
 }
-
+.shorty {
+  display: block;
+  color: red;
+  font-size: small;
+}
 .cartIcon {
   width: 10%;
   float: right;

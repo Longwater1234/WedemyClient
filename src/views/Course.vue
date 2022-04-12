@@ -1,16 +1,15 @@
 <template>
   <div v-loading.fullscreen.lock="isLoading" class="darkBox">
-    <div style="margin-top: 0px; width: 100%; font-weight: bold">
-      <el-alert
-        v-if="errorMessage.length"
-        :title="errorMessage"
-        type="error"
-        :closable="false"
-      >
-      </el-alert>
-    </div>
+    <el-alert
+      class="errorBox"
+      v-if="errorMessage.length"
+      :title="errorMessage"
+      type="error"
+      :closable="false"
+    >
+    </el-alert>
 
-    <div v-if="errorMessage.length === 0" class="mainStart">
+    <div v-if="!errorMessage" class="mainStart">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item
           :to="{ path: '/category/' + singleCourse.category }"
@@ -38,6 +37,7 @@
 
   <!-- FLOATING CARD: COMPONENT -->
   <course-details
+    v-if="!errorMessage"
     @toggleWishlist="onToggleWishlist"
     @toggleCart="onToggleCart"
     style="margin-top: -300px"
@@ -50,7 +50,7 @@
   <!-- END of FLOATING CARD -->
 
   <!--  START OF objectives -->
-  <div class="course-info">
+  <div class="course-info" v-if="!errorMessage">
     <h2>What You'll Learn</h2>
     <div>
       <p class="obj-item" v-for="item in objectives" :key="item.id">
@@ -60,16 +60,18 @@
   </div>
 
   <!--  START OF lessons-->
-  <div class="course-info">
+  <div class="course-info" v-if="!errorMessage">
     <h2>Course Content</h2>
-    <el-collapse>
+    <el-collapse v-model="activeName">
       <el-collapse-item
-       :title="`${lessonCount} lectures in this course`"     
+        :title="`${lessonCount} lectures in this course`"
         name="1"
       >
         <ul class="lessonlist">
           <li class="obj-item" v-for="item in lessons" :key="item.id">
-            <lock style="width: 1em; height: 1em" /> {{ item.lessonName }}
+            <lock v-if="!isOwned" style="width: 1em; height: 1em" />
+            <caret-right v-else style="width: 1.5em;" />
+            {{ item.lessonName }}
           </li>
         </ul>
       </el-collapse-item>
@@ -85,12 +87,11 @@ import LessonService from "@/services/LessonService";
 import EnrollService from "@/services/EnrollService";
 import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
-import { Lock } from "@element-plus/icons-vue";
+import { Lock, CaretRight } from "@element-plus/icons-vue";
 import WishlistService from "@/services/WishlistService";
 import CartService from "@/services/CartService";
 import store from "@/store";
 import { ElMessage, ElNotification } from "element-plus";
-
 
 export default defineComponent({
   data() {
@@ -119,6 +120,7 @@ export default defineComponent({
   components: {
     CourseDetails,
     Lock,
+    CaretRight,
   },
   methods: {
     fetchSingleCourse(courseId: number) {
@@ -128,7 +130,7 @@ export default defineComponent({
           this.singleCourse = res.data;
           document.title = `${this.singleCourse.title} | Wedemy`;
         })
-        .catch((error) => (this.handleError(error)))
+        .catch((error) => this.handleError(error))
         .finally(() => (this.isLoading = false));
     },
     fetchObjectives(courseId: number) {
@@ -141,6 +143,8 @@ export default defineComponent({
         (res) => (this.lessons = res.data)
       );
     },
+
+    /** IF USER OWNS THIS COURSE */
     checkEnrollStatus(courseId: number) {
       let self = this;
       EnrollService.checkStatus(courseId)
@@ -151,7 +155,7 @@ export default defineComponent({
           self.checkCartStatus(courseId);
         });
     },
-    //listen for event from child
+    /* listen for event from Child */
     onToggleWishlist(courseId: number) {
       const self = this;
       let myAction = self.InWishlist
@@ -166,7 +170,7 @@ export default defineComponent({
         this.InWishlist = res.data.inWishlist;
       });
     },
-    //listen for event from child
+    /* listen for Event from Child */
     onToggleCart(courseId: number) {
       const self = this;
       let myAction = self.InCart
@@ -176,11 +180,15 @@ export default defineComponent({
         .then(() => self.handleSuccessCart(self.InCart))
         .catch((error) => ElMessage.error(error.message));
     },
+
+    /** CHECK IF ALREADY IN CART */
     checkCartStatus(courseId: number) {
       CartService.checkItemInCart(courseId).then((res) => {
         this.InCart = res.data.inCart;
       });
     },
+
+    /** AFTER ADDING TO CART */
     handleSuccessCart(InCart: boolean) {
       this.InCart = !InCart;
       store.getCartCountServer(); //refresh
@@ -190,11 +198,12 @@ export default defineComponent({
         duration: 2500,
       });
     },
-        handleError(err: any) {
+
+    /** ERROR FROM PAGE LOAD */
+    handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
       this.errorMessage = mama;
     },
-
   },
   computed: {
     lessonCount(): number {
@@ -257,6 +266,14 @@ export default defineComponent({
 
 .obj-item {
   margin-bottom: 2%;
+}
+
+.errorBox {
+  margin: 2% auto;
+  text-align: center;
+  align-self: center;
+  width: 100%;
+  font-weight: bold;
 }
 
 ul.lessonlist {

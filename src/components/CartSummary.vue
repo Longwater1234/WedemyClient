@@ -8,7 +8,7 @@
       <div>
         <router-link to="/checkout">
           <el-button id="checkout-btn" class="btn purple">
-            Proceed to Checkout <arrow-right style="width: 1em"/>
+            Proceed to Checkout <arrow-right style="width: 1em" />
           </el-button>
         </router-link>
       </div>
@@ -32,8 +32,8 @@ export default defineComponent({
   },
   props: {
     totalPrice: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "0.0",
     },
   },
   components: {
