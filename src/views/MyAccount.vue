@@ -5,8 +5,8 @@
     <div class="profile-header">
       <el-avatar :size="100" :src="attachAvatarLink()" />
       <!-- <p class="username">{{ store.state.username }}</p> -->
-      <p class="username">Cassie Adams</p>
-      <div class="joined">davisinyo@gmail.com</div>
+      <p class="username">{{ userInfo.fullname }}</p>
+      <div class="joined">{{ userInfo.email }}</div>
     </div>
     <!-- END OF HEADER -->
 
@@ -14,7 +14,7 @@
       <hr />
       <el-row :gutter="5" justify="space-around">
         <el-col v-for="item in summaryList" :key="item.title" :span="4">
-          <div class="mytitle">{{ String(item.title).toLowerCase() }}</div>
+          <div class="mytitle">{{ toLower(item.title) }}</div>
           <div class="myvalue">{{ item.value }}</div>
           <div class="mysub">{{ item.subtitle }}</div>
         </el-col>
@@ -25,8 +25,11 @@
 </template>
 
 <script lang="ts">
-import AuthService from "@/services/AuthService";
-import { defineComponent } from "vue";
+import ProfileService from "@/services/ProfileService";
+import { User } from "@/types";
+import { defineComponent, reactive, ref } from "vue";
+
+const userInfo = ref<User>();
 
 export default defineComponent({
   name: "Profile",
@@ -37,18 +40,28 @@ export default defineComponent({
       activeTab: "first",
       isLoading: false,
       summaryList: [],
+      userInfo,
     };
   },
   methods: {
     // attachAvatarLink(username: string) {
     //   return `https://avatars.dicebear.com/api/initials/${username}.svg`;
     // },
+    getProfileInfo() {
+      ProfileService.getUserDetails().then((res) => (this.userInfo = res.data));
+    },
+    toLower(item: string) {
+      return item.toLowerCase();
+    },
     attachAvatarLink() {
       return `https://i.pinimg.com/236x/8b/27/62/8b2762de1333e52a114fe2be5e3cac60.jpg`;
     },
   },
   mounted() {
-    AuthService.getUserSummary().then((res) => (this.summaryList = res.data));
+    ProfileService.getUserSummary().then(
+      (res) => (this.summaryList = res.data)
+    );
+    this.getProfileInfo();
   },
 });
 </script>

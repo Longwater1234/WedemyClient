@@ -70,7 +70,7 @@
         <ul class="lessonlist">
           <li class="obj-item" v-for="item in lessons" :key="item.id">
             <lock v-if="!isOwned" style="width: 1em; height: 1em" />
-            <caret-right v-else style="width: 1.5em;" />
+            <caret-right v-else style="width: 1.5em" />
             {{ item.lessonName }}
           </li>
         </ul>
@@ -130,7 +130,7 @@ export default defineComponent({
           this.singleCourse = res.data;
           document.title = `${this.singleCourse.title} | Wedemy`;
         })
-        .catch((error) => this.handleError(error))
+        .catch((error) => (this.errorMessage = error.message))
         .finally(() => (this.isLoading = false));
     },
     fetchObjectives(courseId: number) {
@@ -155,6 +155,7 @@ export default defineComponent({
           self.checkCartStatus(courseId);
         });
     },
+
     /* listen for event from Child */
     onToggleWishlist(courseId: number) {
       const self = this;
@@ -163,13 +164,16 @@ export default defineComponent({
         : WishlistService.addNew(courseId);
       myAction
         .then(() => (self.InWishlist = !self.InWishlist))
-        .catch((error) => ElMessage.error(error.message));
+        .catch((error) => this.handleError(error));
     },
+
+    /** IF this course ALREADY wishlist */
     checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
         this.InWishlist = res.data.inWishlist;
       });
     },
+
     /* listen for Event from Child */
     onToggleCart(courseId: number) {
       const self = this;
@@ -178,7 +182,7 @@ export default defineComponent({
         : CartService.addNew(courseId);
       myAction
         .then(() => self.handleSuccessCart(self.InCart))
-        .catch((error) => ElMessage.error(error.message));
+        .catch((error) => self.handleError(error));
     },
 
     /** CHECK IF ALREADY IN CART */
@@ -199,10 +203,10 @@ export default defineComponent({
       });
     },
 
-    /** ERROR FROM PAGE LOAD */
+    /** ERROR FROM ANYTHING */
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
-      this.errorMessage = mama;
+      ElMessage.error(mama);
     },
   },
   computed: {
