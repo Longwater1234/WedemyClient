@@ -67,7 +67,7 @@ export default defineComponent({
     const cartItems = new Array<Course>();
     return {
       clientToken: "",
-      activeName: "",
+      activeName: "1",
       paymentInstance,
       isReady: false,
       isLoading: false,

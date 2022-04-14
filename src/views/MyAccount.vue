@@ -1,21 +1,22 @@
 <template>
   <h3 class="cart-header">Your Profile</h3>
-  <div class="main-view" style="height: 70vh">
+  <div class="main-view" style="height: 70vh" v-loading="false">
     <!-- START HEADER -->
     <div class="profile-header">
       <el-avatar :size="100" :src="attachAvatarLink()" />
-      <p class="username">{{ store.state.username }}</p>
-      <div class="joined">davisinyo@gmail.com</div>
+      <!-- <p class="username">{{ store.state.username }}</p> -->
+      <p class="username">{{ userInfo.fullname }}</p>
+      <div class="joined">{{ userInfo.email }}</div>
     </div>
     <!-- END OF HEADER -->
 
     <div class="summary">
-      <!-- <el-divider style="height: 2em; color: black" /> -->
       <hr />
-      <el-row :gutter="50" justify="center">
-        <el-col v-for="item in 3" :key="item" span="12">
-          <div class="owned">8</div>
-          <div>courses</div>
+      <el-row :gutter="5" justify="space-around">
+        <el-col v-for="item in summaryList" :key="item.title" :span="4">
+          <div class="mytitle">{{ toLower(item.title) }}</div>
+          <div class="myvalue">{{ item.value }}</div>
+          <div class="mysub">{{ item.subtitle }}</div>
         </el-col>
       </el-row>
       <hr />
@@ -24,7 +25,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import ProfileService from "@/services/ProfileService";
+import { User } from "@/types";
+import { defineComponent, reactive, ref } from "vue";
+
+const userInfo = ref<User>();
 
 export default defineComponent({
   name: "Profile",
@@ -34,15 +39,29 @@ export default defineComponent({
     return {
       activeTab: "first",
       isLoading: false,
+      summaryList: [],
+      userInfo,
     };
   },
   methods: {
     // attachAvatarLink(username: string) {
     //   return `https://avatars.dicebear.com/api/initials/${username}.svg`;
     // },
+    getProfileInfo() {
+      ProfileService.getUserDetails().then((res) => (this.userInfo = res.data));
+    },
+    toLower(item: string) {
+      return item.toLowerCase();
+    },
     attachAvatarLink() {
       return `https://i.pinimg.com/236x/8b/27/62/8b2762de1333e52a114fe2be5e3cac60.jpg`;
     },
+  },
+  mounted() {
+    ProfileService.getUserSummary().then(
+      (res) => (this.summaryList = res.data)
+    );
+    this.getProfileInfo();
   },
 });
 </script>
@@ -76,8 +95,18 @@ export default defineComponent({
   margin: 0 auto;
 }
 
-.owned {
+.myvalue {
   font-size: 2em;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.mytitle {
+  font-size: 1em;
+  font-variant: small-caps;
+}
+
+.mysub {
+  font-size: 1em;
 }
 
 .second-form {
@@ -101,7 +130,7 @@ export default defineComponent({
   }
 
   .summary {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
   }
 }

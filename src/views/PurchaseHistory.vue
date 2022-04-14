@@ -75,7 +75,7 @@
 <script lang="ts">
 import EnrollService from "@/services/EnrollService";
 import { Course, Sale } from "@/types";
-import { InfoFilled, Document } from "@element-plus/icons-vue";
+import { InfoFilled } from "@element-plus/icons-vue";
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
@@ -127,8 +127,7 @@ export default defineComponent({
     };
   },
   components: {
-    InfoFilled,
-    Document,
+    InfoFilled
   },
 });
 </script>

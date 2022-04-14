@@ -5,12 +5,11 @@
 ## Live Demo (coming soon)
 The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual money will be deducted on Checkout. You may use test credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).
 
-## Main `npm` Libraries used
+## Major `npm` Libraries used
 
 - Axios
 - Typescript
 - [Element Plus UI Framework](https://element-plus.org/en-US/)
-- validator.js
 - [Braintree Web Drop-in ](https://www.npmjs.com/package/braintree-web-drop-in)
 
 ## Required 3rd party API Keys

@@ -167,14 +167,17 @@ export default defineComponent({
   }
 
   .w-thumb {
-    width: 5em;
+    width: 7em;
     aspect-ratio: 16/9;
   }
 
   .w-delete {
     margin-left: 20em;
     bottom: 1em;
-    font-size: small;
+    font-size: large;
+  }
+  .w-delete span {
+    display: none !important;
   }
 }
 </style>

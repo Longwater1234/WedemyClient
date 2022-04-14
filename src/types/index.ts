@@ -14,7 +14,7 @@ export interface User {
     fullname: string,
     password?: string,
     confirmPass?: string,
-    datejoined?: string,
+    createdAt?: string,
 }
 
 export interface Wishlist {

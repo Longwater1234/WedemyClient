@@ -1,5 +1,4 @@
 import { PasswordRequest, User } from "@/types";
-import axios from "axios";
 import http from "../axiosconfig";
 
 class AuthService {
@@ -33,7 +32,7 @@ class AuthService {
       timeout: 5000
     };
 
-    return axios.post(process.env.VUE_APP_SERVER_ROOT_URL + "/login", params, options);
+    return http.post("/login", params, options);
   }
 
   /** sends the whole package to Server */
@@ -52,13 +51,15 @@ class AuthService {
       currentPass,
       newPass,
       confirmPass
-    })
+    });
   }
 
   /** Obviously does what it says */
   logoutUser() {
     return http.post("/logout");
   }
+
+
 }
 
 export default new AuthService();
