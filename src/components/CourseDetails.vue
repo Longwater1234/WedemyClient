@@ -89,13 +89,11 @@ export default defineComponent({
   methods: {
     /* emit events back to Parent, pass courseId */
     emitCart(id: number) {
-      const self = this;
-      if (!store.getters.isLoggedIn) return self.LoginMessage();
+      if (!store.getters.isLoggedIn) return this.LoginMessage();
       this.$emit("toggleCart", id);
     },
     emitWishlist(id: number) {
-      const self = this;
-      if (!store.getters.isLoggedIn) return self.LoginMessage();
+      if (!store.getters.isLoggedIn) return this.LoginMessage();
       this.$emit("toggleWishlist", id);
     },
     LoginMessage() {
