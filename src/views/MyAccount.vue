@@ -26,10 +26,7 @@
 
 <script lang="ts">
 import ProfileService from "@/services/ProfileService";
-import { User } from "@/types";
-import { defineComponent, reactive, ref } from "vue";
-
-const userInfo = ref<User>();
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Profile",
@@ -40,7 +37,7 @@ export default defineComponent({
       activeTab: "first",
       isLoading: false,
       summaryList: [],
-      userInfo,
+      userInfo: {},
     };
   },
   methods: {
