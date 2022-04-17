@@ -33,7 +33,7 @@
       <el-table id="myTable" :data="sales" stripe style="width: 100%">
         <el-table-column
           prop="transactionId"
-          label="Transcation No."
+          label="Transcation ID"
           width="180"
         />
         <el-table-column
