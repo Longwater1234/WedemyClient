@@ -3,7 +3,7 @@
   <div class="main-view" style="height: 70vh" v-loading="false">
     <!-- START HEADER -->
     <div class="profile-header">
-      <el-avatar :size="100" :src="attachAvatarLink()" />
+      <el-avatar :size="100" :src="attachAvatarLink(store.state.username)" />
       <!-- <p class="username">{{ store.state.username }}</p> -->
       <p class="username">{{ userInfo.fullname }}</p>
       <div class="joined">{{ userInfo.email }}</div>
@@ -41,17 +41,14 @@ export default defineComponent({
     };
   },
   methods: {
-    // attachAvatarLink(username: string) {
-    //   return `https://avatars.dicebear.com/api/initials/${username}.svg`;
-    // },
+    attachAvatarLink(username: string) {
+      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+    },
     getProfileInfo() {
       ProfileService.getUserDetails().then((res) => (this.userInfo = res.data));
     },
     toLower(item: string) {
       return item.toLowerCase();
-    },
-    attachAvatarLink() {
-      return `https://i.pinimg.com/236x/8b/27/62/8b2762de1333e52a114fe2be5e3cac60.jpg`;
     },
   },
   mounted() {
@@ -114,6 +111,7 @@ export default defineComponent({
   .main-view {
     padding: 0 2% 0 2%;
   }
+
   .cart-header {
     padding: 5% 10%;
     height: 2em;
@@ -129,6 +127,14 @@ export default defineComponent({
   .summary {
     width: 90%;
     margin: 0 auto;
+  }
+
+  .mysub {
+    font-size: 12px;
+  }
+  
+  .myvalue {
+    font-size: 1.5em;
   }
 }
 </style>

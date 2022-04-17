@@ -16,12 +16,17 @@
 - [x] Descriptions
 - [ ] Reviews
 - [x] Categories homepage. use clipart images.
-- [ ] Axios interceptors (global error handling)
-- [ ] Show Purchase History
+- [x] Show Purchase History
 - [ ] Export reciept to PDF
 - [ ] View all courses owned in Profile
 - [ ] MAIN video player - single course
-- [ ] Edit/View Profile 
+- [x] Edit/View Profile
+ ## Needs immediate attention
+- [ ] Axios interceptors (global error handling)
+- [ ] Homepage hello "davis", show 3 recent lessons owned
+- [ ] Profile Profile Profile
+- [ ] Figure out how to track course progress
+ 
 
 ### SIDEBAR MENU (if signed in)
 - avatar + name

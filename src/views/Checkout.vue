@@ -1,3 +1,4 @@
+<!-- SEE EXAMPLES https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples -->
 <template>
   <h3 class="cart-header">Checkout</h3>
   <el-alert type="warning" center effect="dark">
@@ -91,7 +92,7 @@ export default defineComponent({
           authorization: token,
           container: "#paymentContainer",
           paypal: {
-            //OPTIONAL
+            //OPTIONAL, requires PayPal Dev Account
             flow: "checkout",
             amount: self.totalPrice,
             currency: "USD",
