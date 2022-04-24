@@ -59,7 +59,7 @@ export default defineComponent({
 
 .btn {
   width: 100%;
-  height: 3em;
+  height: 3em !important;
 }
 
 .btn.purple {

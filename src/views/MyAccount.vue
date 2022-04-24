@@ -1,5 +1,5 @@
 <template>
-  <h3 class="cart-header">Your Profile</h3>
+  <h3 class="cart-header">My Profile</h3>
   <div class="main-view" style="height: 70vh" v-loading="false">
     <!-- START HEADER -->
     <div class="profile-header">
@@ -20,6 +20,19 @@
         </el-col>
       </el-row>
       <hr />
+    </div>
+    <!-- END OF SUMMARY -->
+
+    <!-- START OF RECENT COURSES -->
+    <div class="recently">
+      <h3 class="serif-head">Your Recent Courses</h3>
+      <div class="recentBox">
+        <div class="recentSingle" v-for="(item, index) in 3" :key="index">
+          {{ "Java for Beginners" }}
+          <el-progress style="width: 8em" :percentage="60" />
+        </div>
+        <div class="recentSingle linky">View All</div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +62,9 @@ export default defineComponent({
     },
     toLower(item: string) {
       return item.toLowerCase();
+    },
+    viewAllOwned() {
+      //TODO go to all my courses
     },
   },
   mounted() {
@@ -107,6 +123,52 @@ export default defineComponent({
   width: 40% !important;
 }
 
+.titleprogress {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.viewAll button {
+  color: var(--primary) !important;
+}
+
+.recently {
+  width: 70%;
+  text-align: left;
+  margin: 0 auto;
+}
+
+.recentBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 95%;
+}
+
+.recentSingle {
+  width: 10em;
+  font-weight: 700;
+  border: rgba(0, 0, 0, 0.2) solid 1px;
+  text-align: left;
+  align-items: baseline;
+  padding: 2em;
+  margin: 1em;
+  border-radius: 1em;
+}
+
+.recentSingle:hover {
+  background-color: rgb(202, 202, 202);
+  cursor: pointer;
+  border: white solid 1px;
+}
+
+.recentSingle.linky {
+  color: var(--primary) !important;
+  width: 7em !important;
+  text-align: center;
+}
+
 @media screen and (max-width: 770px) {
   .main-view {
     padding: 0 2% 0 2%;
@@ -132,9 +194,29 @@ export default defineComponent({
   .mysub {
     font-size: 12px;
   }
-  
+
   .myvalue {
     font-size: 1.5em;
+  }
+
+  .titleprogress {
+    width: 90%;
+  }
+
+  .recently {
+    width: 100%;
+    margin-left: 1em;
+    text-align: left;
+  }
+
+  .recentBox {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+
+  .recentSingle {
+    width: 200px !important;
   }
 }
 </style>
