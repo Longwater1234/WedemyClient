@@ -35,7 +35,7 @@
         <el-form-item style="margin-top: 10px" prop="email">
           <el-input
             native-type="email"
-              :prefix-icon="Message"
+            :prefix-icon="Message"
             placeholder="E-mail"
             maxlength="70"
             v-model.trim="loginForm.email"
@@ -83,9 +83,8 @@ import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { ElMessage } from "element-plus";
 import isEmail from "validator/lib/isEmail";
-import { Lock, Message } from '@element-plus/icons-vue/dist/lib';
-import { markRaw } from '@vue/reactivity';
-
+import { Lock, Message } from "@element-plus/icons-vue/dist/lib";
+import { markRaw } from "@vue/reactivity";
 
 export default {
   name: "Login",
