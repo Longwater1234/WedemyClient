@@ -13,9 +13,6 @@ class EnrollService {
     return http.get(`sales/mine/${id}`);
   }
 
-  getReciept(transactionId: string) {
-    return http.get(`/sales/details/${transactionId}`)
-  }
 
 }
 

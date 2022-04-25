@@ -27,9 +27,9 @@
     <div class="recently">
       <h3 class="serif-head">Your Recent Courses</h3>
       <div class="recentBox">
-        <div class="recentSingle" v-for="(item, index) in 3" :key="index">
-          {{ "Java for Beginners" }}
-          <el-progress style="width: 8em" :percentage="60" />
+        <div class="recentSingle" v-for="item in courseList" :key="item.id">
+          {{ item.title }}
+          <el-progress style="width: 8em" :percentage="item.progress" />
         </div>
         <div class="recentSingle linky">View All</div>
       </div>
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import ProfileService from "@/services/ProfileService";
+import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -50,6 +51,7 @@ export default defineComponent({
       activeTab: "first",
       isLoading: false,
       summaryList: [],
+      courseList: [],
       userInfo: {},
     };
   },
@@ -59,19 +61,23 @@ export default defineComponent({
     },
     getProfileInfo() {
       ProfileService.getUserDetails().then((res) => (this.userInfo = res.data));
+      ProfileService.getUserSummary().then((res) => (this.summaryList = res.data));
     },
     toLower(item: string) {
       return item.toLowerCase();
+    },
+    getShortProgress() {
+      ProfileService.getShortProgress()
+        .then((res) => (this.courseList = res.data))
+        .catch((err) => ElMessage.error(err.message));
     },
     viewAllOwned() {
       //TODO go to all my courses
     },
   },
   mounted() {
-    ProfileService.getUserSummary().then(
-      (res) => (this.summaryList = res.data)
-    );
     this.getProfileInfo();
+    this.getShortProgress();
   },
 });
 </script>
