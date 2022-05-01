@@ -104,8 +104,8 @@ export default defineComponent({
     "$route.query.q": {
       deep: false,
       immediate: true,
-      handler: function (newVal: string) {
-        if (!newVal) return;
+      handler: function (oldVal:string, newVal: string) {
+        if (!newVal || oldVal === newVal) return;
         this.isLoading = true;
         this.searchQuery = newVal;
         this.courses = [];

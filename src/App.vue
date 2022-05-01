@@ -110,6 +110,14 @@ a {
   font-size: 14px;
 }
 
+.nodata {
+  display: flex;
+  margin: 3em auto;
+  flex-direction: row;
+  justify-content: center;
+  color: grey;
+}
+
 .noblue {
   color: black !important;
 }

@@ -61,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/account/profile",
     name: "Profile",
-    component: () => import("../views/MyAccount.vue"),
+    component: () => import("../views/MyProfile.vue"),
     beforeEnter: async (to, from, next) => {
       let isLoggedIn = await store.getAuthStatusServer()
       if (!isLoggedIn) next({ name: "Login" });
@@ -72,6 +72,16 @@ const routes: Array<RouteRecordRaw> = [
     path: "/account/wishlist",
     name: "Wishlist",
     component: () => import("../views/Wishlist.vue"),
+    beforeEnter: async (to, from, next) => {
+      let isLoggedIn = await store.getAuthStatusServer()
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
+  },
+  {
+    path: "/account/learning",
+    name: "MyLearning",
+    component: () => import("../views/MyLearning.vue"),
     beforeEnter: async (to, from, next) => {
       let isLoggedIn = await store.getAuthStatusServer()
       if (!isLoggedIn) next({ name: "Login" });

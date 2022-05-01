@@ -13,6 +13,14 @@ class EnrollService {
     return http.get(`sales/mine/${id}`);
   }
 
+  /* enrolled courses with percent progress */
+  getMySummary() {
+    return http.get("/enroll/progress/summary/");
+  }
+
+  getAllMyCourses(page: number = 0) {
+    return http.get(`/enroll/mine?page=${page}`);
+  }
 
 }
 

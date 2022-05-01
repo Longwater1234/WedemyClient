@@ -32,7 +32,7 @@
       </div>
       <!-- end dropdown -->
 
-      <!-- start search bar -->
+      <!-- START SEARCH BAR -->
       <div id="searchBar">
         <form @submit.prevent="handleSearch">
           <el-input
@@ -49,7 +49,7 @@
       </div>
       <!-- end searchbar -->
 
-      <!-- start cart icon -->
+      <!-- START CART ICON -->
       <div class="cartIcon">
         <router-link to="/cart" title="Cart">
           <el-badge
@@ -78,7 +78,6 @@
       <div class="full-only" v-else>
         <el-dropdown>
           <el-avatar :size="36" :src="attachAvatarLink(store.state.username)" />
-          <span class="el-dropdown-link" style="font-size: 16px"> </span>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item disabled>

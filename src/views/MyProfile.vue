@@ -1,6 +1,6 @@
 <template>
   <h3 class="cart-header">My Profile</h3>
-  <div class="main-view" style="height: 70vh" v-loading="false">
+  <div class="main-view" style="height: 70vh" v-loading="isLoading">
     <!-- START HEADER -->
     <div class="profile-header">
       <el-avatar :size="100" :src="attachAvatarLink(store.state.username)" />
@@ -26,18 +26,26 @@
     <!-- START OF RECENT COURSES -->
     <div class="recently">
       <h3 class="serif-head">Your Recent Courses</h3>
-      <div class="recentBox">
+      <div class="recentBox" v-if="courseList.length > 0">
         <div class="recentSingle" v-for="item in courseList" :key="item.id">
           {{ item.title }}
           <el-progress style="width: 8em" :percentage="item.progress" />
         </div>
         <div class="recentSingle linky">View All</div>
       </div>
+      <div class="nodata" v-else>No data</div>
+    </div>
+
+    <!-- START OF CERTIFICATES -->
+    <div class="recently">
+      <h3 class="serif-head">Your Certificates</h3>
+      <div class="nodata">No data</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import EnrollService from "@/services/EnrollService";
 import ProfileService from "@/services/ProfileService";
 import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
@@ -49,7 +57,7 @@ export default defineComponent({
     document.title = "My Profile | Wedemy";
     return {
       activeTab: "first",
-      isLoading: false,
+      isLoading: true,
       summaryList: [],
       courseList: [],
       userInfo: {},
@@ -61,15 +69,18 @@ export default defineComponent({
     },
     getProfileInfo() {
       ProfileService.getUserDetails().then((res) => (this.userInfo = res.data));
-      ProfileService.getUserSummary().then((res) => (this.summaryList = res.data));
+      ProfileService.getUserSummary().then(
+        (res) => (this.summaryList = res.data)
+      );
     },
     toLower(item: string) {
       return item.toLowerCase();
     },
     getShortProgress() {
-      ProfileService.getShortProgress()
+      EnrollService.getMySummary()
         .then((res) => (this.courseList = res.data))
-        .catch((err) => ElMessage.error(err.message));
+        .catch((err) => ElMessage.error(err.message))
+        .finally(()=> this.isLoading = false)
     },
     viewAllOwned() {
       //TODO go to all my courses

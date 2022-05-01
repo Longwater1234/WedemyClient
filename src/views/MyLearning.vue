@@ -1,0 +1,101 @@
+<template>
+  <h3 class="cart-header">My Learning</h3>
+  <div class="main-view" style="height: 70vh" v-loading="isLoading">
+    <el-alert
+      v-if="serverError.length"
+      :title="serverError"
+      type="error"
+      :closable="false"
+    ></el-alert>
+    <!-- TODO: ADD GRIDVIEw for results HERE -->
+
+    <!-- START MAIN BODY -->
+    <!-- START COURSE CARD -->
+    <div class="course-box">
+      <el-space
+        direction="vertical"
+        alignment="start"
+        :size="30"
+        style="margin-top: 2%; margin-left: 10%"
+      >
+        <!-- START OF SINGLE CARD -->
+        <el-space v-if="courses.length" wrap size="large">
+          <el-card
+            class="courseCard"
+            :body-style="{ padding: '0px' }"
+            shadow="hover"
+            style="margin-bottom: 13px"
+            v-for="course in courses"
+            :key="course.id"
+            @click="goToCourse(course.courseId)"
+          >
+            <img
+              :src="course.thumbUrl"
+              class="product-img"
+              :alt="course.title"
+            />
+            <div style="padding: 14px">
+              <div class="card-title">{{ course.title }}</div>
+              <el-progress style="width: 10em" :percentage="course.progress" />
+            </div>
+          </el-card>
+        </el-space>
+      </el-space>
+    </div>
+    <!-- END OF SINGLE CARD -->
+  </div>
+</template>
+
+<script lang="ts">
+import EnrollService from "@/services/EnrollService";
+import { Course } from "@/types";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "MyLearning",
+  data() {
+    document.title = `My Learning | Wedemy`;
+    return {
+      isLoading: true,
+      baseRadius: "var(--el-border-radius-base)",
+      serverError: "",
+      courses: Array<Course>(),
+    };
+  },
+  methods: {
+    fetchAllEnrolled(page: number) {
+      EnrollService.getAllMyCourses(page)
+        .then((res) => (this.courses = res.data))
+        .catch((err) => (this.serverError = err.message))
+        .finally(() => (this.isLoading = false));
+    },
+    goToCourse(id: number) {},
+  },
+  mounted() {
+    this.fetchAllEnrolled(0);
+  },
+});
+</script>
+
+<style scoped>
+.main-body {
+  margin: 2%;
+  padding: 1em;
+}
+
+.cart-header {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  background-color: black;
+  color: white;
+  margin-top: 0;
+  top: 0;
+  padding: 2% 10%;
+}
+
+.courseCard {
+  height: 260px;
+}
+.course-box {
+  border: none !important;
+}
+</style>

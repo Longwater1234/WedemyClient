@@ -13,7 +13,6 @@
             native-type="search"
             type="search"
             v-model="searchItem"
-            clearable
             maxlength="40"
             placeholder="Search anything"
           >
@@ -88,7 +87,7 @@
       <div class="categArea">
         <div
           class="categSingle"
-          v-for="(item, index) in topcategs"
+          v-for="(item, index) in topCategs"
           :key="index"
           @click="goToCategory(item)"
         >
@@ -118,24 +117,19 @@ export default defineComponent({
       courses,
       Search: markRaw(Search),
       isLoading: true,
-      topcategs: ["Development", "Music", "PhotoVideo", "Finance"],
+      topCategs: ["Development", "Music", "PhotoVideo", "Finance"],
       serverError: "",
     };
   },
   methods: {
     fetchAllCourses() {
       CourseService.getTop()
-        .then((res) => {
-          this.courses.push(...res.data);
-        })
-        .catch((error) => {
-          this.serverError = error.message;
-          console.error(error);
-        })
+        .then((res) => (this.courses = res.data))
+        .catch((error) => (this.serverError = error.message))
         .finally(() => (this.isLoading = false));
     },
     handleSearch() {
-      if (!this.searchItem.trim().length) return;
+      if (!this.searchItem) return;
       if (this.searchItem.trim().length < 4) {
         return ElNotification({
           title: "Error",
