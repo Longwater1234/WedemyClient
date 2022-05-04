@@ -165,15 +165,6 @@ export default defineComponent({
   overflow-y: hidden;
 }
 
-.cart-header {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  background-color: black;
-  color: white;
-  margin-top: 0;
-  top: 0;
-  padding: 2% 10%;
-}
-
 .floaty {
   z-index: 1;
   display: flex;
@@ -184,13 +175,6 @@ export default defineComponent({
 @media screen and (max-width: 770px) {
   .main-view {
     padding: 0 2% 0 2%;
-  }
-  .cart-header {
-    padding: 5% 10%;
-    height: 2em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .w-card {

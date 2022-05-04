@@ -29,9 +29,9 @@
       <div class="recentBox" v-if="courseList.length > 0">
         <div class="recentSingle" v-for="item in courseList" :key="item.id">
           {{ item.title }}
-          <el-progress style="width: 8em" :percentage="item.progress" />
+          <el-progress class="myprogress" :percentage="item.progress" />
         </div>
-        <div class="recentSingle linky">View All</div>
+        <div @click="goToLearning()" class="recentSingle linky">View All</div>
       </div>
       <div class="nodata" v-else>No data</div>
     </div>
@@ -80,7 +80,10 @@ export default defineComponent({
       EnrollService.getMySummary()
         .then((res) => (this.courseList = res.data))
         .catch((err) => ElMessage.error(err.message))
-        .finally(()=> this.isLoading = false)
+        .finally(() => (this.isLoading = false));
+    },
+    goToLearning() {
+      this.$router.push("/account/learning");
     },
     viewAllOwned() {
       //TODO go to all my courses
@@ -99,14 +102,6 @@ export default defineComponent({
   justify-content: center;
 }
 
-.cart-header {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  background-color: black;
-  color: white;
-  margin-top: 0;
-  top: 0;
-  padding: 2% 10%;
-}
 
 .joined {
   font-size: 14px;
@@ -120,6 +115,10 @@ export default defineComponent({
 .summary {
   width: 70%;
   margin: 0 auto;
+}
+.myprogress {
+  width: 8em;
+  margin-top: 1em;
 }
 
 .myvalue {
@@ -169,7 +168,7 @@ export default defineComponent({
   border: rgba(0, 0, 0, 0.2) solid 1px;
   text-align: left;
   align-items: baseline;
-  padding: 2em;
+  padding: 1.5em;
   margin: 1em;
   border-radius: 1em;
 }
@@ -183,20 +182,14 @@ export default defineComponent({
 .recentSingle.linky {
   color: var(--primary) !important;
   width: 7em !important;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 @media screen and (max-width: 770px) {
   .main-view {
     padding: 0 2% 0 2%;
-  }
-
-  .cart-header {
-    padding: 5% 10%;
-    height: 2em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .second-form {

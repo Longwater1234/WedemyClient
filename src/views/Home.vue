@@ -195,8 +195,8 @@ export default defineComponent({
 }
 
 .courseCard {
-  width: 285px;
-  height: 300px;
+  width: min-content;
+  height: 20em;
 }
 
 .courseCard:hover {

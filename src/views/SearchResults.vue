@@ -8,8 +8,8 @@
       :title="serverError"
       type="error"
       :closable="false"
-    ></el-alert>
-    <!-- TODO: ADD GRIDVIEw for results HERE -->
+    >
+    </el-alert>
 
     <!-- START COURSE CARD -->
     <div class="course-box">
@@ -104,7 +104,7 @@ export default defineComponent({
     "$route.query.q": {
       deep: false,
       immediate: true,
-      handler: function (oldVal:string, newVal: string) {
+      handler: function (oldVal: string, newVal: string) {
         if (!newVal || oldVal === newVal) return;
         this.isLoading = true;
         this.searchQuery = newVal;

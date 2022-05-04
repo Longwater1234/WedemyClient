@@ -62,6 +62,7 @@ import CartService from "@/services/CartService";
 import { Course, PaymentObj } from "@/types";
 import store from "@/store";
 
+ // DEMO: https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
 export default defineComponent({
   data() {
     let paymentInstance: Dropin | undefined;
@@ -105,7 +106,7 @@ export default defineComponent({
         .catch((error) => console.error(error));
     },
 
-    //on PAY button click
+    //PAY button onClick
     submitPayment() {
       if (!this.isReady) return;
       this.isProcessing = true;
@@ -167,14 +168,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.cart-header {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  background-color: black;
-  color: white;
-  margin-top: 0;
-  top: 0;
-  padding: 2% 10%;
-}
 
 .main-view-checkout {
   text-align: center;
