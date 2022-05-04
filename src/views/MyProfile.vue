@@ -29,7 +29,7 @@
       <div class="recentBox" v-if="courseList.length > 0">
         <div class="recentSingle" v-for="item in courseList" :key="item.id">
           {{ item.title }}
-          <el-progress style="width: 8em" :percentage="item.progress" />
+          <el-progress class="myprogress" :percentage="item.progress" />
         </div>
         <div class="recentSingle linky">View All</div>
       </div>
@@ -80,7 +80,7 @@ export default defineComponent({
       EnrollService.getMySummary()
         .then((res) => (this.courseList = res.data))
         .catch((err) => ElMessage.error(err.message))
-        .finally(()=> this.isLoading = false)
+        .finally(() => (this.isLoading = false));
     },
     viewAllOwned() {
       //TODO go to all my courses
@@ -120,6 +120,10 @@ export default defineComponent({
 .summary {
   width: 70%;
   margin: 0 auto;
+}
+.myprogress {
+  width: 8em;
+  margin-top: 1em;
 }
 
 .myvalue {
@@ -169,7 +173,7 @@ export default defineComponent({
   border: rgba(0, 0, 0, 0.2) solid 1px;
   text-align: left;
   align-items: baseline;
-  padding: 2em;
+  padding: 1.5em;
   margin: 1em;
   border-radius: 1em;
 }

@@ -93,8 +93,7 @@ a {
 
 .product-img {
   aspect-ratio: 16/9;
-  height: 160px;
-  /* height: 1%; */
+  height: 10em;
   transition: ease-in-out 0.6s;
 }
 .product-img:hover {
@@ -124,8 +123,8 @@ a {
 
 @media only screen and (max-width: 600px) {
   .product-img {
-    width: 100%;
-    height: 200px;
+    aspect-ratio: 16/9;
+    height: 10em;
   }
 
   .main-body {

@@ -9,7 +9,7 @@
       type="error"
       :closable="false"
     ></el-alert>
-    <!-- TODO: ADD GRIDVIEw for results HERE -->
+    <!-- ADD GRIDVIEw for results HERE -->
 
     <!-- START COURSE CARD -->
     <div class="course-box">

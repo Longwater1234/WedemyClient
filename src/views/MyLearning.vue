@@ -36,7 +36,7 @@
             />
             <div style="padding: 14px">
               <div class="card-title">{{ course.title }}</div>
-              <el-progress style="width: 10em" :percentage="course.progress" />
+              <el-progress class="myprogress" :percentage="course.progress" />
             </div>
           </el-card>
         </el-space>
@@ -93,9 +93,35 @@ export default defineComponent({
 }
 
 .courseCard {
-  height: 260px;
+  width: min-content;
+  height: 15em;
 }
+
+.card-title {
+  text-align: left;
+}
+
+.myprogress {
+  width: 8em;
+  margin-top: 1em;
+}
+
+.product-img {
+  height: 8em !important;
+}
+
 .course-box {
   border: none !important;
+  width: 100% !important;
+}
+
+@media screen and (max-width: 770px) {
+  .cart-header {
+    padding: 5% 10%;
+    height: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 </style>
