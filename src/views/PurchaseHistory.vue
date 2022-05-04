@@ -1,6 +1,6 @@
 <template>
   <div class="main-body" style="height: 80vh">
-    <h2 class="serif-head">Purchase History</h2>
+    <h2 class="serif-head">My Purchase History</h2>
 
     <el-alert
       v-if="serverError"
@@ -11,7 +11,7 @@
     </el-alert>
 
     <!-- DETAILS DIALOG -->
-    <el-dialog id="myDialog" v-model="dialogVisible" title="Courses" draggable>
+    <el-dialog id="myDialog" v-model="dialogVisible" title="Items" draggable>
       <!-- dialog body -->
       <div v-for="item in courseList" :key="item.id">
         <div class="courseRow">

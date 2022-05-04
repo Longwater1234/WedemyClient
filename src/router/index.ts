@@ -98,6 +98,16 @@ const routes: Array<RouteRecordRaw> = [
       else next();
     },
   },
+   {
+    path: "/account/learning/course/:courseId(\\d+)",
+    name: "LessonViewer",
+    component: () => import("../views/LessonViewer.vue"),
+    beforeEnter: async (to, from, next) => {
+      let isLoggedIn = await store.getAuthStatusServer();
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
+  },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",

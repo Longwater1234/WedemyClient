@@ -117,6 +117,19 @@ a {
   color: grey;
 }
 
+.cart-header {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  background-color: #1c1d1f;
+  color: white;
+  margin-top: 0;
+  height: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: 0;
+  padding: 2% 10%;
+}
+
 .noblue {
   color: black !important;
 }
@@ -129,6 +142,14 @@ a {
 
   .main-body {
     width: 100% !important;
+  }
+
+  .cart-header {
+    padding: 5% 10%;
+    height: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 </style>

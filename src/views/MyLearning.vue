@@ -69,7 +69,9 @@ export default defineComponent({
         .catch((err) => (this.serverError = err.message))
         .finally(() => (this.isLoading = false));
     },
-    goToCourse(id: number) {},
+    goToCourse(id: number) {
+      this.$router.push({ name: "LessonViewer", params: { courseId: id } });
+    },
   },
   mounted() {
     this.fetchAllEnrolled(0);
