@@ -70,7 +70,7 @@ export default defineComponent({
         .finally(() => (this.isLoading = false));
     },
     goToCourse(id: number) {
-      this.$router.push({ name: "LessonViewer", params: { courseId: id } });
+      this.$router.push({ name: "LearnCourse", params: { courseId: id } });
     },
   },
   mounted() {

@@ -1,10 +1,10 @@
 <template>
-  <div class="rowVideo">
+  <div class="mycontainer">
     <div class="col1">
-      <div class="rowbig"></div>
-      <div class="rowsmall"></div>
+      <div class="rowbig">bb</div>
+      <div class="rowsmall">cc</div>
     </div>
-    <div class="col2"></div>
+    <div class="col2">dd</div>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "LessonViewer",
   data() {
+    document.title = "Lecture | Wedemy"
     return {
       key: "value",
     };
@@ -26,7 +27,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.rowVideo {
+.mycontainer {
   display: flex;
   flex-direction: row;
   width: 99vw;
@@ -36,12 +37,14 @@ export default defineComponent({
 .col1 {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   width: 70%;
   background-color: grey;
 }
 .col2 {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   width: 30%;
   background-color: green;
 }
@@ -59,9 +62,13 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 770px) {
- .rowVideo{
-   display: flex;
-   flex-direction: column;
- }
+  .mycontainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .col1,
+  .col2 {
+    width: 100%;
+  }
 }
 </style>
