@@ -22,6 +22,10 @@ class EnrollService {
     return http.get(`/enroll/mine?page=${page}`);
   }
 
+  getLastViewed(courseId: number) {
+    return http.get(`enroll/resume/course/${courseId}`);
+  }
+
 }
 
 export default new EnrollService();

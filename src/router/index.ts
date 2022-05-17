@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Login",
     component: () => import("../views/Login.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer()
+      let isLoggedIn = await store.getAuthStatusServer();
       if (isLoggedIn) next({ name: "Home" });
       else next();
     },
@@ -63,7 +63,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Profile",
     component: () => import("../views/MyProfile.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer()
+      let isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Wishlist",
     component: () => import("../views/Wishlist.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer()
+      let isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -83,7 +83,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "MyLearning",
     component: () => import("../views/MyLearning.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer()
+      let isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -100,13 +100,18 @@ const routes: Array<RouteRecordRaw> = [
   },
    {
     path: "/account/learning/course/:courseId(\\d+)",
-    name: "LessonViewer",
-    component: () => import("../views/LessonViewer.vue"),
+    name: "LearnCourse",
+    component: () => import("../views/LearnCourse.vue"),
     beforeEnter: async (to, from, next) => {
       let isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
+  },
+  {
+    path: "/videoplayer/course/:courseId(\\d+)/lesson/:lessonId",
+    name: "VideoPlayer",
+    component: () => import("../views/VideoPlayer.vue")
   },
   {
     path: "/:pathMatch(.*)*",

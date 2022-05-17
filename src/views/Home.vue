@@ -24,7 +24,7 @@
 
     <!-- START MAIN BODY -->
     <div class="main-body">
-      <h2 class="serif-head">Recommended for you</h2>
+      <h2 class="serif-head">Students are viewing</h2>
       <h3 class="sub-heading">Expand your skillset with these courses</h3>
 
       <el-alert
