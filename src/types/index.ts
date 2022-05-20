@@ -46,6 +46,12 @@ export interface Sale {
     numOfItems: number;
 }
 
+/* for video player */
+export interface VideoRequest {
+    courseId: number;
+    lessonId: string;
+}
+
 /** for Password Reset */
 export interface PasswordRequest {
     currentPass: string;

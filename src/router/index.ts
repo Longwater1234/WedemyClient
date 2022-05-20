@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Login",
     component: () => import("../views/Login.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+      const isLoggedIn = await store.getAuthStatusServer();
       if (isLoggedIn) next({ name: "Home" });
       else next();
     },
@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "SignUp",
     component: () => import("../views/Signup.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+      const isLoggedIn = await store.getAuthStatusServer();
       if (isLoggedIn) next({ name: "Home" });
       else next();
     },
@@ -53,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Checkout",
     component: () => import("../views/Checkout.vue"),
     beforeEnter: (to, from, next) => {
-      let itemCount = store.state.cartCount;
+      const itemCount = store.state.cartCount;
       if (itemCount === 0) next({ name: "Home" });
       else next();
     },
@@ -63,7 +63,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Profile",
     component: () => import("../views/MyProfile.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+      const isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Wishlist",
     component: () => import("../views/Wishlist.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+      const isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -83,7 +83,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "MyLearning",
     component: () => import("../views/MyLearning.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+      const isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -93,7 +93,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "PurchaseHistory",
     component: () => import("../views/PurchaseHistory.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+      const isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -103,7 +103,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "LearnCourse",
     component: () => import("../views/LearnCourse.vue"),
     beforeEnter: async (to, from, next) => {
-      let isLoggedIn = await store.getAuthStatusServer();
+      const isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
@@ -111,7 +111,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/videoplayer/course/:courseId(\\d+)/lesson/:lessonId",
     name: "VideoPlayer",
-    component: () => import("../views/VideoPlayer.vue")
+    component: () => import("../views/VideoPlayer.vue"),
+    beforeEnter: async (to, from, next) => {
+      const isLoggedIn = await store.getAuthStatusServer();
+      if (!isLoggedIn) next({ name: "Login" });
+      else next();
+    },
   },
   {
     path: "/:pathMatch(.*)*",
@@ -127,5 +132,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+//UUID regex
+//new Regex /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/gm
 
 export default router;

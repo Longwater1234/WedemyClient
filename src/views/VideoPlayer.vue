@@ -9,20 +9,33 @@
 </template>
 
 <script lang="ts">
+import LessonService from "@/services/LessonService";
+import { VideoRequest } from "@/types";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "LessonViewer",
   data() {
-    document.title = "Lecture | Wedemy"
+    document.title = "Lecture | Wedemy";
     return {
       key: "value",
     };
   },
   methods: {
-    haha() {},
+    getPlayLink(obj: VideoRequest) {
+      LessonService.buildPlayLink(obj)
+        .then((res) => console.log(res.data))
+        .catch((err) => this.$router.replace("/"));
+    },
   },
-  mounted() {},
+  mounted() {
+    let { courseId, lessonId } = this.$route.params;
+    let obj: VideoRequest = {
+      courseId: parseInt(courseId.toString()),
+      lessonId: lessonId.toString(),
+    };
+    this.getPlayLink(obj);
+  },
 });
 </script>
 
@@ -30,8 +43,8 @@ export default defineComponent({
 .mycontainer {
   display: flex;
   flex-direction: row;
-  width: 99vw;
-  height: 98vh;
+  width: 98vw;
+  /* height: 80vh; */
 }
 
 .col1 {
@@ -39,26 +52,26 @@ export default defineComponent({
   flex-direction: column;
   height: 100vh;
   width: 70%;
-  background-color: grey;
+  border: 1px solid grey;
 }
 .col2 {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 30%;
-  background-color: green;
+  border: 1px solid green;
 }
 .rowbig {
   display: flex;
   flex-direction: row;
   height: 70%;
-  background-color: blue;
+  border: 1px solid blue;
 }
 .rowsmall {
   display: flex;
   flex-direction: row;
   height: 30%;
-  background-color: yellow;
+  border: 1px solid yellow;
 }
 
 @media screen and (max-width: 770px) {

@@ -39,7 +39,9 @@ export default defineComponent({
     //call backend to verify user owns this course
     let { courseId } = this.$route.params;
     this.courseId = parseInt(courseId.toString());
-    this.getRedirectLink(this.courseId);
+    setTimeout(() => {
+      this.getRedirectLink(this.courseId);
+    }, 1000);
   },
   beforeUnmount() {
     this.isLoading = false;

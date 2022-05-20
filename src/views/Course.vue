@@ -77,7 +77,7 @@
       </el-collapse-item>
     </el-collapse>
   </div>
-  <!-- START OF REVIEWS BELOW -->
+  <!-- TODO: START OF REVIEWS BELOW -->
 </template>
 
 <script lang="ts">
@@ -87,7 +87,7 @@ import LessonService from "@/services/LessonService";
 import EnrollService from "@/services/EnrollService";
 import { Lesson } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
-import { Lock, CaretRight } from "@element-plus/icons-vue";
+import { CaretRight, Lock } from "@element-plus/icons-vue";
 import WishlistService from "@/services/WishlistService";
 import CartService from "@/services/CartService";
 import store from "@/store";
@@ -101,7 +101,7 @@ export default defineComponent({
       isLoading: false,
       errorMessage: "",
       courseId: 0,
-      objectives: new Array<String>(),
+      objectives: new Array<{ id: number; objective: string }>(),
       lessons: new Array<Lesson>(),
       InWishlist: false,
       InCart: false,

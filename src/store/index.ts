@@ -21,7 +21,7 @@ const getters = reactive({
 });
 
 const myActions = {
-    async getAuthStatusServer(): Promise<Boolean> {
+    async getAuthStatusServer(): Promise<boolean> {
         try {
             const res = await http.get("/auth/statuslogin");
             user.loggedIn = res.data.loggedIn;

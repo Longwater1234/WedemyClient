@@ -131,7 +131,6 @@ export default defineComponent({
       searchItem: "",
       color: "black",
       navMenuList,
-      isBad: false,
       Search: markRaw(Search),
     };
   },
