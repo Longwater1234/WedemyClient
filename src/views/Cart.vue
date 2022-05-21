@@ -109,6 +109,7 @@ export default defineComponent({
 <style scoped>
 .jojo {
   display: flex;
+  height: 70vh;
   width: 100%;
   flex-direction: row;
 }

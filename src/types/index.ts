@@ -24,9 +24,11 @@ export interface Wishlist {
 }
 
 export interface Lesson {
-    id: number;
+    id: string;
     lessonName: string;
     videokey: string;
+    lengthSeconds: string | number;
+    position: number
 }
 
 /* for submitting Payment to server */

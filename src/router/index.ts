@@ -102,6 +102,9 @@ const routes: Array<RouteRecordRaw> = [
     path: "/account/learning/course/:courseId(\\d+)",
     name: "LearnCourse",
     component: () => import("../views/LearnCourse.vue"),
+    meta: {
+      hideNavbar: true,
+    },
     beforeEnter: async (to, from, next) => {
       const isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });

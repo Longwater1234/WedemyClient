@@ -96,7 +96,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .main-view {
   text-align: center;
   justify-content: center;
