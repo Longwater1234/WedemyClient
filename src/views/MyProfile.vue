@@ -33,7 +33,7 @@
         </div>
         <div @click="goToLearning()" class="recentSingle linky">View All</div>
       </div>
-      <div class="nodata" v-else>No data</div>
+      <div v-else class="nodata">No data</div>
     </div>
 
     <!-- START OF CERTIFICATES -->
@@ -47,6 +47,7 @@
 <script lang="ts">
 import EnrollService from "@/services/EnrollService";
 import ProfileService from "@/services/ProfileService";
+import { User } from "@/types";
 import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 
@@ -60,7 +61,7 @@ export default defineComponent({
       isLoading: true,
       summaryList: [],
       courseList: [],
-      userInfo: {},
+      userInfo: {} as User,
     };
   },
   methods: {
@@ -76,7 +77,7 @@ export default defineComponent({
     toLower(item: string) {
       return item.toLowerCase();
     },
-    getShortProgress() {
+    getUserProgress() {
       EnrollService.getMySummary()
         .then((res) => (this.courseList = res.data))
         .catch((err) => ElMessage.error(err.message))
@@ -91,7 +92,7 @@ export default defineComponent({
   },
   mounted() {
     this.getProfileInfo();
-    this.getShortProgress();
+    this.getUserProgress();
   },
 });
 </script>
@@ -101,7 +102,6 @@ export default defineComponent({
   text-align: center;
   justify-content: center;
 }
-
 
 .joined {
   font-size: 14px;
