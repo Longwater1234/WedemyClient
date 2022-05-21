@@ -7,9 +7,7 @@
       type="error"
       :closable="false"
     ></el-alert>
-    <!-- TODO: ADD GRIDVIEw for results HERE -->
-
-    <!-- START MAIN BODY -->
+  
     <!-- START COURSE CARD -->
     <div class="course-box">
       <el-space
@@ -40,6 +38,10 @@
             </div>
           </el-card>
         </el-space>
+
+        <el-space v-else wrap size="large" fill>
+          <h2 style="margin: auto; color:grey">You haven't enrolled in any course.</h2>
+        </el-space>
       </el-space>
     </div>
     <!-- END OF SINGLE CARD -->
@@ -57,7 +59,6 @@ export default defineComponent({
     document.title = `My Learning | Wedemy`;
     return {
       isLoading: true,
-      baseRadius: "var(--el-border-radius-base)",
       serverError: "",
       courses: Array<Course>(),
     };
@@ -113,6 +114,7 @@ export default defineComponent({
 }
 
 .course-box {
+  border: 1px solid black !important;
   border: none !important;
   width: 100% !important;
 }

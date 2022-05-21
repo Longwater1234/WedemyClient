@@ -1,9 +1,9 @@
 <template>
   <footer class="footer">
     <div class="lefty">
-      <el-row>Photo Credits</el-row>
-      <el-row>About Us</el-row>
-      <el-row>(Github Links)</el-row>
+      <el-row class="footer-row">Photo Credits</el-row>
+      <el-row class="footer-row">About Us</el-row>
+      <el-row class="footer-row">(Github Links)</el-row>
     </div>
     <div class="righty">
       <el-row>&copy; 2021, Wedemy</el-row>
@@ -43,20 +43,22 @@ export default defineComponent({
   height: 5em;
   bottom: 0;
   color: white;
-  background-color: black;
+  background-color: #1c1d1f;
 }
 
 .lefty {
   float: left;
 }
 
-.lefty el-row {
-  margin-bottom: 20px;
+.lefty .footer-row {
+  margin-bottom: 5px;
 }
 
 .righty {
   float: right;
 }
+
+
 
 #ft-logo {
   width: 10em;

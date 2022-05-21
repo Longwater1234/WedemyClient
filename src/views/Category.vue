@@ -10,7 +10,7 @@
     >
     </el-alert>
 
-     <div v-loading="isLoading"></div>
+    <div v-loading="isLoading"></div>
 
     <!-- START COURSE CARD -->
     <div class="course-box" :style="{ borderRadius: baseRadius }">
@@ -80,7 +80,6 @@ export default defineComponent({
   },
   methods: {
     goToCourse(id: number) {
-      //TODO write nav logic here
       this.$router.push(`/course/${id}`);
     },
     fetchCoursesbyCategory(name: string) {
@@ -101,8 +100,8 @@ export default defineComponent({
     "$route.params.name": {
       deep: false,
       immediate: true,
-      handler(newVal: string) {
-        if (!newVal) return;
+      handler: function (oldVal: string, newVal: string) {
+        if (!newVal || oldVal === newVal) return;
         this.categoryName = newVal;
         this.fetchCoursesbyCategory(this.categoryName);
         document.title = `Courses in ${this.categoryName} | Wedemy`;
