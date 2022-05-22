@@ -19,7 +19,7 @@ export default defineComponent({
   },
   data() {
     return {
-      categories: [],
+      categories: new Array<{id: number, category: string}>(),
     };
   },
   methods: {
@@ -47,7 +47,7 @@ export default defineComponent({
   --secondary: #3b2b83;
   --background: #ffff;
   --el-rate-text-color: var(--background);
-  --dark: #0000;
+  --dark: #1c1d1f;
 }
 #app {
   -webkit-font-smoothing: antialiased;

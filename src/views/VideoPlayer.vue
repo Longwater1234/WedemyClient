@@ -88,7 +88,7 @@ export default defineComponent({
 }
 .rowbig {
   display: flex;
-  background-color: rgb(36, 36, 36);
+  background-color: var(--dark);
   flex-direction: row;
   color: white;
   width: 100%;

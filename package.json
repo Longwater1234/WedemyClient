@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
+    "@techassi/vue-youtube-iframe": "^1.0.6",
     "axios": "^0.26.1",
     "braintree-web-drop-in": "^1.6.1",
     "core-js": "^3.8.3",

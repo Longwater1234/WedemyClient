@@ -221,7 +221,6 @@ export default defineComponent({
   right: 0;
   left: 0;
   padding: 0.25em;
-  /* box-shadow: grey 1px 1px 1px 1px; */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
