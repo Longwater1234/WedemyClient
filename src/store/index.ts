@@ -8,7 +8,7 @@ interface userState {
     cartCount: number;
 }
 
-const user: userState = reactive({
+const User: userState = reactive({
     username: "",
     loggedIn: false,
     cartCount: 0,
@@ -16,17 +16,17 @@ const user: userState = reactive({
 
 //GETTERS
 const getters = reactive({
-    isLoggedIn: computed(() => user.loggedIn),
-    getCartCount: computed(() => user.cartCount),
+    isLoggedIn: computed(() => User.loggedIn),
+    getCartCount: computed(() => User.cartCount),
 });
 
 const myActions = {
     async getAuthStatusServer(): Promise<boolean> {
         try {
             const res = await http.get("/auth/statuslogin");
-            user.loggedIn = res.data.loggedIn;
-            user.username = res.data.user.fullname || res.data.user;
-            return Boolean(user.loggedIn);
+            User.loggedIn = res.data.loggedIn;
+            User.username = res.data.user.fullname || res.data.user;
+            return Boolean(User.loggedIn);
         } catch (error: any) {
             console.error(error.message);
             return false;
@@ -36,8 +36,8 @@ const myActions = {
     async getCartCountServer(): Promise<number> {
         try {
             const res = await http.get("/cart/mine/count");
-            user.cartCount = res.data.cartCount;
-            return user.cartCount;
+            User.cartCount = res.data.cartCount;
+            return User.cartCount;
         } catch (error: any) {
             console.error(error.message);
             return 0;
@@ -46,7 +46,7 @@ const myActions = {
 };
 
 export default {
-    state: user,
+    state: User,
     getters,
     ...myActions,
 };

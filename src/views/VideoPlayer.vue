@@ -1,11 +1,14 @@
 <template>
   <div class="main-view">
-    <h2>{{ singleCourse.title }}</h2>
+    <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col1">
         <div class="rowbig">bb</div>
         <div class="rowsmall">
-          <p class="biggy">{{ singleLesson.lessonName }}</p>
+          <el-col>
+            <p class="biggy">Lesson {{ singleLesson.lessonName }}</p>
+            <p>{{ singleCourse.subtitle }}</p>
+          </el-col>
         </div>
       </div>
       <div class="col2">dd</div>
@@ -21,7 +24,7 @@ import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "LessonViewer",
+  name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
     return {
@@ -88,7 +91,8 @@ export default defineComponent({
   background-color: rgb(36, 36, 36);
   flex-direction: row;
   color: white;
-  height: 70%;
+  width: 100%;
+  padding-top: 56.25%;
 }
 .rowsmall {
   display: flex;
@@ -97,7 +101,8 @@ export default defineComponent({
 }
 
 .biggy {
-  font-size: 2em;
+  font-size: 1.5em;
+  margin-bottom: 1em;
 }
 
 @media screen and (max-width: 900px) {
@@ -112,8 +117,7 @@ export default defineComponent({
   }
   .rowbig {
     width: 100%;
-    height: calc(9 / 16 * 100vw);
-    aspect-ratio: 16/9;
+    padding-top: 56.25%;
   }
 
   .rowsmall {

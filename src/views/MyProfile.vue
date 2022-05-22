@@ -27,7 +27,7 @@
     <div class="recently">
       <h3 class="serif-head">Your Recent Courses</h3>
       <div class="recentBox" v-if="courseList.length > 0">
-        <div class="recentSingle" v-for="item in courseList" :key="item.id">
+        <div class="recentSingle" v-for="item in courseList" :key="item.id"  @click="goToCourse(item.courseId)">
           {{ item.title }}
           <el-progress class="myprogress" :percentage="item.progress" />
         </div>
@@ -86,8 +86,9 @@ export default defineComponent({
     goToLearning() {
       this.$router.push("/account/learning");
     },
-    viewAllOwned() {
-      //TODO go to all my courses
+    
+     goToCourse(id: number) {
+      this.$router.push({ name: "LearnCourse", params: { courseId: id } });
     },
   },
   mounted() {
