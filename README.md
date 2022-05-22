@@ -7,7 +7,8 @@ powered by **Braintree Payments**). The Backend is a Java Springboot application
 ## Live Demo (coming soon)
 
 The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual money will be deducted on Checkout. You may use test
-credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).
+credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java). Also, just so 
+you know, this demo serves embedded Content from YouTube with "no-cookie" option, which is GREAT -- no tracking by Google.
 
 ## Main `npm` Libraries used
 
@@ -24,3 +25,7 @@ credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/gu
 - For Braintree tutorials and examples, please see
   the [official docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)
+
+## Pull Requests & Contributions
+
+This app still has much potential. Several missing features: Admin Panel, Instructor Dashboard etc. Code Contributions and pull requests are welcome!

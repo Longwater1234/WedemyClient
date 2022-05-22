@@ -1,6 +1,9 @@
 {
   "name": "Wedemy",
   "short_name": "wedemy",
+  "description": "An e-learning platform",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "/img/android-chrome-192x192.png",

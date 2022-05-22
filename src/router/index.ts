@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Checkout.vue"),
     beforeEnter: (to, from, next) => {
       const itemCount = store.state.cartCount;
-      if (itemCount === 0) next({ name: "Home" });
+      if (!itemCount) next({ name: "Home" });
       else next();
     },
   },
