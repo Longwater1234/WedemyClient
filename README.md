@@ -28,4 +28,4 @@ you know, this demo serves embedded Content from YouTube with "no-cookie" option
 
 ## Pull Requests & Contributions
 
-This app still has much potential. Several missing features: Admin Panel, Instructor Dashboard etc. Code Contributions and pull requests are welcome!
+This app still has much potential. Code Contributions and pull requests are welcome!
