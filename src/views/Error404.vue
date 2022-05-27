@@ -20,7 +20,7 @@ export default {
   data() {
     document.title = "404 Error | Wedemy"
     return {
-      myInput: "Hello world"
+      myInput: "Hello world";
     };
   },
   methods: {},
