@@ -7,8 +7,8 @@ powered by **Braintree Payments**). The Backend is a Java Springboot application
 ## Live Demo (coming soon)
 
 The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual money will be deducted on Checkout. You may use test
-credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java). Also, just so 
-you know, this demo serves embedded Content from YouTube with "no-cookie" option, which is GREAT -- no tracking by Google.
+credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java). Also, this demo serves
+embedded Content from YouTube with "no-cookie" option, which means tracking is disabled.
 
 ## Main `npm` Libraries used
 

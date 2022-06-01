@@ -3,15 +3,31 @@
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col1">
-        <div class="rowbig">bb</div>
+        <div class="rowbig" v-if="videoLink.length">
+          <youtube-iframe
+            :video-id="videoLink"
+            :player-width="1280"
+            :player-height="720"
+            :no-cookie="true"
+            @state-change="handleChange"
+          ></youtube-iframe>
+        </div>
         <div class="rowsmall">
           <el-col>
-            <p class="biggy">Lesson {{ singleLesson.lessonName }}</p>
+            <p class="biggy">
+              Lesson {{ singleLesson.lessonName }}
+              <span>| {{ singleLesson.lengthSeconds }}</span>
+            </p>
             <p>{{ singleCourse.subtitle }}</p>
           </el-col>
         </div>
       </div>
-      <div class="col2">dd</div>
+      <div class="col2">
+        <div v-for="item in lessonList" :key="item.id">
+          <p>{{ item.lessonName }}</p>
+          <p>{{ item.lengthSeconds }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,14 +44,17 @@ export default defineComponent({
   data() {
     document.title = "Lecture | Wedemy";
     return {
+      videoLink: "",
       singleLesson: {} as Lesson,
       singleCourse: {} as Course,
+      lessonList: new Array<Lesson>(),
     };
   },
   methods: {
     getPlayLink(obj: VideoRequest) {
       LessonService.buildPlayLink(obj)
         .then((res) => (this.singleLesson = res.data))
+        .then(() => (this.videoLink = this.singleLesson.videokey))
         .catch((err) => this.handleError(err));
     },
 
@@ -46,11 +65,21 @@ export default defineComponent({
       });
     },
 
+    fetchLessonList(courseId: number) {
+      LessonService.getLessonsByCourse(courseId).then(
+        (res) => (this.lessonList = res.data)
+      );
+    },
+
     /* redirect to MyLearning  */
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
       this.$router.replace({ name: "MyLearning" });
+    },
+
+    handleChange(e: Event) {
+      console.log(e);
     },
   },
   mounted() {
@@ -62,6 +91,7 @@ export default defineComponent({
     };
     this.getPlayLink(obj);
     this.fetchSingleCourse(numCourseId);
+    this.fetchLessonList(numCourseId);
   },
 });
 </script>
@@ -79,6 +109,7 @@ export default defineComponent({
   height: 100vh;
   width: 70%;
 }
+
 .col2 {
   display: flex;
   flex-direction: column;
@@ -87,12 +118,9 @@ export default defineComponent({
   border: 1px green solid;
 }
 .rowbig {
-  display: flex;
-  background-color: var(--dark);
-  flex-direction: row;
-  color: white;
-  width: 100%;
-  padding-top: 56.25%;
+  position: relative;
+  width: 80%;
+  /* padding-top: 56.25%; */
 }
 .rowsmall {
   display: flex;

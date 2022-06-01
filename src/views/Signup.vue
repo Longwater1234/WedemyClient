@@ -4,6 +4,7 @@
       <h3 class="loginHeader">Sign Up and Start Learning!</h3>
 
       <!-- GOOGLE SIGN UP  -->
+       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
       <div
         id="g_id_onload"
         :data-client_id="GOOGLE_CLIENT_ID"

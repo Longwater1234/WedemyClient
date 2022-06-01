@@ -4,6 +4,7 @@
       <h3 class="loginHeader">Login to your Wedemy Account</h3>
 
       <!-- GOOGLE SIGN IN  -->
+      <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
       <div
         id="g_id_onload"
         :data-client_id="GOOGLE_CLIENT_ID"
@@ -126,7 +127,7 @@ export default {
       Message: markRaw(Message),
       Lock: markRaw(Lock),
       isLoading: false,
-      GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
+      GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
     };
   },
