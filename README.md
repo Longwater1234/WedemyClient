@@ -1,7 +1,7 @@
 # WedemyClient
 
-(Frontend Repo). Clone of Udemy, built using Vue 3 + Typescript + Element Plus + Injector/Provider API (No Vuex!). All
-pages (but 1) have been built with Options API. This App is also integrated with PayPal and CreditCard checkout (both
+(Frontend Repo). Clone of Udemy, built using Vue 3 + Typescript + Element Plus + Injector/Provider API (No Vuex!). Almost
+all components have been built with Options API. This App is also integrated with PayPal and CreditCard checkout (both
 powered by **Braintree Payments**). The Backend is a Java Springboot application.
 
 ## Live Demo (coming soon)

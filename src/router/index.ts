@@ -98,7 +98,7 @@ const routes: Array<RouteRecordRaw> = [
       else next();
     },
   },
-   {
+  {
     path: "/account/learning/course/:courseId(\\d+)",
     name: "LearnCourse",
     component: () => import("../views/LearnCourse.vue"),
