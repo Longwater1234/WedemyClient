@@ -62,7 +62,8 @@ import CartService from "@/services/CartService";
 import { Course, PaymentObj } from "@/types";
 import store from "@/store";
 
- // DEMO: https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
+ // SEE OFFICIAL DEMO::
+ // https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
 export default defineComponent({
   data() {
     let paymentInstance: Dropin | undefined;
@@ -93,7 +94,7 @@ export default defineComponent({
           authorization: token,
           container: "#paymentContainer",
           paypal: {
-            //OPTIONAL, requires PayPal Dev Account
+            //OPTIONAL, requires (free) PayPal Business Account
             flow: "checkout",
             amount: self.totalPrice,
             currency: "USD",

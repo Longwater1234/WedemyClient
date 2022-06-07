@@ -41,9 +41,9 @@
     @toggleWishlist="onToggleWishlist"
     @toggleCart="onToggleCart"
     style="margin-top: -300px"
-    :InWishlist="InWishlist"
-    :IsOwned="isOwned"
-    :InCart="InCart"
+    :inWishlist="inWishlist"
+    :isOwned="isOwned"
+    :inCart="inCart"
     :singleCourse="singleCourse"
   >
   </course-details>
@@ -103,8 +103,8 @@ export default defineComponent({
       courseId: 0,
       objectives: new Array<{ id: number; objective: string }>(),
       lessons: new Array<Lesson>(),
-      InWishlist: false,
-      InCart: false,
+      inWishlist: false,
+      inCart: false,
       isOwned: false,
       singleCourse: {
         title: "",
@@ -146,7 +146,7 @@ export default defineComponent({
 
     /** IF USER OWNS THIS COURSE */
     checkEnrollStatus(courseId: number) {
-      let self = this;
+      const self = this;
       EnrollService.checkStatus(courseId)
         .then((res) => (self.isOwned = res.data.isOwned))
         .then(() => {
@@ -159,42 +159,42 @@ export default defineComponent({
     /* listen for event from Child */
     onToggleWishlist(courseId: number) {
       const self = this;
-      let myAction = self.InWishlist
+      let myAction = self.inWishlist
         ? WishlistService.removeOneByCourse(courseId)
         : WishlistService.addNew(courseId);
       myAction
-        .then(() => (self.InWishlist = !self.InWishlist))
+        .then(() => (self.inWishlist = !self.inWishlist))
         .catch((error) => this.handleError(error));
     },
 
     /** IF this course ALREADY wishlist */
     checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
-        this.InWishlist = res.data.inWishlist;
+        this.inWishlist = res.data.inWishlist;
       });
     },
 
     /* listen for Event from Child */
     onToggleCart(courseId: number) {
       const self = this;
-      let myAction = self.InCart
+      let myAction = self.inCart
         ? CartService.removeOneByCourse(courseId)
         : CartService.addNew(courseId);
       myAction
-        .then(() => self.handleSuccessCart(self.InCart))
+        .then(() => self.handleSuccessCart(self.inCart))
         .catch((error) => self.handleError(error));
     },
 
     /** CHECK IF ALREADY IN CART */
     checkCartStatus(courseId: number) {
       CartService.checkItemInCart(courseId).then((res) => {
-        this.InCart = res.data.inCart;
+        this.inCart = res.data.inCart;
       });
     },
 
     /** AFTER ADDING TO CART */
-    handleSuccessCart(InCart: boolean) {
-      this.InCart = !InCart;
+    handleSuccessCart(inCart: boolean) {
+      this.inCart = !inCart;
       store.getCartCountServer(); //refresh
       return ElNotification({
         type: "success",
@@ -214,7 +214,7 @@ export default defineComponent({
       return this.lessons.length;
     },
     notifMessage(): string {
-      return this.InCart ? "Added to Cart" : "Removed from Cart";
+      return this.inCart ? "Added to Cart" : "Removed from Cart";
     },
   },
   mounted() {
