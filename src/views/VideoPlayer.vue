@@ -45,14 +45,14 @@ export default defineComponent({
   name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
-    let playerParams: YT.PlayerVars = { modestbranding: 1, rel: 0 };
+    //let playerParams: YT.PlayerVars = ;
     return {
       videoKey: "",
       courseId: 0,
       singleLesson: {} as Lesson,
       singleCourse: {} as Course,
       lessonList: new Array<Lesson>(),
-      playerParams,
+      playerParams: { modestbranding: 1, rel: 0 },
     };
   },
   methods: {
@@ -78,10 +78,6 @@ export default defineComponent({
       LessonService.getLessonsByCourse(courseId).then(
         (res) => (this.lessonList = res.data)
       );
-    },
-
-    getVideoSrc(key: string): string {
-      return `https://www.youtube-nocookie.com/embed/${key}?modestbranding=1&rel=0`;
     },
 
     /* redirect to MyLearning  */
@@ -137,17 +133,18 @@ export default defineComponent({
   padding-bottom: 56.25%;
   height: 0;
 }
-.vue-youtube-iframe {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
+
+.rowbig,
+#mamaPlayer {
+  position: relative !important;
+  width: 100% !important;
 }
 
-#vue-youtube-iframe-2,
-#vue-youtube-iframe-1 {
-  position: absolute;
-  top: 0;
-  left: 0;
+iframe {
+  position: absolute !important;
+  top: 0 !important;
+  width: 100% !important;
+  left: 0 !important;
 }
 
 .rowsmall {
@@ -171,7 +168,8 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
   }
-  .vue-youtube-iframe {
+  .rowbig,
+  #mamaPlayer {
     width: 100%;
     position: relative;
     padding-top: 56.25%;
@@ -179,21 +177,10 @@ export default defineComponent({
     padding: 0;
   }
 
-  .vue-youtube-iframe > iframe {
-    position: absolute;
-    height: auto;
-    width: 100%;
-  }
-
-  #vue-youtube-iframe-2,
-  #vue-youtube-iframe-1 {
-    width: 100%;
-    position: absolute;
+  iframe {
+    width: 100% !important;
     height: unset;
-    padding-bottom: 100%;
-    position: absolute;
   }
-
   .rowsmall {
     height: fit-content;
   }
