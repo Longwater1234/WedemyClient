@@ -28,4 +28,4 @@ embedded Content from YouTube with "no-cookie" option, which means tracking is d
 
 ## Pull Requests & Contributions
 
-Code Contributions and pull requests are welcome!
+Code Contributions and pull requests are welcome! Perhaps creating Dashboard for ADMIN and INSTRUCTOR.
