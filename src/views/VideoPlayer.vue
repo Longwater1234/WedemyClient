@@ -4,13 +4,15 @@
     <div class="mycontainer">
       <div class="col1">
         <el-row class="rowbig" v-if="videoKey.length">
-          <iframe
-            :src="getVideoSrc(videoKey)"
-            width="980"
-            height="551"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
+          <youtube-iframe
+            id="mamaPlayer"
+            :video-id="videoKey"
+            :player-width="980"
+            :player-height="551"
+            :no-cookie="true"
+            @state-change="handleChange"
+            :player-parameters="playerParams"
+          ></youtube-iframe>
         </el-row>
         <div class="rowsmall">
           <el-col>
@@ -43,12 +45,14 @@ export default defineComponent({
   name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
+    let playerParams: YT.PlayerVars = { modestbranding: 1, rel: 0 };
     return {
       videoKey: "",
       courseId: 0,
       singleLesson: {} as Lesson,
       singleCourse: {} as Course,
       lessonList: new Array<Lesson>(),
+      playerParams,
     };
   },
   methods: {
@@ -133,13 +137,19 @@ export default defineComponent({
   padding-bottom: 56.25%;
   height: 0;
 }
-.rowbig iframe {
+.vue-youtube-iframe {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
+
+#vue-youtube-iframe-2,
+#vue-youtube-iframe-1 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
 }
+
 .rowsmall {
   display: flex;
   flex-direction: row;
@@ -161,19 +171,27 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
   }
-  .rowbig {
+  .vue-youtube-iframe {
     width: 100%;
     position: relative;
     padding-top: 56.25%;
-    aspect-ratio: 16/9;
     margin-bottom: 2em;
     padding: 0;
   }
 
-  .rowbig iframe {
+  .vue-youtube-iframe > iframe {
     position: absolute;
     height: auto;
-    aspect-ratio: 16/9;
+    width: 100%;
+  }
+
+  #vue-youtube-iframe-2,
+  #vue-youtube-iframe-1 {
+    width: 100%;
+    position: absolute;
+    height: unset;
+    padding-bottom: 100%;
+    position: absolute;
   }
 
   .rowsmall {
