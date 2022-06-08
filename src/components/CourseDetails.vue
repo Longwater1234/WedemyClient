@@ -1,5 +1,5 @@
 <template>
-  <el-affix :offset="10" class="fixed-baby">
+  <el-affix :offset="10" class="fixed-baby full-only">
     <el-card shadow="hover" class="details-card">
       <div>
         <img
@@ -11,24 +11,24 @@
       <h1>${{ singleCourse.price }}</h1>
 
       <!-- IF NOT OWN COURSE, show CART + WISHLIST Btn -->
-      <div v-if="!IsOwned" class="btn-block">
+      <div v-if="!isOwned" class="btn-block">
         <el-button
           id="cart-btn"
           :loading="isLoading"
           class="btn purple"
-          :class="{ black: InCart === true }"
+          :class="{ black: inCart === true }"
           @click="emitCart(singleCourse.id)"
         >
           {{ getCartTitle }}
         </el-button>
         <el-button
           id="wishlist-btn"
-          :class="{ pressed: InWishlist === true }"
+          :class="{ pressed: inWishlist === true }"
           :title="getBtnTitle"
           @click="emitWishlist(singleCourse.id)"
           circle
         >
-          {{ InWishlist ? "&#9829;" : "&#9825;" }}
+          {{ inWishlist ? "&#9829;" : "&#9825;" }}
           <!-- wishlist button -->
         </el-button>
       </div>
@@ -36,7 +36,7 @@
       <!-- ELSE, direct to LESSONS -->
       <div v-else>
         <p class="grey-sub">You already own this course</p>
-        <el-button class="black btn">
+        <el-button class="black btn" @click="goToCourse(singleCourse.id)">
           Continue Learning <el-icon><arrow-right /></el-icon>
         </el-button>
       </div>
@@ -54,10 +54,11 @@
 </template>
 
 <script lang="ts">
-import { ArrowRight, Star } from "@element-plus/icons-vue";
+import { ArrowRight } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
 import store from "@/store";
 import { ElMessage } from "element-plus";
+import { Course } from "@/types";
 
 export default defineComponent({
   data() {
@@ -72,15 +73,15 @@ export default defineComponent({
       type: Object,
       default: {},
     },
-    InWishlist: {
+    inWishlist: {
       type: Boolean,
       default: false,
     },
-    InCart: {
+    inCart: {
       type: Boolean,
       default: false,
     },
-    IsOwned: {
+    isOwned: {
       type: Boolean,
       default: false,
     },
@@ -100,17 +101,20 @@ export default defineComponent({
       ElMessage.error("Must be logged in!");
       this.$router.push("/login");
     },
+
+     goToCourse(id: number) {
+      this.$router.push({ name: "LearnCourse", params: { courseId: id } });
+    },
   },
   components: {
-    Star,
     ArrowRight,
   },
   computed: {
     getBtnTitle(): string {
-      return this.InWishlist ? this.btnTitle[1] : this.btnTitle[0];
+      return this.inWishlist ? this.btnTitle[1] : this.btnTitle[0];
     },
     getCartTitle(): string {
-      return this.InCart ? this.cartTitle[1] : this.cartTitle[0];
+      return this.inCart ? this.cartTitle[1] : this.cartTitle[0];
     },
   },
   mounted() {},

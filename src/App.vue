@@ -19,7 +19,7 @@ export default defineComponent({
   },
   data() {
     return {
-      categories: new Array<{id: number, category: string}>(),
+      categories: new Array<{ id: number; category: string }>(),
     };
   },
   methods: {
@@ -144,6 +144,9 @@ a {
     width: 100% !important;
   }
 
+  .full-only {
+    display: none;
+  }
   .cart-header {
     padding: 5% 10%;
     height: 2em;

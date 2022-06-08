@@ -3,15 +3,17 @@
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col1">
-        <div class="rowbig" v-if="videoLink.length">
+        <el-row class="rowbig" v-if="videoKey.length">
           <youtube-iframe
-            :video-id="videoLink"
-            :player-width="1280"
-            :player-height="720"
+            id="mamaPlayer"
+            :video-id="videoKey"
+            :player-width="980"
+            :player-height="551"
             :no-cookie="true"
             @state-change="handleChange"
+            :player-parameters="playerParams"
           ></youtube-iframe>
-        </div>
+        </el-row>
         <div class="rowsmall">
           <el-col>
             <p class="biggy">
@@ -24,8 +26,8 @@
       </div>
       <div class="col2">
         <div v-for="item in lessonList" :key="item.id">
-          <p>{{ item.lessonName }}</p>
-          <p>{{ item.lengthSeconds }}</p>
+          <div>{{ item.lessonName }}</div>
+          <div>{{ item.lengthSeconds }}</div>
         </div>
       </div>
     </div>
@@ -43,18 +45,25 @@ export default defineComponent({
   name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
+    let playerParams: YT.PlayerVars = { modestbranding: 1, rel: 0 };
     return {
-      videoLink: "",
+      videoKey: "",
+      courseId: 0,
       singleLesson: {} as Lesson,
       singleCourse: {} as Course,
       lessonList: new Array<Lesson>(),
+      playerParams,
     };
   },
   methods: {
     getPlayLink(obj: VideoRequest) {
       LessonService.buildPlayLink(obj)
         .then((res) => (this.singleLesson = res.data))
-        .then(() => (this.videoLink = this.singleLesson.videokey))
+        .then(() => {
+          this.videoKey = this.singleLesson.videokey;
+          this.fetchSingleCourse(this.courseId);
+          this.fetchLessonList(this.courseId);
+        })
         .catch((err) => this.handleError(err));
     },
 
@@ -71,6 +80,10 @@ export default defineComponent({
       );
     },
 
+    getVideoSrc(key: string): string {
+      return `https://www.youtube-nocookie.com/embed/${key}?modestbranding=1&rel=0`;
+    },
+
     /* redirect to MyLearning  */
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
@@ -78,8 +91,11 @@ export default defineComponent({
       this.$router.replace({ name: "MyLearning" });
     },
 
-    handleChange(e: Event) {
-      console.log(e);
+    handleChange(e: { data: number; target: any }) {
+      if (e.data === 0) {
+        ElMessage.info("Video Ended");
+        //UPDATE STATUS; REDIRECT 2 NEXT LESSON
+      }
     },
   },
   mounted() {
@@ -89,9 +105,8 @@ export default defineComponent({
       courseId: numCourseId,
       lessonId: lessonId.toString(),
     };
+    this.courseId = numCourseId;
     this.getPlayLink(obj);
-    this.fetchSingleCourse(numCourseId);
-    this.fetchLessonList(numCourseId);
   },
 });
 </script>
@@ -115,13 +130,26 @@ export default defineComponent({
   flex-direction: column;
   height: 100vh;
   width: 30%;
-  border: 1px green solid;
 }
 .rowbig {
   position: relative;
-  width: 80%;
-  /* padding-top: 56.25%; */
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
 }
+.vue-youtube-iframe {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
+
+#vue-youtube-iframe-2,
+#vue-youtube-iframe-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .rowsmall {
   display: flex;
   flex-direction: row;
@@ -143,9 +171,27 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
   }
-  .rowbig {
+  .vue-youtube-iframe {
     width: 100%;
+    position: relative;
     padding-top: 56.25%;
+    margin-bottom: 2em;
+    padding: 0;
+  }
+
+  .vue-youtube-iframe > iframe {
+    position: absolute;
+    height: auto;
+    width: 100%;
+  }
+
+  #vue-youtube-iframe-2,
+  #vue-youtube-iframe-1 {
+    width: 100%;
+    position: absolute;
+    height: unset;
+    padding-bottom: 100%;
+    position: absolute;
   }
 
   .rowsmall {
