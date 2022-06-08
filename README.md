@@ -28,4 +28,4 @@ embedded Content from YouTube with "no-cookie" option, which means tracking is d
 
 ## Pull Requests & Contributions
 
-This app still has much potential. Code Contributions and pull requests are welcome!
+Code Contributions and pull requests are welcome!
