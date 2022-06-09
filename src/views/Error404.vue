@@ -18,7 +18,7 @@
 export default {
   name: "NotFound",
   data() {
-    document.title = "404 Error | Wedemy"
+    document.title = "404 Not Found | Wedemy"
     return {
       myInput: "Hello world"
     };

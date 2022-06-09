@@ -122,6 +122,14 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/Error500",
+    name: "ServerError",
+    component: () => import("../views/Error500.vue"),
+    meta: {
+      hideNavbar: true,
+    },
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("../views/Error404.vue"),
@@ -135,7 +143,5 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-//UUID regex
-//new Regex /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/gm
 
 export default router;

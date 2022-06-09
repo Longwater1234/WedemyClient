@@ -23,7 +23,7 @@ embedded Content from YouTube with "no-cookie" option, which means tracking is d
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account (for payments handling)
 - (OPTIONAL) Free PayPal Business Account
 - For Braintree tutorials and examples, please see
-  the [official docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
+  the [official JS docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)
 
 ## Pull Requests & Contributions

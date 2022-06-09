@@ -1,5 +1,3 @@
-### today 2022.0.20
+### today 2022.06.09
 
-- purchase history is OK on mobile
-- profile is completed
-- axios interceptors work
+- Added AXIOS interceptor. WORKS GREAT!
