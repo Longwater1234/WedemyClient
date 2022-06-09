@@ -16,9 +16,9 @@
         </el-row>
         <div class="rowsmall">
           <el-col>
-            <p class="biggy">
-              Lesson {{ singleLesson.lessonName }}
-              <span>| {{ singleLesson.lengthSeconds }}</span>
+            <p class="biggy" v-if="videoKey.length">
+              Lesson {{ videoResponse.lesson.lessonName }}
+              <span>| {{ videoResponse.lesson.lengthSeconds }}</span>
             </p>
             <p>{{ singleCourse.subtitle }}</p>
           </el-col>
@@ -35,32 +35,34 @@
 </template>
 
 <script lang="ts">
+import { Course, Lesson, VideoRequest, VideoResponse, WatchStatus } from "@/types";
 import CourseService from "@/services/CourseService";
+import EnrollService from "@/services/EnrollService";
 import LessonService from "@/services/LessonService";
-import { Course, Lesson, VideoRequest } from "@/types";
 import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
-
 export default defineComponent({
   name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
-    //let playerParams: YT.PlayerVars = ;
+    let playerParams: YT.PlayerVars = { modestbranding: 1, rel: 0 };
     return {
       videoKey: "",
+      enrollId: 0,
       courseId: 0,
-      singleLesson: {} as Lesson,
+      videoResponse: {} as VideoResponse,
       singleCourse: {} as Course,
       lessonList: new Array<Lesson>(),
-      playerParams: { modestbranding: 1, rel: 0 },
+      playerParams,
     };
   },
   methods: {
     getPlayLink(obj: VideoRequest) {
       LessonService.buildPlayLink(obj)
-        .then((res) => (this.singleLesson = res.data))
+        .then((res) => (this.videoResponse = res.data))
         .then(() => {
-          this.videoKey = this.singleLesson.videokey;
+          this.videoKey = this.videoResponse.lesson.videokey;
+          this.enrollId = this.videoResponse.enrollId;
           this.fetchSingleCourse(this.courseId);
           this.fetchLessonList(this.courseId);
         })
@@ -84,14 +86,30 @@ export default defineComponent({
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
-      this.$router.replace({ name: "MyLearning" });
     },
 
     handleChange(e: { data: number; target: any }) {
       if (e.data === 0) {
-        ElMessage.info("Video Ended");
-        //UPDATE STATUS; REDIRECT 2 NEXT LESSON
+        let status: WatchStatus = {
+          enrollId: this.enrollId,
+          courseId: this.singleCourse.id,
+          currentLessonId: this.videoResponse.lesson.id,
+        };
+        this.updateWatchStatus(status);
       }
+    },
+
+    /** play next video */
+    redirectToPlayer(lessonId: string) {
+      var link = `/videoplayer/course/${this.singleCourse.id}/lesson/${lessonId}`;
+      return window.location.replace(link);
+    },
+
+    /** send to server */
+    updateWatchStatus(obj: WatchStatus) {
+      EnrollService.updateStatus(obj)
+        .then((res) => this.redirectToPlayer(res.data.nextLessonId))
+        .catch((err) => this.handleError(err));
     },
   },
   mounted() {
@@ -127,6 +145,7 @@ export default defineComponent({
   height: 100vh;
   width: 30%;
 }
+
 .rowbig {
   position: relative;
   width: 100%;
@@ -176,7 +195,6 @@ iframe {
     margin-bottom: 2em;
     padding: 0;
   }
-
   iframe {
     width: 100% !important;
     height: unset;
@@ -189,9 +207,11 @@ iframe {
   .col2 {
     width: 100%;
   }
+
   .col1 {
     height: fit-content;
   }
+
   .col2 {
     height: auto;
   }

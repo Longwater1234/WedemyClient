@@ -28,7 +28,7 @@ export interface Lesson {
     lessonName: string;
     videokey: string;
     lengthSeconds: string | number;
-    position: number
+    position: number;
 }
 
 /* for submitting Payment to server */
@@ -54,9 +54,15 @@ export interface VideoRequest {
     lessonId: string;
 }
 
-/** for Password Reset */
-export interface PasswordRequest {
-    currentPass: string;
-    newPass: string;
-    confirmPass: string
+/* for video player */
+export interface VideoResponse {
+    enrollId: number;
+    lesson: Lesson;
+}
+
+/* sned to server after lesson complete */
+export interface WatchStatus {
+    enrollId: number;
+    currentLessonId: string;
+    courseId: number;
 }

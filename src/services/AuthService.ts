@@ -1,4 +1,4 @@
-import { PasswordRequest, User } from "@/types";
+import { User } from "@/types";
 import http from "../axiosconfig";
 
 class AuthService {
@@ -12,7 +12,6 @@ class AuthService {
         password: password
       }
     };
-
     return http.post(url, null, options);
   }
 
@@ -35,21 +34,12 @@ class AuthService {
     return http.post("/login", params, options);
   }
 
-  /** sends the whole package to Server */
+  /** sends the whole form to Server */
   registerUser({ email, fullname, password, confirmPass }: User) {
     return http.post("/auth/register", {
       fullname,
       email,
       password,
-      confirmPass
-    });
-  }
-
-  //TODO Base64 encode the fields before send
-  changePassword({ currentPass, newPass, confirmPass }: PasswordRequest) {
-    return http.post("/profile/changepassword", {
-      currentPass,
-      newPass,
       confirmPass
     });
   }

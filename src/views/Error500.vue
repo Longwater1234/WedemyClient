@@ -19,18 +19,16 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   data() {
-    document.title = "404 Error | Wedemy";
-    return {
-      key: "value",
-    };
+    document.title = "500 Internal Server Error | Wedemy";
+    return {};
   },
   mounted() {
-    //do someting
+    //do nothing
   },
 });
 </script>
 
-<style>
+<style scoped>
 .widescreen {
   margin: 0 auto;
   text-align: center;

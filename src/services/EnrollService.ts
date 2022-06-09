@@ -1,3 +1,4 @@
+import { WatchStatus } from "@/types";
 import http from "../axiosconfig";
 
 class EnrollService {
@@ -24,6 +25,10 @@ class EnrollService {
 
   getLastViewed(courseId: number) {
     return http.get(`enroll/resume/course/${courseId}`);
+  }
+
+  updateStatus(obj: WatchStatus) {
+    return http.post("/enroll/watched", obj);
   }
 
 }
