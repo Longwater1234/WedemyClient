@@ -3,7 +3,7 @@
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col1">
-        <el-row class="rowbig" v-if="videoKey.length">
+        <div class="rowbig" v-if="videoKey.length">
           <youtube-iframe
             id="mamaPlayer"
             :video-id="videoKey"
@@ -13,21 +13,25 @@
             @state-change="handleChange"
             :player-parameters="playerParams"
           ></youtube-iframe>
-        </el-row>
+        </div>
         <div class="rowsmall">
-          <el-col>
+          <div>
             <p class="biggy" v-if="videoKey.length">
               Lesson {{ videoResponse.lesson.lessonName }}
               <span>| {{ videoResponse.lesson.lengthSeconds }}</span>
             </p>
             <p>{{ singleCourse.subtitle }}</p>
-          </el-col>
+          </div>
         </div>
       </div>
       <div class="col2">
-        <div v-for="item in lessonList" :key="item.id">
-          <div>{{ item.lessonName }}</div>
-          <div>{{ item.lengthSeconds }}</div>
+        <div
+          v-for="item in lessonList"
+          :key="item.id"
+          :class="{ boldy: item.isWatched }"
+        >
+          <div>{{ item.lesson_name }}</div>
+          <div>{{ item.fmt_time }}</div>
         </div>
       </div>
     </div>
@@ -35,7 +39,13 @@
 </template>
 
 <script lang="ts">
-import { Course, Lesson, VideoRequest, VideoResponse, WatchStatus } from "@/types";
+import {
+  Course,
+  Lesson,
+  VideoRequest,
+  VideoResponse,
+  WatchStatus,
+} from "@/types";
 import CourseService from "@/services/CourseService";
 import EnrollService from "@/services/EnrollService";
 import LessonService from "@/services/LessonService";
@@ -45,7 +55,6 @@ export default defineComponent({
   name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
-    let playerParams: YT.PlayerVars = { modestbranding: 1, rel: 0 };
     return {
       videoKey: "",
       enrollId: 0,
@@ -53,18 +62,18 @@ export default defineComponent({
       videoResponse: {} as VideoResponse,
       singleCourse: {} as Course,
       lessonList: new Array<Lesson>(),
-      playerParams,
+      playerParams: { modestbranding: 1, rel: 0 },
     };
   },
   methods: {
     getPlayLink(obj: VideoRequest) {
-      LessonService.buildPlayLink(obj)
+      EnrollService.buildPlayLink(obj)
         .then((res) => (this.videoResponse = res.data))
         .then(() => {
           this.videoKey = this.videoResponse.lesson.videokey;
           this.enrollId = this.videoResponse.enrollId;
           this.fetchSingleCourse(this.courseId);
-          this.fetchLessonList(this.courseId);
+          this.fetchLessonList(this.courseId, this.enrollId);
         })
         .catch((err) => this.handleError(err));
     },
@@ -76,8 +85,8 @@ export default defineComponent({
       });
     },
 
-    fetchLessonList(courseId: number) {
-      LessonService.getLessonsByCourse(courseId).then(
+    fetchLessonList(courseId: number, enrollId: number) {
+      LessonService.getWatchedList(courseId, enrollId).then(
         (res) => (this.lessonList = res.data)
       );
     },
@@ -100,7 +109,7 @@ export default defineComponent({
     },
 
     /** play next video */
-    redirectToPlayer(lessonId: string) {
+    refreshPlayer(lessonId: string) {
       var link = `/videoplayer/course/${this.singleCourse.id}/lesson/${lessonId}`;
       return window.location.replace(link);
     },
@@ -108,7 +117,7 @@ export default defineComponent({
     /** send to server */
     updateWatchStatus(obj: WatchStatus) {
       EnrollService.updateStatus(obj)
-        .then((res) => this.redirectToPlayer(res.data.nextLessonId))
+        .then((res) => this.refreshPlayer(res.data.nextLessonId))
         .catch((err) => this.handleError(err));
     },
   },
@@ -146,24 +155,21 @@ export default defineComponent({
   width: 30%;
 }
 
+.boldy {
+  font-weight: bold;
+}
+
 .rowbig {
-  position: relative;
   width: 100%;
+  position: relative;
   padding-bottom: 56.25%;
   height: 0;
 }
 
-.rowbig,
-#mamaPlayer {
-  position: relative !important;
+iframe#vue-youtube-iframe-1 {
+  position: absolute;
   width: 100% !important;
-}
-
-iframe {
-  position: absolute !important;
-  top: 0 !important;
-  width: 100% !important;
-  left: 0 !important;
+  height: auto;
 }
 
 .rowsmall {
@@ -177,43 +183,53 @@ iframe {
   margin-bottom: 1em;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 770px) {
   .main-view {
     width: 100%;
     padding: 0;
     margin: 0;
   }
+
   .mycontainer {
-    display: flex;
+    display: block;
     flex-direction: column;
+    width: 100% !important;
+    height: 100%;
   }
   .rowbig,
   #mamaPlayer {
     width: 100%;
-    position: relative;
     padding-top: 56.25%;
     margin-bottom: 2em;
     padding: 0;
   }
   iframe {
     width: 100% !important;
-    height: unset;
+    height: auto;
+  }
+  iframe#vue-youtube-iframe-1 {
+    width: 100% !important;
+    height: auto;
   }
   .rowsmall {
+    display: block;
     height: fit-content;
   }
 
   .col1,
   .col2 {
+    display: block;
     width: 100%;
   }
 
   .col1 {
+    display: block;
     height: fit-content;
   }
 
   .col2 {
-    height: auto;
+    display: block;
+    height: 100%;
   }
 }
 </style>

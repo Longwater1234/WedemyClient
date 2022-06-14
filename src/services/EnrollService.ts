@@ -1,4 +1,4 @@
-import { WatchStatus } from "@/types";
+import { VideoRequest, WatchStatus } from "@/types";
 import http from "../axiosconfig";
 
 class EnrollService {
@@ -31,6 +31,9 @@ class EnrollService {
     return http.post("/enroll/watched", obj);
   }
 
+  buildPlayLink(obj: VideoRequest) {
+    return http.post("/enroll/videolink/builder", obj);
+  }
 }
 
 export default new EnrollService();

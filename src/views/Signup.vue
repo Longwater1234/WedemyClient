@@ -117,14 +117,15 @@ export default {
 
     /* validation for fullname */
     const checkName = (rule, value, callback) => {
-      let reg = /[^ 0-9A-Za-z_.\-']/gi;
+      let reg = /[^ 0-9a-z_.\-']/gi;
+
 
       if (!value) {
         return callback(new Error("Name can't be empty"));
       }
       setTimeout(() => {
-        if (value.length < 4) {
-          callback(new Error("Name less than 4 characters"));
+        if (value.length < 3) {
+          callback(new Error("Name is too short"));
         } else if (reg.test(this.signupForm.fullname)) {
           callback(new Error("Name contains illegal characters"));
         } else {
@@ -146,10 +147,13 @@ export default {
 
     // validation for password
     const checkPassword = (rule, value, callback) => {
+      let passwordReg = /[0-9a-z]+?/gi;
       if (!value) {
         callback(new Error("Password can't be empty"));
-      } else if (value.length < 8) {
-        return callback(new Error("Minimum length is 8 characters long"));
+      } else if (value.length < 9) {
+        return callback(new Error("Minimum length is 9 characters"));
+      } else if(!passwordReg.test(value)) {
+        callback(new Error("Must contain at least 1 digit and 1 alphabet letter"))
       } else {
         callback();
       }

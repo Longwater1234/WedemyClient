@@ -51,6 +51,7 @@ export interface Sale {
 /* for video player */
 export interface VideoRequest {
     courseId: number;
+    enrollId?: number;
     lessonId: string;
 }
 
