@@ -6,8 +6,8 @@ class LessonService {
         return http.get(`/lessons/course/${id}`);
     }
 
-    buildPlayLink(obj: VideoRequest) {
-        return http.post("/lessons/videolink/builder", obj);
+    getWatchedList(courseId: number, enrollId: number) {
+        return http.get(`lessons/course/${courseId}/enroll/${enrollId}`);
     }
 }
 
