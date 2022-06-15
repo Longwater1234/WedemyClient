@@ -3,17 +3,15 @@
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col1">
-        <div class="rowbig" v-if="videoKey.length">
-          <youtube-iframe
-            id="mamaPlayer"
-            :video-id="videoKey"
-            :player-width="980"
-            :player-height="551"
-            :no-cookie="true"
-            @state-change="handleChange"
-            :player-parameters="playerParams"
-          ></youtube-iframe>
-        </div>
+        <youtube-iframe
+          v-if="videoKey.length"
+          :video-id="videoKey"
+          :player-width="980"
+          :player-height="551"
+          :no-cookie="true"
+          @state-change="handleChange"
+          :player-parameters="playerParams"
+        ></youtube-iframe>
         <div class="rowsmall">
           <div>
             <p class="biggy" v-if="videoKey.length">
@@ -166,7 +164,7 @@ export default defineComponent({
   height: 0;
 }
 
-iframe#vue-youtube-iframe-1 {
+iframe[id^="vue-youtube-iframe-1"] {
   position: absolute;
   width: 100% !important;
   height: auto;
@@ -185,32 +183,31 @@ iframe#vue-youtube-iframe-1 {
 
 @media screen and (max-width: 770px) {
   .main-view {
-    width: 100%;
+    max-width: 100%;
     padding: 0;
     margin: 0;
   }
 
   .mycontainer {
-    display: block;
+    display: flex;
     flex-direction: column;
-    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
     height: 100%;
   }
-  .rowbig,
-  #mamaPlayer {
+
+  div[class="vue-youtube-iframe"] {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  iframe[id^="vue-youtube-iframe-1"] {
+    position: absolute;
+    max-width: 100% !important;
     width: 100%;
-    padding-top: 56.25%;
-    margin-bottom: 2em;
-    padding: 0;
-  }
-  iframe {
-    width: 100% !important;
     height: auto;
   }
-  iframe#vue-youtube-iframe-1 {
-    width: 100% !important;
-    height: auto;
-  }
+  
   .rowsmall {
     display: block;
     height: fit-content;
