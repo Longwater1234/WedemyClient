@@ -41,7 +41,7 @@ export default defineComponent({
     this.courseId = parseInt(courseId.toString());
     setTimeout(() => {
       this.getRedirectLink(this.courseId);
-    }, 1000);
+    }, 500);
   },
   beforeUnmount() {
     this.isLoading = false;
