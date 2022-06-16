@@ -3,17 +3,15 @@
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col1">
-        <div class="rowbig" v-if="videoKey.length">
-          <youtube-iframe
-            id="mamaPlayer"
-            :video-id="videoKey"
-            :player-width="980"
-            :player-height="551"
-            :no-cookie="true"
-            @state-change="handleChange"
-            :player-parameters="playerParams"
-          ></youtube-iframe>
-        </div>
+        <youtube-iframe
+          v-if="videoKey.length"
+          :video-id="videoKey"
+          :player-width="980"
+          :player-height="551"
+          :no-cookie="true"
+          @state-change="handleChange"
+          :player-parameters="playerParams"
+        ></youtube-iframe>
         <div class="rowsmall">
           <div>
             <p class="biggy" v-if="videoKey.length">
@@ -25,14 +23,32 @@
         </div>
       </div>
       <div class="col2">
-        <div
-          v-for="item in lessonList"
-          :key="item.id"
-          :class="{ boldy: item.isWatched }"
-        >
-          <div>{{ item.lesson_name }}</div>
-          <div>{{ item.fmt_time }}</div>
-        </div>
+        <h3>Lessons</h3>
+        <el-collapse v-model="activeName">
+          <el-collapse-item name="list">
+            <div class="lessonlist">
+              <div
+                class="lesson-item"
+                :class="{ bkg: item.id === lessonId }"
+                v-for="item in lessonList"
+                @click="goToLesson(item.id)"
+                :key="item.id"
+              >
+                <div>
+                  <div>{{ item.lesson_name }}</div>
+                  <div>
+                    <clock
+                      style="width: 1em; height: 1em; margin-right: 0.5em"
+                    />{{ item.fmt_time }}
+                  </div>
+                </div>
+                <div>
+                  <input type="checkbox" :checked="item.isWatched" disabled />
+                </div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
       </div>
     </div>
   </div>
@@ -51,17 +67,21 @@ import EnrollService from "@/services/EnrollService";
 import LessonService from "@/services/LessonService";
 import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
+import { Clock } from "@element-plus/icons-vue";
 export default defineComponent({
   name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
     return {
+      activeName: "list",
       videoKey: "",
       enrollId: 0,
       courseId: 0,
+      lessonId: "",
       videoResponse: {} as VideoResponse,
       singleCourse: {} as Course,
       lessonList: new Array<Lesson>(),
+      status: {} as WatchStatus,
       playerParams: { modestbranding: 1, rel: 0 },
     };
   },
@@ -71,13 +91,13 @@ export default defineComponent({
         .then((res) => (this.videoResponse = res.data))
         .then(() => {
           this.videoKey = this.videoResponse.lesson.videokey;
+          this.lessonId = this.videoResponse.lesson.id;
           this.enrollId = this.videoResponse.enrollId;
           this.fetchSingleCourse(this.courseId);
           this.fetchLessonList(this.courseId, this.enrollId);
         })
         .catch((err) => this.handleError(err));
     },
-
     fetchSingleCourse(courseId: number) {
       CourseService.getById(courseId).then((res) => {
         this.singleCourse = res.data;
@@ -97,14 +117,16 @@ export default defineComponent({
       ElMessage.error(mama);
     },
 
+    /** YT iframe events */
     handleChange(e: { data: number; target: any }) {
       if (e.data === 0) {
-        let status: WatchStatus = {
+        //video ended
+        this.status = {
           enrollId: this.enrollId,
           courseId: this.singleCourse.id,
           currentLessonId: this.videoResponse.lesson.id,
         };
-        this.updateWatchStatus(status);
+        this.updateWatchStatus(this.status);
       }
     },
 
@@ -120,6 +142,15 @@ export default defineComponent({
         .then((res) => this.refreshPlayer(res.data.nextLessonId))
         .catch((err) => this.handleError(err));
     },
+
+    /** jump to clicked lesson */
+    goToLesson(id: string) {
+      this.lessonId = id;
+      this.refreshPlayer(id);
+    },
+  },
+  components: {
+    Clock,
   },
   mounted() {
     let { courseId, lessonId } = this.$route.params;
@@ -139,6 +170,7 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   width: 100%;
+  max-width: 100%;
 }
 
 .col1 {
@@ -166,7 +198,7 @@ export default defineComponent({
   height: 0;
 }
 
-iframe#vue-youtube-iframe-1 {
+iframe[id^="vue-youtube-iframe-1"] {
   position: absolute;
   width: 100% !important;
   height: auto;
@@ -183,34 +215,57 @@ iframe#vue-youtube-iframe-1 {
   margin-bottom: 1em;
 }
 
-@media screen and (max-width: 770px) {
+.lesson-item {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5em;
+  justify-content: space-between;
+  padding-bottom: 1em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.lesson-item:hover {
+  background: whitesmoke;
+  cursor: pointer;
+}
+
+.bkg {
+  background: var(--primary);
+  font-weight: 700;
+  color: white;
+}
+.bkg:hover {
+  background: var(--secondary);
+  color: white;
+}
+
+@media screen and (max-width: 1000px) {
   .main-view {
-    width: 100%;
+    max-width: 100%;
     padding: 0;
     margin: 0;
   }
 
   .mycontainer {
-    display: block;
+    display: flex;
     flex-direction: column;
-    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
     height: 100%;
   }
-  .rowbig,
-  #mamaPlayer {
+
+  div[class="vue-youtube-iframe"] {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  iframe[id^="vue-youtube-iframe-1"] {
+    position: absolute;
+    max-width: 100% !important;
     width: 100%;
-    padding-top: 56.25%;
-    margin-bottom: 2em;
-    padding: 0;
-  }
-  iframe {
-    width: 100% !important;
     height: auto;
   }
-  iframe#vue-youtube-iframe-1 {
-    width: 100% !important;
-    height: auto;
-  }
+
   .rowsmall {
     display: block;
     height: fit-content;

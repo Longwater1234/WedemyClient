@@ -119,7 +119,7 @@ a {
 
 .cart-header {
   font-family: Georgia, "Times New Roman", Times, serif;
-  background-color: #1c1d1f;
+  background-color: black;
   color: white;
   margin-top: 0;
   height: 2em;

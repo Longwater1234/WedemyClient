@@ -72,6 +72,7 @@
             <lock v-if="!isOwned" style="width: 1em; height: 1em" />
             <caret-right v-else style="width: 1.5em" />
             {{ item.lessonName }}
+            <i>({{ item.lengthSeconds }}) </i>
           </li>
         </ul>
       </el-collapse-item>

@@ -36,14 +36,12 @@ export default defineComponent({
   position: relative;
   display: flex;
   flex-direction: row;
-  padding: 1em;
   justify-content: space-around;
-  width: 98%;
-  overflow: hidden;
-  height: 5em;
   bottom: 0;
+  padding: 1em;
+  height: 5em;
   color: white;
-  background-color: #1c1d1f;
+  background-color: var(--dark);
 }
 
 .lefty {
@@ -57,8 +55,6 @@ export default defineComponent({
 .righty {
   float: right;
 }
-
-
 
 #ft-logo {
   width: 10em;

@@ -100,8 +100,8 @@ export default defineComponent({
     "$route.params.name": {
       deep: false,
       immediate: true,
-      handler: function (oldVal: string, newVal: string) {
-        if (!newVal || oldVal === newVal) return;
+      handler: function (newVal: string) {
+        if (!newVal) return;
         this.categoryName = newVal;
         this.fetchCoursesbyCategory(this.categoryName);
         document.title = `Courses in ${this.categoryName} | Wedemy`;

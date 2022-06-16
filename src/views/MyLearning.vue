@@ -86,15 +86,6 @@ export default defineComponent({
   padding: 1em;
 }
 
-.cart-header {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  background-color: black;
-  color: white;
-  margin-top: 0;
-  top: 0;
-  padding: 2% 10%;
-}
-
 .courseCard {
   width: min-content;
   height: 15em;
