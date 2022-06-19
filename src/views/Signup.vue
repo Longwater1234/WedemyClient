@@ -117,7 +117,7 @@ export default {
 
     /* validation for fullname */
     const checkName = (rule, value, callback) => {
-      let reg = /[^ 0-9a-z_.\-']/gi;
+      let reg = /[^ 0-9a-z_\.\-']/gi;
 
 
       if (!value) {

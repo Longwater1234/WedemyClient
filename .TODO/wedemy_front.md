@@ -20,6 +20,7 @@
 - [x] View all courses owned in Profile
 - [x] MAIN video player - single course
 - [x] Edit/View Profile
+- [ ] Dark Mode
  ## Needs immediate attention
 - [x] Axios interceptors (global error handling)
 - [ ] Homepage hello "davis", show 3 recent lessons owned

@@ -18,14 +18,14 @@
               Lesson {{ videoResponse.lesson.lessonName }}
               <span>| {{ videoResponse.lesson.lengthSeconds }}</span>
             </p>
-            <p>{{ singleCourse.subtitle }}</p>
+            <p class="full-only">{{ singleCourse.subtitle }}</p>
           </div>
         </div>
       </div>
       <div class="col2">
         <h3>Lessons</h3>
         <el-collapse v-model="activeName">
-          <el-collapse-item name="list">
+          <el-collapse-item name="99">
             <div class="lessonlist">
               <div
                 class="lesson-item"
@@ -37,9 +37,8 @@
                 <div>
                   <div>{{ item.lesson_name }}</div>
                   <div>
-                    <clock
-                      style="width: 1em; height: 1em; margin-right: 0.5em"
-                    />{{ item.fmt_time }}
+                    <clock class="videolen" />
+                    {{ item.fmt_time }}
                   </div>
                 </div>
                 <div>
@@ -68,12 +67,13 @@ import LessonService from "@/services/LessonService";
 import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 import { Clock } from "@element-plus/icons-vue";
+
 export default defineComponent({
   name: "VideoPlayer",
   data() {
     document.title = "Lecture | Wedemy";
     return {
-      activeName: "list",
+      activeName: "99",
       videoKey: "",
       enrollId: 0,
       courseId: 0,
@@ -90,9 +90,7 @@ export default defineComponent({
       EnrollService.buildPlayLink(obj)
         .then((res) => (this.videoResponse = res.data))
         .then(() => {
-          this.videoKey = this.videoResponse.lesson.videokey;
-          this.lessonId = this.videoResponse.lesson.id;
-          this.enrollId = this.videoResponse.enrollId;
+          this.setVideoInfo(this.videoResponse);
           this.fetchSingleCourse(this.courseId);
           this.fetchLessonList(this.courseId, this.enrollId);
         })
@@ -111,6 +109,12 @@ export default defineComponent({
       );
     },
 
+    setVideoInfo(response: VideoResponse) {
+      this.videoKey = response.lesson.videokey;
+      this.lessonId = response.lesson.id;
+      this.enrollId = response.enrollId;
+    },
+
     /* redirect to MyLearning  */
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
@@ -120,7 +124,7 @@ export default defineComponent({
     /** YT iframe events */
     handleChange(e: { data: number; target: any }) {
       if (e.data === 0) {
-        //video ended
+        //end of video
         this.status = {
           enrollId: this.enrollId,
           courseId: this.singleCourse.id,
@@ -213,6 +217,12 @@ iframe[id^="vue-youtube-iframe-1"] {
 .biggy {
   font-size: 1.5em;
   margin-bottom: 1em;
+}
+
+.videolen {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
 }
 
 .lesson-item {

@@ -1,7 +1,6 @@
 <template>
+  <h3 class="cart-header">My Purchase History</h3>
   <div class="main-body" style="height: 80vh">
-    <h2 class="serif-head">My Purchase History</h2>
-
     <el-alert
       v-if="serverError"
       :title="serverError"
@@ -42,9 +41,21 @@
           :formatter="formatter"
           width="180"
         />
-        <el-table-column prop="totalPaid"  min-width="150px" label="Total Paid (USD)" />
-        <el-table-column prop="paymentMethod" min-width="150px" label="Payment Method" />
-        <el-table-column prop="numOfItems"  min-width="150px" label="Items Bought" />
+        <el-table-column
+          prop="totalPaid"
+          min-width="150px"
+          label="Total Paid (USD)"
+        />
+        <el-table-column
+          prop="paymentMethod"
+          min-width="150px"
+          label="Payment Method"
+        />
+        <el-table-column
+          prop="numOfItems"
+          min-width="150px"
+          label="Items Bought"
+        />
         <el-table-column min-width="100px" label="">
           <template #default="scope">
             <!-- DETAILS -->
@@ -127,7 +138,7 @@ export default defineComponent({
     };
   },
   components: {
-    InfoFilled
+    InfoFilled,
   },
 });
 </script>
@@ -166,7 +177,6 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
-
   #myTable > div > div {
     display: block;
     /* max-width: 100px !important; */

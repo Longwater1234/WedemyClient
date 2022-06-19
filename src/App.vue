@@ -134,7 +134,7 @@ a {
   color: black !important;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   .product-img {
     aspect-ratio: 16/9;
     height: 10em;
