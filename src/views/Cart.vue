@@ -1,5 +1,5 @@
 <template>
-  <h3 class="cart-header">Your Cart ({{ store.getters.getCartCount }})</h3>
+  <h3 class="cart-header">My Cart ({{ store.getters.getCartCount }})</h3>
 
   <div class="jojo" v-loading="store.getters.isLoggedIn && isLoading">
     <div class="main-view" :class="{ wider: cartItems.length === 0 }">

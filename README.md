@@ -28,4 +28,4 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 
 ## Pull Requests & Contributions
 
-Code Contributions and pull requests are welcome! Perhaps creating Dashboard for ADMIN and INSTRUCTOR.
+Code Contributions and pull requests are welcome! Perhaps ADMIN and INSTRUCTOR dashboards. Dark Mode, maybe?

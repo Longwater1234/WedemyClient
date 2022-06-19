@@ -1,5 +1,5 @@
 <template>
-  <h3 class="cart-header">My Learning</h3>
+  <h2 class="cart-header">My Learning</h2>
   <div class="main-view" style="height: 70vh" v-loading="isLoading">
     <el-alert
       v-if="serverError.length"
@@ -7,7 +7,8 @@
       type="error"
       :closable="false"
     ></el-alert>
-  
+
+    <h3 class="serif-head">Courses you're enrolled in</h3>
     <!-- START COURSE CARD -->
     <div class="course-box">
       <el-space
@@ -40,7 +41,9 @@
         </el-space>
 
         <el-space v-else wrap size="large" fill>
-          <h2 style="margin: auto; color:grey">You haven't enrolled in any course.</h2>
+          <h2 style="margin: auto; color: grey">
+            You haven't enrolled in any course.
+          </h2>
         </el-space>
       </el-space>
     </div>
@@ -93,6 +96,11 @@ export default defineComponent({
 
 .card-title {
   text-align: left;
+}
+
+.serif-head {
+  margin-left: 10%;
+  margin-bottom: 0;
 }
 
 .myprogress {

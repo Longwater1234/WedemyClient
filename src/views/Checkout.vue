@@ -94,7 +94,7 @@ export default defineComponent({
           authorization: token,
           container: "#paymentContainer",
           paypal: {
-            //OPTIONAL, requires PayPal Business Account
+            //OPTIONAL, requires PayPal BUSINESS Account
             flow: "checkout",
             amount: self.totalPrice,
             currency: "USD",

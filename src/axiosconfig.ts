@@ -7,7 +7,7 @@ const http = axios.create({
     "Content-type": "application/json",
     "X-Requested-With": "XMLHttpRequest"
   },
-  timeout: 5000,
+  timeout: 8000,
   withCredentials: true
 });
 
