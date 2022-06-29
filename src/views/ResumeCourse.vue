@@ -12,7 +12,7 @@ import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "LearnCourse",
+  name: "ResumeCourse",
   data() {
     document.title = "Redirecting you...";
     return {
@@ -25,7 +25,7 @@ export default defineComponent({
     getRedirectLink(courseId: number) {
       EnrollService.getLastViewed(courseId)
         .then((res) => this.redirectToPlayer(res.data.lessonId))
-        .catch((error) => ElMessage.error(error.message))
+        .catch((error) => window.location.replace('/account/learning'))
         .finally(() => (this.isLoading = false));
     },
     redirectToPlayer(lessonId: string) {

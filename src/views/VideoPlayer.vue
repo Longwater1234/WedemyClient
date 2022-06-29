@@ -115,7 +115,7 @@ export default defineComponent({
       this.enrollId = response.enrollId;
     },
 
-    /* redirect to MyLearning  */
+    /* display error  */
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
@@ -159,12 +159,12 @@ export default defineComponent({
   mounted() {
     let { courseId, lessonId } = this.$route.params;
     let numCourseId = parseInt(courseId.toString());
-    let obj: VideoRequest = {
+    let req: VideoRequest = {
       courseId: numCourseId,
       lessonId: lessonId.toString(),
     };
     this.courseId = numCourseId;
-    this.getPlayLink(obj);
+    this.getPlayLink(req);
   },
 });
 </script>

@@ -19,11 +19,8 @@ export default {
   name: "NotFound",
   data() {
     document.title = "404 Not Found | Wedemy"
-    return {
-      myInput: "Hello world"
-    };
-  },
-  methods: {},
+    return {};
+  }
 };
 </script>
 

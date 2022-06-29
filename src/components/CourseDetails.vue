@@ -37,7 +37,7 @@
       <div v-else>
         <p class="grey-sub">You already own this course</p>
         <el-button class="black btn" @click="goToCourse(singleCourse.id)">
-          Continue Learning <el-icon><arrow-right /></el-icon>
+          Continue Learning <arrow-right />
         </el-button>
       </div>
 
@@ -103,7 +103,7 @@ export default defineComponent({
     },
 
      goToCourse(id: number) {
-      this.$router.push({ name: "LearnCourse", params: { courseId: id } });
+      this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
     },
   },
   components: {

@@ -26,9 +26,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "CartSummary",
   data() {
-    return {
-      cartPrice: 0.0,
-    };
+    return {};
   },
   props: {
     totalPrice: {

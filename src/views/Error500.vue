@@ -14,18 +14,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script>
 
-export default defineComponent({
+export default {
   data() {
     document.title = "500 Internal Server Error | Wedemy";
     return {};
   },
-  mounted() {
-    //do nothing
-  },
-});
+};
 </script>
 
 <style scoped>

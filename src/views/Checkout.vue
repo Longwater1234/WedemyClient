@@ -62,12 +62,11 @@ import CartService from "@/services/CartService";
 import { Course, PaymentObj } from "@/types";
 import store from "@/store";
 
- // SEE OFFICIAL DEMO:
+ // SEE OFFICIAL DOCS:
  // https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
 export default defineComponent({
   data() {
     let paymentInstance: Dropin | undefined;
-    const cartItems = new Array<Course>();
     return {
       clientToken: "",
       activeName: "1",
@@ -75,7 +74,7 @@ export default defineComponent({
       isReady: false,
       isLoading: false,
       isProcessing: false,
-      cartItems,
+      cartItems: new Array<Course>(),
       payError: "",
     };
   },
