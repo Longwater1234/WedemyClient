@@ -78,7 +78,24 @@
       </el-collapse-item>
     </el-collapse>
   </div>
-  <!-- TODO: START OF REVIEWS BELOW -->
+
+  <!--  START OF REVIEWS -->
+  <div class="course-info" v-if="!errorMessage">
+    <h2>Reviews</h2>
+    <div class="review-card" v-for="item in reviewList" :key="item.id">
+      <div class="row">
+        <el-avatar :size="20" :src="attachAvatarLink(item.fullname)" />
+        <div>{{ item.fullname }}</div>
+        <el-rate show-score text-color="#00000f" v-model="item.rating" disabled />
+      </div>
+      <div class="row">
+        {{ item.content }}
+      </div>
+      <div class="row grey">
+        {{ formatDate(item.createdAt) }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -86,7 +103,8 @@ import { defineComponent } from "vue";
 import CourseService from "@/services/CourseService";
 import LessonService from "@/services/LessonService";
 import EnrollService from "@/services/EnrollService";
-import { Lesson } from "@/types";
+import ReviewService from "@/services/ReviewService";
+import { Course, Lesson, ReviewResponse } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
 import { CaretRight, Lock } from "@element-plus/icons-vue";
 import WishlistService from "@/services/WishlistService";
@@ -107,15 +125,8 @@ export default defineComponent({
       inWishlist: false,
       inCart: false,
       isOwned: false,
-      singleCourse: {
-        title: "",
-        subtitle: "",
-        author: "",
-        price: 0,
-        rating: 4.5,
-        thumbUrl: "",
-        category: "",
-      },
+      reviewList: new Array<ReviewResponse>(),
+      singleCourse: {} as Course,
     };
   },
   components: {
@@ -129,6 +140,7 @@ export default defineComponent({
       CourseService.getById(courseId)
         .then((res) => {
           this.singleCourse = res.data;
+          this.fetchReviewList(courseId);
           document.title = `${this.singleCourse.title} | Wedemy`;
         })
         .catch((error) => (this.errorMessage = error.message))
@@ -143,6 +155,22 @@ export default defineComponent({
       LessonService.getLessonsByCourse(courseId).then(
         (res) => (this.lessons = res.data)
       );
+    },
+
+    /** GET ALL REVIEWS for course */
+    fetchReviewList(courseId: number) {
+      ReviewService.getByCourse(courseId).then(
+        (res) => (this.reviewList = res.data)
+      );
+    },
+
+    attachAvatarLink: (username: string) => {
+      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+    },
+
+    /** format date */
+    formatDate: (row: string) => {
+      return new Date(row).toDateString();
     },
 
     /** IF USER OWNS THIS COURSE */
@@ -168,7 +196,7 @@ export default defineComponent({
         .catch((error) => this.handleError(error));
     },
 
-    /** IF this course ALREADY wishlist */
+    /** IF course ALREADY in wishlist */
     checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
         this.inWishlist = res.data.inWishlist;
@@ -244,6 +272,13 @@ export default defineComponent({
   border: 1px solid var(--el-border-color-darker);
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+  margin: 0.5em 0;
+  justify-content: flex-start;
+}
+
 .darkBox {
   background: #1c1d1f center fixed;
   width: 100%;
@@ -257,6 +292,19 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   word-break: normal;
+}
+
+.review-card {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: rgba(0, 0, 0, 0.2) solid 1px;
+  border-bottom: rgba(0, 0, 0, 0.2) solid 1px;
+  padding: 0.5em 0;
+}
+
+.grey {
+  color: gray;
 }
 
 .courseTitle {

@@ -31,7 +31,7 @@ export interface Lesson {
     position: number;
 }
 
-/* for submitting Payment to server */
+/* for checkout, send to server */
 export interface PaymentObj {
     nonce: string;
     paymentMethod: string;
@@ -47,6 +47,15 @@ export interface Sale {
     totalPaid: number;
     numOfItems: number;
 }
+
+export interface ReviewResponse {
+    id: number;
+    content: string;
+    rating: number;
+    createdAt: string;
+    fullname: string;
+}
+
 
 /* for video player */
 export interface VideoRequest {

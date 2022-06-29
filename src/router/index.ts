@@ -100,8 +100,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/account/learning/course/:courseId(\\d+)",
-    name: "LearnCourse",
-    component: () => import("../views/LearnCourse.vue"),
+    name: "ResumeCourse",
+    component: () => import("../views/ResumeCourse.vue"),
     meta: {
       hideNavbar: true,
     },

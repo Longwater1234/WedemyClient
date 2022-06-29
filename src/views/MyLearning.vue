@@ -74,7 +74,7 @@ export default defineComponent({
         .finally(() => (this.isLoading = false));
     },
     goToCourse(id: number) {
-      this.$router.push({ name: "LearnCourse", params: { courseId: id } });
+      this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
     },
   },
   mounted() {

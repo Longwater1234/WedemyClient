@@ -1,8 +1,8 @@
 # WedemyClient
 
 (Frontend Repo). Clone of Udemy, built using Vue 3 + Typescript + Element Plus + Injector/Provider API (No Vuex!).
-Almost all components have been built with Options API. This App is also integrated with PayPal and CreditCard checkout
-(both powered by **Braintree Payments**). The Backend is a Java Springboot application.
+This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**).
+ The Backend is a Java Springboot application available here.
 
 ## Live Demo (coming soon)
 
@@ -23,7 +23,7 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account (for payments handling)
 - (OPTIONAL) Free PayPal Business Account
 - For Braintree tutorials and examples, please see
-  the [official JS docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
+  the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)
 
 ## Pull Requests & Contributions
