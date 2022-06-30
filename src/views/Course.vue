@@ -80,21 +80,23 @@
   </div>
 
   <!--  START OF REVIEWS -->
-  <div class="course-info" v-if="!errorMessage">
-    <h2>Reviews</h2>
-    <div class="review-card" v-for="item in reviewList" :key="item.id">
-      <div class="row">
-        <el-avatar :size="20" :src="attachAvatarLink(item.fullname)" />
-        <div>{{ item.fullname }}</div>
-        <el-rate show-score text-color="#00000f" v-model="item.rating" disabled />
+  <div class="course-info">
+    <h2>Student Reviews</h2>
+    <div v-if="reviewList.length">
+      <div v-for="item in reviewList" :key="item.id">
+        <review-card :review="item" />
       </div>
-      <div class="row">
-        {{ item.content }}
-      </div>
-      <div class="row grey">
-        {{ formatDate(item.createdAt) }}
+      <div>
+        <el-pagination
+          layout="total, prev, pager, next"
+          hide-on-single-page
+          :total="totalReviews"
+          background
+          @current-change="handlePageChange"
+        />
       </div>
     </div>
+    <div v-else class="nodata">No reviews yet!</div>
   </div>
 </template>
 
@@ -111,10 +113,12 @@ import WishlistService from "@/services/WishlistService";
 import CartService from "@/services/CartService";
 import store from "@/store";
 import { ElMessage, ElNotification } from "element-plus";
+import ReviewCard from "@/components/ReviewCard.vue";
 
 export default defineComponent({
   data() {
     document.title = "Course | Wedemy";
+
     return {
       activeName: "1",
       isLoading: false,
@@ -127,10 +131,12 @@ export default defineComponent({
       isOwned: false,
       reviewList: new Array<ReviewResponse>(),
       singleCourse: {} as Course,
+      totalReviews: 0,
     };
   },
   components: {
     CourseDetails,
+    ReviewCard,
     Lock,
     CaretRight,
   },
@@ -158,19 +164,16 @@ export default defineComponent({
     },
 
     /** GET ALL REVIEWS for course */
-    fetchReviewList(courseId: number) {
-      ReviewService.getByCourse(courseId).then(
-        (res) => (this.reviewList = res.data)
-      );
+    fetchReviewList(courseId: number, pageIndex: number = 0) {
+      ReviewService.getByCourse(courseId, pageIndex).then((res) => {
+        this.reviewList = res.data.content;
+        this.totalReviews = res.data.totalElements;
+      });
     },
 
-    attachAvatarLink: (username: string) => {
-      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
-    },
-
-    /** format date */
-    formatDate: (row: string) => {
-      return new Date(row).toDateString();
+    /** on pager click */
+    handlePageChange(page: number) {
+      this.fetchReviewList(this.courseId, page - 1);
     },
 
     /** IF USER OWNS THIS COURSE */
@@ -232,7 +235,6 @@ export default defineComponent({
       });
     },
 
-    /** ERROR FROM ANYTHING */
     handleError(err: any) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
@@ -272,15 +274,8 @@ export default defineComponent({
   border: 1px solid var(--el-border-color-darker);
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
-  margin: 0.5em 0;
-  justify-content: flex-start;
-}
-
 .darkBox {
-  background: #1c1d1f center fixed;
+  background: var(--dark) center fixed;
   width: 100%;
   color: white;
   height: 20%;
@@ -292,19 +287,6 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   word-break: normal;
-}
-
-.review-card {
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  border-top: rgba(0, 0, 0, 0.2) solid 1px;
-  border-bottom: rgba(0, 0, 0, 0.2) solid 1px;
-  padding: 0.5em 0;
-}
-
-.grey {
-  color: gray;
 }
 
 .courseTitle {
@@ -342,6 +324,24 @@ ul.lessonlist {
 @media screen and (max-width: 770px) {
   course-details {
     display: none;
+  }
+
+  .course-info {
+    margin-left: 1%;
+    width: unset;
+  }
+
+  .mainStart {
+    margin: unset;
+  }
+
+  .courseTitle,
+  .courseSubtitle {
+    width: unset;
+  }
+
+  .obj-item {
+    margin-bottom: 4%;
   }
 }
 </style>
