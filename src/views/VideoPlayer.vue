@@ -82,7 +82,7 @@ export default defineComponent({
       singleCourse: {} as Course,
       lessonList: new Array<Lesson>(),
       status: {} as WatchStatus,
-      playerParams: { modestbranding: 1, rel: 0 },
+      playerParams: { modestbranding: 1, rel: 0 } as YT.PlayerVars,
     };
   },
   methods: {
