@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { StarFilled } from "@element-plus/icons-vue";
+//vanilla JS
 import { Timeago } from "vue2-timeago";
 
 export default {
@@ -33,15 +33,9 @@ export default {
     },
   },
   components: {
-    StarFilled,
     Timeago,
   },
   methods: {
-    /** format date */
-    formatDate: (row) => {
-      return new Date(row).toDateString();
-    },
-
     attachAvatarLink: (username) => {
       return `https://avatars.dicebear.com/api/initials/${username}.svg`;
     },
@@ -65,7 +59,6 @@ export default {
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  border-top: rgba(0, 0, 0, 0.2) solid 1px;
   border-bottom: rgba(0, 0, 0, 0.2) solid 1px;
   padding: 0.5em 0;
 }

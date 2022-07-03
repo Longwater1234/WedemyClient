@@ -7,7 +7,7 @@ class LessonService {
     }
 
     getWatchedList(courseId: number, enrollId: number) {
-        return http.get(`lessons/course/${courseId}/enroll/${enrollId}`);
+        return http.get(`lessons/c/${courseId}/enroll/${enrollId}`);
     }
 }
 

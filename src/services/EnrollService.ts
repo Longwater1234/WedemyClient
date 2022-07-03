@@ -11,20 +11,21 @@ class EnrollService {
   }
 
   getItemsByTransactionId(id: string) {
-    return http.get(`sales/mine/${id}`);
+    return http.get(`/sales/mine/${id}`);
   }
 
-  /* enrolled courses with percent progress */
+  /** for Profile page */
   getMySummary() {
     return http.get("/enroll/progress/summary/");
   }
 
+  /** courses with percent progress */
   getAllMyCourses(page: number = 0) {
     return http.get(`/enroll/mine?page=${page}`);
   }
 
   getLastViewed(courseId: number) {
-    return http.get(`enroll/resume/course/${courseId}`);
+    return http.get(`/enroll/resume/course/${courseId}`);
   }
 
   updateStatus(obj: WatchStatus) {

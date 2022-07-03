@@ -35,7 +35,8 @@
             />
             <div style="padding: 14px">
               <div class="card-title">{{ course.title }}</div>
-              <el-progress class="myprogress" :percentage="course.progress" />
+              <el-progress class="myprogress" :percentage="course.progress" />  
+              <small v-if="course.progress === 100">Completed</small>
             </div>
           </el-card>
         </el-space>
@@ -91,7 +92,7 @@ export default defineComponent({
 
 .courseCard {
   width: min-content;
-  height: 15em;
+  height: 16em;
 }
 
 .card-title {

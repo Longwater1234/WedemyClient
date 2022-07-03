@@ -38,7 +38,7 @@
                   <div>{{ item.lesson_name }}</div>
                   <div>
                     <clock class="videolen" />
-                    {{ item.fmt_time }}
+                    {{ item.video_time }}
                   </div>
                 </div>
                 <div>
