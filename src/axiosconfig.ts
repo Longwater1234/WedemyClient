@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 /** global axios instance */
 const http = axios.create({
@@ -13,7 +13,7 @@ const http = axios.create({
 
 http.interceptors.response.use(
   (response: AxiosResponse) => response,
-  function (error: any) {
+  function (error: AxiosError) {
     if (error.response && error.response.status === 500) {
       return window.location.replace("/Error500");
     }

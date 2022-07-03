@@ -84,9 +84,9 @@
 
       <h2 class="serif-head">Top Categories</h2>
       <h3 class="sub-heading">Most Viewed by Students</h3>
-      <div class="categArea">
+      <div class="catArea">
         <div
-          class="categSingle"
+          class="catSingle"
           v-for="(item, index) in topCategs"
           :key="index"
           @click="goToCategory(item)"
@@ -110,11 +110,10 @@ export default defineComponent({
   inject: ["store"],
   data() {
     document.title = "Home | Wedemy";
-    const courses = new Array<Course>();
     return {
       searchItem: "",
       baseRadius: "var(--el-border-radius-base)",
-      courses,
+      courses: new Array<Course>(),
       Search: markRaw(Search),
       isLoading: true,
       topCategs: ["Development", "Music", "PhotoVideo", "Finance"],
@@ -212,14 +211,14 @@ export default defineComponent({
   color: gray;
 }
 
-.categArea {
+.catArea {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 95%;
 }
 
-.categSingle {
+.catSingle {
   width: 10em;
   font-weight: 700;
   border: rgba(0, 0, 0, 0.2) solid 1px;
@@ -230,7 +229,7 @@ export default defineComponent({
   border-radius: 1em;
 }
 
-.categSingle:hover {
+.catSingle:hover {
   background-color: var(--primary);
   cursor: pointer;
   border: none;
@@ -250,7 +249,7 @@ export default defineComponent({
     display: block;
   }
 
-  .categArea {
+  .catArea {
     flex-wrap: nowrap;
     overflow-x: scroll;
   }

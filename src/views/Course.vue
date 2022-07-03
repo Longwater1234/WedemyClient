@@ -21,9 +21,11 @@
       </el-breadcrumb>
 
       <!--  START course view -->
+      <img :src="singleCourse.thumbUrl" class="course-img" />
       <h1 class="courseTitle">{{ singleCourse.title }}</h1>
       <p class="courseSubtitle">{{ singleCourse.subtitle }}</p>
       <el-rate
+        class="myrating"
         v-model="singleCourse.rating"
         disabled
         show-score
@@ -47,7 +49,7 @@
     :singleCourse="singleCourse"
   >
   </course-details>
-  <!-- END of FLOATING CARD -->
+  <!-- END of CARD -->
 
   <!--  START OF objectives -->
   <div class="course-info" v-if="!errorMessage">
@@ -80,20 +82,42 @@
   </div>
 
   <!--  START OF REVIEWS -->
-  <div class="course-info">
+  <div class="course-info" v-if="!errorMessage">
     <h2>Student Reviews</h2>
+    <div>
+      <!-- REVIEW HEADER -->
+      <el-row>
+        <el-col :span="12">
+          <div class="biggy">
+            <star-filled style="width: 1em" />
+            {{ singleCourse.rating }}
+            <span>Rating</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          Sort by:
+          <el-select v-model="sortBy" @change="sortChanged">
+            <el-option label="Date" value="createdAt" />
+            <el-option label="Rating" value="rating" />
+          </el-select>
+        </el-col>
+      </el-row>
+    </div>
+    <!-- ACTUAL REVIEW LIST -->
     <div v-if="reviewList.length">
       <div v-for="item in reviewList" :key="item.id">
         <review-card :review="item" />
       </div>
-      <div>
-        <el-pagination
-          layout="total, prev, pager, next"
-          hide-on-single-page
-          :total="totalReviews"
-          background
-          @current-change="handlePageChange"
-        />
+      <div class="pager">
+        <span style="margin-right: 0.5em">Page: &nbsp;{{ currentPage }}</span>
+        <el-button-group>
+          <el-button type="primary" :disabled="isFirst" @click="addPage(-1)">
+            <el-icon><arrow-left /></el-icon> Prev Page
+          </el-button>
+          <el-button type="primary" :disabled="isLast" @click="addPage(1)">
+            Next Page<el-icon><arrow-right /></el-icon>
+          </el-button>
+        </el-button-group>
       </div>
     </div>
     <div v-else class="nodata">No reviews yet!</div>
@@ -101,6 +125,13 @@
 </template>
 
 <script lang="ts">
+import {
+  CaretRight,
+  Lock,
+  ArrowLeft,
+  ArrowRight,
+  StarFilled,
+} from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
 import CourseService from "@/services/CourseService";
 import LessonService from "@/services/LessonService";
@@ -108,7 +139,6 @@ import EnrollService from "@/services/EnrollService";
 import ReviewService from "@/services/ReviewService";
 import { Course, Lesson, ReviewResponse } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
-import { CaretRight, Lock } from "@element-plus/icons-vue";
 import WishlistService from "@/services/WishlistService";
 import CartService from "@/services/CartService";
 import store from "@/store";
@@ -121,6 +151,10 @@ export default defineComponent({
 
     return {
       activeName: "1",
+      currentPage: 1,
+      isFirst: true,
+      isLast: false,
+      sortBy: "createdAt",
       isLoading: false,
       errorMessage: "",
       courseId: 0,
@@ -139,6 +173,9 @@ export default defineComponent({
     ReviewCard,
     Lock,
     CaretRight,
+    ArrowLeft,
+    ArrowRight,
+    StarFilled,
   },
   methods: {
     fetchSingleCourse(courseId: number) {
@@ -146,7 +183,7 @@ export default defineComponent({
       CourseService.getById(courseId)
         .then((res) => {
           this.singleCourse = res.data;
-          this.fetchReviewList(courseId);
+          this.fetchReviewList(courseId, 0);
           document.title = `${this.singleCourse.title} | Wedemy`;
         })
         .catch((error) => (this.errorMessage = error.message))
@@ -164,16 +201,19 @@ export default defineComponent({
     },
 
     /** GET ALL REVIEWS for course */
-    fetchReviewList(courseId: number, pageIndex: number = 0) {
-      ReviewService.getByCourse(courseId, pageIndex).then((res) => {
+    fetchReviewList(courseId: number, pageIndex: number) {
+      let sort = this.sortBy;
+      ReviewService.getByCourse(courseId, pageIndex, sort).then((res) => {
         this.reviewList = res.data.content;
-        this.totalReviews = res.data.totalElements;
+        this.isFirst = res.data.first;
+        this.isLast = res.data.last;
       });
     },
 
     /** on pager click */
-    handlePageChange(page: number) {
-      this.fetchReviewList(this.courseId, page - 1);
+    addPage(value: number) {
+      this.currentPage += value;
+      this.fetchReviewList(this.courseId, this.currentPage - 1);
     },
 
     /** IF USER OWNS THIS COURSE */
@@ -233,6 +273,11 @@ export default defineComponent({
         title: this.notifMessage,
         duration: 2500,
       });
+    },
+
+    /** on selected sort */
+    sortChanged() {
+      this.fetchReviewList(this.courseId, this.currentPage - 1);
     },
 
     handleError(err: any) {
@@ -317,13 +362,36 @@ ul.lessonlist {
   padding: 0;
 }
 
-.el-rate__text {
+.myrating .el-rate__text {
   color: white;
+}
+
+.course-img {
+  display: none;
+}
+
+.pager {
+  margin-top: 1em;
+}
+
+.biggy {
+  font-size: 24px;
+  font-weight: 700;
+  color: goldenrod;
 }
 
 @media screen and (max-width: 770px) {
   course-details {
     display: none;
+  }
+
+  .course-img {
+    display: unset;
+    aspect-ratio: 16/9;
+    height: auto;
+    width: 100%;
+    transform: scale(1.1);
+    margin-top: 2em;
   }
 
   .course-info {

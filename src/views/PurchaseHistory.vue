@@ -58,7 +58,7 @@
         />
         <el-table-column min-width="100px" label="">
           <template #default="scope">
-            <!-- DETAILS -->
+            <!-- VIEW DETAILS -->
             <el-button
               size="small"
               @click="handleView(scope.row.transactionId)"

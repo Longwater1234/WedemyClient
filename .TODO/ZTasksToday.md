@@ -1,3 +1,5 @@
-### today 2022.06.09
+### today 2022.07.03
 
-- Added AXIOS interceptor. WORKS GREAT!
+- Reviews pager changed to NEXT / prev buttons only, no numbers.
+- added cover image for single course on mobile view. fixed height.
+- Added Sorting for Reviews

@@ -37,7 +37,7 @@
       <div v-else>
         <p class="grey-sub">You already own this course</p>
         <el-button class="black btn" @click="goToCourse(singleCourse.id)">
-          Continue Learning <arrow-right />
+          Continue Learning <arrow-right class="myarrow" />
         </el-button>
       </div>
 
@@ -58,7 +58,6 @@ import { ArrowRight } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
 import store from "@/store";
 import { ElMessage } from "element-plus";
-import { Course } from "@/types";
 
 export default defineComponent({
   data() {
@@ -102,7 +101,7 @@ export default defineComponent({
       this.$router.push("/login");
     },
 
-     goToCourse(id: number) {
+    goToCourse(id: number) {
       this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
     },
   },
@@ -127,6 +126,12 @@ export default defineComponent({
   float: right;
   text-align: start;
   top: 0;
+}
+
+.myarrow {
+  width: 1em;
+  color: white;
+  margin-right: 20px;
 }
 
 .details-card {

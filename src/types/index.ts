@@ -42,7 +42,7 @@ export interface PaymentObj {
 /* for purchaseHistory page  */
 export interface Sale {
     transactionId: string;
-    createdAt: string;
+    createdAt: Date | string;
     paymentMethod: string;
     totalPaid: number;
     numOfItems: number;
@@ -55,7 +55,6 @@ export interface ReviewResponse {
     createdAt: string;
     fullname: string;
 }
-
 
 /* for video player */
 export interface VideoRequest {
