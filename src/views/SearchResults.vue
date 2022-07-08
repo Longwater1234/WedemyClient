@@ -99,13 +99,16 @@ export default defineComponent({
     this.searchQuery = q ? q.toString() : "";
     this.fetchCoursesByTitle(this.searchQuery);
   },
+  beforeRouteLeave() {
+    this.searchQuery = "";
+  },
   watch: {
     //watch 4 address bar changes
     "$route.query.q": {
       deep: false,
       immediate: true,
-      handler: function (oldVal: string, newVal: string) {
-        if (!newVal || oldVal === newVal) return;
+      handler: function (newVal: string) {
+        if (!newVal) return;
         this.isLoading = true;
         this.searchQuery = newVal;
         this.courses = [];

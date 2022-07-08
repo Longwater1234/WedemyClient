@@ -20,7 +20,7 @@
         <el-breadcrumb-item>{{ singleCourse.title }}</el-breadcrumb-item>
       </el-breadcrumb>
 
-      <!--  START course view -->
+      <!--  START course info -->
       <img :src="singleCourse.thumbUrl" class="course-img" />
       <h1 class="courseTitle">{{ singleCourse.title }}</h1>
       <p class="courseSubtitle">{{ singleCourse.subtitle }}</p>
@@ -29,7 +29,6 @@
         v-model="singleCourse.rating"
         disabled
         show-score
-        text-color="#ffffff"
         score-template="{value} rating"
       >
       </el-rate>
@@ -84,25 +83,23 @@
   <!--  START OF REVIEWS -->
   <div class="course-info" v-if="!errorMessage">
     <h2>Student Reviews</h2>
-    <div>
-      <!-- REVIEW HEADER -->
-      <el-row>
-        <el-col :span="12">
-          <div class="biggy">
-            <star-filled style="width: 1em" />
-            {{ singleCourse.rating }}
-            <span>Rating</span>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          Sort by:
-          <el-select v-model="sortBy" @change="sortChanged">
-            <el-option label="Date" value="createdAt" />
-            <el-option label="Rating" value="rating" />
-          </el-select>
-        </el-col>
-      </el-row>
-    </div>
+    <!-- REVIEW HEADER -->
+    <el-row>
+      <el-col :span="12">
+        <div class="biggy">
+          <star-filled style="width: 1em" />
+          {{ singleCourse.rating }}
+          <span>Rating</span>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        Sort by:
+        <el-select v-model="sortBy" @change="sortChanged">
+          <el-option label="Date" value="createdAt" />
+          <el-option label="Rating" value="rating" />
+        </el-select>
+      </el-col>
+    </el-row>
     <!-- ACTUAL REVIEW LIST -->
     <div v-if="reviewList.length">
       <div v-for="item in reviewList" :key="item.id">
@@ -271,7 +268,7 @@ export default defineComponent({
       return ElNotification({
         type: "success",
         title: this.notifMessage,
-        duration: 2500,
+        duration: 2000,
       });
     },
 
