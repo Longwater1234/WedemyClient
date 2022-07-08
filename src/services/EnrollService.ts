@@ -25,7 +25,7 @@ class EnrollService {
   }
 
   getLastViewed(courseId: number) {
-    return http.get(`/enroll/resume/course/${courseId}`);
+    return http.get(`/enroll/resume/c/${courseId}`);
   }
 
   updateStatus(obj: WatchStatus) {

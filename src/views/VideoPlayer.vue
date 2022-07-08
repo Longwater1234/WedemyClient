@@ -14,7 +14,7 @@
         ></youtube-iframe>
         <div class="rowsmall">
           <div>
-            <p class="biggy" v-if="videoKey.length">
+            <p class="lessonTitle" v-if="videoKey.length">
               Lesson {{ videoResponse.lesson.lessonName }}
               <span>| {{ videoResponse.lesson.lengthSeconds }}</span>
             </p>
@@ -214,7 +214,7 @@ iframe[id^="vue-youtube-iframe-1"] {
   height: 30%;
 }
 
-.biggy {
+.lessonTitle {
   font-size: 1.5em;
   margin-bottom: 1em;
 }

@@ -167,6 +167,7 @@ export default defineComponent({
 
 .course-box {
   display: flex;
+  width: 100%;
   flex-direction: row;
   align-self: center;
   margin: auto auto;

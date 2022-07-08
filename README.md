@@ -16,6 +16,7 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 - Typescript
 - [Element Plus UI Framework](https://element-plus.org/en-US/)
 - [Braintree Web Drop-in](https://www.npmjs.com/package/braintree-web-drop-in)
+- Vue-YouTube-iFrame
 
 ## Required 3rd party Services
 
