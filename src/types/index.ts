@@ -2,6 +2,7 @@ export interface Course {
     id: number;
     author: string;
     title: string;
+    subtitle: string;
     price: number;
     rating: number;
     thumbUrl?: string;
@@ -17,18 +18,19 @@ export interface User {
     createdAt?: string;
 }
 
-export interface Wishlist {
-    wishlistId: number;
-    course: Course;
-    createdAt: string;
-}
-
 export interface Lesson {
     id: string;
     lessonName: string;
     videokey: string;
     lengthSeconds: string | number;
     position: number;
+}
+
+export interface CustomLesson {
+    id: string;
+    video_time: string;
+    lesson_name: string;
+    isWatched: boolean;
 }
 
 /* for checkout, send to server */
@@ -48,13 +50,15 @@ export interface Sale {
     numOfItems: number;
 }
 
-export interface ReviewResponse {
-    id: number;
+export interface Review {
+    id?: number;
     content: string;
+    courseId: number;
     rating: number;
-    createdAt: string;
-    fullname: string;
+    createdAt?: string;
+    fullname?: string;
 }
+
 
 /* for video player */
 export interface VideoRequest {
@@ -69,7 +73,7 @@ export interface VideoResponse {
     lesson: Lesson;
 }
 
-/* sned to server after lesson complete */
+/* send to server after lesson complete */
 export interface WatchStatus {
     enrollId: number;
     currentLessonId: string;

@@ -18,7 +18,7 @@ class CourseService {
     return http.get(`/courses/search?title=${title}`);
   }
 
-  getObjectivesbyCourse(id: number) {
+  getObjectivesByCourse(id: number) {
     return http.get(`/objectives/course/${id}`);
   }
 

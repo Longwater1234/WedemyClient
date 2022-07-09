@@ -13,6 +13,7 @@
     "braintree-web-drop-in": "^1.6.1",
     "core-js": "^3.8.3",
     "element-plus": "^2.1.8",
+    "prettier": "^2.7.1",
     "register-service-worker": "^1.7.2",
     "validator": "^13.7.0",
     "vue": "^3.2.13",

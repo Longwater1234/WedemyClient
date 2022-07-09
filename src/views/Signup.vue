@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div align="center" style="height: 80vh">
     <div class="loginContainer">
@@ -124,7 +125,7 @@ export default {
         return callback(new Error("Name can't be empty"));
       }
       setTimeout(() => {
-        if (value.length < 3) {
+        if (value.length < 2) {
           callback(new Error("Name is too short"));
         } else if (reg.test(this.signupForm.fullname)) {
           callback(new Error("Name contains illegal characters"));
@@ -147,20 +148,20 @@ export default {
 
     // validation for password
     const checkPassword = (rule, value, callback) => {
-      let passwordReg = /[0-9a-z]+?/gi;
+      let passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gm;
       if (!value) {
         callback(new Error("Password can't be empty"));
       } else if (value.length < 9) {
         return callback(new Error("Minimum length is 9 characters"));
       } else if(!passwordReg.test(value)) {
-        callback(new Error("Must contain at least 1 digit and 1 alphabet letter"))
+        callback(new Error("Required at least 1 digit and 1 alphabet letter"))
       } else {
         callback();
       }
     };
 
     // validation for confirm password
-    const checkReenter = (rule, value, callback) => {
+    const checkRepeatPass = (rule, value, callback) => {
       if (!value) {
         callback(new Error("Re-enter the password"));
       } else if (value !== this.signupForm.password) {
@@ -183,7 +184,7 @@ export default {
         fullname: [{ validator: checkName, trigger: "blur" }],
         email: [{ validator: checkEmail, trigger: "blur" }],
         password: [{ validator: checkPassword, trigger: "blur" }],
-        confirmPass: [{ validator: checkReenter, trigger: "blur" }],
+        confirmPass: [{ validator: checkRepeatPass, trigger: "blur" }],
       },
 
       //other

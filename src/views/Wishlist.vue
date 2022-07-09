@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My wishlist ({{ wishlistCount }})</h3>
 
@@ -51,9 +52,8 @@ export default defineComponent({
   name: "Wishlist",
   data() {
     document.title = "Wishlist | Wedemy";
-    const wishlistItems = new Array<Course>();
     return {
-      wishlistItems,
+      wishlistItems: new Array<Course>(),
       isLoading: true,
     };
   },

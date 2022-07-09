@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div class="main-view">
     <h3>{{ singleCourse.title }}</h3>
@@ -19,6 +20,14 @@
               <span>| {{ videoResponse.lesson.lengthSeconds }}</span>
             </p>
             <p class="full-only">{{ singleCourse.subtitle }}</p>
+            <div>
+              <el-button type="primary" @click="showReviewDialog()">
+                {{ review ? "Edit your review" : "Post a review" }}
+                <el-icon>
+                  <Edit />
+                </el-icon>
+              </el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -50,13 +59,44 @@
         </el-collapse>
       </div>
     </div>
+
+    <!--   BEGIN DIALOG FOR REVIEW-->
+    <el-dialog
+      v-model="dialogShow"
+      id="reviewDialog"
+      title="Leave Review for Course"
+      draggable
+    >
+      <el-form :model="formReview" @submit.prevent="postReview">
+        <el-form-item label="Your Rating">
+          <el-rate v-model="formReview.rating" show-text text-color="#000000" />
+        </el-form-item>
+        <el-form-item label="Content">
+          <el-input
+            type="textarea"
+            :rows="3"
+            maxlength="300"
+            show-word-limit
+            v-model="formReview.content"
+          />
+        </el-form-item>
+        <el-alert v-if="errorMsg" type="error" center>{{ errorMsg }}</el-alert>
+        <div style="width: 50%; display: flex; justify-content: center">
+          <el-button native-type="submit" :loading="isLoading" type="primary">
+            Submit Review
+          </el-button>
+        </div>
+      </el-form>
+    </el-dialog>
+    <!--    END OF DIALOG-->
   </div>
 </template>
 
 <script lang="ts">
 import {
   Course,
-  Lesson,
+  CustomLesson,
+  Review,
   VideoRequest,
   VideoResponse,
   WatchStatus,
@@ -66,7 +106,8 @@ import EnrollService from "@/services/EnrollService";
 import LessonService from "@/services/LessonService";
 import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
-import { Clock } from "@element-plus/icons-vue";
+import { Clock, Edit } from "@element-plus/icons-vue";
+import ReviewService from "@/services/ReviewService";
 
 export default defineComponent({
   name: "VideoPlayer",
@@ -75,14 +116,23 @@ export default defineComponent({
     return {
       activeName: "99",
       videoKey: "",
+      dialogShow: false,
       enrollId: 0,
       courseId: 0,
       lessonId: "",
       videoResponse: {} as VideoResponse,
       singleCourse: {} as Course,
-      lessonList: new Array<Lesson>(),
+      lessonList: new Array<CustomLesson>(),
       status: {} as WatchStatus,
       playerParams: { modestbranding: 1, rel: 0 } as YT.PlayerVars,
+      isLoading: false,
+      review: {} as Review,
+      formReview: {
+        rating: 0,
+        content: "",
+        courseId: 0,
+      },
+      errorMsg: "",
     };
   },
   methods: {
@@ -96,6 +146,7 @@ export default defineComponent({
         })
         .catch((err) => this.handleError(err));
     },
+
     fetchSingleCourse(courseId: number) {
       CourseService.getById(courseId).then((res) => {
         this.singleCourse = res.data;
@@ -134,10 +185,26 @@ export default defineComponent({
       }
     },
 
+    postReview() {
+      console.log("SUBMIT CLICKED");
+      this.formReview.courseId = this.courseId;
+      let review = this.formReview;
+      this.isLoading = true;
+      ReviewService.addNew(review)
+        .then(() => this.showReviewDialog())
+        .catch((err) => this.handleError(err))
+        .finally(() => (this.isLoading = false));
+    },
+
     /** play next video */
     refreshPlayer(lessonId: string) {
-      var link = `/videoplayer/course/${this.singleCourse.id}/lesson/${lessonId}`;
+      let link = `/videoplayer/course/${this.singleCourse.id}/lesson/${lessonId}`;
       return window.location.replace(link);
+    },
+
+    showReviewDialog() {
+      this.dialogShow = !this.dialogShow;
+      this.errorMsg = "";
     },
 
     /** send to server */
@@ -152,9 +219,21 @@ export default defineComponent({
       this.lessonId = id;
       this.refreshPlayer(id);
     },
+
+    /* get single review */
+    getMyReview(courseId: number) {
+      ReviewService.getMineOnCourse(courseId)
+        .then((res) => (this.review = res.data))
+        .then(() => {
+          if (this.review) {
+            this.formReview = { ...this.review };
+          }
+        });
+    },
   },
   components: {
     Clock,
+    Edit,
   },
   mounted() {
     let { courseId, lessonId } = this.$route.params;
@@ -165,6 +244,7 @@ export default defineComponent({
     };
     this.courseId = numCourseId;
     this.getPlayLink(req);
+    this.getMyReview(this.courseId);
   },
 });
 </script>
@@ -189,17 +269,6 @@ export default defineComponent({
   flex-direction: column;
   height: 100vh;
   width: 30%;
-}
-
-.boldy {
-  font-weight: bold;
-}
-
-.rowbig {
-  width: 100%;
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
 }
 
 iframe[id^="vue-youtube-iframe-1"] {
@@ -228,9 +297,8 @@ iframe[id^="vue-youtube-iframe-1"] {
 .lesson-item {
   display: flex;
   flex-direction: row;
-  padding: 0.5em;
   justify-content: space-between;
-  padding-bottom: 1em;
+  padding: 0.5em 0.5em 1em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
@@ -244,9 +312,15 @@ iframe[id^="vue-youtube-iframe-1"] {
   font-weight: 700;
   color: white;
 }
+
 .bkg:hover {
   background: var(--secondary);
   color: white;
+}
+
+.el-dialog,
+#reviewDialog {
+  width: 30% !important;
 }
 
 @media screen and (max-width: 1000px) {
@@ -295,6 +369,11 @@ iframe[id^="vue-youtube-iframe-1"] {
   .col2 {
     display: block;
     height: 100%;
+  }
+
+  .el-dialog,
+  #reviewDialog {
+    width: 100% !important;
   }
 }
 </style>

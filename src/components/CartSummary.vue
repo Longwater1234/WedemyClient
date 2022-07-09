@@ -61,7 +61,7 @@ export default defineComponent({
 }
 
 #checkout-btn {
-  width: 80% important;
+  width: 80% !important;
   text-align: center;
 }
 </style>
