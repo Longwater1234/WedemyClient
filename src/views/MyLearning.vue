@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License
+  -->
+
 <template>
   <h2 class="cart-header">My Learning</h2>
   <div class="main-view" style="height: 70vh" v-loading="isLoading">

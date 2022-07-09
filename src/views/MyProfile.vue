@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My Profile</h3>
   <div class="main-view" style="height: 70vh" v-loading="isLoading">

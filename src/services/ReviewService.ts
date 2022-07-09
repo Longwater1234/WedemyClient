@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import http from "../axiosconfig";
+import { Review } from "@/types";
 
 class ReviewService {
   /** get reviews, paged & sorted */
@@ -7,17 +8,20 @@ class ReviewService {
     let options: AxiosRequestConfig = {
       params: {
         page,
-        sortBy
+        sortBy,
       },
     };
     return http.get(`reviews/course/${courseId}`, options);
   }
 
   /** insert new review */
-  addNew() {
-
+  addNew(review: Review) {
+    return http.post("/reviews/", review);
   }
 
+  getMineOnCourse(courseId: number) {
+    return http.get(`/reviews/mine/c/${courseId}`);
+  }
 }
 
 export default new ReviewService();

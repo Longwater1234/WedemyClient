@@ -1,5 +1,6 @@
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
-  <div align="center" style="height: 80vh">
+  <div align="center" style="height: 80vh;">
     <div class="loginContainer">
       <h3 class="loginHeader">Login to your Wedemy Account</h3>
 

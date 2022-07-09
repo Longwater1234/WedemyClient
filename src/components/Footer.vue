@@ -6,12 +6,12 @@
       <el-row class="footer-row">(Github Links)</el-row>
     </div>
     <div class="righty">
-      <el-row>&copy; 2021, Wedemy</el-row>
+      <el-row>&copy; 2022, Wedemy</el-row>
       <el-row>
         <img src="@/assets/final_white.png" alt="logo" id="ft-logo" />
       </el-row>
     </div>
-    <!-- TODO: ADD PAYMENT METHODS HERE -->
+    <!-- TODO: ADD PAYMENT METHODS image HERE -->
   </footer>
 </template>
 

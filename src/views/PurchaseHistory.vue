@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My Purchase History</h3>
   <div class="main-body" style="height: 80vh">
@@ -143,12 +144,11 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .salesList {
   align-self: flex-start;
   width: 80% !important;
   border: none !important;
-  border: 1px solid black;
   margin: unset;
 }
 

@@ -1,7 +1,7 @@
 <template>
-  <Navbar :categories="categories" v-if="!this.$route.meta.hideNavbar" />
-  <router-view />
-  <!-- <Footer v-if="!this.$route.meta.hideNavbar" /> -->
+    <Navbar :categories="categories" v-if="!this.$route.meta.hideNavbar" />
+    <router-view />
+    <Footer v-if="!this.$route.meta.hideNavbar" />
 </template>
 
 <script lang="ts">
@@ -134,6 +134,10 @@ a {
   color: black !important;
 }
 
+.mobile-only {
+  display: none;
+}
+
 @media only screen and (max-width: 700px) {
   .product-img {
     aspect-ratio: 16/9;
@@ -153,6 +157,12 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .mobile-only {
+    display: unset;
+    height: auto;
+    max-width: 100%;
   }
 }
 </style>

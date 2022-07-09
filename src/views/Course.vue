@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div v-loading.fullscreen.lock="isLoading" class="darkBox">
     <el-alert
@@ -109,24 +110,36 @@
         <span style="margin-right: 0.5em">Page: &nbsp;{{ currentPage }}</span>
         <el-button-group>
           <el-button type="primary" :disabled="isFirst" @click="addPage(-1)">
-            <el-icon><arrow-left /></el-icon> Prev Page
+            <el-icon> <arrow-left /> </el-icon>
+            Prev Page
           </el-button>
           <el-button type="primary" :disabled="isLast" @click="addPage(1)">
-            Next Page<el-icon><arrow-right /></el-icon>
+            Next Page
+            <el-icon> <arrow-right /> </el-icon>
           </el-button>
         </el-button-group>
       </div>
     </div>
     <div v-else class="nodata">No reviews yet!</div>
   </div>
+
+  <!-- FIXED AT BOTTOM ON MOBILE -->
+  <mobile-details
+    class="mobile-only"
+    :isOwned="isOwned"
+    :inCart="inCart"
+    @toggleCart="onToggleCart"
+    :singleCourse="singleCourse"
+  >
+  </mobile-details>
 </template>
 
 <script lang="ts">
 import {
-  CaretRight,
-  Lock,
   ArrowLeft,
   ArrowRight,
+  CaretRight,
+  Lock,
   StarFilled,
 } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
@@ -134,13 +147,14 @@ import CourseService from "@/services/CourseService";
 import LessonService from "@/services/LessonService";
 import EnrollService from "@/services/EnrollService";
 import ReviewService from "@/services/ReviewService";
-import { Course, Lesson, ReviewResponse } from "@/types";
+import { Course, Lesson, Review } from "@/types";
 import CourseDetails from "@/components/CourseDetails.vue";
 import WishlistService from "@/services/WishlistService";
 import CartService from "@/services/CartService";
 import store from "@/store";
 import { ElMessage, ElNotification } from "element-plus";
 import ReviewCard from "@/components/ReviewCard.vue";
+import MobileDetails from "@/components/MobileDetails.vue";
 
 export default defineComponent({
   data() {
@@ -149,8 +163,8 @@ export default defineComponent({
     return {
       activeName: "1",
       currentPage: 1,
-      isFirst: true,
-      isLast: false,
+      isFirst: true, //page
+      isLast: false, //page
       sortBy: "createdAt",
       isLoading: false,
       errorMessage: "",
@@ -160,12 +174,13 @@ export default defineComponent({
       inWishlist: false,
       inCart: false,
       isOwned: false,
-      reviewList: new Array<ReviewResponse>(),
+      reviewList: new Array<Review>(),
       singleCourse: {} as Course,
       totalReviews: 0,
     };
   },
   components: {
+    MobileDetails,
     CourseDetails,
     ReviewCard,
     Lock,
@@ -187,7 +202,7 @@ export default defineComponent({
         .finally(() => (this.isLoading = false));
     },
     fetchObjectives(courseId: number) {
-      CourseService.getObjectivesbyCourse(courseId).then((res) => {
+      CourseService.getObjectivesByCourse(courseId).then((res) => {
         this.objectives = res.data;
       });
     },
@@ -225,7 +240,7 @@ export default defineComponent({
         });
     },
 
-    /* listen for event from Child */
+    /** listen for event from Child */
     onToggleWishlist(courseId: number) {
       const self = this;
       let myAction = self.inWishlist
@@ -236,14 +251,14 @@ export default defineComponent({
         .catch((error) => this.handleError(error));
     },
 
-    /** IF course ALREADY in wishlist */
+    /** If Course ALREADY in wishlist */
     checkWishlistStatus(courseId: number) {
       WishlistService.checkifWishlisted(courseId).then((res) => {
         this.inWishlist = res.data.inWishlist;
       });
     },
 
-    /* listen for Event from Child */
+    /** listen for Event from Child */
     onToggleCart(courseId: number) {
       const self = this;
       let myAction = self.inCart
