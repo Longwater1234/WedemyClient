@@ -151,8 +151,8 @@ export default {
       let passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gm;
       if (!value) {
         callback(new Error("Password can't be empty"));
-      } else if (value.length < 9) {
-        return callback(new Error("Minimum length is 9 characters"));
+      } else if (value.length < 8) {
+        return callback(new Error("Minimum length is 8 characters"));
       } else if(!passwordReg.test(value)) {
         callback(new Error("Required at least 1 digit and 1 alphabet letter"))
       } else {

@@ -65,6 +65,7 @@
 import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
 import { defineComponent } from "@vue/runtime-core";
+import { AxiosError } from "axios";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
@@ -89,7 +90,7 @@ export default defineComponent({
     goToCourse(id: number) {
       this.$router.push(`/course/${id}`);
     },
-    handleError(error: any) {
+    handleError(error: AxiosError) {
       if (error.response) this.serverError = error.response.data.message;
       else ElMessage.error(error.message);
     },

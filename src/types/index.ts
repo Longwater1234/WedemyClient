@@ -51,7 +51,7 @@ export interface Sale {
 }
 
 export interface Review {
-    id?: number;
+    id: number;
     content: string;
     courseId: number;
     rating: number;

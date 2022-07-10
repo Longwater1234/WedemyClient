@@ -61,12 +61,7 @@
     </div>
 
     <!--   BEGIN DIALOG FOR REVIEW-->
-    <el-dialog
-      v-model="dialogShow"
-      id="reviewDialog"
-      title="Leave Review for Course"
-      draggable
-    >
+    <el-dialog v-model="dialogShow" title="Leave Review for Course">
       <el-form :model="formReview" @submit.prevent="postReview">
         <el-form-item label="Your Rating">
           <el-rate v-model="formReview.rating" show-text text-color="#000000" />
@@ -80,7 +75,6 @@
             v-model="formReview.content"
           />
         </el-form-item>
-        <el-alert v-if="errorMsg" type="error" center>{{ errorMsg }}</el-alert>
         <div style="width: 50%; display: flex; justify-content: center">
           <el-button native-type="submit" :loading="isLoading" type="primary">
             Submit Review
@@ -108,6 +102,7 @@ import { ElMessage } from "element-plus";
 import { defineComponent } from "vue";
 import { Clock, Edit } from "@element-plus/icons-vue";
 import ReviewService from "@/services/ReviewService";
+import { AxiosError, AxiosResponse } from "axios";
 
 export default defineComponent({
   name: "VideoPlayer",
@@ -128,6 +123,7 @@ export default defineComponent({
       isLoading: false,
       review: {} as Review,
       formReview: {
+        id: 0,
         rating: 0,
         content: "",
         courseId: 0,
@@ -167,9 +163,16 @@ export default defineComponent({
     },
 
     /* display error  */
-    handleError(err: any) {
+    handleError(err: AxiosError) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
+    },
+
+    /** on Success review post */
+    handleOKReview(res: AxiosResponse) {
+      this.getMyReview(this.courseId);
+      this.dialogShow = false;
+      ElMessage.success(res.data.message);
     },
 
     /** YT iframe events */
@@ -185,13 +188,19 @@ export default defineComponent({
       }
     },
 
+    /** either EDIT or ADD NEW  */
     postReview() {
-      console.log("SUBMIT CLICKED");
       this.formReview.courseId = this.courseId;
       let review = this.formReview;
       this.isLoading = true;
-      ReviewService.addNew(review)
-        .then(() => this.showReviewDialog())
+      this.showReviewDialog();
+      console.log(review);
+      let service = this.formReview.id
+        ? ReviewService.editMine(review)
+        : ReviewService.addNew(review);
+
+      service
+        .then((res) => this.handleOKReview(res))
         .catch((err) => this.handleError(err))
         .finally(() => (this.isLoading = false));
     },
@@ -318,8 +327,7 @@ iframe[id^="vue-youtube-iframe-1"] {
   color: white;
 }
 
-.el-dialog,
-#reviewDialog {
+.el-dialog {
   width: 30% !important;
 }
 
@@ -371,9 +379,8 @@ iframe[id^="vue-youtube-iframe-1"] {
     height: 100%;
   }
 
-  .el-dialog,
-  #reviewDialog {
+  .el-dialog {
     width: 100% !important;
   }
 }
-</style>
+</style> 

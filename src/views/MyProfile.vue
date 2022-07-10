@@ -1,12 +1,15 @@
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My Profile</h3>
-  <div class="main-view" style="height: 70vh" v-loading="isLoading">
+  <div class="main-view" style="height: 80vh" v-loading="isLoading">
     <!-- START HEADER -->
     <div class="profile-header">
       <el-avatar :size="100" :src="attachAvatarLink(store.state.username)" />
       <!-- <p class="username">{{ store.state.username }}</p> -->
-      <p class="username">{{ userInfo.fullname }}</p>
+      <p class="username">
+        {{ userInfo.fullname }}
+        <el-icon class="myEdit" @click="showEditDialog()"><Edit /></el-icon>
+      </p>
       <div class="joined">{{ userInfo.email }}</div>
     </div>
     <!-- END OF HEADER -->
@@ -28,7 +31,12 @@
     <div class="recently">
       <h3 class="serif-head">Your Recent Courses</h3>
       <div class="recentBox" v-if="courseList.length > 0">
-        <div class="recentSingle" v-for="item in courseList" :key="item.id"  @click="goToCourse(item.courseId)">
+        <div
+          class="recentSingle"
+          v-for="item in courseList"
+          :key="item.id"
+          @click="goToCourse(item.courseId)"
+        >
           {{ item.title }}
           <el-progress class="myprogress" :percentage="item.progress" />
         </div>
@@ -40,8 +48,23 @@
     <!-- START OF CERTIFICATES -->
     <div class="recently">
       <h3 class="serif-head">Your Certificates</h3>
-      <div class="nodata">No data</div>
+      <div class="nodata">
+        No data!
+        <p>(Needs a cloud storage service like AWS S3)</p>
+      </div>
     </div>
+
+    <!-- EDIT PROFILE DIALOG -->
+    <el-dialog v-model="dialogShow" title="Update your Profile">
+      <el-form :model="userInfo" @submit.prevent="updateProfile">
+        <el-form-item label="Your name">
+          <el-input v-model="userInfo.fullname" type="text" maxlength="70" />
+        </el-form-item>
+        <el-button type="primary" :loading="formLoading" native-type="submit">
+          Submit
+        </el-button>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -50,7 +73,9 @@ import EnrollService from "@/services/EnrollService";
 import ProfileService from "@/services/ProfileService";
 import { User } from "@/types";
 import { ElMessage } from "element-plus";
+import { Edit } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
+import { AxiosError } from "axios";
 
 export default defineComponent({
   name: "Profile",
@@ -60,6 +85,8 @@ export default defineComponent({
     return {
       activeTab: "first",
       isLoading: true,
+      formLoading: false,
+      dialogShow: false,
       summaryList: [],
       courseList: [],
       userInfo: {} as User,
@@ -87,10 +114,35 @@ export default defineComponent({
     goToLearning() {
       this.$router.push("/account/learning");
     },
-    
-     goToCourse(id: number) {
+
+    showEditDialog() {
+      this.dialogShow = !this.dialogShow;
+    },
+
+    updateProfile() {
+      this.formLoading = true;
+      ProfileService.updateMine(this.userInfo)
+        .then((res) => {
+          this.userInfo = res.data;
+          this.dialogShow = false;
+          ElMessage.success("Your profile has been updated!");
+        })
+        .catch((err) => this.handleError(err))
+        .finally(() => (this.formLoading = false));
+    },
+
+    /* display error  */
+    handleError(err: AxiosError) {
+      let mama = err.response ? err.response.data.message : err.message;
+      ElMessage.error(mama);
+    },
+
+    goToCourse(id: number) {
       this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
     },
+  },
+  components: {
+    Edit,
   },
   mounted() {
     this.getProfileInfo();
@@ -107,6 +159,10 @@ export default defineComponent({
 
 .joined {
   font-size: 14px;
+}
+
+.myEdit {
+  color: var(--primary);
 }
 
 .username {
@@ -154,7 +210,7 @@ export default defineComponent({
 .recently {
   width: 70%;
   text-align: left;
-  margin: 0 auto;
+  margin: 2em auto;
 }
 
 .recentBox {

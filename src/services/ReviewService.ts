@@ -22,6 +22,12 @@ class ReviewService {
   getMineOnCourse(courseId: number) {
     return http.get(`/reviews/mine/c/${courseId}`);
   }
+
+  /** edit review */
+  editMine(review: Review) {
+    return http.put("/reviews/", review);
+  }
+
 }
 
 export default new ReviewService();

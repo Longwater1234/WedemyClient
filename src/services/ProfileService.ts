@@ -1,3 +1,4 @@
+import { User } from "@/types";
 import http from "../axiosconfig";
 
 class ProfileService {
@@ -11,6 +12,9 @@ class ProfileService {
         return http.get("/profile/mine");
     }
 
+    updateMine(user: User) {
+        return http.put("/profile/mine", user);
+    }
 
 }
 
