@@ -61,6 +61,7 @@ import dropin, { Dropin } from "braintree-web-drop-in";
 import CartService from "@/services/CartService";
 import { Course, PaymentObj } from "@/types";
 import store from "@/store";
+import { AxiosError } from "axios";
 
  // SEE OFFICIAL DOCS:
  // https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
@@ -134,7 +135,7 @@ export default defineComponent({
       this.$router.replace("/");
     },
 
-    handleError(err: any) {
+    handleError(err: AxiosError) {
       let mama = err.response ? err.response.data.message : err.message;
       this.payError = mama;
     },

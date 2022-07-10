@@ -11,7 +11,7 @@
     </el-alert>
 
     <!-- DETAILS DIALOG -->
-    <el-dialog id="myDialog" v-model="dialogVisible" title="Items" draggable>
+    <el-dialog v-model="dialogVisible" title="Items" draggable>
       <!-- dialog body -->
       <div v-for="item in courseList" :key="item.id">
         <div class="courseRow">
@@ -159,8 +159,7 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-.el-dialog,
-#myDialog {
+.el-dialog {
   width: 30% !important;
 }
 
@@ -195,8 +194,7 @@ export default defineComponent({
     flex-wrap: wrap;
   }
 
-  .el-dialog,
-  #myDialog {
+  .el-dialog {
     width: 80% !important;
   }
 }

@@ -155,6 +155,7 @@ import store from "@/store";
 import { ElMessage, ElNotification } from "element-plus";
 import ReviewCard from "@/components/ReviewCard.vue";
 import MobileDetails from "@/components/MobileDetails.vue";
+import { AxiosError } from "axios";
 
 export default defineComponent({
   data() {
@@ -292,7 +293,7 @@ export default defineComponent({
       this.fetchReviewList(this.courseId, this.currentPage - 1);
     },
 
-    handleError(err: any) {
+    handleError(err: AxiosError) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
     },
