@@ -5,7 +5,6 @@
     <!-- START HEADER -->
     <div class="profile-header">
       <el-avatar :size="100" :src="attachAvatarLink(store.state.username)" />
-      <!-- <p class="username">{{ store.state.username }}</p> -->
       <p class="username">
         {{ userInfo.fullname }}
         <el-icon class="myEdit" @click="showEditDialog()"><Edit /></el-icon>
@@ -40,7 +39,13 @@
           {{ item.title }}
           <el-progress class="myprogress" :percentage="item.progress" />
         </div>
-        <div @click="goToLearning()" class="recentSingle linky">View All</div>
+        <div
+          @click="goToLearning()"
+          class="recentSingle linky"
+          v-if="courseList.length > 2"
+        >
+          View All
+        </div>
       </div>
       <div v-else class="nodata">No data</div>
     </div>
