@@ -5,7 +5,7 @@
       <h3 class="loginHeader">Sign Up and Start Learning!</h3>
 
       <!-- GOOGLE SIGN UP  -->
-       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
+      <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
       <div
         id="g_id_onload"
         :data-client_id="GOOGLE_CLIENT_ID"
@@ -198,13 +198,14 @@ export default {
   },
   methods: {
     handleSignup(formName) {
+      const self = this;
       this.$refs[formName].validate((valid) => {
         if (!valid) return;
         this.isLoading = true;
         this.submitToServer(this.signupForm)
-          .then(() => this.redirectToLogin())
-          .catch((error) => displayError(error))
-          .finally(() => (this.isLoading = false));
+            .then(() => this.redirectToLogin())
+            .catch((error) => self.handleError(error))
+            .finally(() => (this.isLoading = false));
       });
     },
     submitToServer: async (payload) => {
@@ -214,13 +215,10 @@ export default {
       ElMessage.success("Welcome to Wedemy. Please Login");
       this.$router.replace("/login");
     },
-    displayError(error) {
-      if (error.response) {
-        return ElMessage.error(error.response.data.message);
-      }
-      return ElMessage.error(error.message);
+    handleError(err) {
+      let mama = err.response ? err.response.data.message : err.message;
+      this.payError = mama;
     },
-  },
   mounted() {
     //attach GoogleAuth script
     const scripta = document.createElement("script");
