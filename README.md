@@ -2,9 +2,9 @@
 
 (Frontend Repo). Clone of Udemy, built using Vue 3 + Typescript + Element Plus + Injector/Provider API (No Vuex!).
 This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**).
- The Backend is a Java Springboot application available here.
+ The Backend is a Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
 
-## Live Demo (coming soon)
+## Live Demo
 
 The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual money will be deducted on Checkout. You may use test
 credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).
