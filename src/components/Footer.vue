@@ -6,12 +6,13 @@
       </el-row>
       <el-row class="footer-row">About Us</el-row>
       <el-row class="footer-row">
-        <a
-          class="github-button"
+        <!-- Place this tag where you want the button to render. -->
+        <github-button
           href="https://github.com/longwater1234"
           aria-label="Follow @longwater1234 on GitHub"
-          >Follow @longwater1234
-        </a>
+        >
+          Follow @longwater1234
+        </github-button>
       </el-row>
     </div>
     <div class="righty">
@@ -20,25 +21,27 @@
         <img src="@/assets/final_white.png" alt="logo" id="ft-logo" />
       </el-row>
       <el-row class="credit-cards" title="Supported Payment methods">
-        <img height="30" src="https://shoplineimg.com/assets/footer/card_visa.png"/>
-        <img height="30" src="https://shoplineimg.com/assets/footer/card_master.png"/>
-        <img height="30" src="https://shoplineimg.com/assets/footer/card_paypal.png"/>
-        <img height="30" src="https://shoplineimg.com/assets/footer/card_amex.png"/>
-        <img height="30" src="https://shoplineimg.com/assets/footer/card_jcb.png"/>
+      <img height="30" src="https://shoplineimg.com/assets/footer/card_visa.png"/>
+      <img height="30" src="https://shoplineimg.com/assets/footer/card_master.png"/>
+      <img height="30" src="https://shoplineimg.com/assets/footer/card_paypal.png"/>
+      <img height="30" src="https://shoplineimg.com/assets/footer/card_amex.png"/>
+      <img height="30" src="https://shoplineimg.com/assets/footer/card_jcb.png"/>
       </el-row>
     </div>
   </footer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
+<script>
+import GithubButton from "vue-github-button";
+export default {
   name: "Footer",
   data() {
     return {};
   },
-});
+  components: {
+    GithubButton,
+  },
+};
 </script>
 
 <style scoped>
