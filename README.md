@@ -29,4 +29,5 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 
 ## Pull Requests & Contributions
 
-Code Contributions and pull requests are welcome! Perhaps ADMIN and INSTRUCTOR dashboards. Dark Mode, maybe?
+Code Contributions and pull requests are welcome! Perhaps ADMIN and INSTRUCTOR companion web apps. Dark Mode, maybe? For more TODO's 
+for this projects, see `./TODO/`
