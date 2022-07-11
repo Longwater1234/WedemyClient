@@ -5,7 +5,14 @@
         <router-link to="/credits"> Credits </router-link>
       </el-row>
       <el-row class="footer-row">About Us</el-row>
-      <el-row class="footer-row">(Github Links)</el-row>
+      <el-row class="footer-row">
+        <a
+          class="github-button"
+          href="https://github.com/longwater1234"
+          aria-label="Follow @longwater1234 on GitHub"
+          >Follow @longwater1234
+        </a>
+      </el-row>
     </div>
     <div class="righty">
       <el-row>&copy; 2022, Wedemy</el-row>
@@ -63,7 +70,6 @@ export default defineComponent({
 
 a {
   color: white !important;
- 
 }
 
 a:hover {
@@ -87,7 +93,7 @@ a:hover {
 }
 @media screen and (max-width: 770px) {
   .credit-cards {
-   display: none;
+    display: none;
   }
 }
 </style>
