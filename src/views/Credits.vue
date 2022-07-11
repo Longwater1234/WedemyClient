@@ -54,9 +54,7 @@ export default defineComponent({
   name: "Credits",
   data() {
     document.title = "Credits | Wedemy";
-    return {
-      key: "value",
-    };
+    return {};
   },
 });
 </script>
