@@ -216,7 +216,7 @@ export default {
     },
     handleError(err) {
       let mama = err.response ? err.response.data.message : err.message;
-      this.payError = mama;
+      ElMessage.error(mama);
     },
   },
   mounted() {
