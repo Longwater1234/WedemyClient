@@ -3,6 +3,7 @@
     <div class="pricebox">${{ singleCourse.price }}</div>
     <div style="width: 80%">
       <div v-if="!isOwned" class="btn-block">
+        <!-- CART BUTTON -->
         <el-button
           :loading="isLoading"
           class="btn purple"
@@ -10,6 +11,16 @@
           @click="emitCart(singleCourse.id)"
         >
           {{ getCartTitle }}
+        </el-button>
+        <!-- WISHLIST BUTTON -->
+        <el-button
+          id="wishlist-btn"
+          :class="{ pressed: inWishlist === true }"
+          @click="emitWishlist(singleCourse.id)"
+          circle
+        >
+          {{ inWishlist ? "&#9829;" : "&#9825;" }}
+          <!-- wishlist button -->
         </el-button>
       </div>
       <!-- ELSE, direct to LESSONS -->
@@ -47,17 +58,25 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    inWishlist: {
+      type: Boolean,
+      default: false,
+    },
     isOwned: {
       type: Boolean,
       default: false,
     },
   },
-  emits: ["toggleCart"],
+  emits: ["toggleWishlist", "toggleCart"],
   methods: {
     /* emit events back to Parent */
     emitCart(id: number) {
       if (!store.getters.isLoggedIn) return this.LoginMessage();
       this.$emit("toggleCart", id);
+    },
+    emitWishlist(id: number) {
+      if (!store.getters.isLoggedIn) return this.LoginMessage();
+      this.$emit("toggleWishlist", id);
     },
     LoginMessage() {
       ElMessage.error("Must be logged in!");
@@ -84,6 +103,11 @@ export default defineComponent({
   display: none;
 }
 
+.pressed {
+  color: red !important;
+  border-color: red !important;
+}
+
 @media screen and (max-width: 770px) {
   .actionbox {
     display: flex;
@@ -91,7 +115,8 @@ export default defineComponent({
     text-align: center;
     background-color: white;
     position: fixed;
-    height: 3em;
+    height: max-content;
+    padding: 0.25em auto;
     bottom: 0;
     width: 100%;
   }

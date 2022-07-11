@@ -1,7 +1,7 @@
 <template>
-    <Navbar :categories="categories" v-if="!this.$route.meta.hideNavbar" />
-    <router-view />
-    <Footer v-if="!this.$route.meta.hideNavbar" />
+  <Navbar :categories="categories" v-if="!this.$route.meta.hideNavbar" />
+  <router-view />
+  <Footer v-if="!this.$route.meta.hideNavbar" />
 </template>
 
 <script lang="ts">
@@ -145,7 +145,7 @@ a {
   }
 
   .main-body {
-    width: 100% !important;
+    width: inherit !important;
   }
 
   .full-only {

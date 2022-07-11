@@ -11,10 +11,9 @@
     </el-alert>
 
     <div v-if="!errorMessage" class="mainStart">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item
           :to="{ path: '/category/' + singleCourse.category }"
-          :style="{ color: 'white' }"
         >
           {{ singleCourse.category }}
         </el-breadcrumb-item>
@@ -125,10 +124,13 @@
 
   <!-- FIXED AT BOTTOM ON MOBILE -->
   <mobile-details
+    v-if="!errorMessage"
     class="mobile-only"
     :isOwned="isOwned"
     :inCart="inCart"
+    :inWishlist="inWishlist"
     @toggleCart="onToggleCart"
+    @toggleWishlist="onToggleWishlist"
     :singleCourse="singleCourse"
   >
   </mobile-details>
@@ -142,7 +144,7 @@ import {
   Lock,
   StarFilled,
 } from "@element-plus/icons-vue";
-import { defineComponent } from "vue";
+import { defineComponent, markRaw } from "vue";
 import CourseService from "@/services/CourseService";
 import LessonService from "@/services/LessonService";
 import EnrollService from "@/services/EnrollService";
@@ -178,6 +180,7 @@ export default defineComponent({
       reviewList: new Array<Review>(),
       singleCourse: {} as Course,
       totalReviews: 0,
+      ArrowRight: markRaw(ArrowRight),
     };
   },
   components: {
