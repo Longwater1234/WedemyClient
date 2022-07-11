@@ -54,8 +54,7 @@
     <div class="recently">
       <h3 class="serif-head">Your Certificates</h3>
       <div class="nodata">
-        No data!
-        <p>(Needs a cloud storage service like AWS S3)</p>
+       (Needs a cloud storage service like AWS S3)
       </div>
     </div>
 
@@ -81,6 +80,7 @@ import { ElMessage } from "element-plus";
 import { Edit } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
 import { AxiosError } from "axios";
+import store from "@/store";
 
 export default defineComponent({
   name: "Profile",
@@ -130,6 +130,7 @@ export default defineComponent({
         .then((res) => {
           this.userInfo = res.data;
           this.dialogShow = false;
+          store.getAuthStatusServer()
           ElMessage.success("Your profile has been updated!");
         })
         .catch((err) => this.handleError(err))

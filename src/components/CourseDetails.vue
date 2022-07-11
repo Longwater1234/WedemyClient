@@ -12,6 +12,7 @@
 
       <!-- IF NOT OWN COURSE, show CART + WISHLIST Btn -->
       <div v-if="!isOwned" class="btn-block">
+        <!-- CART BUTTON -->
         <el-button
           id="cart-btn"
           :loading="isLoading"
@@ -21,6 +22,7 @@
         >
           {{ getCartTitle }}
         </el-button>
+        <!-- WISHLIST BUTTON -->
         <el-button
           id="wishlist-btn"
           :class="{ pressed: inWishlist === true }"

@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
-  <div class="main-body" style="height: 80vh">
+  <div class="main-body">
     <h2 class="serif-head">{{ categoryName }} Courses</h2>
 
     <el-alert
@@ -112,9 +112,19 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .underscore {
   padding-bottom: 0.5em;
   border-bottom: 1px rgba(0, 0, 0, 0.2) solid;
+}
+
+.main-body {
+  height: 80vh;
+}
+
+@media screen and (max-width: 770px) {
+  .main-body {
+    height: unset;
+  }
 }
 </style>

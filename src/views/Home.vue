@@ -25,6 +25,14 @@
 
     <!-- START MAIN BODY -->
     <div class="main-body">
+      <div v-if="store.getters.isLoggedIn" style="margin-bottom: 2em">
+        <h3 class="sub-heading">
+          Hi {{ trimSpace(store.state.username) }}! 👋 Pick up where you left off
+          in
+          <router-link to="/account/learning">My Learning</router-link>
+        </h3>
+      </div>
+
       <h2 class="serif-head">Students are viewing</h2>
       <h3 class="sub-heading">Expand your skillset with these courses</h3>
 
@@ -146,6 +154,10 @@ export default defineComponent({
     },
     goToCourse(id: number) {
       this.$router.push(`/course/${id}`);
+    },
+
+    trimSpace(input: string): string {
+      return input.split(/\s+/)[0];
     },
     goToCategory(name: string) {
       this.$router.push(`/category/${name}`);

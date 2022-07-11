@@ -17,12 +17,18 @@
     <%= htmlWebpackPlugin.options.title %>
   </title>
   <style>
+
     @media screen and (max-width: 1000px) {
 
       iframe,
       #vue-youtube-iframe-1 {
         max-width: 100% !important;
         width: 100%;
+      }
+
+      .body {
+        overflow-x: hidden;
+        max-width: 90%;
       }
 
       div.el-dialog {

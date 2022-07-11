@@ -122,6 +122,11 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/credits",
+    name: "Credits",
+    component: () => import("../views/Credits.vue"),
+  },
+   {
     path: "/Error500",
     name: "ServerError",
     component: () => import("../views/Error500.vue"),

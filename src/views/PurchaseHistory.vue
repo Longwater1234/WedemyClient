@@ -1,7 +1,7 @@
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My Purchase History</h3>
-  <div class="main-body" style="height: 80vh">
+  <div class="main-view" style="height: 70vh">
     <el-alert
       v-if="serverError"
       :title="serverError"
@@ -9,6 +9,10 @@
       :closable="false"
     >
     </el-alert>
+    
+    <div class="mobile-only">
+      <small>Scroll horizontally to view more columns</small>
+    </div>
 
     <!-- DETAILS DIALOG -->
     <el-dialog v-model="dialogVisible" title="Items" draggable>
@@ -29,6 +33,7 @@
     <!-- END OF DIALOG -->
 
     <!-- TABLE START -->
+
     <div class="salesList" v-if="sales.length > 0" v-loading="isLoading">
       <el-table id="myTable" :data="sales" stripe style="width: 100%">
         <el-table-column
