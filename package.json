@@ -6,7 +6,6 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "node server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
@@ -17,11 +16,11 @@
     "braintree-web-drop-in": "^1.6.1",
     "core-js": "^3.8.3",
     "element-plus": "^2.1.8",
-    "express": "^4.18.1",
     "prettier": "^2.7.1",
     "register-service-worker": "^1.7.2",
     "validator": "^13.7.0",
     "vue": "^3.2.13",
+    "vue-github-button": "^3.0.3",
     "vue-router": "^4.0.3",
     "vue2-timeago": "^3.0.2"
   },
