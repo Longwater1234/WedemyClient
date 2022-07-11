@@ -4,7 +4,7 @@
 This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**). Requires Node v16.x or higher.
  The Backend is a Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
 
-## Live Demo
+## [Live Demo](https://wedemy.herokuapp.com)
 
 The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual money will be deducted on Checkout. You may use test
 credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).

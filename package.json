@@ -6,6 +6,7 @@
     "node": "16.x"
   },
   "scripts": {
+    "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
