@@ -5,7 +5,7 @@
       <h3 class="loginHeader">Sign Up and Start Learning!</h3>
 
       <!-- GOOGLE SIGN UP  -->
-       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
+      <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
       <div
         id="g_id_onload"
         :data-client_id="GOOGLE_CLIENT_ID"
@@ -119,8 +119,6 @@ export default {
     /* validation for fullname */
     const checkName = (rule, value, callback) => {
       let reg = /[^ 0-9a-z_\.\-']/gi;
-
-
       if (!value) {
         return callback(new Error("Name can't be empty"));
       }
@@ -153,8 +151,8 @@ export default {
         callback(new Error("Password can't be empty"));
       } else if (value.length < 8) {
         return callback(new Error("Minimum length is 8 characters"));
-      } else if(!passwordReg.test(value)) {
-        callback(new Error("Required at least 1 digit and 1 alphabet letter"))
+      } else if (!passwordReg.test(value)) {
+        callback(new Error("Required at least 1 digit and 1 alphabet letter"));
       } else {
         callback();
       }
@@ -190,7 +188,7 @@ export default {
       //other
       User: markRaw(User),
       Lock: markRaw(Lock),
-      Message:  markRaw(Message),
+      Message: markRaw(Message),
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
@@ -198,12 +196,13 @@ export default {
   },
   methods: {
     handleSignup(formName) {
+      const self = this;
       this.$refs[formName].validate((valid) => {
         if (!valid) return;
         this.isLoading = true;
         this.submitToServer(this.signupForm)
           .then(() => this.redirectToLogin())
-          .catch((error) => displayError(error))
+          .catch((error) => self.handleError(error))
           .finally(() => (this.isLoading = false));
       });
     },
@@ -214,11 +213,9 @@ export default {
       ElMessage.success("Welcome to Wedemy. Please Login");
       this.$router.replace("/login");
     },
-    displayError(error) {
-      if (error.response) {
-        return ElMessage.error(error.response.data.message);
-      }
-      return ElMessage.error(error.message);
+    handleError(err) {
+      let mama = err.response ? err.response.data.message : err.message;
+      this.payError = mama;
     },
   },
   mounted() {
