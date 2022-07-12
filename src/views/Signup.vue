@@ -119,7 +119,6 @@ export default {
     /* validation for fullname */
     const checkName = (rule, value, callback) => {
       let reg = /[^ 0-9a-z_\.\-']/gi;
-
       if (!value) {
         return callback(new Error("Name can't be empty"));
       }
@@ -147,13 +146,13 @@ export default {
 
     // validation for password
     const checkPassword = (rule, value, callback) => {
-      let passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gm;
+      let passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gi;
       if (!value) {
         callback(new Error("Password can't be empty"));
       } else if (value.length < 8) {
         return callback(new Error("Minimum length is 8 characters"));
       } else if (!passwordReg.test(value)) {
-        callback(new Error("Required at least 1 digit and 1 alphabet letter"));
+        callback(new Error("Required at least 1 digit and 1 letter"));
       } else {
         callback();
       }
@@ -212,7 +211,9 @@ export default {
     },
     redirectToLogin() {
       ElMessage.success("Welcome to Wedemy. Please Login");
-      this.$router.replace("/login");
+      setTimeout(() => {
+        window.location.replace("/login");
+      }, 1000);
     },
     handleError(err) {
       let mama = err.response ? err.response.data.message : err.message;
