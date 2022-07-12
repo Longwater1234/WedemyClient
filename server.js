@@ -1,11 +1,14 @@
 const express = require("express");
+const path = require("path");
+const serveStatic = require("serve-static");
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(express.static(__dirname + "/dist/"));
-app.get(/.*/, function(req, res) {
-  res.sendFile(__dirname + "/dist/index.html");
-});
+app.use(serveStatic(path.join(__dirname, "dist"), 
+{
+   maxAge: 3600000
+}
+));
 
 app.listen(port);
 
