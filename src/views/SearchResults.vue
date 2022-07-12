@@ -12,12 +12,13 @@
     >
     </el-alert>
 
+    <div v-loading="isLoading"></div>
+
     <!-- START COURSE CARD -->
     <div class="course-box">
       <el-space
         direction="vertical"
         alignment="start"
-        v-loading="isLoading"
         :size="30"
         style="margin-top: 2%; margin-left: 10%"
       >
@@ -82,6 +83,7 @@ export default defineComponent({
   },
   methods: {
     fetchCoursesByTitle(title: string) {
+      this.isLoading = true;
       CourseService.findByTitle(title)
         .then((res) => (this.courses = res.data))
         .catch((error) => this.handleError(error))
@@ -99,7 +101,6 @@ export default defineComponent({
     window.scrollTo(0, 0);
     let { q } = this.$route.query;
     this.searchQuery = q ? q.toString() : "";
-    this.fetchCoursesByTitle(this.searchQuery);
   },
   beforeRouteLeave() {
     this.searchQuery = "";
