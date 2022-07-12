@@ -217,7 +217,7 @@ export default {
     },
     handleError(err) {
       let mama = err.response ? err.response.data.message : err.message;
-      ElMessage.error(mama);
+      ElMessage.error(mama || "Something went wrong!");
     },
   },
   mounted() {
