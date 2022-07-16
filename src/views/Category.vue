@@ -70,13 +70,12 @@ export default defineComponent({
   name: "Category",
   data() {
     document.title = "Wedemy";
-    const courses = new Array<Course>();
     return {
       categoryName: "",
       serverError: "",
       baseRadius: "var(--el-border-radius-base)",
       isLoading: false,
-      courses,
+      courses: new Array<Course>(),
     };
   },
   methods: {
