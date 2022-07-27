@@ -24,8 +24,8 @@ class ReviewService {
   }
 
   /** edit review */
-  editMine(review: Review) {
-    return http.put("/reviews/", review);
+  editMine(id: number, review: Review) {
+    return http.put(`/reviews/id/${id}`, review);
   }
 
 }
