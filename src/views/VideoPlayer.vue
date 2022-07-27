@@ -194,9 +194,8 @@ export default defineComponent({
       let review = this.formReview;
       this.isLoading = true;
       this.showReviewDialog();
-      console.log(review);
       let service = this.formReview.id
-        ? ReviewService.editMine(review)
+        ? ReviewService.editMine(review.id, review)
         : ReviewService.addNew(review);
 
       service
