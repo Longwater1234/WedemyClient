@@ -190,7 +190,7 @@ export default {
       Lock: markRaw(Lock),
       Message: markRaw(Message),
       isLoading: false,
-      GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
+      GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
     };
   },
