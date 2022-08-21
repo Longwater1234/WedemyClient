@@ -1,6 +1,6 @@
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
-  <div align="center" style="height: 80vh;">
+  <div align="center" style="height: 80vh">
     <div class="loginContainer">
       <h3 class="loginHeader">Login to your Wedemy Account</h3>
 
@@ -56,6 +56,10 @@
           ></el-input>
         </el-form-item>
 
+        <el-form-item>
+          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify">
+          </vue-hcaptcha>
+        </el-form-item>
         <div style="margin-top: 8px">
           <el-button
             class="btn purple"
@@ -81,10 +85,12 @@
 </template>
 
 <script>
+//test.mywedemy.com
 import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { ElMessage } from "element-plus";
 import isEmail from "validator/lib/isEmail";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import { Lock, Message } from "@element-plus/icons-vue/dist/lib";
 import { markRaw } from "@vue/reactivity";
 
@@ -128,16 +134,19 @@ export default {
       Message: markRaw(Message),
       Lock: markRaw(Lock),
       isLoading: false,
+      responseToken: "10000000-aaaa-bbbb-cccc-000000000001",
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
+      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
     };
   },
   methods: {
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          if (!this.responseToken) return;
           this.isLoading = true;
-          this.submitToServer(this.loginForm)
+          this.submitToServer(this.loginForm, this.responseToken)
             .then(() => this.redirectToHome())
             .catch((error) => this.displayError(error))
             .finally(() => (this.isLoading = false));
@@ -146,19 +155,26 @@ export default {
         }
       });
     },
-    submitToServer: async (load) => {
-      await AuthService.loginUser(load.email, load.password);
+    submitToServer: async (load, token) => {
+      await AuthService.loginUser(load.email, load.password, token);
       await store.getAuthStatusServer();
       await store.getCartCountServer();
     },
     redirectToHome() {
       ElMessage.success("Welcome back!");
-      this.$router.replace("/");
+      //this.$router.replace("/");
     },
     displayError(error) {
-      let mama = error.response ? "Wrong credentials" : error.message;
+      let mama = error.response ? error.response.data.message : error.message;
+      console.error("loginError", mama);
       ElMessage.error(mama);
     },
+    handleVerify(token) {
+      console.log({ token });
+    },
+  },
+  components: {
+    VueHcaptcha,
   },
   mounted() {
     //attach GoogleAuth script
@@ -187,15 +203,6 @@ export default {
   color: #1c1d1f;
   width: 380px;
   text-align: center;
-}
-
-.googleLogin {
-  align-content: center;
-  text-align: center;
-  margin: 0 auto;
-  width: max-content;
-  height: 30px;
-  background-color: #1c1d1f;
 }
 
 @media screen and (max-width: 600px) {
