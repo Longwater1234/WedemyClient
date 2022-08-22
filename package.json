@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
+    "@hcaptcha/vue3-hcaptcha": "^1.0.1",
     "@techassi/vue-youtube-iframe": "^1.0.6",
     "axios": "^0.26.1",
     "braintree-web-drop-in": "^1.6.1",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/braintree-web-drop-in": "^1.22.4",
+    "@hcaptcha/types": "^1.0.2",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
