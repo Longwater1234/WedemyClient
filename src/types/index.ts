@@ -13,9 +13,16 @@ export interface User {
     id: number;
     email: string;
     fullname: string;
+    responseToken?: string;
     password?: string;
     confirmPass?: string;
     createdAt?: string;
+}
+
+export interface LoginRequest {
+    email: string;
+    password: string;
+    responseToken: string; //from HCaptcha
 }
 
 export interface Lesson {

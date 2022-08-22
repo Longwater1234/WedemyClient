@@ -25,7 +25,7 @@ const myActions = {
         try {
             const res = await http.get("/auth/statuslogin");
             User.loggedIn = res.data.loggedIn;
-            User.username = res.data.user.fullname || res.data.user;
+            User.username = res.data.user?.fullname || res.data.user;
             return Boolean(User.loggedIn);
         } catch (error: any) {
             console.error(error.message);
