@@ -1,13 +1,13 @@
-import { User } from "@/types";
+import { LoginRequest, User } from "@/types";
 import http from "../axiosconfig";
 import { AxiosRequestConfig } from "axios";
 
 class AuthService {
   /** Login using BasicAuth in Springboot */
-  loginUser(email: string, password: string, responseToken: string) {
+  loginUser({ email, password, responseToken }: LoginRequest) {
     const url = "/auth/login";
 
-    const options = {
+    const options: AxiosRequestConfig = {
       auth: {
         username: email,
         password: password,
@@ -21,10 +21,11 @@ class AuthService {
   }
 
   /**  Login using FormLogin in Springboot  */
-  loginUserForm(email: string, password: string) {
+  loginUserForm(email: string, password: string, responseToken: string) {
     const params = new URLSearchParams();
     params.append("email", email);
     params.append("password", password);
+    params.append("responseToken", responseToken);
 
     const options: AxiosRequestConfig = {
       withCredentials: true,
@@ -38,14 +39,14 @@ class AuthService {
     return http.post("/login", params, options);
   }
 
-  /** sends the whole form to Server */
-  registerUser({ email, fullname, password, confirmPass }: User) {
-    return http.post("/auth/register", {
-      fullname,
-      email,
-      password,
-      confirmPass,
-    });
+  /** Register submits form to Server */
+  registerUser(load: User) {
+    let options = {
+      params: {
+        responseToken: load.responseToken,
+      },
+    };
+    return http.post("/auth/register", load, options);
   }
 
   /** Obviously does what it says */

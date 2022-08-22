@@ -1,3 +1,4 @@
+<!-- LOGIN -->
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div align="center" style="height: 80vh">
@@ -7,66 +8,67 @@
       <!-- GOOGLE SIGN IN  -->
       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
       <div
-        id="g_id_onload"
-        :data-client_id="GOOGLE_CLIENT_ID"
-        data-context="signin"
-        data-ux_mode="popup"
-        :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
-        data-auto_prompt="false"
+          id="g_id_onload"
+          :data-client_id="GOOGLE_CLIENT_ID"
+          data-context="signin"
+          data-ux_mode="popup"
+          :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
+          data-auto_prompt="false"
       ></div>
 
       <div
-        class="g_id_signin"
-        data-type="standard"
-        data-shape="rectangular"
-        data-theme="outline"
-        data-text="signin_with"
-        data-size="large"
-        data-logo_alignment="left"
+          class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signin_with"
+          data-size="large"
+          data-logo_alignment="left"
       ></div>
       <!-- END OF GOOGLE BUTTON -->
 
       <!-- START LOGIN FORM BELOW -->
       <el-form
-        @submit.prevent
-        status-icon
-        :model="loginForm"
-        :rules="rules"
-        ref="loginForm"
+          @submit.prevent
+          status-icon
+          :model="loginForm"
+          :rules="rules"
+          ref="loginForm"
       >
         <el-form-item style="margin-top: 10px" prop="email">
           <el-input
-            native-type="email"
-            :prefix-icon="Message"
-            placeholder="E-mail"
-            maxlength="70"
-            v-model.trim="loginForm.email"
-            class="field"
-            clearable
+              native-type="email"
+              :prefix-icon="Message"
+              placeholder="E-mail"
+              maxlength="70"
+              v-model.trim="loginForm.email"
+              class="field"
+              clearable
           ></el-input>
         </el-form-item>
 
         <el-form-item prop="password">
           <el-input
-            placeholder="Password"
-            :prefix-icon="Lock"
-            v-model.trim="loginForm.password"
-            class="field"
-            show-password
+              placeholder="Password"
+              :prefix-icon="Lock"
+              v-model.trim="loginForm.password"
+              class="field"
+              show-password
           ></el-input>
         </el-form-item>
 
+        <!--  CAPTCHA BOX -->
         <el-form-item>
-          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify">
-          </vue-hcaptcha>
+          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
         </el-form-item>
+
         <div style="margin-top: 8px">
           <el-button
-            class="btn purple"
-            @click="handleLogin('loginForm')"
-            style="font-weight: bold"
-            native-type="submit"
-            :loading="isLoading"
+              class="btn purple"
+              @click="handleLogin('loginForm')"
+              style="font-weight: bold"
+              native-type="submit"
+              :loading="isLoading"
           >
             Log in
           </el-button>
@@ -85,7 +87,6 @@
 </template>
 
 <script>
-//test.mywedemy.com
 import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { ElMessage } from "element-plus";
@@ -122,6 +123,7 @@ export default {
       loginForm: {
         email: "",
         password: "",
+        responseToken: "",
       },
 
       // rules for the validation
@@ -134,7 +136,6 @@ export default {
       Message: markRaw(Message),
       Lock: markRaw(Lock),
       isLoading: false,
-      responseToken: "10000000-aaaa-bbbb-cccc-000000000001",
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
       HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
@@ -144,33 +145,34 @@ export default {
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (!this.responseToken) return;
+          if (!this.loginForm.responseToken) return;
           this.isLoading = true;
-          this.submitToServer(this.loginForm, this.responseToken)
-            .then(() => this.redirectToHome())
-            .catch((error) => this.displayError(error))
-            .finally(() => (this.isLoading = false));
+          this.submitToServer(this.loginForm)
+              .then(() => this.redirectToHome())
+              .catch((error) => this.displayError(error))
+              .finally(() => (this.isLoading = false));
         } else {
           return false;
         }
       });
     },
-    submitToServer: async (load, token) => {
-      await AuthService.loginUser(load.email, load.password, token);
+    submitToServer: async (payload) => {
+      await AuthService.loginUser({ ...payload });
       await store.getAuthStatusServer();
       await store.getCartCountServer();
     },
     redirectToHome() {
       ElMessage.success("Welcome back!");
-      //this.$router.replace("/");
+      this.$router.replace("/");
     },
     displayError(error) {
-      let mama = error.response ? error.response.data.message : error.message;
+      let mama = error.response ? "Wrong credentials!" : error.message;
       console.error("loginError", mama);
       ElMessage.error(mama);
     },
+    //after captcha solve
     handleVerify(token) {
-      console.log({ token });
+      this.loginForm.responseToken = token;
     },
   },
   components: {
