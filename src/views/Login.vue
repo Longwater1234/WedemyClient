@@ -57,9 +57,11 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <el-form-item>
-          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
-        </el-form-item>
+       <!-- <el-form-item>
+          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify">
+         </vue-hcaptcha>
+       </el-form-item>
+       -->
 
         <div style="margin-top: 8px">
           <el-button
@@ -144,7 +146,7 @@ export default {
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (!this.loginForm.responseToken) return;
+          //if (!this.loginForm.responseToken) return;
           this.isLoading = true;
           this.submitToServer(this.loginForm)
               .then(() => this.redirectToHome())
