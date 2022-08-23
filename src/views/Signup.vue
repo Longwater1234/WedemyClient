@@ -82,9 +82,10 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <el-form-item>
+        <!-- <el-form-item>
           <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
         </el-form-item>
+        -->
 
         <el-form-item style="margin-top: 8px">
           <el-button
@@ -206,7 +207,7 @@ export default {
     handleSignup(formName) {
       const self = this;
       this.$refs[formName].validate((valid) => {
-        if (!valid || !this.signupForm.responseToken) return;
+        if (!valid) return;
         this.isLoading = true;
         this.submitToServer(this.signupForm)
             .then(() => this.redirectToLogin())
