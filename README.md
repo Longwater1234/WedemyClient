@@ -17,14 +17,12 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 - [Element Plus UI Framework](https://element-plus.org/en-US/)
 - [Braintree Web Drop-in](https://www.npmjs.com/package/braintree-web-drop-in)
 - Vue-YouTube-iFrame
-- HCaptcha for Vue
 
 ## Required 3rd party Services
 
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account (for payments handling)
 - (OPTIONAL) Free PayPal Business Account
-- (OPTIONAL) HCaptcha Dev Account
 - For Braintree tutorials and examples, please see
   the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)

@@ -57,11 +57,6 @@
           ></el-input>
         </el-form-item>
 
-        <!--  CAPTCHA BOX -->
-        <el-form-item>
-          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
-        </el-form-item>
-
         <div style="margin-top: 8px">
           <el-button
               class="btn purple"
@@ -91,7 +86,6 @@ import AuthService from "@/services/AuthService";
 import store from "@/store";
 import { ElMessage } from "element-plus";
 import isEmail from "validator/lib/isEmail";
-import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import { Lock, Message } from "@element-plus/icons-vue/dist/lib";
 import { markRaw } from "@vue/reactivity";
 
@@ -174,9 +168,6 @@ export default {
     handleVerify(token) {
       this.loginForm.responseToken = token;
     },
-  },
-  components: {
-    VueHcaptcha,
   },
   mounted() {
     //attach GoogleAuth script
