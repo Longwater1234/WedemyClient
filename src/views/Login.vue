@@ -57,11 +57,12 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-       <!-- <el-form-item>
-          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify">
-         </vue-hcaptcha>
-       </el-form-item>
-       -->
+        <div class="h-captcha" :data-sitekey="HCAPTCHA_KEY" data-callback="handleVerify"></div>
+        <!-- <el-form-item>
+           <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify">
+          </vue-hcaptcha>
+        </el-form-item>
+        -->
 
         <div style="margin-top: 8px">
           <el-button
