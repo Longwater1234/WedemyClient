@@ -58,10 +58,8 @@
 
         <!--  CAPTCHA BOX -->
         <el-form-item>
-<!--         <div class="h-captcha" :data-sitekey="HCAPTCHA_KEY" :data-callback="handleVerify"></div>-->
            <vue-hcaptcha sitekey="7ed20365-05ba-4e53-82df-5962d2c10b0f" @verify="handleVerify" />
         </el-form-item>
-        -->
 
         <div style="margin-top: 8px">
           <el-button
