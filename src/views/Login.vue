@@ -7,67 +7,70 @@
       <!-- GOOGLE SIGN IN  -->
       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
       <div
-          id="g_id_onload"
-          :data-client_id="GOOGLE_CLIENT_ID"
-          data-context="signin"
-          data-ux_mode="popup"
-          :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
-          data-auto_prompt="false"
+        id="g_id_onload"
+        :data-client_id="GOOGLE_CLIENT_ID"
+        data-context="signin"
+        data-ux_mode="popup"
+        :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
+        data-auto_prompt="false"
       ></div>
 
       <div
-          class="g_id_signin"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="signin_with"
-          data-size="large"
-          data-logo_alignment="left"
+        class="g_id_signin"
+        data-type="standard"
+        data-shape="rectangular"
+        data-theme="outline"
+        data-text="signin_with"
+        data-size="large"
+        data-logo_alignment="left"
       ></div>
       <!-- END OF GOOGLE BUTTON -->
 
       <!-- START LOGIN FORM BELOW -->
       <el-form
-          @submit.prevent
-          status-icon
-          :model="loginForm"
-          :rules="rules"
-          ref="loginForm"
+        @submit.prevent
+        status-icon
+        :model="loginForm"
+        :rules="rules"
+        ref="loginForm"
       >
         <el-form-item style="margin-top: 10px" prop="email">
           <el-input
-              native-type="email"
-              :prefix-icon="Message"
-              placeholder="E-mail"
-              maxlength="70"
-              v-model.trim="loginForm.email"
-              class="field"
-              clearable
+            native-type="email"
+            :prefix-icon="Message"
+            placeholder="E-mail"
+            maxlength="70"
+            v-model.trim="loginForm.email"
+            class="field"
+            clearable
           ></el-input>
         </el-form-item>
 
         <el-form-item prop="password">
           <el-input
-              placeholder="Password"
-              :prefix-icon="Lock"
-              v-model.trim="loginForm.password"
-              class="field"
-              show-password
+            placeholder="Password"
+            :prefix-icon="Lock"
+            v-model.trim="loginForm.password"
+            class="field"
+            show-password
           ></el-input>
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
         <el-form-item>
-           <vue-hcaptcha sitekey="7ed20365-05ba-4e53-82df-5962d2c10b0f" @verify="handleVerify" />
+          <vue-hcaptcha
+            sitekey="7ed20365-05ba-4e53-82df-5962d2c10b0f"
+            @verify="handleVerify"
+          />
         </el-form-item>
 
         <div style="margin-top: 8px">
           <el-button
-              class="btn purple"
-              @click="handleLogin('loginForm')"
-              style="font-weight: bold"
-              native-type="submit"
-              :loading="isLoading"
+            class="btn purple"
+            @click="handleLogin('loginForm')"
+            style="font-weight: bold"
+            native-type="submit"
+            :loading="isLoading"
           >
             Log in
           </el-button>
@@ -137,7 +140,6 @@ export default {
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
-      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
     };
   },
   methods: {
@@ -147,9 +149,9 @@ export default {
           //if (!this.loginForm.responseToken) return;
           this.isLoading = true;
           this.submitToServer(this.loginForm)
-              .then(() => this.redirectToHome())
-              .catch((error) => this.displayError(error))
-              .finally(() => (this.isLoading = false));
+            .then(() => this.redirectToHome())
+            .catch((error) => this.displayError(error))
+            .finally(() => (this.isLoading = false));
         } else {
           return false;
         }
@@ -168,10 +170,13 @@ export default {
       let mama = error.response ? "Wrong credentials!" : error.message;
       console.error("loginError", mama);
       ElMessage.error(mama);
+      setTimeout(() => {
+        VueHcaptcha.reset();
+      }, 500);
     },
     //after captcha solve
     handleVerify(token) {
-      console.log("token", token);
+
       this.loginForm.responseToken = token;
     },
   },
@@ -199,11 +204,6 @@ export default {
   display: block;
   font-weight: 700;
   padding: 24px 64px 24px 24px;
-}
-
-.h-captcha {
-  height: auto;
-  width: auto;
 }
 
 .loginContainer {
