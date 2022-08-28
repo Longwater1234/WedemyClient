@@ -13,7 +13,6 @@ export interface User {
     id: number;
     email: string;
     fullname: string;
-    responseToken?: string;
     password?: string;
     confirmPass?: string;
     createdAt?: string;

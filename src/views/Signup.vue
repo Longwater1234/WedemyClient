@@ -7,93 +7,92 @@
       <!-- GOOGLE SIGN UP  -->
       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
       <div
-          id="g_id_onload"
-          :data-client_id="GOOGLE_CLIENT_ID"
-          data-context="signup"
-          data-ux_mode="popup"
-          :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
-          data-auto_prompt="false"
+        id="g_id_onload"
+        :data-client_id="GOOGLE_CLIENT_ID"
+        data-context="signup"
+        data-ux_mode="popup"
+        :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
+        data-auto_prompt="false"
       ></div>
 
       <div
-          class="g_id_signin"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="signup_with"
-          data-size="large"
-          data-logo_alignment="left"
+        class="g_id_signin"
+        data-type="standard"
+        data-shape="rectangular"
+        data-theme="outline"
+        data-text="signup_with"
+        data-size="large"
+        data-logo_alignment="left"
       ></div>
       <!-- END OF GOOGLE BUTTON -->
 
       <!-- START SIGNUP FORM -->
       <el-form
-          @submit.prevent
-          status-icon
-          :model="signupForm"
-          :rules="rules"
-          ref="signupForm"
+        @submit.prevent
+        status-icon
+        :model="signupForm"
+        :rules="rules"
+        ref="signupForm"
       >
         <el-form-item style="margin-top: 10px" prop="fullname" required>
           <el-input
-              placeholder="Name"
-              v-model="signupForm.fullname"
-              :prefix-icon="User"
-              maxlength="70"
-              class="field"
-              clearable
+            placeholder="Name"
+            v-model="signupForm.fullname"
+            :prefix-icon="User"
+            maxlength="70"
+            class="field"
+            clearable
           >
           </el-input>
         </el-form-item>
 
         <el-form-item prop="email" required>
           <el-input
-              placeholder="E-mail"
-              v-model.trim="signupForm.email"
-              maxlength="70"
-              :prefix-icon="Message"
-              class="field"
-              type="email"
-              clearable
+            placeholder="E-mail"
+            v-model.trim="signupForm.email"
+            maxlength="70"
+            :prefix-icon="Message"
+            class="field"
+            type="email"
+            clearable
           ></el-input>
         </el-form-item>
 
         <el-form-item prop="password" required>
           <el-input
-              type="password"
-              placeholder="Password"
-              v-model.trim="signupForm.password"
-              :prefix-icon="Lock"
-              maxlength="80"
-              class="field"
-              show-password
+            type="password"
+            placeholder="Password"
+            v-model.trim="signupForm.password"
+            :prefix-icon="Lock"
+            maxlength="80"
+            class="field"
+            show-password
           ></el-input>
         </el-form-item>
 
         <el-form-item prop="confirmPass" required>
           <el-input
-              placeholder="Re-Enter Password"
-              v-model.trim="signupForm.confirmPass"
-              :prefix-icon="Lock"
-              maxlength="80"
-              class="field"
-              show-password
+            placeholder="Re-Enter Password"
+            v-model.trim="signupForm.confirmPass"
+            :prefix-icon="Lock"
+            maxlength="80"
+            class="field"
+            show-password
           ></el-input>
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <!-- <el-form-item>
+        <el-form-item>
           <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
         </el-form-item>
-        -->
 
         <el-form-item style="margin-top: 8px">
           <el-button
-              class="btn purple"
-              @click="handleSignup('signupForm')"
-              style="font-weight: bold"
-              :loading="isLoading"
-              native-type="submit"
+            class="btn purple"
+            @click="handleSignup('signupForm')"
+            style="font-weight: bold"
+            :loading="isLoading"
+            native-type="submit"
           >
             Sign Up
           </el-button>
@@ -182,7 +181,6 @@ export default {
         email: "",
         password: "",
         confirmPass: "",
-        responseToken: "",
       },
 
       // rules for the validation
@@ -198,6 +196,7 @@ export default {
       Lock: markRaw(Lock),
       Message: markRaw(Message),
       isLoading: false,
+      responseToken: "",
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
       HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
@@ -209,14 +208,14 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (!valid) return;
         this.isLoading = true;
-        this.submitToServer(this.signupForm)
-            .then(() => this.redirectToLogin())
-            .catch((error) => self.handleError(error))
-            .finally(() => (this.isLoading = false));
+        this.submitToServer(this.signupForm, this.responseToken)
+          .then(() => this.redirectToLogin())
+          .catch((error) => self.handleError(error))
+          .finally(() => (this.isLoading = false));
       });
     },
-    submitToServer: async (payload) => {
-      await AuthService.registerUser({ ...payload });
+    submitToServer: async (payload, token) => {
+      await AuthService.registerUser({ ...payload }, token);
     },
     redirectToLogin() {
       ElMessage.success("Welcome to Wedemy. Please Login");

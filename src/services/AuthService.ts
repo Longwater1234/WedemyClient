@@ -40,10 +40,10 @@ class AuthService {
   }
 
   /** Register submits form to Server */
-  registerUser(load: User) {
+  registerUser(load: User, responseToken: string) {
     let options = {
       params: {
-        responseToken: load.responseToken,
+        responseToken,
       },
     };
     return http.post("/auth/register", load, options);
