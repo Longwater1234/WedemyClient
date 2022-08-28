@@ -41,12 +41,7 @@ class AuthService {
 
   /** Register submits form to Server */
   registerUser(load: User) {
-    let options = {
-      params: {
-        responseToken: load.responseToken,
-      },
-    };
-    return http.post("/auth/register", load, options);
+    return http.post("/auth/register", load);
   }
 
   /** Obviously does what it says */
