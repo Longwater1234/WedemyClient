@@ -58,7 +58,7 @@
 
         <!--  CAPTCHA BOX -->
         <el-form-item>
-         <div class="h-captcha" :data-sitekey="HCAPTCHA_KEY" data-callback="handleVerify"></div>
+         <div class="h-captcha" :data-sitekey="HCAPTCHA_KEY" :data-callback="handleVerify"></div>
 <!--           <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />-->
         </el-form-item>
         -->
