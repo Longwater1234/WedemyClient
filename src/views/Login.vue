@@ -59,6 +59,7 @@
         <!--  CAPTCHA BOX -->
         <el-form-item>
           <vue-hcaptcha
+            ref="mycaptcha"
             sitekey="7ed20365-05ba-4e53-82df-5962d2c10b0f"
             @verify="handleVerify"
           />
@@ -171,7 +172,8 @@ export default {
       console.error("loginError", mama);
       ElMessage.error(mama);
       setTimeout(() => {
-        VueHcaptcha.reset();
+        //VueHcaptcha.reset();
+        this.$refs["mycaptcha"].reset();
       }, 500);
     },
     //after captcha solve
