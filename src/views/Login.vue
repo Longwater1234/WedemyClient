@@ -194,6 +194,7 @@ export default {
   beforeUnmount() {
     //detach above script
     document.getElementById("google_client").remove();
+    this.$refs.mycaptcha.teardown();
   },
 };
 </script>
