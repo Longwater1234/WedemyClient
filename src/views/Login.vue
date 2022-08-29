@@ -141,13 +141,14 @@ export default {
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
+      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KE,
     };
   },
   methods: {
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          //if (!this.loginForm.responseToken) return;
+          if (!this.loginForm.responseToken) return;
           this.isLoading = true;
           this.submitToServer(this.loginForm)
             .then(() => this.redirectToHome())
@@ -172,13 +173,11 @@ export default {
       console.error("loginError", mama);
       ElMessage.error(mama);
       setTimeout(() => {
-        //VueHcaptcha.reset();
-        this.$refs["mycaptcha"].reset();
+        this.$refs.mycaptcha.reset();
       }, 500);
     },
     //after captcha solve
     handleVerify(token) {
-
       this.loginForm.responseToken = token;
     },
   },

@@ -83,7 +83,7 @@
 
         <!--  CAPTCHA BOX -->
         <el-form-item>
-          <vue-hcaptcha :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
+          <vue-hcaptcha ref="mycaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
         </el-form-item>
 
         <el-form-item style="margin-top: 8px">
@@ -206,7 +206,7 @@ export default {
     handleSignup(formName) {
       const self = this;
       this.$refs[formName].validate((valid) => {
-        if (!valid) return;
+        if (!valid || !this.responseToken) return;
         this.isLoading = true;
         this.submitToServer(this.signupForm, this.responseToken)
           .then(() => this.redirectToLogin())
@@ -226,10 +226,13 @@ export default {
     handleError(err) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
+      setTimeout(() => {
+        this.$refs.mycaptcha.reset();
+      }, 500);
     },
     //after captcha solve
     handleVerify(token) {
-      this.signupForm.responseToken = token;
+      this.responseToken = token;
     },
   },
   components: {
