@@ -126,7 +126,7 @@ export default {
       loginForm: {
         email: "",
         password: "",
-        responseToken: "",
+        responseToken: null,
       },
 
       // rules for the validation
@@ -169,11 +169,13 @@ export default {
       this.$router.replace("/");
     },
     displayError(error) {
+      const self = this;
       let mama = error.response ? "Wrong credentials!" : error.message;
       console.error("loginError", mama);
       ElMessage.error(mama);
       setTimeout(() => {
-        this.$refs.mycaptcha.reset();
+        self.loginForm.responseToken = null;
+        self.$refs.mycaptcha.reset();
       }, 500);
     },
     //after captcha solve
