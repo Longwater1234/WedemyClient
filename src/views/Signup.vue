@@ -1,4 +1,3 @@
-<!-- SIGN UP -->
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div align="center" style="height: 80vh">
@@ -175,8 +174,7 @@ export default {
         fullname: "",
         email: "",
         password: "",
-        confirmPass: "",
-        responseToken: "",
+        confirmPass: ""
       },
 
       // rules for the validation
@@ -200,7 +198,7 @@ export default {
     handleSignup(formName) {
       const self = this;
       this.$refs[formName].validate((valid) => {
-        if (!valid || !this.signupForm.responseToken) return;
+        if (!valid) return;
         this.isLoading = true;
         this.submitToServer(this.signupForm)
           .then(() => this.redirectToLogin())

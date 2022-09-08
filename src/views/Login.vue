@@ -138,16 +138,12 @@ export default {
   methods: {
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if (!this.loginForm.responseToken) return;
+        if (!valid) return
           this.isLoading = true;
           this.submitToServer(this.loginForm)
               .then(() => this.redirectToHome())
               .catch((error) => this.displayError(error))
               .finally(() => (this.isLoading = false));
-        } else {
-          return false;
-        }
       });
     },
     submitToServer: async (payload) => {
@@ -163,10 +159,6 @@ export default {
       let mama = error.response ? "Wrong credentials!" : error.message;
       console.error("loginError", mama);
       ElMessage.error(mama);
-    },
-    //after captcha solve
-    handleVerify(token) {
-      this.loginForm.responseToken = token;
     },
   },
   mounted() {
