@@ -57,13 +57,13 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <el-form-item>
+        <!-- <el-form-item>
           <vue-hcaptcha
             ref="mycaptcha"
-            sitekey="7ed20365-05ba-4e53-82df-5962d2c10b0f"
+            :sitekey="HCAPTCHA_KEY"
             @verify="handleVerify"
           />
-        </el-form-item>
+        </el-form-item> -->
 
         <div style="margin-top: 8px">
           <el-button
@@ -126,7 +126,7 @@ export default {
       loginForm: {
         email: "",
         password: "",
-        responseToken: null,
+        responseToken: ""
       },
 
       // rules for the validation
@@ -141,14 +141,13 @@ export default {
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
-      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KE,
+      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
     };
   },
   methods: {
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (!this.loginForm.responseToken) return;
           this.isLoading = true;
           this.submitToServer(this.loginForm)
             .then(() => this.redirectToHome())
@@ -173,8 +172,8 @@ export default {
       let mama = error.response ? "Wrong credentials!" : error.message;
       console.error("loginError", mama);
       ElMessage.error(mama);
-      setTimeout(() => {
-        self.loginForm.responseToken = null;
+      self.loginForm.responseToken = "";
+      setTimeout(() => { 
         self.$refs.mycaptcha.reset();
       }, 500);
     },
