@@ -28,12 +28,12 @@ class EnrollService {
     return http.get(`/enroll/resume/c/${courseId}`);
   }
 
-  updateStatus(obj: WatchStatus) {
-    return http.post("/enroll/watched", obj);
+  updateStatus(body: WatchStatus) {
+    return http.post("/enroll/watched", body);
   }
 
-  buildPlayLink(obj: VideoRequest) {
-    return http.post("/enroll/videolink/builder", obj);
+  buildPlayLink(body: VideoRequest) {
+    return http.post("/enroll/videolink/builder", body);
   }
 }
 

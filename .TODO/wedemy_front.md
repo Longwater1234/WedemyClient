@@ -1,5 +1,7 @@
 # Wedemy TODO
+You may add more to the list!
 
+- [ ] Polish the UI.
 - [x] 404 image, hide navbar
 - [x] Apply Store, injector, provider
 - [x] Added "empty" design using `<el-empty>` in _Cart_ and _Wishlist_ if `0`.

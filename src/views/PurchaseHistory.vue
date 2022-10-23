@@ -108,7 +108,7 @@ export default defineComponent({
 
     const fetchMyPurchaseHistory = () => {
       EnrollService.getPurchaseHistory()
-        .then((res) => (sales.value = res.data))
+        .then((res) => (sales.value = res.data.content))
         .catch((err) => (serverError.value = err.message))
         .finally(() => (isLoading.value = false));
     };
@@ -123,7 +123,7 @@ export default defineComponent({
       dialogVisible.value = true;
       courseLoading.value = true;
       EnrollService.getItemsByTransactionId(id)
-        .then((res) => (courseList.value = res.data))
+        .then((res) => (courseList.value = res.data.content))
         .catch((err) => (serverError.value = err.message))
         .finally(() => (courseLoading.value = false));
     };

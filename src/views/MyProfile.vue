@@ -54,7 +54,7 @@
     <div class="recently">
       <h3 class="serif-head">Your Certificates</h3>
       <div class="nodata">
-       (Needs a cloud storage service like AWS S3)
+        (TODO: Needs a cloud storage service like AWS S3 or similar)
       </div>
     </div>
 
@@ -130,7 +130,7 @@ export default defineComponent({
         .then((res) => {
           this.userInfo = res.data;
           this.dialogShow = false;
-          store.getAuthStatusServer()
+          store.getAuthStatusServer();
           ElMessage.success("Your profile has been updated!");
         })
         .catch((err) => this.handleError(err))

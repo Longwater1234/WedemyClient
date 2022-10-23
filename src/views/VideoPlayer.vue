@@ -21,7 +21,7 @@
             </p>
             <p class="full-only">{{ singleCourse.subtitle }}</p>
             <div>
-              <el-button type="primary" @click="showReviewDialog()">
+              <el-button type="primary" @click="toggleReviewDialog()">
                 {{ review ? "Edit your review" : "Post a review" }}
                 <el-icon>
                   <Edit />
@@ -51,7 +51,7 @@
                   </div>
                 </div>
                 <div>
-                  <input type="checkbox" :checked="item.isWatched" disabled />
+                  <input type="checkbox" :checked="item.is_watched" disabled />
                 </div>
               </div>
             </div>
@@ -138,7 +138,7 @@ export default defineComponent({
         .then(() => {
           this.setVideoInfo(this.videoResponse);
           this.fetchSingleCourse(this.courseId);
-          this.fetchLessonList(this.courseId, this.enrollId);
+          this.fetchMyLessons(this.courseId, this.enrollId);
         })
         .catch((err) => this.handleError(err));
     },
@@ -150,7 +150,7 @@ export default defineComponent({
       });
     },
 
-    fetchLessonList(courseId: number, enrollId: number) {
+    fetchMyLessons(courseId: number, enrollId: number) {
       LessonService.getWatchedList(courseId, enrollId).then(
         (res) => (this.lessonList = res.data)
       );
@@ -175,7 +175,7 @@ export default defineComponent({
       ElMessage.success(res.data.message);
     },
 
-    /** YT iframe events */
+    /** YT iframe listener */
     handleChange(e: { data: number; target: any }) {
       if (e.data === 0) {
         //end of video
@@ -193,7 +193,7 @@ export default defineComponent({
       this.formReview.courseId = this.courseId;
       let review = this.formReview;
       this.isLoading = true;
-      this.showReviewDialog();
+      this.toggleReviewDialog();
       let service = this.formReview.id
         ? ReviewService.editMine(review.id, review)
         : ReviewService.addNew(review);
@@ -210,7 +210,7 @@ export default defineComponent({
       return window.location.replace(link);
     },
 
-    showReviewDialog() {
+    toggleReviewDialog() {
       this.dialogShow = !this.dialogShow;
       this.errorMsg = "";
     },
