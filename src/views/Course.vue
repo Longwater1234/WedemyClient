@@ -212,7 +212,7 @@ export default defineComponent({
     },
     fetchLessonList(courseId: number) {
       LessonService.getLessonsByCourse(courseId).then(
-        (res) => (this.lessons = res.data)
+        (res) => (this.lessons = res.data.content)
       );
     },
 

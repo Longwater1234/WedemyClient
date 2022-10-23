@@ -142,7 +142,7 @@ export default defineComponent({
 
     fetchCartItems() {
       CartService.getAllMine()
-        .then((res) => (this.cartItems = res.data))
+        .then((res) => (this.cartItems = res.data.content))
         .catch((error) => ElMessage.error(error.message))
         .finally(() => (this.isLoading = false));
     },

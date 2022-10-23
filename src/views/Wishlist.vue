@@ -61,7 +61,7 @@ export default defineComponent({
   methods: {
     fetchWishlist() {
       WishlistService.getAllMine()
-        .then((res) => (this.wishlistItems = res.data))
+        .then((res) => (this.wishlistItems = res.data.content))
         .catch((error) => ElMessage.error(error.message))
         .finally(() => (this.isLoading = false));
     },

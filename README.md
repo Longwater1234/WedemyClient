@@ -12,8 +12,6 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 
 ## Main `npm` Libraries used
 
-- Axios
-- Typescript
 - [Element Plus UI Framework](https://element-plus.org/en-US/)
 - [Braintree Web Drop-in](https://www.npmjs.com/package/braintree-web-drop-in)
 - Vue-YouTube-iFrame
@@ -30,4 +28,4 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 ## Pull Requests & Contributions
 
 Code Contributions and pull requests are welcome! Perhaps ADMIN and INSTRUCTOR companion web apps. Dark Mode, maybe? For more TODO's 
-for this projects, see list `./TODO/wedemy_front.md`
+for this projects, see list [.TODO/wedemy_front.md](.TODO/wedemy_front.md)
