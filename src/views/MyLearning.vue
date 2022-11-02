@@ -36,7 +36,7 @@
             />
             <div style="padding: 14px">
               <div class="card-title">{{ course.title }}</div>
-              <el-progress class="myprogress" :percentage="course.progress" />  
+              <el-progress class="myprogress" :percentage="course.progress" />
               <small v-if="course.progress === 100">Completed</small>
             </div>
           </el-card>
@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import EnrollService from "@/services/EnrollService";
-import { Course } from "@/types";
+import { Course, Enrollment } from "@/types";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -65,7 +65,7 @@ export default defineComponent({
     return {
       isLoading: true,
       serverError: "",
-      courses: Array<Course>(),
+      courses: new Array<Enrollment>(),
     };
   },
   methods: {
@@ -115,7 +115,6 @@ export default defineComponent({
 }
 
 .course-box {
-  border: 1px solid black !important;
   border: none !important;
   width: 100% !important;
 }
