@@ -3,36 +3,36 @@
   <h2 class="cart-header">My Learning</h2>
   <div class="main-view" style="height: 70vh" v-loading="isLoading">
     <el-alert
-      v-if="serverError.length"
-      :title="serverError"
-      type="error"
-      :closable="false"
+        v-if="serverError.length"
+        :title="serverError"
+        type="error"
+        :closable="false"
     ></el-alert>
 
     <h3 class="serif-head">Courses you're enrolled in</h3>
     <!-- START COURSE CARD -->
     <div class="course-box">
       <el-space
-        direction="vertical"
-        alignment="start"
-        :size="30"
-        style="margin-top: 2%; margin-left: 10%"
+          direction="vertical"
+          alignment="start"
+          :size="30"
+          style="margin-top: 2%; margin-left: 10%"
       >
         <!-- START OF SINGLE CARD -->
         <el-space v-if="courses.length" wrap size="large">
           <el-card
-            class="courseCard"
-            :body-style="{ padding: '0px' }"
-            shadow="hover"
-            style="margin-bottom: 13px"
-            v-for="course in courses"
-            :key="course.id"
-            @click="goToCourse(course.courseId)"
+              class="courseCard"
+              :body-style="{ padding: '0px' }"
+              shadow="hover"
+              style="margin-bottom: 13px"
+              v-for="course in courses"
+              :key="course.id"
+              @click="goToCourse(course.courseId)"
           >
             <img
-              :src="course.thumbUrl"
-              class="product-img"
-              :alt="course.title"
+                :src="course.thumbUrl"
+                class="product-img"
+                :alt="course.title"
             />
             <div style="padding: 14px">
               <div class="card-title">{{ course.title }}</div>
@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import EnrollService from "@/services/EnrollService";
-import { Course, Enrollment } from "@/types";
+import { Enrollment } from "@/types";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -71,9 +71,9 @@ export default defineComponent({
   methods: {
     fetchAllEnrolled(page: number) {
       EnrollService.getAllMyCourses(page)
-        .then((res) => (this.courses = res.data))
-        .catch((err) => (this.serverError = err.message))
-        .finally(() => (this.isLoading = false));
+          .then((res) => (this.courses = res.data))
+          .catch((err) => (this.serverError = err.message))
+          .finally(() => (this.isLoading = false));
     },
     goToCourse(id: number) {
       this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
