@@ -3,7 +3,7 @@
   <div class="main-view">
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
-      <div class="col1">
+      <div class="col-1">
         <youtube-iframe
           v-if="videoKey.length"
           :video-id="videoKey"
@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-      <div class="col2">
+      <div class="col-2">
         <h3>Lessons</h3>
         <el-collapse v-model="activeName">
           <el-collapse-item name="99">
@@ -215,10 +215,18 @@ export default defineComponent({
       this.errorMsg = "";
     },
 
-    /** send to server */
+    /** send update to server */
     updateWatchStatus(obj: WatchStatus) {
       EnrollService.updateStatus(obj)
-        .then((res) => this.refreshPlayer(res.data.nextLessonId))
+        .then((res) => {
+          let nextLessonId = res.data.nextLessonId;
+          if (!nextLessonId) {
+            ElMessage.success(res.data.message);
+            this.$router.replace({ name: "MyLearning" });
+            return;
+          }
+          this.refreshPlayer(nextLessonId);
+        })
         .catch((err) => this.handleError(err));
     },
 
@@ -265,14 +273,14 @@ export default defineComponent({
   max-width: 100%;
 }
 
-.col1 {
+.col-1 {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 70%;
 }
 
-.col2 {
+.col-2 {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -362,18 +370,18 @@ iframe[id^="vue-youtube-iframe-1"] {
     height: fit-content;
   }
 
-  .col1,
-  .col2 {
+  .col-1,
+  .col-2 {
     display: block;
     width: 100%;
   }
 
-  .col1 {
+  .col-1 {
     display: block;
     height: fit-content;
   }
 
-  .col2 {
+  .col-2 {
     display: block;
     height: 100%;
   }
@@ -382,4 +390,4 @@ iframe[id^="vue-youtube-iframe-1"] {
     width: 100% !important;
   }
 }
-</style> 
+</style>
