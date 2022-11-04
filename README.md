@@ -6,6 +6,8 @@ This App is also integrated with PayPal and CreditCard checkout (both powered by
 
 ## [Live Demo](https://wedemy.herokuapp.com)
 
+![Screenshot from 2022-11-04 14-13-41](https://user-images.githubusercontent.com/33986524/199904380-8a45e609-76a5-4775-9216-b04c1226dd84.png)
+
 The Demo uses Sandbox (Test) Mode of Braintree Payments. No actual money will be deducted on Checkout. You may use test
 credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).
 Also, this demo serves embedded Content from YouTube with "no-cookie" option, which means tracking is disabled.
