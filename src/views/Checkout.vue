@@ -3,7 +3,7 @@
   <h3 class="cart-header">Checkout</h3>
   <el-alert type="warning" center effect="dark">
     <p style="font-family: sans-serif; font-weight: bold">
-      This is SANDBOX (TEST) MODE of Braintree Payments. Please use any of these
+      This is SANDBOX (Dev) MODE of Braintree Payments. Please use any of these
       <a
         href="https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/"
         target="_blank"
