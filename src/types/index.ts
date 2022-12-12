@@ -44,7 +44,7 @@ export interface CustomLesson {
   id: string;
   video_time: string;
   lesson_name: string;
-  isWatched: boolean;
+  is_watched: boolean;
 }
 
 /* for checkout, send to server */

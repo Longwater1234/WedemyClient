@@ -4,6 +4,7 @@
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col-1">
+        <!-- LEFT PANEL, video frame  -->
         <youtube-iframe
           v-if="videoKey.length"
           :video-id="videoKey"
@@ -31,6 +32,8 @@
           </div>
         </div>
       </div>
+
+      <!-- RIGHT PANEL, LESSON PLAYLIST -->
       <div class="col-2">
         <h3>Lessons</h3>
         <el-collapse v-model="activeName">

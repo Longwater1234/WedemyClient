@@ -1,8 +1,6 @@
 <template>
   <h2 class="cart-header">Credits</h2>
-  <div class="main-view">
-    <h3 class="serif-head">Thanks to the following people & resources</h3>
-
+  <div class="main-view" style="height: 70vh">
     <h3>Photo Credits</h3>
     <ul>
       <li>
