@@ -21,7 +21,6 @@ export interface User {
 export interface LoginRequest {
   email: string;
   password: string;
-  responseToken: string; //from HCaptcha
 }
 
 export interface Enrollment {
