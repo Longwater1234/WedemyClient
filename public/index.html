@@ -17,12 +17,14 @@
     <%= htmlWebpackPlugin.options.title %>
   </title>
   <style>
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: 900px) {
 
       iframe,
       #vue-youtube-iframe-1 {
         max-width: 100% !important;
         width: 100%;
+        position: absolute;
+        display: flex !important;
       }
 
       .body {

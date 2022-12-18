@@ -14,6 +14,16 @@
           Follow @longwater1234
         </github-button>
       </el-row>
+      <el-row>
+        <!-- Place this tag where you want the button to render. -->
+        <github-button
+          href="https://github.com/longwater1234/WedemyClient"
+          data-icon="octicon-star"
+          data-show-count="true"
+          aria-label="Star longwater1234/WedemyClient on GitHub"
+          > Star 
+          </github-button>
+      </el-row>
     </div>
     <div class="righty">
       <el-row>&copy; 2022, Davis T</el-row>
@@ -21,11 +31,11 @@
         <img src="@/assets/final_white.png" alt="logo" id="ft-logo" />
       </el-row>
       <el-row class="credit-cards" title="Supported Payment methods">
-      <img height="30" src="https://shoplineimg.com/assets/footer/card_visa.png"/>
-      <img height="30" src="https://shoplineimg.com/assets/footer/card_master.png"/>
-      <img height="30" src="https://shoplineimg.com/assets/footer/card_paypal.png"/>
-      <img height="30" src="https://shoplineimg.com/assets/footer/card_amex.png"/>
-      <img height="30" src="https://shoplineimg.com/assets/footer/card_jcb.png"/>
+        <img height="30" src="https://shoplineimg.com/assets/footer/card_visa.png"/>
+        <img height="30" src="https://shoplineimg.com/assets/footer/card_master.png"/>
+        <img height="30" src="https://shoplineimg.com/assets/footer/card_paypal.png"/>
+        <img height="30" src="https://shoplineimg.com/assets/footer/card_amex.png"/>
+        <img height="30" src="https://shoplineimg.com/assets/footer/card_jcb.png"/>
       </el-row>
     </div>
   </footer>

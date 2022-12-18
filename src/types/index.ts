@@ -21,7 +21,6 @@ export interface User {
 export interface LoginRequest {
   email: string;
   password: string;
-  responseToken: string; //from HCaptcha
 }
 
 export interface Enrollment {
@@ -44,7 +43,7 @@ export interface CustomLesson {
   id: string;
   video_time: string;
   lesson_name: string;
-  isWatched: boolean;
+  is_watched: boolean;
 }
 
 /* for checkout, send to server */

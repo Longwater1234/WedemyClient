@@ -4,6 +4,7 @@
     <h3>{{ singleCourse.title }}</h3>
     <div class="mycontainer">
       <div class="col-1">
+        <!-- LEFT PANEL, video frame  -->
         <youtube-iframe
           v-if="videoKey.length"
           :video-id="videoKey"
@@ -31,6 +32,8 @@
           </div>
         </div>
       </div>
+
+      <!-- RIGHT PANEL, LESSON PLAYLIST -->
       <div class="col-2">
         <h3>Lessons</h3>
         <el-collapse v-model="activeName">
@@ -272,44 +275,37 @@ export default defineComponent({
   width: 100%;
   max-width: 100%;
 }
-
 .col-1 {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 70%;
 }
-
 .col-2 {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 30%;
 }
-
 iframe[id^="vue-youtube-iframe-1"] {
   position: absolute;
   width: 100% !important;
   height: auto;
 }
-
 .rowsmall {
   display: flex;
   flex-direction: row;
   height: 30%;
 }
-
 .lessonTitle {
   font-size: 1.5em;
   margin-bottom: 1em;
 }
-
 .videolen {
   width: 1em;
   height: 1em;
   margin-right: 0.5em;
 }
-
 .lesson-item {
   display: flex;
   flex-direction: row;
@@ -317,34 +313,28 @@ iframe[id^="vue-youtube-iframe-1"] {
   padding: 0.5em 0.5em 1em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
-
 .lesson-item:hover {
   background: whitesmoke;
   cursor: pointer;
 }
-
 .bkg {
   background: var(--primary);
   font-weight: 700;
   color: white;
 }
-
 .bkg:hover {
   background: var(--secondary);
   color: white;
 }
-
 .el-dialog {
   width: 30% !important;
 }
-
 @media screen and (max-width: 1000px) {
   .main-view {
     max-width: 100%;
     padding: 0;
     margin: 0;
   }
-
   .mycontainer {
     display: flex;
     flex-direction: column;
@@ -352,40 +342,33 @@ iframe[id^="vue-youtube-iframe-1"] {
     overflow-x: hidden !important;
     height: 100%;
   }
-
   div[class="vue-youtube-iframe"] {
     max-width: 100% !important;
     width: 100% !important;
   }
-
   iframe[id^="vue-youtube-iframe-1"] {
     position: absolute;
     max-width: 100% !important;
     width: 100%;
     height: auto;
   }
-
   .rowsmall {
     display: block;
     height: fit-content;
   }
-
   .col-1,
   .col-2 {
     display: block;
     width: 100%;
   }
-
   .col-1 {
     display: block;
     height: fit-content;
   }
-
   .col-2 {
     display: block;
     height: 100%;
   }
-
   .el-dialog {
     width: 100% !important;
   }
