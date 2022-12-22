@@ -63,7 +63,7 @@
             ref="mycaptcha"
             :sitekey="HCAPTCHA_KEY"
             @verify="handleVerify"
-          />
+          ></vue-hcaptcha>
         </el-form-item>
 
         <div style="margin-top: 8px">
@@ -166,8 +166,8 @@ export default {
       this.$router.replace("/");
     },
     //after captcha solve
-    handleVerify(token) {
-      console.log("captchaToken", token);
+    handleVerify(token, eKey) {
+      console.log("captchaToken", token, eKey);
       this.responseToken = token;
     },
     displayError(error) {
