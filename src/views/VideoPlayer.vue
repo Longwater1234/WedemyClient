@@ -8,8 +8,8 @@
         <youtube-iframe
           v-if="videoKey.length"
           :video-id="videoKey"
-          :player-width="980"
-          :player-height="551"
+          :player-width="720"
+          :player-height="405"
           :no-cookie="true"
           @state-change="handleChange"
           :player-parameters="playerParams"
@@ -165,7 +165,7 @@ export default defineComponent({
       this.enrollId = response.enrollId;
     },
 
-    /* display error  */
+    /** display error  */
     handleError(err: AxiosError) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
@@ -222,7 +222,7 @@ export default defineComponent({
     updateWatchStatus(obj: WatchStatus) {
       EnrollService.updateStatus(obj)
         .then((res) => {
-          let nextLessonId = res.data.nextLessonId;
+          let nextLessonId: string = res.data.nextLessonId;
           if (!nextLessonId) {
             ElMessage.success(res.data.message);
             this.$router.replace({ name: "MyLearning" });
@@ -284,7 +284,8 @@ export default defineComponent({
 .col-2 {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: auto;
+  overflow-y: scroll;
   width: 30%;
 }
 iframe[id^="vue-youtube-iframe-1"] {
@@ -329,14 +330,14 @@ iframe[id^="vue-youtube-iframe-1"] {
 .el-dialog {
   width: 30% !important;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1360px) {
   .main-view {
     max-width: 100%;
     padding: 0;
     margin: 0;
   }
   .mycontainer {
-    display: flex;
+    display: block;
     flex-direction: column;
     max-width: 100% !important;
     overflow-x: hidden !important;
@@ -365,10 +366,8 @@ iframe[id^="vue-youtube-iframe-1"] {
     display: block;
     height: fit-content;
   }
-  .col-2 {
-    display: block;
-    height: 100%;
-  }
+
+
   .el-dialog {
     width: 100% !important;
   }
