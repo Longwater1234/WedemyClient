@@ -65,6 +65,8 @@
 import CourseService from "@/services/CourseService";
 import { Course } from "@/types";
 import { defineComponent } from "vue";
+import { AxiosError } from "axios";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Category",
@@ -82,18 +84,24 @@ export default defineComponent({
     goToCourse(id: number) {
       this.$router.push(`/course/${id}`);
     },
-    fetchCoursesbyCategory(name: string) {
+    fetchCoursesByCategory(name: string) {
       this.isLoading = true;
       CourseService.getByCategory(name)
         .then((res) => (this.courses = res.data))
-        .catch((error) => (this.serverError = error.message))
+        .catch((error) => this.handleError(error))
         .finally(() => (this.isLoading = false));
+    },
+
+    /** display error  */
+    handleError(err: AxiosError) {
+      let mama = err.response ? err.response.data.message : err.message;
+      this.serverError = mama;
     },
   },
   mounted() {
     let { name } = this.$route.params;
     this.categoryName = name ? name.toString() : "";
-    this.fetchCoursesbyCategory(this.categoryName);
+    this.fetchCoursesByCategory(this.categoryName);
     document.title = `Courses in ${this.categoryName} | Wedemy`;
   },
   watch: {
@@ -103,7 +111,7 @@ export default defineComponent({
       handler: function (newVal: string) {
         if (!newVal) return;
         this.categoryName = newVal;
-        this.fetchCoursesbyCategory(this.categoryName);
+        this.fetchCoursesByCategory(this.categoryName);
         document.title = `Courses in ${this.categoryName} | Wedemy`;
       },
     },
