@@ -167,6 +167,7 @@ export default {
     },
     //after captcha solve
     handleVerify(token) {
+      console.log("captchaToken", token);
       this.responseToken = token;
     },
     displayError(error) {
