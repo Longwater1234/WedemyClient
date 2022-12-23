@@ -157,7 +157,7 @@ export default {
       });
     },
     submitToServer: async (payload) => {
-      console.log("payload", payload);
+      this.loginForm.responseToken = "";
       await AuthService.loginUser({ ...payload });
       await store.getAuthStatusServer();
       await store.getCartCountServer();
@@ -186,7 +186,7 @@ export default {
     const scripta = document.createElement("script");
     scripta.src = `https://accounts.google.com/gsi/client`;
     scripta.id = "google_client";
-    document.getElementById("baba")?.appendChild(scripta);
+    document.getElementById("baba").appendChild(scripta);
   },
   components: {
     VueHcaptcha,
