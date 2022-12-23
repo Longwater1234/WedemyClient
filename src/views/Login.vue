@@ -165,17 +165,17 @@ export default {
       ElMessage.success("Welcome back!");
       this.$router.replace("/");
     },
-    //after captcha solve
+
+    /** onSuccess captcha solve */
     handleVerify(token, eKey) {
-      console.log("captchaToken", token, eKey);
-      this.responseToken = token;
+      this.loginForm.responseToken = token;
     },
     displayError(error) {
       let mama = error.response ? "Wrong credentials!" : error.message;
       console.error("loginError", mama);
       ElMessage.error(mama);
       setTimeout(() => {
-        this.responseToken = "";
+        this.loginForm.responseToken = "";
         this.$refs.mycaptcha.reset();
       }, 200);
     },
