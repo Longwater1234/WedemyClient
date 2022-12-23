@@ -156,9 +156,9 @@ export default {
           .finally(() => (this.isLoading = false));
       });
     },
-    submitToServer: async (payload) => {
-      this.loginForm.responseToken = "";
+    async submitToServer(payload) {
       await AuthService.loginUser({ ...payload });
+      this.resetCaptcha();
       await store.getAuthStatusServer();
       await store.getCartCountServer();
     },
@@ -176,9 +176,12 @@ export default {
       console.error("loginError", mama);
       ElMessage.error(mama);
       setTimeout(() => {
-        this.loginForm.responseToken = "";
-        this.$refs.mycaptcha.reset();
+        this.resetCaptcha();
       }, 200);
+    },
+    resetCaptcha() {
+      this.loginForm.responseToken = "";
+      this.$refs.mycaptcha.reset();
     },
   },
   mounted() {
