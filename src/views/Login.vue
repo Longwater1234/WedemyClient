@@ -157,8 +157,8 @@ export default {
       });
     },
     async submitToServer(payload) {
-      this.resetCaptcha();
       await AuthService.loginUser({ ...payload });
+      this.resetCaptcha();
       await store.getAuthStatusServer();
       await store.getCartCountServer();
     },
@@ -173,7 +173,7 @@ export default {
     },
     displayError(error) {
       let mama = error.response ? "Wrong credentials!" : error.message;
-      console.error("loginError", mama);
+      console.error("loginError", error);
       ElMessage.error(mama);
       setTimeout(() => {
         this.resetCaptcha();
