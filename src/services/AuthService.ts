@@ -7,6 +7,7 @@ class AuthService {
   loginUser({ email, password, responseToken }: LoginRequest) {
     const url = "/auth/login";
 
+    console.log("responseToken", responseToken);
     const options: AxiosRequestConfig = {
       auth: {
         username: email,

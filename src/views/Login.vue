@@ -157,6 +157,7 @@ export default {
       });
     },
     submitToServer: async (payload) => {
+      console.log("payload", payload);
       await AuthService.loginUser({ ...payload });
       await store.getAuthStatusServer();
       await store.getCartCountServer();
