@@ -157,8 +157,8 @@ export default {
       });
     },
     async submitToServer(payload) {
-      await AuthService.loginUser({ ...payload });
       this.resetCaptcha();
+      await AuthService.loginUser({ ...payload });
       await store.getAuthStatusServer();
       await store.getCartCountServer();
     },
