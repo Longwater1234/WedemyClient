@@ -4,14 +4,17 @@ import { AxiosRequestConfig } from "axios";
 
 class AuthService {
   /** Login using BasicAuth in Springboot */
-  loginUser({ email, password }: LoginRequest) {
+  loginUser({ email, password, responseToken }: LoginRequest) {
     const url = "/auth/login";
 
     const options: AxiosRequestConfig = {
       auth: {
         username: email,
         password: password,
-      }
+      },
+      params: {
+        responseToken,
+      },
     };
 
     return http.post(url, null, options);

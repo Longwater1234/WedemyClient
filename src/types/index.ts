@@ -21,6 +21,7 @@ export interface User {
 export interface LoginRequest {
   email: string;
   password: string;
+  responseToken?: string;
 }
 
 export interface Enrollment {
