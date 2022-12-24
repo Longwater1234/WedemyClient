@@ -2,9 +2,10 @@
 
 (Frontend Repo). Clone of Udemy, built using Vue 3 + Typescript + Element Plus + Injector/Provider API (No Vuex!).
 This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**).
- 
- ### Backend Repo 
- The server app is a Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
+
+### Backend Repo
+
+The server app is a Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
 
 ## [Live Demo](https://wedemy.onrender.com)
 
@@ -29,5 +30,5 @@ Also, this demo serves embedded Content from YouTube with "no-cookie" option, wh
 
 ## Pull Requests & Contributions
 
-Code Contributions and pull requests are welcome! Perhaps ADMIN and INSTRUCTOR companion web apps. Dark Mode, maybe? For more TODO's 
-for this projects, see list [.TODO/wedemy_front.md](.TODO/wedemy_front.md)
+Code Contributions and pull requests are welcome! Perhaps ADMIN and INSTRUCTOR companion web apps. Dark Mode, maybe? For more TODO's
+for this project, see list [.TODO/wedemy_front.md](.TODO/wedemy_front.md)
