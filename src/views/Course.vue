@@ -105,6 +105,8 @@
       <div v-for="item in reviewList" :key="item.id">
         <review-card :review="item" />
       </div>
+
+      <!-- PAGINATION (reviews) -->
       <div class="pager">
         <span style="margin-right: 0.5em">Page: &nbsp;{{ currentPage }}</span>
         <el-button-group>
