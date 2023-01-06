@@ -9,5 +9,5 @@ FROM nginx:stable AS runner
 RUN mkdir /app
 COPY --from=builder /app/dist /app
 COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 80
+EXPOSE ${PORT}
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
