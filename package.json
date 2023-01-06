@@ -8,7 +8,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "prod": "npx serve ./dist/"
+    "copy": "cp serve.json dist/serve.json",
+    "prod": "npx serve ./dist/",
+    "start": "npm run copy && npm run prod"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
