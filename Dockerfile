@@ -9,4 +9,6 @@ FROM nginx:stable AS runner
 RUN mkdir /app
 COPY --from=builder /app/dist /app
 COPY nginx.conf /etc/nginx/nginx.conf
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+EXPOSE 80
+RUN 'service nginx status'
+CMD ["nginx", "-g", "daemon off;"]
