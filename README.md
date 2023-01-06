@@ -1,7 +1,7 @@
 # WedemyClient
 
 (Frontend Repo). Clone of Udemy, built using Vue 3 + Typescript + Element Plus + Injector/Provider API (No Vuex!).
-This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**).
+This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**). Default PORT 8080.
 
 ### Backend Repo
 
