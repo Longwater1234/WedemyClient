@@ -61,7 +61,7 @@ import dropin, { Dropin } from "braintree-web-drop-in";
 import CartService from "@/services/CartService";
 import { Course, PaymentObj } from "@/types";
 import store from "@/store";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
  // SEE OFFICIAL DOCS:
  // https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
@@ -128,7 +128,7 @@ export default defineComponent({
         .finally(() => (this.isProcessing = false));
     },
 
-    handleSuccessPay(res: any) {
+    handleSuccessPay(res: AxiosResponse) {
       store.getCartCountServer();
       ElMessage.success(res.data.message);
       //TODO REPLACE WITH DASHOBARD
