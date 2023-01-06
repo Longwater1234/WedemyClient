@@ -10,5 +10,5 @@ RUN mkdir /app
 COPY --from=builder /app/dist /app
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
-RUN 'nginx -t'
+RUN nginx -t
 CMD ["nginx", "-g", "daemon off;"]
