@@ -11,5 +11,5 @@ COPY --from=builder /app/dist /app
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 8080
 RUN nginx -t
-RUN service nginx status
+RUN service nginx start
 CMD ["nginx", "-g", "daemon off;"]
