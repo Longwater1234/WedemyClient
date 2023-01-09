@@ -1,14 +1,23 @@
 {
-  "name": "wedemytwo",
-  "version": "0.1.0",
+  "name": "wedemyclient",
+  "version": "1.2.0",
   "private": true,
+  "author": "Davis Tibbz",
+  "license": "MIT",
+  "homepage": "https://github.com/Longwater1234/WedemyClient",
   "engines": {
     "node": "16.x"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Longwater1234/WedemyClient.git"
+  },
+  "bugs": {
+    "url": "https://github.com//Longwater1234/WedemyClient/issues"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "prod": "npx serve ./dist"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
