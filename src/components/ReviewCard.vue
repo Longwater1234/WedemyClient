@@ -13,7 +13,8 @@
       {{ review.content }}
     </div>
     <div class="row grey">
-      <Timeago :datetime="review.createdAt" />
+      Updated: &nbsp;
+      <Timeago :datetime="review.updatedAt" />
     </div>
   </div>
 </template>

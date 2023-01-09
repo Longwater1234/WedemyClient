@@ -142,7 +142,7 @@ export default {
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
-      //HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
+      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
     };
   },
   methods: {
