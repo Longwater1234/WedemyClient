@@ -117,7 +117,7 @@ export default defineComponent({
     position: fixed;
     height: max-content;
     padding: 0.25em auto;
-    bottom: 0;
+    bottom: 0.25em;
     width: 100%;
   }
 

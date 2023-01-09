@@ -43,9 +43,9 @@
         </el-space>
 
         <el-space v-else wrap size="large" fill>
-          <h2 style="margin: auto; color: grey">
+          <h4 style="margin: auto; color: grey">
             You haven't enrolled in any course.
-          </h2>
+          </h4>
         </el-space>
       </el-space>
     </div>

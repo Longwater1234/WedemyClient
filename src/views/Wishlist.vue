@@ -2,7 +2,7 @@
 <template>
   <h3 class="cart-header">My wishlist ({{ wishlistCount }})</h3>
 
-  <div class="main-view" style="height: 70vh">
+  <div class="main-view" style="height: 70vh" v-loading="isLoading">
     <!-- if nothing in wishlist -->
     <div v-if="wishlistCount === 0" class="empty-view">
       <el-empty description="Your wishlist is empty :("></el-empty>
@@ -146,7 +146,7 @@ export default defineComponent({
   }
 
   .w-card {
-    width: 90vw;
+    width: 96vw;
     font-size: small;
   }
 

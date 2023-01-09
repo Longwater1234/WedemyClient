@@ -17,6 +17,8 @@
 
       <!-- otherwise show list of Cart tems -->
       <div v-else>
+        <mobile-summary :totalPrice="totalPrice"></mobile-summary>
+
         <el-row v-for="course in cartItems" :key="course.id">
           <el-space size="large" direction="vertical">
             <el-card class="w-card" shadow="hover">
@@ -55,14 +57,14 @@ import { DeleteFilled } from "@element-plus/icons-vue";
 import { ElMessage, ElNotification } from "element-plus";
 import CartService from "@/services/CartService";
 import CartSummary from "@/components/CartSummary.vue";
+import MobileSummary from "@/components/MobileSummary.vue";
 
 export default defineComponent({
   name: "Cart",
   data() {
     document.title = "Cart | Wedemy";
-    const cartItems = new Array<Course>();
     return {
-      cartItems,
+      cartItems: new Array<Course>(),
       isLoading: true,
     };
   },
@@ -95,6 +97,7 @@ export default defineComponent({
   components: {
     DeleteFilled,
     CartSummary,
+    MobileSummary,
   },
   computed: {
     totalPrice(): string {
@@ -102,7 +105,7 @@ export default defineComponent({
         .map((x) => x.price)
         .reduce((a, b) => a + b, 0)
         .toFixed(2);
-    }
+    },
   },
 });
 </script>
@@ -120,6 +123,10 @@ export default defineComponent({
   display: flex;
   width: 60%;
   flex-direction: column;
+}
+
+.mobile-only {
+  display: none;
 }
 
 .empty-view {
@@ -180,13 +187,18 @@ export default defineComponent({
   }
 
   .w-card {
-    width: 90vw;
+    width: 96vw;
     font-size: small;
   }
 
   .w-thumb {
     width: 5em;
     aspect-ratio: 16/9;
+  }
+
+  .mobile-only {
+    display: unset;
+    margin-bottom: 1em;
   }
 
   .w-delete {

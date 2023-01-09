@@ -13,11 +13,12 @@
     "url": "git+https://github.com/Longwater1234/WedemyClient.git"
   },
   "bugs": {
-    "url": "https://github.com//Longwater1234/WedemyClient/issues"
+    "url": "https://github.com/Longwater1234/WedemyClient/issues"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "prod": "npx http-server --proxy http://localhost:8080?"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
