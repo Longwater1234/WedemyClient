@@ -1,7 +1,11 @@
 # Wedemy TODO
-You may add more to the list!
+You may help add these missing features. Fork the project, create a new branch, add your edits, and submit your pull request. I will review before merging it.
 
-- [ ] Polish the UI.
+- [ ] Dark Mode
+- [ ] Admin + Instructor Panel (as separate project?)
+- [ ] Certificates of Completion
+- [ ] Download Reciepts after Purchase
+- [x] Polish the UI.
 - [x] 404 image, hide navbar
 - [x] Apply Store, injector, provider
 - [x] Added "empty" design using `<el-empty>` in _Cart_ and _Wishlist_ if `0`.
@@ -22,8 +26,5 @@ You may add more to the list!
 - [x] View all courses owned in Profile
 - [x] MAIN video player - single course
 - [x] Edit/View Profile
-- [ ] Dark Mode
-- [ ] Admin + Instructor Panel (as separate project?)
-- [ ] Certificates of Completion
-- [ ] Download Reciepts after Purchase
+
  

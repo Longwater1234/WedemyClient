@@ -3,6 +3,9 @@ const path = require("path");
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  // devServer: {
+  //   port: 8080 //👈 can change me
+  // },
   pwa: {
     name: "Wedemy",
     themeColor: "#5943be",

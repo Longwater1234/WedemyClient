@@ -285,7 +285,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   height: auto;
-  overflow-y: scroll;
   width: 30%;
 }
 iframe[id^="vue-youtube-iframe-1"] {
