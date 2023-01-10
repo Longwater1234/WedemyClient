@@ -131,8 +131,8 @@ export default defineComponent({
     handleSuccessPay(res: AxiosResponse) {
       store.getCartCountServer();
       ElMessage.success(res.data.message);
-      //TODO REPLACE WITH DASHOBARD
-      this.$router.replace("/");
+      //redirect to MyLearning
+      this.$router.replace({ name: "MyLearning" });
     },
 
     handleError(err: AxiosError) {
