@@ -7,7 +7,7 @@
 
       <!-- GOOGLE SIGN IN  -->
       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
-      <div
+      <!-- <div
         id="g_id_onload"
         :data-client_id="GOOGLE_CLIENT_ID"
         data-context="signin"
@@ -24,9 +24,15 @@
         data-text="signin_with"
         data-size="large"
         data-logo_alignment="left"
-      ></div>
+      ></div> -->
       <!-- END OF GOOGLE BUTTON -->
-
+      <div>
+        <a :href="githubLink" target="_blank" rel="noopener">
+          <el-button class="btn" type="warning">
+            Login with Test Account
+          </el-button>
+        </a>
+      </div>
       <!-- START LOGIN FORM BELOW -->
       <el-form
         @submit.prevent
@@ -143,6 +149,7 @@ export default {
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
       HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
+      githubLink: 'https://github.com/Longwater1234/WedemyClient#test-accounts-for-demo'
     };
   },
   methods: {
