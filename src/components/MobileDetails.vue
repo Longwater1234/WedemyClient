@@ -111,6 +111,7 @@ export default defineComponent({
 @media screen and (max-width: 770px) {
   .actionbox {
     display: flex;
+    z-index: 1000;
     flex-direction: row;
     text-align: center;
     background-color: white;

@@ -1,6 +1,7 @@
 # Wedemy TODO
 You may help add these missing features. Fork the project, create a new branch, add your edits, and submit your pull request. I will review before merging it.
 
+- [ ] CSS/Layout cleanup on mobile
 - [ ] Dark Mode
 - [ ] Admin + Instructor Panel (as separate project?)
 - [ ] Certificates of Completion

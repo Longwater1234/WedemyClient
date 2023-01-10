@@ -87,6 +87,9 @@ const routes: Array<RouteRecordRaw> = [
       if (!isLoggedIn) next({ name: "Login" });
       else next();
     },
+    meta: {
+      hideFooter: true,
+    },
   },
   {
     path: "/account/purchase-history",
@@ -104,6 +107,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/ResumeCourse.vue"),
     meta: {
       hideNavbar: true,
+      hideFooter: true,
     },
     beforeEnter: async (to, from, next) => {
       const isLoggedIn = await store.getAuthStatusServer();
@@ -132,6 +136,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Error500.vue"),
     meta: {
       hideNavbar: true,
+      hideFooter: true,
     },
   },
   {
@@ -140,6 +145,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Error404.vue"),
     meta: {
       hideNavbar: true,
+      hideFooter: true,
     },
   },
 ];
