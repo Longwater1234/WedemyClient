@@ -130,7 +130,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "Credits",
     component: () => import("../views/Credits.vue"),
   },
-   {
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/About.vue"),
+  },
+  {
     path: "/Error500",
     name: "ServerError",
     component: () => import("../views/Error500.vue"),
