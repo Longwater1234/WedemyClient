@@ -4,7 +4,9 @@
       <el-row class="footer-row">
         <router-link to="/credits"> Credits </router-link>
       </el-row>
-      <el-row class="footer-row">About Us</el-row>
+      <el-row class="footer-row">
+        <router-link to="/about"> About Us </router-link>
+      </el-row>
       <el-row class="footer-row">
         <!-- Place this tag where you want the button to render. -->
         <github-button
@@ -21,8 +23,9 @@
           data-icon="octicon-star"
           data-show-count="true"
           aria-label="Star longwater1234/WedemyClient on GitHub"
-          > Star 
-          </github-button>
+        >
+          Star
+        </github-button>
       </el-row>
     </div>
     <div class="righty">

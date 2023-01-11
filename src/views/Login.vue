@@ -53,6 +53,7 @@
             :prefix-icon="Lock"
             v-model.trim="loginForm.password"
             class="field"
+            native-type="password"
             show-password
           ></el-input>
         </el-form-item>
