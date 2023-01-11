@@ -64,13 +64,13 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <!--        <el-form-item>
+        <el-form-item>
           <vue-hcaptcha
             ref="mycaptcha"
             :sitekey="HCAPTCHA_KEY"
             @verify="handleVerify"
           ></vue-hcaptcha>
-        </el-form-item>-->
+        </el-form-item>
 
         <div style="margin-top: 8px">
           <el-button
@@ -149,7 +149,8 @@ export default {
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
       HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
-      githubLink: 'https://github.com/Longwater1234/WedemyClient#test-accounts-for-demo'
+      githubLink:
+        "https://github.com/Longwater1234/WedemyClient#test-accounts-for-demo",
     };
   },
   methods: {
