@@ -26,11 +26,11 @@
       ></div> -->
       <!-- END OF GOOGLE BUTTON -->
       <div>
-        <a :href="githubLink" target="_blank" rel="noopener">
+        <router-link to="/login">
           <el-button class="btn" type="warning">
             Login with Test Account
           </el-button>
-        </a>
+        </router-link>
       </div>
 
       <!-- START SIGNUP FORM -->
@@ -181,7 +181,7 @@ export default {
         fullname: "",
         email: "",
         password: "",
-        confirmPass: ""
+        confirmPass: "",
       },
 
       // rules for the validation
@@ -199,8 +199,6 @@ export default {
       isLoading: false,
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
-      githubLink: 'https://github.com/Longwater1234/WedemyClient#test-accounts-for-demo'
-    
     };
   },
   methods: {

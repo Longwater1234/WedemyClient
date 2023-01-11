@@ -27,11 +27,9 @@
       ></div> -->
       <!-- END OF GOOGLE BUTTON -->
       <div>
-        <a :href="githubLink" target="_blank" rel="noopener">
-          <el-button class="btn" type="warning">
-            Login with Test Account
+          <el-button class="btn" type="warning" @click="toggleAccount">
+            Use a Test Account
           </el-button>
-        </a>
       </div>
       <!-- START LOGIN FORM BELOW -->
       <el-form
@@ -59,7 +57,6 @@
             :prefix-icon="Lock"
             v-model.trim="loginForm.password"
             class="field"
-            show-password
           ></el-input>
         </el-form-item>
 
@@ -104,6 +101,8 @@ import isEmail from "validator/lib/isEmail";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import { Lock, Message } from "@element-plus/icons-vue/dist/lib";
 import { markRaw } from "@vue/reactivity";
+import sampleuserList from "@/sampleusers.json";
+
 
 export default {
   name: "Login",
@@ -149,8 +148,6 @@ export default {
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
       HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
-      githubLink:
-        "https://github.com/Longwater1234/WedemyClient#test-accounts-for-demo",
     };
   },
   methods: {
@@ -163,6 +160,13 @@ export default {
           .catch((error) => this.displayError(error))
           .finally(() => (this.isLoading = false));
       });
+    },
+    toggleAccount() {
+      let len = sampleuserList.length;
+      let randomIndex = Math.floor((Math.random() * len) + 1)
+      let userAccount = sampleuserList[randomIndex];
+      this.loginForm.email = userAccount.email;
+      this.loginForm.password = userAccount.pass;
     },
     async submitToServer(payload) {
       await AuthService.loginUser({ ...payload });
