@@ -27,9 +27,9 @@
       ></div> -->
       <!-- END OF GOOGLE BUTTON -->
       <div>
-          <el-button class="btn" type="warning" @click="toggleAccount">
-            Use a Test Account
-          </el-button>
+        <el-button class="btn" type="warning" @click="toggleAccount">
+          Use a Test Account
+        </el-button>
       </div>
       <!-- START LOGIN FORM BELOW -->
       <el-form
@@ -57,6 +57,7 @@
             :prefix-icon="Lock"
             v-model.trim="loginForm.password"
             class="field"
+            show-password
           ></el-input>
         </el-form-item>
 
@@ -102,7 +103,6 @@ import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import { Lock, Message } from "@element-plus/icons-vue/dist/lib";
 import { markRaw } from "@vue/reactivity";
 import sampleuserList from "@/sampleusers.json";
-
 
 export default {
   name: "Login",
@@ -163,7 +163,7 @@ export default {
     },
     toggleAccount() {
       let len = sampleuserList.length;
-      let randomIndex = Math.floor((Math.random() * len) + 1)
+      let randomIndex = Math.floor(Math.random() * len + 1);
       let userAccount = sampleuserList[randomIndex];
       this.loginForm.email = userAccount.email;
       this.loginForm.password = userAccount.pass;
@@ -208,6 +208,7 @@ export default {
   beforeUnmount() {
     //detach above script
     document.getElementById("google_client").remove();
+    this.loginForm.responseToken = "";
   },
 };
 </script>
