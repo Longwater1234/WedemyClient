@@ -1,6 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest.json",
   "name": "Wedemy",
   "short_name": "Wedemy",
+  "id": "/",
   "description": "An e-learning platform",
   "start_url": "/",
   "scope": "/",
