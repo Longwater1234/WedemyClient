@@ -183,7 +183,10 @@ export default {
       this.loginForm.responseToken = token;
     },
     displayError(error) {
-      let mama = error.response ? "Wrong credentials!" : error.message;
+      let mama = "Wrong credentials!";
+      if (error.response && error.response.status === 400) {
+        mama = "Captcha error";
+      }
       console.error("loginError", error);
       ElMessage.error(mama);
       setTimeout(() => {
