@@ -180,7 +180,7 @@ export default {
 
     /** onSuccess captcha solve */
     handleVerify(token) {
-      this.loginForm.responseToken = token;
+      this.loginForm.responseToken = "";
     },
     displayError(error) {
       let mama = "Wrong credentials!";
