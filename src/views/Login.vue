@@ -62,13 +62,13 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <!-- <el-form-item>
+        <el-form-item>
           <vue-hcaptcha
             ref="mycaptcha"
             :sitekey="HCAPTCHA_KEY"
             @verify="handleVerify"
           ></vue-hcaptcha>
-        </el-form-item> -->
+        </el-form-item>
 
         <div style="margin-top: 8px">
           <el-button
