@@ -85,6 +85,12 @@ If you don't want to Register, You can still play around the live demo using any
 - (OPTIONAL) Free PayPal Business Account.
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)
 
+### 📕 Resources
+- For Braintree tutorials, please see
+  the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
+- For Google Login tutorials and code samples, please
+  see [official docs]( https://developers.google.com/identity/sign-in/web/sign-in)
+
 ## Pull Requests & Contributions
 
 Contributions, issues and feature requests are welcome!
