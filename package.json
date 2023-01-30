@@ -18,7 +18,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "prod": "npx http-server --proxy http://localhost:8080?"
+    "prod": "npx http-server ./dist --proxy http://localhost:8080?"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
