@@ -75,7 +75,7 @@
 <script lang="ts">
 import EnrollService from "@/services/EnrollService";
 import ProfileService from "@/services/ProfileService";
-import { User } from "@/types";
+import {Enrollment, Summary, User} from "@/types";
 import { ElMessage } from "element-plus";
 import { Edit } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
@@ -92,8 +92,8 @@ export default defineComponent({
       isLoading: true,
       formLoading: false,
       dialogShow: false,
-      summaryList: [],
-      courseList: [],
+      summaryList: new Array<Summary>(),
+      courseList: new Array<Enrollment>(),
       userInfo: {} as User,
     };
   },

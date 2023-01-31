@@ -33,6 +33,13 @@ export interface Enrollment {
   courseId: number;
 }
 
+/* student summary on profile */
+export interface Summary {
+  title: string;
+  value: number;
+  subtitle: string;
+}
+
 export interface Lesson {
   id: string;
   lessonName: string;
