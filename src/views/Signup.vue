@@ -217,7 +217,7 @@ export default {
     handleSignup(formName) {
       const self = this;
       this.$refs[formName].validate((valid) => {
-        if (!valid || !self.signupForm.responseToken) return;
+        if (!valid || !this.responseToken) return;
         this.isLoading = true;
         this.submitToServer(this.signupForm, this.responseToken)
           .then(() => this.redirectToLogin())
