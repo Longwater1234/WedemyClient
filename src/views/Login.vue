@@ -170,7 +170,7 @@ export default {
       this.loginForm.password = userAccount.pass;
     },
     async submitToServer(payload) {
-      await AuthService.loginUserForm({ ...payload });
+      await AuthService.loginUser({ ...payload });
       await store.getAuthStatusServer();
       await store.getCartCountServer();
     },

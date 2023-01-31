@@ -3,6 +3,7 @@ const path = require("path");
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  productionSourceMap: false,
   pwa: {
     name: "Wedemy",
     themeColor: "#5943be",
