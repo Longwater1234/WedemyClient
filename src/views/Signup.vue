@@ -88,6 +88,15 @@
           ></el-input>
         </el-form-item>
 
+        <!--  CAPTCHA BOX -->
+        <el-form-item>
+          <vue-hcaptcha
+            ref="mycaptcha"
+            :sitekey="HCAPTCHA_KEY"
+            @verify="handleVerify"
+          ></vue-hcaptcha>
+        </el-form-item>
+
         <el-form-item style="margin-top: 8px">
           <el-button
             class="btn purple"
@@ -115,6 +124,7 @@
 import AuthService from "@/services/AuthService";
 import { ElMessage } from "element-plus";
 import isEmail from "validator/lib/isEmail";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import { Lock, User, Message } from "@element-plus/icons-vue/dist/lib";
 import { markRaw } from "@vue/reactivity";
 
@@ -197,24 +207,26 @@ export default {
       Lock: markRaw(Lock),
       Message: markRaw(Message),
       isLoading: false,
+      responseToken: "",
       GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
+      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
     };
   },
   methods: {
     handleSignup(formName) {
       const self = this;
       this.$refs[formName].validate((valid) => {
-        if (!valid) return;
+        if (!valid || !self.signupForm.responseToken) return;
         this.isLoading = true;
-        this.submitToServer(this.signupForm)
+        this.submitToServer(this.signupForm, this.responseToken)
           .then(() => this.redirectToLogin())
           .catch((error) => self.handleError(error))
           .finally(() => (this.isLoading = false));
       });
     },
-    submitToServer: async (payload) => {
-      await AuthService.registerUser({ ...payload });
+    submitToServer: async (payload, responseToken) => {
+      await AuthService.registerUser({ ...payload }, responseToken);
     },
     redirectToLogin() {
       ElMessage.success("Welcome to Wedemy. Please Login");
@@ -222,9 +234,21 @@ export default {
         window.location.replace("/login");
       }, 500);
     },
+
+    /** onSuccess captcha solve */
+    handleVerify(token) {
+      this.responseToken = token;
+    },
     handleError(err) {
       let mama = err.response ? err.response.data.message : err.message;
       ElMessage.error(mama);
+      setTimeout(() => {
+        this.resetCaptcha();
+      }, 200);
+    },
+    resetCaptcha() {
+      this.responseToken = "";
+      this.$refs.mycaptcha.reset();
     },
   },
   mounted() {
@@ -234,9 +258,13 @@ export default {
     scripta.id = "google_client";
     document.getElementById("baba").appendChild(scripta);
   },
+  components: {
+    VueHcaptcha,
+  },
   beforeUnmount() {
-    //detach above script
+    //detach GoogleLogin script
     document.getElementById("google_client").remove();
+    this.responseToken = "";
   },
 };
 </script>

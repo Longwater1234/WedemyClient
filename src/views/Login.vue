@@ -152,8 +152,9 @@ export default {
   },
   methods: {
     handleLogin(formName) {
+      const self = this;
       this.$refs[formName].validate((valid) => {
-        if (!valid) return;
+        if (!valid || !self.loginForm.responseToken) return;
         this.isLoading = true;
         this.submitToServer(this.loginForm)
           .then(() => this.redirectToHome())
@@ -169,7 +170,7 @@ export default {
       this.loginForm.password = userAccount.pass;
     },
     async submitToServer(payload) {
-      await AuthService.loginUser({ ...payload });
+      await AuthService.loginUserForm({ ...payload });
       await store.getAuthStatusServer();
       await store.getCartCountServer();
     },
@@ -209,7 +210,7 @@ export default {
     VueHcaptcha,
   },
   beforeUnmount() {
-    //detach above script
+    //detach GoogleLogin script
     document.getElementById("google_client").remove();
     this.loginForm.responseToken = "";
   },

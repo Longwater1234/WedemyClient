@@ -21,11 +21,11 @@ class AuthService {
   }
 
   /**  Login using FormLogin in Springboot  */
-  loginUserForm(email: string, password: string, responseToken: string) {
+  loginUserForm({ email, password, responseToken }: LoginRequest) {
     const params = new URLSearchParams();
     params.append("email", email);
     params.append("password", password);
-    params.append("responseToken", responseToken);
+    params.append("responseToken", responseToken || "");
 
     const options: AxiosRequestConfig = {
       withCredentials: true,
@@ -40,8 +40,8 @@ class AuthService {
   }
 
   /** Register submits form to Server */
-  registerUser(load: User) {
-    return http.post("/auth/register", load);
+  registerUser(load: User, responseToken: string) {
+    return http.post("/auth/register", load, { params: { responseToken } });
   }
 
   /** Obviously does what it says */
