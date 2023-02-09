@@ -7,9 +7,11 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyClient)](https://github.com/Longwater1234/WedemyClient/blob/master/LICENSE)
 [![Package - typescript](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/dev/typescript?color=blue)](https://www.npmjs.com/package/typescript)
 
-(Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3 + Typescript + Element Plus UI (no VueX). This
-App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**). For Braintree Payments tutorials and samples, please see
-the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3). (Will require a backend server)
+(Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3 + Typescript + Element Plus UI (no VueX).
+This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**). For Braintree
+Payments tutorials and samples, please see
+the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
+. (Will require a backend server)
 
 ## Backend Repo
 
@@ -23,19 +25,22 @@ npm install
 
 ## Usage
 
-In development, the app runs on port 8080 by default. You can change it in [vue.config.js](vue.config.js). 
+In development, the app runs on port 8080 by default. You can change it in [vue.config.js](vue.config.js).
 
 ```sh
 npm run serve
 ```
 
-For production, run `npm run build`, then see official Vue CLI guide on [deployment](https://cli.vuejs.org/guide/deployment.html), depending on your platform of choice.
+For production, run `npm run build`, then follow official Vue CLI guide
+on [deployment](https://cli.vuejs.org/guide/deployment.html), depending on your hosting of choice.
 
 ## [Live Demo](https://wedemy.up.railway.app/) - updated 2023 Jan
 
-The Demo uses Sandbox (Dev) Mode of Braintree Payments. No actual money will be deducted on Checkout. You may use TEST
-credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).
-Also, this Demo serves embedded Content from YouTube (for simplicity) with "no-cookie" option, which means tracking is disabled ✅.
+PLEASE READ: The Demo uses Sandbox (Dev) Mode of Braintree Payments. No actual money will be deducted on Checkout. You
+**should** use test credit-card
+numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java). Also, this
+demo serves embedded video from YouTube (for simplicity). In reality, you should switch to a customized, cloud video
+platform like Cloudinary or Brightcove.
 
 ### Test Accounts for Demo
 
@@ -86,6 +91,7 @@ If you don't want to Register, You can still play around the live demo using any
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)
 
 ### 📕 Resources
+
 - For Braintree tutorials, please see
   the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - For Google Login tutorials and code samples, please
@@ -94,7 +100,8 @@ If you don't want to Register, You can still play around the live demo using any
 ## Pull Requests & Contributions
 
 Contributions, issues and feature requests are welcome!
-Feel free to check [issues page](https://github.com//Longwater1234/WedemyClient/issues). For more TODO's for this project, see list in [CONTRIBUTING.md](CONTRIBUTING.md)
+Feel free to check [issues page](https://github.com//Longwater1234/WedemyClient/issues). For more TODO's for this
+project, see list in [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## 📝 License
 
