@@ -1,5 +1,6 @@
-import { computed, reactive } from "vue";
+import {computed, reactive} from "vue";
 import http from "@/axiosconfig";
+import {AxiosError} from "axios";
 
 // FOR USER's state
 interface userState {

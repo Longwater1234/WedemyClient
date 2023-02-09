@@ -253,7 +253,7 @@ export default defineComponent({
 
 @media screen and (max-width: 770px) {
   .main-view {
-    padding: 0 2% 0 2%;
+    padding: 0 2%;
   }
 
   .second-form {

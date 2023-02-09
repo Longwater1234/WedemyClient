@@ -6,6 +6,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyClient/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyClient)](https://github.com/Longwater1234/WedemyClient/blob/master/LICENSE)
 [![Package - typescript](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/dev/typescript?color=blue)](https://www.npmjs.com/package/typescript)
+[![CodeFactor](https://www.codefactor.io/repository/github/longwater1234/wedemyclient/badge/main)](https://www.codefactor.io/repository/github/longwater1234/wedemyclient/overview/main)
 
 (Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3 + Typescript + Element Plus UI (no VueX).
 This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**). For Braintree
@@ -103,8 +104,12 @@ Contributions, issues and feature requests are welcome!
 Feel free to check [issues page](https://github.com//Longwater1234/WedemyClient/issues). For more TODO's for this
 project, see list in [CONTRIBUTING.md](CONTRIBUTING.md)
 
+
 ## 📝 License
 
-Copyright © 2022 [Davis Tibbz](https://github.com/Longwater1234).
-
+&copy; 2022 Davis Tibbz
 This project is [MIT](https://github.com/Longwater1234/WedemyClient/blob/master/LICENSE) licensed.
+
+
+### Credits
+- Homepage banner image: [Avi Richards, Unsplash](https://unsplash.com/@avirichards)
