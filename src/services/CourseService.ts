@@ -13,7 +13,6 @@ class CourseService {
     return http.get(`/courses/cat/${category}`);
   }
 
-  
   findByTitle(title: string) {
     return http.get(`/courses/search?title=${title}`);
   }
