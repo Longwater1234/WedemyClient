@@ -80,7 +80,7 @@ export default defineComponent({
 }
 
 .main-view {
-  padding: 0 10% 0 10%;
+  padding: 0 10%;
 }
 
 .server-error {

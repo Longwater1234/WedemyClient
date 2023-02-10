@@ -7,8 +7,8 @@ class CartService {
 
   removeOneByCourse(courseId: number) {
     return http.delete(`/cart/course/${courseId}`);
-  } 
-  
+  }
+
   removeOneById(cartId: number) {
     return http.delete(`/cart/id/${cartId}`);
   }

@@ -174,7 +174,6 @@ export default defineComponent({
 .main-body {
   margin: 2%;
   width: 70%;
-  margin: auto auto;
   padding: 1em;
 }
 
@@ -183,9 +182,9 @@ export default defineComponent({
   width: 100%;
   flex-direction: row;
   align-self: center;
-  margin: auto auto;
+  margin: auto;
   align-content: space-around;
-  border: 0.5px solid var(--el-border-color-darker);
+  border: 1px solid var(--el-border-color-darker);
   border-radius: 30%;
 }
 

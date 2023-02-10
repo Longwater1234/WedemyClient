@@ -27,7 +27,6 @@ class ReviewService {
   editMine(id: number, review: Review) {
     return http.put(`/reviews/id/${id}`, review);
   }
-
 }
 
 export default new ReviewService();

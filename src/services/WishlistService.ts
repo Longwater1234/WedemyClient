@@ -13,7 +13,6 @@ class WishlistService {
     return http.delete(`/wishlist/id/${wishlistId}`);
   }
 
-
   getAllMine() {
     return http.get("/wishlist/mine");
   }
