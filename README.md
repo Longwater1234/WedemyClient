@@ -21,12 +21,13 @@ The backend is a separate Java Springboot application [available here](https://g
 ## Install
 
 ```sh
+# Requires node 16.x or higher
 npm install
 ```
 
 ## Usage
 
-In development, the app runs on port 8080 by default. You can change it in [vue.config.js](vue.config.js).
+In local development, the app runs on port 8080 by default. You can change it in [vue.config.js](vue.config.js).
 
 ```sh
 npm run serve
