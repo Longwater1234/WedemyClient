@@ -6,7 +6,6 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyClient/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyClient)](https://github.com/Longwater1234/WedemyClient/blob/master/LICENSE)
 [![Package - typescript](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/dev/typescript?color=blue)](https://www.npmjs.com/package/typescript)
-[![CodeFactor](https://www.codefactor.io/repository/github/longwater1234/wedemyclient/badge/main)](https://www.codefactor.io/repository/github/longwater1234/wedemyclient/overview/main)
 
 (Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3 + Typescript + Element Plus UI (no VueX).
 This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**). For Braintree
@@ -21,12 +20,13 @@ The backend is a separate Java Springboot application [available here](https://g
 ## Install
 
 ```sh
+# Requires node 16.x or higher
 npm install
 ```
 
 ## Usage
 
-In development, the app runs on port 8080 by default. You can change it in [vue.config.js](vue.config.js).
+In local development, the app runs on port 8080 by default. You can change it in [vue.config.js](vue.config.js).
 
 ```sh
 npm run serve
