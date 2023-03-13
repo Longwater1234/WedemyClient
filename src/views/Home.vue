@@ -172,7 +172,7 @@ export default defineComponent({
 
 <style>
 .main-body {
-  margin: 2%;
+  margin: auto;
   width: 70%;
   padding: 1em;
 }
