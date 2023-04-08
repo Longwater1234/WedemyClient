@@ -60,7 +60,7 @@
 
     <!-- EDIT PROFILE DIALOG -->
     <el-dialog v-model="dialogShow" title="Update your Profile">
-      <el-form :model="userInfo" @submit.prevent="updateProfile">
+      <el-form :model="userInfo" @submit.prevent="updateProfile" size="50%">
         <el-form-item label="Your name">
           <el-input v-model="userInfo.fullname" type="text" maxlength="70" />
         </el-form-item>
