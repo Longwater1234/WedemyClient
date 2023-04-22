@@ -96,7 +96,7 @@ If you don't want to Register, You can still play around the live demo using any
 - For Braintree tutorials, please see
   the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - For Google Login tutorials and code samples, please
-  see [official docs]( https://developers.google.com/identity/sign-in/web/sign-in)
+  see [official docs](https://developers.google.com/identity/gsi/web/guides/overview)
 
 ## Pull Requests & Contributions
 
