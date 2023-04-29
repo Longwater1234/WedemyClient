@@ -17,7 +17,7 @@ class WishlistService {
     return http.get("/wishlist/mine");
   }
 
-  checkifWishlisted(courseId: number) {
+  checkIfWishlisted(courseId: number) {
     return http.get(`/wishlist/status/c/${courseId}`);
   }
 }

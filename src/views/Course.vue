@@ -257,9 +257,9 @@ export default defineComponent({
         .catch((error) => this.handleError(error));
     },
 
-    /** If Course ALREADY in wishlist */
+    /** is Course ALREADY in wishlist? */
     checkWishlistStatus(courseId: number) {
-      WishlistService.checkifWishlisted(courseId).then((res) => {
+      WishlistService.checkIfWishlisted(courseId).then((res) => {
         this.inWishlist = res.data.inWishlist;
       });
     },
