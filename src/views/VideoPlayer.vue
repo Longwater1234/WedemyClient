@@ -329,7 +329,7 @@ iframe[id^="vue-youtube-iframe-1"] {
 .el-dialog {
   width: 30% !important;
 }
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 16in) {
   .main-view {
     max-width: 100%;
     padding: 0;

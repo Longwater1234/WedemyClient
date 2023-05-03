@@ -12,7 +12,7 @@ class ProfileService {
     return http.get("/profile/mine");
   }
 
-  updateMine(user: User) {
+  updateMine(user: Partial<User>) {
     return http.put("/profile/mine", user);
   }
 }
