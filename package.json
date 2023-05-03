@@ -39,6 +39,7 @@
   "devDependencies": {
     "@hcaptcha/types": "^1.0.3",
     "@types/braintree-web-drop-in": "^1.22.4",
+    "@types/youtube": "^0.0.47",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",

@@ -3,9 +3,9 @@
     <el-card shadow="hover" class="details-card">
       <div>
         <img
-          :src="singleCourse.thumbUrl"
+          :src="singleCourse?.thumbUrl"
           class="small-img"
-          :alt="singleCourse.title"
+          :alt="singleCourse?.title"
         />
       </div>
       <h1>${{ singleCourse.price }}</h1>
@@ -18,7 +18,7 @@
           :loading="isLoading"
           class="btn purple"
           :class="{ black: inCart === true }"
-          @click="emitCart(singleCourse.id)"
+          @click="emitCart(singleCourse?.id)"
         >
           {{ getCartTitle }}
         </el-button>
@@ -27,7 +27,7 @@
           id="wishlist-btn"
           :class="{ pressed: inWishlist === true }"
           :title="getBtnTitle"
-          @click="emitWishlist(singleCourse.id)"
+          @click="emitWishlist(singleCourse?.id)"
           circle
         >
           {{ inWishlist ? "&#9829;" : "&#9825;" }}
@@ -38,7 +38,7 @@
       <!-- ELSE, direct to LESSONS -->
       <div v-else>
         <p class="grey-sub">You already own this course</p>
-        <el-button class="black btn" @click="goToCourse(singleCourse.id)">
+        <el-button class="black btn" @click="goToCourse(singleCourse?.id)">
           Continue Learning <arrow-right class="myarrow" />
         </el-button>
       </div>
@@ -57,9 +57,10 @@
 
 <script lang="ts">
 import { ArrowRight } from "@element-plus/icons-vue";
-import { defineComponent } from "vue";
+import {defineComponent, PropType} from "vue";
 import store from "@/store";
 import { ElMessage } from "element-plus";
+import {Course} from "@/types";
 
 export default defineComponent({
   data() {
@@ -71,7 +72,7 @@ export default defineComponent({
   },
   props: {
     singleCourse: {
-      type: Object,
+      type: Object as PropType<Course>,
       default: {},
     },
     inWishlist: {
@@ -90,11 +91,11 @@ export default defineComponent({
   emits: ["toggleWishlist", "toggleCart"],
   methods: {
     /* emit events back to Parent, pass courseId */
-    emitCart(id: number) {
+    emitCart(id?: number) {
       if (!store.getters.isLoggedIn) return this.LoginMessage();
       this.$emit("toggleCart", id);
     },
-    emitWishlist(id: number) {
+    emitWishlist(id?: number) {
       if (!store.getters.isLoggedIn) return this.LoginMessage();
       this.$emit("toggleWishlist", id);
     },
@@ -103,7 +104,7 @@ export default defineComponent({
       this.$router.push("/login");
     },
 
-    goToCourse(id: number) {
+    goToCourse(id?: number) {
       this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
     },
   },
