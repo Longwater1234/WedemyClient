@@ -23,7 +23,7 @@
             <p class="full-only">{{ singleCourse.subtitle }}</p>
             <div>
               <el-button type="primary" @click="toggleReviewDialog()">
-                {{ review ? "Edit your review" : "Post a review" }}
+                {{ review.id ? "Edit your review" : "Post a review" }}
                 <el-icon>
                   <Edit />
                 </el-icon>
