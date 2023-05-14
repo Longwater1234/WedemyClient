@@ -12,7 +12,7 @@
         :data-client_id="GOOGLE_CLIENT_ID"
         data-context="signin"
         data-ux_mode="popup"
-        :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
+        :data-login_uri="SERVER_ROOT + '/oauth2/authorization/google'"
         data-auto_prompt="false"
       ></div>
 

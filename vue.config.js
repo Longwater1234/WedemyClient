@@ -5,7 +5,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   productionSourceMap: false,
   // devServer: {
-  //   port: 8080 //👈 can change me
+  //   port: 5173 //👈 can change me
   // },
   pwa: {
     name: "Wedemy",
