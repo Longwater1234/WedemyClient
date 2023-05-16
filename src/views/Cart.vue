@@ -192,7 +192,7 @@ export default defineComponent({
   }
 
   .w-thumb {
-    width: 5em;
+    width: 8em;
     aspect-ratio: 16/9;
   }
 
