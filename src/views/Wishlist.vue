@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
+<!--WISHLIST Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My wishlist ({{ wishlistCount }})</h3>
 
@@ -151,7 +151,7 @@ export default defineComponent({
   }
 
   .w-thumb {
-    width: 7em;
+    width: 8em;
     aspect-ratio: 16/9;
   }
 

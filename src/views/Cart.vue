@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
+<!--CART Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My Cart ({{ store.getters.getCartCount }})</h3>
 
@@ -192,7 +192,7 @@ export default defineComponent({
   }
 
   .w-thumb {
-    width: 5em;
+    width: 8em;
     aspect-ratio: 16/9;
   }
 
