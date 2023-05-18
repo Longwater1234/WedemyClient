@@ -12,6 +12,9 @@ const routes: Array<RouteRecordRaw> = [
     path: "/cart",
     name: "Cart",
     component: () => import("../views/Cart.vue"),
+    meta: {
+      hideFooter: true,
+    },
   },
   {
     path: "/login",
@@ -76,6 +79,9 @@ const routes: Array<RouteRecordRaw> = [
       const isLoggedIn = await store.getAuthStatusServer();
       if (!isLoggedIn) next({ name: "Login" });
       else next();
+    },
+    meta: {
+      hideFooter: true,
     },
   },
   {
