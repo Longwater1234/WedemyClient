@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     document.title = "500 Internal Server Error | Wedemy";

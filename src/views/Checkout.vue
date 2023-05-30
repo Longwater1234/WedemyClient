@@ -63,8 +63,8 @@ import { Course, PaymentObj } from "@/types";
 import store from "@/store";
 import { AxiosError, AxiosResponse } from "axios";
 
- // SEE OFFICIAL DOCS:
- // https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
+// SEE OFFICIAL DOCS:
+// https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
 export default defineComponent({
   data() {
     let paymentInstance: Dropin | undefined;
@@ -90,7 +90,8 @@ export default defineComponent({
     //automatic onLoad, AFTER above^
     initializePayment(token: string) {
       const self = this;
-      dropin.create({
+      dropin
+        .create({
           authorization: token,
           container: "#paymentContainer",
           paypal: {
@@ -111,7 +112,8 @@ export default defineComponent({
     submitPayment() {
       if (!this.isReady) return;
       this.isProcessing = true;
-      this.paymentInstance?.requestPaymentMethod()
+      this.paymentInstance
+        ?.requestPaymentMethod()
         .then((payload) => {
           //CREATE PAYMENT OBJECT for Server
           let obj: PaymentObj = {
@@ -157,7 +159,8 @@ export default defineComponent({
   },
   computed: {
     totalPrice(): string {
-      return this.cartItems.map((x) => x.price)
+      return this.cartItems
+        .map((x) => x.price)
         .reduce((a, b) => a + b, 0)
         .toFixed(2);
     },
@@ -169,7 +172,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 .main-view-checkout {
   text-align: center;
   display: flex;

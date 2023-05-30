@@ -366,7 +366,6 @@ iframe[id^="vue-youtube-iframe-1"] {
     height: fit-content;
   }
 
-
   .el-dialog {
     width: 100% !important;
   }

@@ -35,6 +35,13 @@
           </el-card>
         </el-space>
       </el-row>
+      <!--        PAGINATION-->
+      <el-pagination
+        layout="prev, pager, next"
+        :total="totalElements"
+        :page-size="5"
+        v-model:current-page="currentPage"
+      />
     </div>
     <!-- end of card list -->
   </div>
@@ -55,13 +62,18 @@ export default defineComponent({
     return {
       wishlistItems: new Array<Course>(),
       isLoading: true,
+      totalElements: 0, //pagination
+      currentPage: 1, // pagination
     };
   },
   inject: ["store"],
   methods: {
-    fetchWishlist() {
-      WishlistService.getAllMine()
-        .then((res) => (this.wishlistItems = res.data.content))
+    fetchWishlist(page: number) {
+      WishlistService.getAllMine(page)
+        .then((res) => {
+          this.wishlistItems = res.data.content;
+          this.totalElements = res.data.totalElements;
+        })
         .catch((error) => ElMessage.error(error.message))
         .finally(() => (this.isLoading = false));
     },
@@ -71,23 +83,31 @@ export default defineComponent({
         .catch((err) => ElMessage.error(err.message));
     },
     handleSuccessWishlist() {
-      this.fetchWishlist();
+      this.fetchWishlist(0);
       return ElNotification({
         type: "success",
         title: "Removed from Wishlist",
-        duration: 2500,
+        duration: 2000,
       });
     },
   },
   mounted() {
-    store.getters.isLoggedIn && this.fetchWishlist();
+    store.getters.isLoggedIn && this.fetchWishlist(0);
   },
   components: {
     DeleteFilled,
   },
   computed: {
     wishlistCount(): number {
-      return this.wishlistItems.length;
+      return this.totalElements;
+    },
+  },
+  watch: {
+    currentPage: {
+      immediate: true,
+      handler: function (newVal: number) {
+        this.fetchWishlist(newVal);
+      },
     },
   },
 });

@@ -13,8 +13,8 @@ class WishlistService {
     return http.delete(`/wishlist/id/${wishlistId}`);
   }
 
-  getAllMine() {
-    return http.get("/wishlist/mine");
+  getAllMine(page: number) {
+    return http.get("/wishlist/mine", { params: { page } });
   }
 
   checkIfWishlisted(courseId: number) {

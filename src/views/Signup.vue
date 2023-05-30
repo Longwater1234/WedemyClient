@@ -174,7 +174,7 @@ export default {
         fullname: "",
         email: "",
         password: "",
-        confirmPass: ""
+        confirmPass: "",
       },
 
       // rules for the validation

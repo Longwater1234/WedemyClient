@@ -5,10 +5,10 @@ const http = axios.create({
   baseURL: process.env.VUE_APP_BACKEND_ROOT_URL,
   headers: {
     "Content-type": "application/json",
-    "X-Requested-With": "XMLHttpRequest"
+    "X-Requested-With": "XMLHttpRequest",
   },
   timeout: 15000,
-  withCredentials: true
+  withCredentials: true,
 });
 
 http.interceptors.response.use(
@@ -18,6 +18,7 @@ http.interceptors.response.use(
       return window.location.replace("/Error500");
     }
     return Promise.reject(error);
-  });
+  }
+);
 
 export default http;

@@ -27,8 +27,8 @@
     <div class="main-body">
       <div v-if="store.getters.isLoggedIn" style="margin-bottom: 2em">
         <h3 class="sub-heading">
-          Hi {{ trimSpace(store.state.username) }}! 👋 Pick up where you left off
-          in
+          Hi {{ trimSpace(store.state.username) }}! 👋 Pick up where you left
+          off in
           <router-link to="/account/learning">My Learning</router-link>
         </h3>
       </div>

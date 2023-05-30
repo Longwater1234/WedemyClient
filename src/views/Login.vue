@@ -189,7 +189,7 @@ export default {
     const scripta = document.createElement("script");
     scripta.src = `https://accounts.google.com/gsi/client`;
     scripta.id = "google_client";
-    document.getElementById("baba")?.appendChild(scripta);  // see index.html
+    document.getElementById("baba")?.appendChild(scripta); // see index.html
   },
   components: {
     VueHcaptcha,

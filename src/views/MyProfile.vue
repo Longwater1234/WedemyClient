@@ -75,7 +75,7 @@
 <script lang="ts">
 import EnrollService from "@/services/EnrollService";
 import ProfileService from "@/services/ProfileService";
-import {Enrollment, Summary, User} from "@/types";
+import { Enrollment, Summary, User } from "@/types";
 import { ElMessage } from "element-plus";
 import { Edit } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";

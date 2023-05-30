@@ -18,9 +18,7 @@
       The backend of this Demo is a Java Springboot application, with a MySQL
       database and Redis for caching.
     </p>
-    <p>
-     See the footer for the GitHub repo.
-    </p>
+    <p>See the footer for the GitHub repo.</p>
   </div>
 </template>
 

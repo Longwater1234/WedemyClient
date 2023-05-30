@@ -25,7 +25,7 @@ export default defineComponent({
     getRedirectLink(courseId: number) {
       EnrollService.getLastViewed(courseId)
         .then((res) => this.redirectToPlayer(res.data.lessonId))
-        .catch((error) => this.$router.replace('/account/learning'))
+        .catch((error) => this.$router.replace("/account/learning"))
         .finally(() => (this.isLoading = false));
     },
     redirectToPlayer(lessonId: string) {
