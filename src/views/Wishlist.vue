@@ -69,7 +69,7 @@ export default defineComponent({
   inject: ["store"],
   methods: {
     fetchWishlist(page: number) {
-      WishlistService.getAllMine(page)
+      WishlistService.getAllMinePaged(page)
         .then((res) => {
           this.wishlistItems = res.data.content;
           this.totalElements = res.data.totalElements;
