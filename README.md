@@ -15,7 +15,8 @@ the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/dr
 
 ## Backend Repo
 
-The backend is a separate Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
+The backend for the Demo is a separate Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
+However, please note you can use any Backend framework or language you like with this project.
 
 ## Install
 

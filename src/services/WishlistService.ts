@@ -13,7 +13,7 @@ class WishlistService {
     return http.delete(`/wishlist/id/${wishlistId}`);
   }
 
-  getAllMinePaged(page: number) {
+  getAllMinePaged(page: number = 0) {
     return http.get("/wishlist/mine", { params: { page } });
   }
 
