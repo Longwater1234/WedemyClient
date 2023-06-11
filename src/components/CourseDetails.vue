@@ -57,10 +57,10 @@
 
 <script lang="ts">
 import { ArrowRight } from "@element-plus/icons-vue";
-import {defineComponent, PropType} from "vue";
+import { defineComponent, PropType } from "vue";
 import store from "@/store";
 import { ElMessage } from "element-plus";
-import {Course} from "@/types";
+import { Course } from "@/types";
 
 export default defineComponent({
   data() {

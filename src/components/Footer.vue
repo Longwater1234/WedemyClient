@@ -34,11 +34,31 @@
         <img src="@/assets/final_white.png" alt="logo" id="ft-logo" />
       </el-row>
       <el-row class="credit-cards" title="Supported Payment methods">
-        <img height="30" alt="visa" src="https://shoplineimg.com/assets/footer/card_visa.png"/>
-        <img height="30" alt="mastercard" src="https://shoplineimg.com/assets/footer/card_master.png"/>
-        <img height="30" alt="paypal" src="https://shoplineimg.com/assets/footer/card_paypal.png"/>
-        <img height="30" alt="amex" src="https://shoplineimg.com/assets/footer/card_amex.png"/>
-        <img height="30" alt="jcb" src="https://shoplineimg.com/assets/footer/card_jcb.png"/>
+        <img
+          height="30"
+          alt="visa"
+          src="https://shoplineimg.com/assets/footer/card_visa.png"
+        />
+        <img
+          height="30"
+          alt="mastercard"
+          src="https://shoplineimg.com/assets/footer/card_master.png"
+        />
+        <img
+          height="30"
+          alt="paypal"
+          src="https://shoplineimg.com/assets/footer/card_paypal.png"
+        />
+        <img
+          height="30"
+          alt="amex"
+          src="https://shoplineimg.com/assets/footer/card_amex.png"
+        />
+        <img
+          height="30"
+          alt="jcb"
+          src="https://shoplineimg.com/assets/footer/card_jcb.png"
+        />
       </el-row>
     </div>
   </footer>

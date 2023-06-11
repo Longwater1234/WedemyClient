@@ -38,9 +38,8 @@ export default defineComponent({
 
 <style scoped>
 .m-card {
-    width: 96vw;
-    font-size: small;
-    margin-bottom: 1em;
-  }
-
+  width: 96vw;
+  font-size: small;
+  margin-bottom: 1em;
+}
 </style>
