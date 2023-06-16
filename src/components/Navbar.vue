@@ -3,10 +3,9 @@
     <!-- start logo -->
     <el-row :gutter="20" justify="space-around">
       <Drawer />
-      <div class="logoArea" @click="goHome()">
+      <div class="logo-area" @click="goToHome">
         <img src="@/assets/logo_final_purple.png" alt="Wedemy" class="mylogo" />
       </div>
-
       <!-- end logo -->
 
       <!-- start dropdown -->
@@ -19,11 +18,7 @@
           <!-- START DROPDOWN LIST -->
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item
-                v-for="item in categories"
-                :key="item.id"
-                @click="goToCategory(item.category)"
-              >
+              <el-dropdown-item v-for="item in categories" :key="item.id" @click="goToCategory(item.category)">
                 {{ item.category }}
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -38,7 +33,6 @@
           <el-input
             :prefix-icon="Search"
             native-type="search"
-            type="search"
             clearable
             maxlength="40"
             v-model="searchItem"
@@ -52,11 +46,7 @@
       <!-- START CART ICON -->
       <div class="cartIcon">
         <router-link to="/cart" title="Cart">
-          <el-badge
-            v-if="store.getters.getCartCount > 0"
-            :value="store.getters.getCartCount"
-            class="itemCart"
-          >
+          <el-badge v-if="store.cartCount > 0" :value="store.cartCount" class="itemCart">
             <shopping-cart style="width: 2em" />
           </el-badge>
           <shopping-cart v-else style="width: 2em" title="Cart" />
@@ -64,7 +54,7 @@
       </div>
 
       <!-- IF NOT LOGGED IN -->
-      <div class="full-only nav-btns" v-if="!store.getters.isLoggedIn">
+      <div class="full-only nav-btns" v-if="!store.loggedIn">
         <router-link to="/login">
           <el-button class="btn purple">Log in</el-button>
         </router-link>
@@ -77,19 +67,15 @@
       <!-- ELSE -->
       <div class="full-only" v-else>
         <el-dropdown>
-          <el-avatar :size="36" :src="attachAvatarLink(store.state.username)" />
+          <el-avatar :size="36" style="cursor: pointer" :src="attachAvatarLink(store.fullname)" />
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item disabled>
-                {{ store.state.username }}
+                {{ store.fullname }}
               </el-dropdown-item>
               <el-dropdown-item divided />
               <!-- NAV BAR DROPDOWN -->
-              <el-dropdown-item
-                v-for="item in navMenuList"
-                :key="item.id"
-                @click="goTo(item.url)"
-              >
+              <el-dropdown-item v-for="item in navMenuList" :key="item.id" @click="router.push(item.url)">
                 {{ item.title }}
               </el-dropdown-item>
               <el-dropdown-item @click="logout()">Logout</el-dropdown-item>
@@ -101,79 +87,68 @@
   </div>
 </template>
 
-<script lang="ts">
-import AuthService from "@/services/AuthService";
-import store from "@/store";
-import { defineComponent, markRaw } from "@vue/runtime-core";
+<script lang="ts" setup>
 import { ElNotification } from "element-plus";
 import { ShoppingCart, Search, ArrowDown } from "@element-plus/icons-vue";
 
 import Drawer from "./Drawer.vue";
 import navMenuList from "@/navmenu.json";
+import type { PropType } from "vue";
+import { ref } from "vue";
+import { useStudentStore } from "@/stores";
+import { useRouter } from "vue-router";
+import type { CategoryDto } from "@/interfaces/custom";
 
-export default defineComponent({
-  name: "Navbar",
-  inject: ["store"],
-  components: {
-    ShoppingCart,
-    Drawer,
-    ArrowDown,
-  },
-  props: {
-    //from App.vue
-    categories: {
-      type: Array,
-      default: [],
-    },
-  },
-  data() {
-    return {
-      searchItem: "",
-      color: "black",
-      navMenuList,
-      Search: markRaw(Search),
-    };
-  },
-  methods: {
-    attachAvatarLink: (username: string) => {
-      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
-    },
-    handleSearch() {
-      if (!this.searchItem.trim().length) return;
-      if (this.searchItem.trim().length < 4) {
-        return ElNotification({
-          title: "Error",
-          type: "error",
-          duration: 2000,
-          message: "Query too short",
-        });
-      }
-      this.$router.push({
-        name: "SearchResults",
-        query: { q: encodeURI(this.searchItem.trim()) },
-        force: true,
-      });
-    },
-    goTo(url: string) {
-      this.$router.push(url);
-    },
-    logout: async () => {
-      await AuthService.logoutUser();
-      await store.getAuthStatusServer();
-      window.location.replace("/");
-    },
-    goToCategory(name: string) {
-      this.$router.push(`/category/${name}`);
-    },
-    goHome() {
-      this.$router.push("/");
-    },
-  },
+const store = useStudentStore();
+
+defineProps({
+  //from App.vue
+  categories: {
+    type: Array as PropType<CategoryDto[]>,
+    required: true
+  }
 });
+
+const searchItem = ref("");
+const router = useRouter();
+
+const attachAvatarLink = (username: string) => {
+  return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+};
+
+const goToHome = () => {
+  router.replace({ path: "/", force: true });
+};
+
+function handleSearch() {
+  if (!searchItem.value.trim().length) return;
+  if (searchItem.value.trim().length < 1) {
+    return ElNotification({
+      title: "Error",
+      type: "error",
+      duration: 2000,
+      message: "Query too short"
+    });
+  }
+  router.push({
+    name: "SearchResults",
+    query: { q: encodeURI(searchItem.value.trim()) },
+    force: true
+  });
+}
+
+const logout = async () => {
+  await store.logoutUser();
+  await store.getLoginStatus();
+  window.location.replace("/");
+};
+function goToCategory(name: string) {
+  router.push(`/category/${name}`);
+}
 </script>
 
-<style>
-.logoArea {
+<style scoped>
+.logo-area {
   cursor: pointer;
   width: 10em;
   /* margin-left: -5em; */
@@ -200,6 +175,7 @@ export default defineComponent({
   margin-right: 1em;
   flex-direction: row;
 }
+
 .shorty {
   display: block;
   color: red;
@@ -238,7 +214,7 @@ export default defineComponent({
   .full-only {
     display: none;
   }
-  .logoArea {
+  .logo-area {
     transform: scale(0.7);
     margin-left: 0;
     transition: all ease-in 0.5s;

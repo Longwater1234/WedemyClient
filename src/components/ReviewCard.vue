@@ -2,45 +2,35 @@
   <div class="review-card">
     <div class="row">
       <div>
-        <el-avatar :size="30" :src="attachAvatarLink(review.fullname)" />
+        <el-avatar :size="30" :src="attachAvatarLink(props.review?.fullname)" />
       </div>
-      <div>{{ review.fullname }}</div>
+      <div>{{ props.review?.fullname }}</div>
       <div>
-        <el-rate v-model="review.rating" disabled style="margin-top: -0.5em" />
+        <el-rate :model-value="props.review?.rating" disabled style="margin-top: -0.5em" />
       </div>
     </div>
     <div class="row">
-      {{ review.content }}
+      {{ props.review?.content }}
     </div>
     <div class="row grey">
       Updated: &nbsp;
-      <Timeago :datetime="review.updatedAt" />
+      <vue-timeago.es :datetime="props.review?.updatedAt" />
     </div>
   </div>
 </template>
 
-<script>
-//vanilla JS
-import { Timeago } from "vue2-timeago";
+<script lang="ts" setup>
+import type { PropType } from "vue";
+import type { ReviewDto } from "@/interfaces/custom";
 
-export default {
-  data() {
-    return {};
-  },
-  props: {
-    review: {
-      type: Object,
-      default: {},
-    },
-  },
-  components: {
-    Timeago,
-  },
-  methods: {
-    attachAvatarLink: (username) => {
-      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
-    },
-  },
+const props = defineProps({
+  review: {
+    type: Object as PropType<ReviewDto>
+  }
+});
+
+const attachAvatarLink = (username?: string) => {
+  return `https://avatars.dicebear.com/api/initials/${username}.svg`;
 };
 </script>
 

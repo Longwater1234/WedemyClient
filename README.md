@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyClient)](https://github.com/Longwater1234/WedemyClient/blob/master/LICENSE)
 [![Package - typescript](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/dev/typescript?color=blue)](https://www.npmjs.com/package/typescript)
 
-(Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3 + Typescript + Element Plus UI (no VueX).
+(Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3, Vite, Typescript, Pinia, and Element Plus.
 This App is also integrated with PayPal and CreditCard checkout (both powered by **Braintree Payments**). For Braintree
 Payments tutorials and samples, please see
 the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
@@ -15,7 +15,8 @@ the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/dr
 
 ## Backend Repo
 
-The backend is a separate Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
+The backend for the Demo is a separate Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
+However, please note you can use any Backend framework or language you like with this project.
 
 ## Install
 
@@ -26,22 +27,21 @@ npm install
 
 ## Usage
 
-In local development, the app runs on port 8080 by default. You can change it in [vue.config.js](vue.config.js).
+In local development, the app runs on port 5173 by default. You can change it in [vite.config.ts](vite.config.ts)
 
 ```sh
-npm run serve
+npm run dev
 ```
 
-For production, run `npm run build`, then follow official Vue CLI guide
-on [deployment](https://cli.vuejs.org/guide/deployment.html), depending on your hosting of choice.
+For production, run `npm run build`, then follow official Vite guide
+on [deployment](https://vitejs.dev/guide/static-deploy.html), depending on your hosting of choice.
 
 ## [Live Demo](https://wedemy.up.railway.app/) - updated 2023 Jan
 
 PLEASE READ: The Demo uses Sandbox (Dev) Mode of Braintree Payments. No actual money will be deducted on Checkout. You
 **should** use test credit-card
 numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java). Also, this
-demo serves embedded video from YouTube (for simplicity). In reality, you should switch to a customized, cloud video
-platform like Cloudinary or Brightcove.
+demo serves embedded video from YouTube (for simplicity).
 
 ### Test Accounts for Demo
 
@@ -78,12 +78,6 @@ If you don't want to Register, You can still play around the live demo using any
     </tr>
 </table>
 
-## Main `npm` Libraries used
-
-- [Element Plus UI](https://element-plus.org/en-US/) - see official docs
-- [Braintree Payments for Web](https://www.npmjs.com/package/braintree-web-drop-in)
-- [Vue-CLI](https://www.npmjs.com/package/@vue/cli)
-
 ## Required 3rd party Services
 
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
@@ -93,10 +87,10 @@ If you don't want to Register, You can still play around the live demo using any
 
 ### 📕 Resources
 
-- For Braintree tutorials, please see
-  the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
-- For Google Login tutorials and code samples, please
-  see [official docs](https://developers.google.com/identity/gsi/web/guides/overview)
+- [Braintree Payments docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
+- [Google Login docs](https://developers.google.com/identity/gsi/web/guides/overview) - latest version
+- [Element Plus UI](https://element-plus.org/en-US/) - CSS framework for Vue.
+- [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue, replacing VueX.
 
 ## Pull Requests & Contributions
 
@@ -104,12 +98,11 @@ Contributions, issues and feature requests are welcome!
 Feel free to check [issues page](https://github.com//Longwater1234/WedemyClient/issues). For more TODO's for this
 project, see list in [CONTRIBUTING.md](CONTRIBUTING.md)
 
-
 ## 📝 License
 
 &copy; 2022 Davis Tibbz
 This project is [MIT](https://github.com/Longwater1234/WedemyClient/blob/master/LICENSE) licensed.
 
-
 ### Credits
+
 - Homepage banner image: [Avi Richards, Unsplash](https://unsplash.com/@avirichards)

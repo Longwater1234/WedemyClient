@@ -7,18 +7,13 @@
         <el-button
           :loading="isLoading"
           class="btn purple"
-          :class="{ black: inCart === true }"
+          :class="{ black: inCart }"
           @click="emitCart(singleCourse?.id)"
         >
           {{ getCartTitle }}
         </el-button>
         <!-- WISHLIST BUTTON -->
-        <el-button
-          id="wishlist-btn"
-          :class="{ pressed: inWishlist === true }"
-          @click="emitWishlist(singleCourse?.id)"
-          circle
-        >
+        <el-button id="wishlist-btn" :class="{ pressed: inWishlist }" @click="emitWishlist(singleCourse?.id)" circle>
           {{ inWishlist ? "&#9829;" : "&#9825;" }}
           <!-- wishlist button -->
         </el-button>
@@ -34,71 +29,71 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
+<script lang="ts" setup>
+import { computed, reactive, ref } from "vue";
 import { ArrowRight } from "@element-plus/icons-vue";
-import store from "@/store";
+import type { PropType } from "vue";
 import { ElMessage } from "element-plus";
-import { Course } from "@/types";
+import type { Course } from "@/interfaces/wedemy";
+import { useStudentStore } from "@/stores";
+import { useRouter } from "vue-router";
 
-export default defineComponent({
-  name: "MobileDetails",
-  data() {
-    return {
-      isLoading: false,
-      btnTitle: ["Add to Wishlist", "Remove from Wishlist"],
-      cartTitle: ["Add to Cart", "Remove from Cart"],
-    };
+const isLoading = ref(false);
+const cartTitle = reactive(["Add to Cart", "Remove from Cart"]);
+const store = useStudentStore();
+const router = useRouter();
+
+const props = defineProps({
+  singleCourse: {
+    type: Object as PropType<Partial<Course>>,
+    required: true
   },
-  props: {
-    singleCourse: {
-      type: Object as PropType<Course>,
-      default: {},
-    },
-    inCart: {
-      type: Boolean,
-      default: false,
-    },
-    inWishlist: {
-      type: Boolean,
-      default: false,
-    },
-    isOwned: {
-      type: Boolean,
-      default: false,
-    },
+  inCart: {
+    type: Boolean,
+    default: false
   },
-  emits: ["toggleWishlist", "toggleCart"],
-  methods: {
-    /* emit events back to Parent */
-    emitCart(id?: number) {
-      if (!store.getters.isLoggedIn) return this.LoginMessage();
-      this.$emit("toggleCart", id);
-    },
-    emitWishlist(id?: number) {
-      if (!store.getters.isLoggedIn) return this.LoginMessage();
-      this.$emit("toggleWishlist", id);
-    },
-    LoginMessage() {
-      ElMessage.error("Must be logged in!");
-      this.$router.push("/login");
-    },
-    goToCourse(id?: number) {
-      this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
-    },
+  inWishlist: {
+    type: Boolean,
+    default: false
   },
-  components: {
-    ArrowRight,
-  },
-  computed: {
-    getCartTitle(): string {
-      return this.inCart ? this.cartTitle[1] : this.cartTitle[0];
-    },
-  },
+  isOwned: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const emits = defineEmits<{
+  (event: "toggleWishlist", id?: number): void;
+  (event: "toggleCart", id?: number): void;
+}>();
+
+// emit Cart event back to Parent
+const emitCart = (id?: number) => {
+  if (!store.loggedIn) return loginMessage();
+  emits("toggleCart", id);
+};
+
+// emit Wishlist event to Parent
+const emitWishlist = (id?: number) => {
+  if (!store.loggedIn) return loginMessage();
+  emits("toggleWishlist", id);
+};
+
+function loginMessage() {
+  ElMessage.error("Must be logged in!");
+  router.push("/login");
+}
+
+function goToCourse(id?: number) {
+  router.push({ name: "ResumeCourse", params: { courseId: id } });
+}
+
+const getCartTitle = computed(() => {
+  return props.inCart ? cartTitle[1] : cartTitle[0];
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .actionbox,
 .pricebox {
   display: none;
@@ -109,6 +104,17 @@ export default defineComponent({
   border-color: red !important;
 }
 
+.black {
+  background-color: black !important;
+  font-weight: 700 !important;
+  color: white !important;
+}
+
+.black:hover {
+  background-color: rgb(26, 26, 26) !important;
+  color: white !important;
+}
+
 @media screen and (max-width: 770px) {
   .actionbox {
     display: flex;
@@ -116,10 +122,11 @@ export default defineComponent({
     flex-direction: row;
     text-align: center;
     background-color: white;
+    justify-content: center;
     position: fixed;
     height: max-content;
-    padding: 0.25em auto;
-    bottom: 0.25em;
+    padding: 0.5em 0;
+    bottom: 0;
     width: 100%;
   }
 

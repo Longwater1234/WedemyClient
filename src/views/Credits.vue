@@ -5,19 +5,11 @@
     <ul>
       <li>
         Homepage Cover Photo | by
-        <a
-          href="https://unsplash.com/@avirichards"
-          target="_blank"
-          rel="noopener"
-        >
-          Avi Richards, Unsplash
-        </a>
+        <a href="https://unsplash.com/@avirichards" target="_blank" rel="noopener"> Avi Richards, Unsplash </a>
       </li>
       <li>Python Thumbnail - Corey Schafer, YouTube Channel</li>
       <li>Java, Excel, JavaScript thumbnails - freeCodeCamp YouTube channel</li>
-      <li>
-        Thumbnail for Adobe Illustrator - Midas Multimedia YouTube channel
-      </li>
+      <li>Thumbnail for Adobe Illustrator - Midas Multimedia YouTube channel</li>
       <li>Thumbnail for Adobe Premiere - Cinecom.net YouTube channel</li>
       <li>Thumbnail for Economics - CrashCourse YouTube channel</li>
       <li>Thumbnail for Lose BellyFat - MrandMrsMuscle YouTube channel</li>
@@ -26,10 +18,7 @@
     </ul>
 
     <h3>Course Content</h3>
-    <p>
-      All of the videos in this Demo are from YouTube playlists from following
-      channels
-    </p>
+    <p>All of the videos featured in this Demo are from the following YouTube channels</p>
     <ul>
       <li>Adobe Illustrator Course - Gareth David Studio</li>
       <li>Adobe Premiere Pro CC - chinfat</li>
@@ -50,12 +39,11 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Credits",
-  data() {
+  setup() {
     document.title = "Credits | Wedemy";
     return {};
-  },
+  }
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -2,11 +2,7 @@
   <el-affix :offset="10" class="fixed-baby full-only">
     <el-card shadow="hover" class="details-card">
       <div>
-        <img
-          :src="singleCourse?.thumbUrl"
-          class="small-img"
-          :alt="singleCourse?.title"
-        />
+        <img :src="props.singleCourse?.thumbUrl" class="small-img" :alt="singleCourse?.title" />
       </div>
       <h1>${{ singleCourse.price }}</h1>
 
@@ -17,7 +13,7 @@
           id="cart-btn"
           :loading="isLoading"
           class="btn purple"
-          :class="{ black: inCart === true }"
+          :class="{ black: inCart }"
           @click="emitCart(singleCourse?.id)"
         >
           {{ getCartTitle }}
@@ -25,7 +21,7 @@
         <!-- WISHLIST BUTTON -->
         <el-button
           id="wishlist-btn"
-          :class="{ pressed: inWishlist === true }"
+          :class="{ pressed: inWishlist }"
           :title="getBtnTitle"
           @click="emitWishlist(singleCourse?.id)"
           circle
@@ -55,75 +51,77 @@
   </el-affix>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ArrowRight } from "@element-plus/icons-vue";
-import {defineComponent, PropType} from "vue";
-import store from "@/store";
+import { computed, reactive, ref } from "vue";
+import type { PropType } from "vue";
 import { ElMessage } from "element-plus";
-import {Course} from "@/types";
+import { useStudentStore } from "@/stores";
+import { useRouter } from "vue-router";
+import type { Course } from "@/interfaces/wedemy";
 
-export default defineComponent({
-  data() {
-    return {
-      isLoading: false,
-      btnTitle: ["Add to Wishlist", "Remove from Wishlist"],
-      cartTitle: ["Add to Cart", "Remove from Cart"],
-    };
-  },
-  props: {
-    singleCourse: {
-      type: Object as PropType<Course>,
-      default: {},
-    },
-    inWishlist: {
-      type: Boolean,
-      default: false,
-    },
-    inCart: {
-      type: Boolean,
-      default: false,
-    },
-    isOwned: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ["toggleWishlist", "toggleCart"],
-  methods: {
-    /* emit events back to Parent, pass courseId */
-    emitCart(id?: number) {
-      if (!store.getters.isLoggedIn) return this.LoginMessage();
-      this.$emit("toggleCart", id);
-    },
-    emitWishlist(id?: number) {
-      if (!store.getters.isLoggedIn) return this.LoginMessage();
-      this.$emit("toggleWishlist", id);
-    },
-    LoginMessage() {
-      ElMessage.error("Must be logged in!");
-      this.$router.push("/login");
-    },
+const isLoading = ref(false);
+const btnTitle = reactive(["Add to Wishlist", "Remove from Wishlist"]);
+const cartTitle = reactive(["Add to Cart", "Remove from Cart"]);
 
-    goToCourse(id?: number) {
-      this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
-    },
+const studentStore = useStudentStore();
+const router = useRouter();
+
+const props = defineProps({
+  singleCourse: {
+    type: Object as PropType<Partial<Course>>,
+    required: false
   },
-  components: {
-    ArrowRight,
+  inWishlist: {
+    type: Boolean,
+    default: false
   },
-  computed: {
-    getBtnTitle(): string {
-      return this.inWishlist ? this.btnTitle[1] : this.btnTitle[0];
-    },
-    getCartTitle(): string {
-      return this.inCart ? this.cartTitle[1] : this.cartTitle[0];
-    },
+  inCart: {
+    type: Boolean,
+    default: false
   },
-  mounted() {},
+  isOwned: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const emits = defineEmits<{
+  (event: "toggleWishlist", id?: number): void;
+  (event: "toggleCart", id?: number): void;
+}>();
+
+// emit Cart event back to Parent
+function emitCart(id?: number) {
+  if (!studentStore.loggedIn) return loginMessage();
+  emits("toggleCart", id);
+}
+
+//emit Wishlist event to Parent
+function emitWishlist(id?: number) {
+  if (!studentStore.loggedIn) return loginMessage();
+  emits("toggleWishlist", id);
+}
+
+function loginMessage() {
+  ElMessage.error("Must be logged in!");
+  router.push("/login");
+}
+
+function goToCourse(id?: number) {
+  router.push({ name: "ResumeCourse", params: { courseId: id } });
+}
+
+const getBtnTitle = computed(() => {
+  return props.inWishlist ? btnTitle[1] : btnTitle[0];
+});
+
+const getCartTitle = computed(() => {
+  return props.inCart ? cartTitle[1] : cartTitle[0];
 });
 </script>
 
-<style>
+<style scoped>
 .fixed-baby {
   width: 40%;
   float: right;

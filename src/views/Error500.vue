@@ -15,14 +15,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 
-export default {
-  data() {
+export default defineComponent({
+  setup() {
     document.title = "500 Internal Server Error | Wedemy";
     return {};
-  },
-};
+  }
+});
 </script>
 
 <style scoped>

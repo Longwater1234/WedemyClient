@@ -1,11 +1,11 @@
 <template>
-  <footer class="footer">
+  <footer class="m-footer">
     <div class="lefty">
       <el-row class="footer-row">
-        <router-link to="/credits"> Credits </router-link>
+        <router-link to="/credits"> Credits</router-link>
       </el-row>
       <el-row class="footer-row">
-        <router-link to="/about"> About Us </router-link>
+        <router-link to="/about"> About Us</router-link>
       </el-row>
       <el-row class="footer-row">
         <!-- Place this tag where you want the button to render. -->
@@ -34,41 +34,33 @@
         <img src="@/assets/final_white.png" alt="logo" id="ft-logo" />
       </el-row>
       <el-row class="credit-cards" title="Supported Payment methods">
-        <img height="30" alt="visa" src="https://shoplineimg.com/assets/footer/card_visa.png"/>
-        <img height="30" alt="mastercard" src="https://shoplineimg.com/assets/footer/card_master.png"/>
-        <img height="30" alt="paypal" src="https://shoplineimg.com/assets/footer/card_paypal.png"/>
-        <img height="30" alt="amex" src="https://shoplineimg.com/assets/footer/card_amex.png"/>
-        <img height="30" alt="jcb" src="https://shoplineimg.com/assets/footer/card_jcb.png"/>
+        <img height="30" alt="visa" src="https://shoplineimg.com/assets/footer/card_visa.png" />
+        <img height="30" alt="mastercard" src="https://shoplineimg.com/assets/footer/card_master.png" />
+        <img height="30" alt="paypal" src="https://shoplineimg.com/assets/footer/card_paypal.png" />
+        <img height="30" alt="amex" src="https://shoplineimg.com/assets/footer/card_amex.png" />
+        <img height="30" alt="jcb" src="https://shoplineimg.com/assets/footer/card_jcb.png" />
       </el-row>
     </div>
   </footer>
 </template>
 
-<script>
+<script lang="ts" setup>
 import GithubButton from "vue-github-button";
-export default {
-  name: "Footer",
-  data() {
-    return {};
-  },
-  components: {
-    GithubButton,
-  },
-};
 </script>
 
-<style scoped>
-.footer {
-  width: inherit;
+<style scoped lang="css">
+.m-footer {
+//width: inherit;
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  bottom: 0;
   padding: 0.25em;
-  height: max-content;
+  bottom: 0;
+//top: 30vh; height: max-content;
   color: white;
-  background-color: var(--dark);
+  margin-bottom: -10px;
+  background-color: var(--vt-c-black-soft);
 }
 
 .lefty {
@@ -107,9 +99,13 @@ a:hover {
   margin-top: 1em;
   height: 100%;
 }
+
 @media screen and (max-width: 770px) {
   .credit-cards {
     display: none;
+  }
+  .m-footer {
+    top: 30vh;
   }
 }
 </style>
