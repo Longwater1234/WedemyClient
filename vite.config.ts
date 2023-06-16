@@ -51,6 +51,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 2500
   }
   // server : {
-  //   port: 3000  <--- CHANGE PORT HERE
+  //   port: 3000  //<--- 👈 CHANGE PORT HERE
   // }
 });
