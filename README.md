@@ -79,12 +79,6 @@ If you don't want to Register, You can still play around the live demo using any
     </tr>
 </table>
 
-## Main `npm` Libraries used
-
-- [Element Plus UI](https://element-plus.org/en-US/) - see official docs
-- [Braintree Payments for Web](https://www.npmjs.com/package/braintree-web-drop-in)
-- [Vue-CLI](https://www.npmjs.com/package/@vue/cli)
-
 ## Required 3rd party Services
 
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
@@ -98,7 +92,8 @@ If you don't want to Register, You can still play around the live demo using any
   the [official docs for JS](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - For Google Login tutorials and code samples, please
   see [official docs](https://developers.google.com/identity/gsi/web/guides/overview)
-
+- [Element Plus UI](https://element-plus.org/en-US/) - see official docs
+- 
 ## Pull Requests & Contributions
 
 Contributions, issues and feature requests are welcome!
