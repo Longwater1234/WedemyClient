@@ -5,25 +5,28 @@
     <div class="mycontainer">
       <div class="col-1">
         <!-- LEFT PANEL, video frame  -->
-        <youtube-iframe
-          v-if="videoKey.length"
-          :video-id="videoKey"
-          :player-width="720"
-          :player-height="405"
-          :no-cookie="true"
-          @state-change="handleChange"
-          :player-parameters="playerParams"
-        ></youtube-iframe>
+        <!-- NPM @vue-youtube-iframe -->
+        <div class="row-big">
+          <youtube-iframe
+            v-if="videoKey.length"
+            :video-id="videoKey"
+            :player-width="850"
+            :player-height="478"
+            :no-cookie="true"
+            @state-change="handleChange"
+            :player-parameters="playerParams"
+          ></youtube-iframe>
+        </div>
         <div class="rowsmall">
           <div>
             <p class="lessonTitle" v-if="videoKey.length">
-              Lesson {{ videoResponse.lesson.lessonName }}
-              <span>| {{ videoResponse.lesson.lengthSeconds }}</span>
+              Lesson {{ videoResponse.lesson?.lessonName }}
+              <span>| {{ videoResponse.lesson?.lengthSeconds }}</span>
             </p>
             <p class="full-only">{{ singleCourse.subtitle }}</p>
             <div>
               <el-button type="primary" @click="toggleReviewDialog()">
-                {{ review.id ? "Edit your review" : "Post a review" }}
+                {{ myReview.id ? "Edit your review" : "Post a review" }}
                 <el-icon>
                   <Edit />
                 </el-icon>
@@ -70,18 +73,10 @@
           <el-rate v-model="formReview.rating" show-text text-color="#000000" />
         </el-form-item>
         <el-form-item label="Content">
-          <el-input
-            type="textarea"
-            :rows="3"
-            maxlength="300"
-            show-word-limit
-            v-model="formReview.content"
-          />
+          <el-input type="textarea" :rows="3" maxlength="300" show-word-limit v-model="formReview.content" />
         </el-form-item>
         <div style="width: 50%; display: flex; justify-content: center">
-          <el-button native-type="submit" :loading="isLoading" type="primary">
-            Submit Review
-          </el-button>
+          <el-button native-type="submit" :loading="isLoading" type="primary"> Submit Review </el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -89,186 +84,177 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  Course,
-  CustomLesson,
-  Review,
-  VideoRequest,
-  VideoResponse,
-  WatchStatus,
-} from "@/types";
-import CourseService from "@/services/CourseService";
-import EnrollService from "@/services/EnrollService";
-import LessonService from "@/services/LessonService";
+<script lang="ts" setup>
+import type { Course, Review } from "@/interfaces/wedemy";
+import type { CustomLesson, VideoRequest, VideoResponse, WatchStatus } from "@/interfaces/custom";
+import CourseService from "@/service/CourseService";
+import EnrollService from "@/service/EnrollService";
+import LessonService from "@/service/LessonService";
+import ReviewService from "@/service/ReviewService";
 import { ElMessage } from "element-plus";
-import { defineComponent } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { Clock, Edit } from "@element-plus/icons-vue";
-import ReviewService from "@/services/ReviewService";
-import { AxiosError, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
+import { handleApiError } from "@/util/http_util";
+import { useRoute, useRouter } from "vue-router";
 
-export default defineComponent({
-  name: "VideoPlayer",
-  data() {
-    document.title = "Lecture | Wedemy";
-    return {
-      activeName: "99",
-      videoKey: "",
-      dialogShow: false,
-      enrollId: 0,
-      courseId: 0,
-      lessonId: "",
-      videoResponse: {} as VideoResponse,
-      singleCourse: {} as Course,
-      lessonList: new Array<CustomLesson>(),
-      status: {} as WatchStatus,
-      playerParams: { modestbranding: 1, rel: 0 } as YT.PlayerVars,
-      isLoading: false,
-      review: {} as Review,
-      formReview: {
-        id: 0,
-        rating: 0,
-        content: "",
-        courseId: 0,
-      },
-      errorMsg: "",
-    };
-  },
-  methods: {
-    getPlayLink(obj: VideoRequest) {
-      EnrollService.buildPlayLink(obj)
-        .then((res) => (this.videoResponse = res.data))
-        .then(() => {
-          this.setVideoInfo(this.videoResponse);
-          this.fetchSingleCourse(this.courseId);
-          this.fetchMyLessons(this.courseId, this.enrollId);
-        })
-        .catch((err) => this.handleError(err));
-    },
+const route = useRoute();
+const router = useRouter();
 
-    fetchSingleCourse(courseId: number) {
-      CourseService.getById(courseId).then((res) => {
-        this.singleCourse = res.data;
-        document.title = `Lecture | ${this.singleCourse.title} | Wedemy`;
-      });
-    },
+const activeName = ref("99");
+const videoKey = ref("");
+const dialogShow = ref(false);
+const enrollId = ref(0);
+const courseId = ref(0);
+const lessonId = ref("");
+const videoResponse: Partial<VideoResponse> = reactive({});
+const singleCourse: Partial<Course> = reactive({});
+const lessonList = ref<CustomLesson[]>([]);
+const status: Partial<WatchStatus> = reactive({});
+const errorMsg = ref("");
+// eslint-disable-next-line no-undef
+const playerParams: YT.PlayerVars = reactive({ modestbranding: 1, rel: 0 });
+const isLoading = ref(false);
+const myReview: Partial<Review> = reactive({});
+const formReview = reactive({
+  id: 0,
+  rating: 0,
+  content: "",
+  courseId: 0
+});
 
-    fetchMyLessons(courseId: number, enrollId: number) {
-      LessonService.getWatchedList(courseId, enrollId).then(
-        (res) => (this.lessonList = res.data)
-      );
-    },
+/**
+ * Get video URL for this lesson
+ * @param {VideoRequest} obj
+ */
+function getPlayLink(obj: VideoRequest) {
+  EnrollService.buildPlayLink(obj)
+    .then(res => Object.assign(videoResponse, res.data))
+    .then(() => {
+      setVideoInfo(videoResponse);
+      fetchSingleCourse(courseId.value);
+      fetchMyLessons(courseId.value, enrollId.value);
+    })
+    .catch(err => handleApiError(err));
+}
 
-    setVideoInfo(response: VideoResponse) {
-      this.videoKey = response.lesson.videokey;
-      this.lessonId = response.lesson.id;
-      this.enrollId = response.enrollId;
-    },
+function fetchSingleCourse(courseId: number) {
+  CourseService.getById(courseId).then(res => {
+    Object.assign(singleCourse, res.data);
+    document.title = `Lecture | ${singleCourse.title} | Wedemy`;
+  });
+}
 
-    /** display error  */
-    handleError(err: AxiosError) {
-      let mama = err.response ? err.response.data.message : err.message;
-      ElMessage.error(mama);
-    },
+/**
+ * Get my checked [✔] list of watched lessons in this course
+ * @param courseId
+ * @param enrollId
+ */
+function fetchMyLessons(courseId: number, enrollId: number) {
+  LessonService.getWatchedList(courseId, enrollId).then(res => (lessonList.value = res.data));
+}
 
-    /** on Success review post */
-    handleOKReview(res: AxiosResponse) {
-      this.getMyReview(this.courseId);
-      this.dialogShow = false;
-      ElMessage.success(res.data.message);
-    },
+function setVideoInfo(response: Partial<VideoResponse>) {
+  if (!response || !response.enrollId) return;
+  videoKey.value = response.lesson?.videokey || "";
+  lessonId.value = response.lesson?.id || "";
+  enrollId.value = response.enrollId;
+}
 
-    /** YT iframe listener */
-    handleChange(e: { data: number; target: any }) {
-      if (e.data === 0) {
-        //end of video
-        this.status = {
-          enrollId: this.enrollId,
-          courseId: this.singleCourse.id,
-          currentLessonId: this.videoResponse.lesson.id,
-        };
-        this.updateWatchStatus(this.status);
+/** on Success review post */
+function handleOKReview(res: AxiosResponse) {
+  getMyReview(courseId.value);
+  dialogShow.value = false;
+  ElMessage.success(res.data.message);
+}
+
+/** YT player event listener */
+// eslint-disable-next-line no-undef
+function handleChange(e: YT.OnStateChangeEvent) {
+  if (e.data === 0) {
+    //end of video
+    Object.assign(status, {
+      enrollId: enrollId,
+      courseId: singleCourse.id,
+      currentLessonId: videoResponse?.lesson?.id || "0"
+    });
+    updateWatchStatus(status);
+  }
+}
+
+/** either EDIT or ADD NEW  */
+function postReview() {
+  formReview.courseId = courseId.value;
+  isLoading.value = true;
+  toggleReviewDialog();
+  let service = formReview.id ? ReviewService.editMine(formReview.id, formReview) : ReviewService.addNew(formReview);
+
+  service
+    .then(res => handleOKReview(res))
+    .catch(err => handleApiError(err))
+    .finally(() => (isLoading.value = false));
+}
+
+/** play next video */
+async function refreshPlayer(lessonId: string) {
+  let link = `/videoplayer/course/${singleCourse.id}/lesson/${lessonId}`;
+  await router.push({ path: link, force: true });
+  window.location.reload(); //in case vue-router fails
+}
+
+function toggleReviewDialog() {
+  dialogShow.value = !dialogShow.value;
+  errorMsg.value = "";
+}
+
+/** send update to server */
+function updateWatchStatus(obj: Partial<WatchStatus>) {
+  EnrollService.updateStatus(obj)
+    .then(res => {
+      let nextLessonId: string = res.data.nextLessonId;
+      if (!nextLessonId) {
+        //🎉 COURSE COMPLETED!
+        ElMessage.success(res.data.message);
+        router.replace({ name: "MyLearning" });
+        return;
       }
-    },
+      refreshPlayer(nextLessonId);
+    })
+    .catch(err => handleApiError(err));
+}
 
-    /** either EDIT or ADD NEW  */
-    postReview() {
-      this.formReview.courseId = this.courseId;
-      let review = this.formReview;
-      this.isLoading = true;
-      this.toggleReviewDialog();
-      let service = this.formReview.id
-        ? ReviewService.editMine(review.id, review)
-        : ReviewService.addNew(review);
+/** jump to clicked lesson */
+function goToLesson(id: string) {
+  lessonId.value = id;
+  refreshPlayer(id);
+}
 
-      service
-        .then((res) => this.handleOKReview(res))
-        .catch((err) => this.handleError(err))
-        .finally(() => (this.isLoading = false));
-    },
+/** fetch my single review */
+function getMyReview(courseId: number) {
+  ReviewService.getMineOnCourse(courseId)
+    .then(res => Object.assign(myReview, res.data))
+    .then(() => Object.assign(formReview, myReview))
+    .catch(_err => {});
+}
 
-    /** play next video */
-    refreshPlayer(lessonId: string) {
-      let link = `/videoplayer/course/${this.singleCourse.id}/lesson/${lessonId}`;
-      return window.location.replace(link);
-    },
-
-    toggleReviewDialog() {
-      this.dialogShow = !this.dialogShow;
-      this.errorMsg = "";
-    },
-
-    /** send update to server */
-    updateWatchStatus(obj: WatchStatus) {
-      EnrollService.updateStatus(obj)
-        .then((res) => {
-          let nextLessonId: string = res.data.nextLessonId;
-          if (!nextLessonId) {
-            ElMessage.success(res.data.message);
-            this.$router.replace({ name: "MyLearning" });
-            return;
-          }
-          this.refreshPlayer(nextLessonId);
-        })
-        .catch((err) => this.handleError(err));
-    },
-
-    /** jump to clicked lesson */
-    goToLesson(id: string) {
-      this.lessonId = id;
-      this.refreshPlayer(id);
-    },
-
-    /* get single review */
-    getMyReview(courseId: number) {
-      ReviewService.getMineOnCourse(courseId)
-        .then((res) => (this.review = res.data))
-        .then(() => {
-          if (this.review) {
-            this.formReview = { ...this.review };
-          }
-        });
-    },
-  },
-  components: {
-    Clock,
-    Edit,
-  },
-  mounted() {
-    let { courseId, lessonId } = this.$route.params;
-    let numCourseId = parseInt(courseId.toString());
-    let req: VideoRequest = {
-      courseId: numCourseId,
-      lessonId: lessonId.toString(),
-    };
-    this.courseId = numCourseId;
-    this.getPlayLink(req);
-    this.getMyReview(this.courseId);
-  },
+onMounted(() => {
+  let { lessonId } = route.params;
+  let courseIdParam = route.params.courseId;
+  let numCourseId = courseIdParam ? parseInt(courseIdParam.toString()) : 0;
+  let req: VideoRequest = {
+    courseId: numCourseId,
+    lessonId: lessonId.toString()
+  };
+  courseId.value = numCourseId;
+  getPlayLink(req);
+  getMyReview(courseId.value);
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.main-view {
+  padding: 0 5% !important;
+}
 .mycontainer {
   display: flex;
   flex-direction: row;
@@ -287,11 +273,22 @@ export default defineComponent({
   height: auto;
   width: 30%;
 }
-iframe[id^="vue-youtube-iframe-1"] {
-  position: absolute;
-  width: 100% !important;
-  height: auto;
+
+.row-big {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
 }
+
+.row-big iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .rowsmall {
   display: flex;
   flex-direction: row;
@@ -329,7 +326,16 @@ iframe[id^="vue-youtube-iframe-1"] {
 .el-dialog {
   width: 30% !important;
 }
-@media screen and (max-width: 16in) {
+
+@media screen and (max-width: 1366px) {
+  .col-1 {
+    width: 60% !important;
+  }
+  .col-2 {
+    width: 30%;
+  }
+}
+@media screen and (max-width: 1280px) {
   .main-view {
     max-width: 100%;
     padding: 0;

@@ -1,37 +1,22 @@
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div v-loading.fullscreen.lock="isLoading" class="darkBox">
-    <el-alert
-      class="errorBox"
-      v-if="errorMessage.length"
-      :title="errorMessage"
-      type="error"
-      :closable="false"
-    >
+    <el-alert class="errorBox" v-if="errorMessage.length" :title="errorMessage" type="error" :closable="false">
     </el-alert>
 
     <div v-if="!errorMessage" class="mainStart">
       <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item
-          :to="{ path: '/category/' + singleCourse.category }"
-        >
+        <el-breadcrumb-item :to="'/category/' + singleCourse.category">
           {{ singleCourse.category }}
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{ singleCourse.title }}</el-breadcrumb-item>
       </el-breadcrumb>
 
       <!--  START course info -->
-      <img :src="singleCourse.thumbUrl" class="course-img" />
-      <h1 class="courseTitle">{{ singleCourse.title }}</h1>
-      <p class="courseSubtitle">{{ singleCourse.subtitle }}</p>
-      <el-rate
-        class="myrating"
-        v-model="singleCourse.rating"
-        disabled
-        show-score
-        score-template="{value} rating"
-      >
-      </el-rate>
+      <img :src="singleCourse.thumbUrl" class="course-img" alt="thumbnail" />
+      <h1 class="course-title">{{ singleCourse.title }}</h1>
+      <p class="course-subtitle">{{ singleCourse.subtitle }}</p>
+      <el-rate class="myrating" v-model="singleCourse.rating" disabled show-score score-template="{value} rating" />
       <h3 class="courseAuthor">Created by {{ singleCourse.author }}</h3>
     </div>
   </div>
@@ -54,9 +39,7 @@
   <div class="course-info" v-if="!errorMessage">
     <h2>What You'll Learn</h2>
     <div>
-      <p class="obj-item" v-for="item in objectives" :key="item.id">
-        &#10003; &nbsp;{{ item.objective }}
-      </p>
+      <p class="obj-item" v-for="item in objectives" :key="item.id">&#10003; &nbsp;{{ item.objective }}</p>
     </div>
   </div>
 
@@ -64,10 +47,7 @@
   <div class="course-info" v-if="!errorMessage">
     <h2>Course Content</h2>
     <el-collapse v-model="activeName">
-      <el-collapse-item
-        :title="`${lessonCount} lectures in this course`"
-        name="1"
-      >
+      <el-collapse-item :title="`${lessonCount} lectures in this course`" name="1">
         <ul class="lessonlist">
           <li class="obj-item" v-for="item in lessons" :key="item.id">
             <lock v-if="!isOwned" style="width: 1em; height: 1em" />
@@ -111,7 +91,7 @@
         <span style="margin-right: 0.5em">Page: &nbsp;{{ currentPage }}</span>
         <el-button-group>
           <el-button type="primary" :disabled="isFirst" @click="addPage(-1)">
-            <el-icon> <arrow-left /> </el-icon>
+            <el-icon><arrow-left /></el-icon>
             Prev Page
           </el-button>
           <el-button type="primary" :disabled="isLast" @click="addPage(1)">
@@ -138,296 +118,161 @@
   </mobile-details>
 </template>
 
-<script lang="ts">
-import {
-  ArrowLeft,
-  ArrowRight,
-  CaretRight,
-  Lock,
-  StarFilled,
-} from "@element-plus/icons-vue";
-import { defineComponent, markRaw } from "vue";
-import CourseService from "@/services/CourseService";
-import LessonService from "@/services/LessonService";
-import EnrollService from "@/services/EnrollService";
-import ReviewService from "@/services/ReviewService";
-import { Course, Lesson, Review } from "@/types";
+<script lang="ts" setup>
+import { ArrowLeft, ArrowRight, CaretRight, Lock, StarFilled } from "@element-plus/icons-vue";
+import { computed, onMounted, reactive, ref } from "vue";
+import CourseService from "@/service/CourseService";
+import LessonService from "@/service/LessonService";
+import EnrollService from "@/service/EnrollService";
+import ReviewService from "@/service/ReviewService";
+import WishlistService from "@/service/WishlistService";
+import CartService from "@/service/CartService";
+import type { Course, Lesson } from "@/interfaces/wedemy";
 import CourseDetails from "@/components/CourseDetails.vue";
-import WishlistService from "@/services/WishlistService";
-import CartService from "@/services/CartService";
-import store from "@/store";
-import { ElMessage, ElNotification } from "element-plus";
+import { ElNotification } from "element-plus";
 import ReviewCard from "@/components/ReviewCard.vue";
 import MobileDetails from "@/components/MobileDetails.vue";
-import { AxiosError } from "axios";
+import type { ReviewDto, SortParam } from "@/interfaces/custom";
+import { handleApiError } from "@/util/http_util";
+import { useStudentStore } from "@/stores";
+import { useRoute } from "vue-router";
 
-export default defineComponent({
-  data() {
-    document.title = "Course | Wedemy";
+document.title = "Course | Wedemy";
 
-    return {
-      activeName: "1",
-      currentPage: 1,
-      isFirst: true, //page
-      isLast: false, //page
-      sortBy: "createdAt",
-      isLoading: false,
-      errorMessage: "",
-      courseId: 0,
-      objectives: new Array<{ id: number; objective: string }>(),
-      lessons: new Array<Lesson>(),
-      inWishlist: false,
-      inCart: false,
-      isOwned: false,
-      reviewList: new Array<Review>(),
-      singleCourse: {} as Course,
-      totalReviews: 0,
-      ArrowRight: markRaw(ArrowRight),
-    };
-  },
-  components: {
-    MobileDetails,
-    CourseDetails,
-    ReviewCard,
-    Lock,
-    CaretRight,
-    ArrowLeft,
-    ArrowRight,
-    StarFilled,
-  },
-  methods: {
-    fetchSingleCourse(courseId: number) {
-      this.isLoading = true;
-      CourseService.getById(courseId)
-        .then((res) => {
-          this.singleCourse = res.data;
-          this.fetchReviewList(courseId, 0);
-          document.title = `${this.singleCourse.title} | Wedemy`;
-        })
-        .catch((error) => (this.errorMessage = error.message))
-        .finally(() => (this.isLoading = false));
-    },
-    fetchObjectives(courseId: number) {
-      CourseService.getObjectivesByCourse(courseId).then((res) => {
-        this.objectives = res.data;
-      });
-    },
-    fetchLessonList(courseId: number) {
-      LessonService.getLessonsByCourse(courseId).then(
-        (res) => (this.lessons = res.data.content)
-      );
-    },
+const store = useStudentStore();
+const route = useRoute();
 
-    /** GET ALL REVIEWS for course */
-    fetchReviewList(courseId: number, pageIndex: number) {
-      let sort = this.sortBy;
-      ReviewService.getByCourse(courseId, pageIndex, sort).then((res) => {
-        this.reviewList = res.data.content;
-        this.isFirst = res.data.first;
-        this.isLast = res.data.last;
-      });
-    },
+const activeName = ref("1");
+const currentPage = ref(1); //pagination
+const isFirst = ref(true); //pagination
+const isLast = ref(false); //pagination
+const sortBy = ref<SortParam>("createdAt"); //pagination
+const isLoading = ref(false);
+const errorMessage = ref("");
+const courseId = ref(0);
+const objectives = ref<{ id: number; objective: string }[]>([]);
+const lessons = ref<Lesson[]>([]);
+const inWishlist = ref(false);
+const inCart = ref(false);
+const isOwned = ref(false);
+const reviewList = ref<ReviewDto[]>([]);
+const singleCourse: Partial<Course> = reactive({});
 
-    /** on pager click */
-    addPage(value: number) {
-      this.currentPage += value;
-      this.fetchReviewList(this.courseId, this.currentPage - 1);
-    },
+/** Get detail for given course */
+function fetchSingleCourse(courseId: number) {
+  isLoading.value = true;
+  CourseService.getById(courseId)
+    .then(res => {
+      Object.assign(singleCourse, res.data);
+      fetchReviewList(courseId, 0);
+      document.title = `${singleCourse.title} | Wedemy`;
+    })
+    .catch(error => (errorMessage.value = error.message))
+    .finally(() => (isLoading.value = false));
+}
 
-    /** IF USER OWNS THIS COURSE */
-    checkEnrollStatus(courseId: number) {
-      const self = this;
-      EnrollService.checkStatus(courseId)
-        .then((res) => (self.isOwned = res.data.isOwned))
-        .then(() => {
-          if (self.isOwned) return;
-          self.checkWishlistStatus(courseId);
-          self.checkCartStatus(courseId);
-        });
-    },
+/** Get course objectives */
+function fetchObjectives(courseId: number) {
+  CourseService.getObjectivesByCourse(courseId).then(res => {
+    objectives.value = res.data;
+  });
+}
 
-    /** listen for event from Child */
-    onToggleWishlist(courseId: number) {
-      const self = this;
-      let myAction = self.inWishlist
-        ? WishlistService.removeOneByCourse(courseId)
-        : WishlistService.addNew(courseId);
-      myAction
-        .then(() => (self.inWishlist = !self.inWishlist))
-        .catch((error) => this.handleError(error));
-    },
+/** Get all lessons in this course */
+function fetchLessonList(courseId: number) {
+  LessonService.getLessonsByCourse(courseId).then(res => (lessons.value = res.data.content));
+}
 
-    /** is Course ALREADY in wishlist? */
-    checkWishlistStatus(courseId: number) {
-      WishlistService.checkIfWishlisted(courseId).then((res) => {
-        this.inWishlist = res.data.inWishlist;
-      });
-    },
+/** GET ALL REVIEWS for course */
+function fetchReviewList(courseId: number, pageIndex: number) {
+  ReviewService.getByCourseId(courseId, pageIndex, sortBy.value).then(res => {
+    reviewList.value = res.data.content;
+    isFirst.value = res.data.first;
+    isLast.value = res.data.last;
+  });
+}
 
-    /** listen for Event from Child */
-    onToggleCart(courseId: number) {
-      const self = this;
-      let myAction = self.inCart
-        ? CartService.removeOneByCourse(courseId)
-        : CartService.addNew(courseId);
-      myAction
-        .then(() => self.handleSuccessCart(self.inCart))
-        .catch((error) => self.handleError(error));
-    },
+/** on pager click */
+function addPage(value: number) {
+  currentPage.value += value;
+  fetchReviewList(courseId.value, currentPage.value - 1);
+}
 
-    /** CHECK IF ALREADY IN CART */
-    checkCartStatus(courseId: number) {
-      CartService.checkItemInCart(courseId).then((res) => {
-        this.inCart = res.data.inCart;
-      });
-    },
+/** IF USER OWNS THIS COURSE */
+function checkEnrollStatus(courseId: number) {
+  EnrollService.checkStatus(courseId)
+    .then(res => (isOwned.value = res.data.isOwned))
+    .then(() => {
+      if (isOwned.value) return;
+      checkWishlistStatus(courseId);
+      checkCartStatus(courseId);
+    });
+}
 
-    /** AFTER ADDING TO CART */
-    handleSuccessCart(inCart: boolean) {
-      this.inCart = !inCart;
-      store.getCartCountServer(); //refresh
-      return ElNotification({
-        type: "success",
-        title: this.notifMessage,
-        duration: 2000,
-      });
-    },
+/** listen for event from Child */
+function onToggleWishlist(courseId?: number) {
+  if (courseId === undefined) return;
+  let myAction = inWishlist.value ? WishlistService.removeOneByCourse(courseId) : WishlistService.addNew(courseId);
+  myAction.then(() => (inWishlist.value = !inWishlist.value)).catch(error => handleApiError(error));
+}
 
-    /** on selected sort */
-    sortChanged() {
-      this.fetchReviewList(this.courseId, this.currentPage - 1);
-    },
+/** is Course ALREADY in wishlist? */
+function checkWishlistStatus(courseId: number) {
+  WishlistService.checkIsWishlist(courseId).then(res => {
+    inWishlist.value = res.data.inWishlist;
+  });
+}
 
-    handleError(err: AxiosError) {
-      let mama = err.response ? err.response.data.message : err.message;
-      ElMessage.error(mama);
-    },
-  },
-  computed: {
-    lessonCount(): number {
-      return this.lessons.length;
-    },
-    notifMessage(): string {
-      return this.inCart ? "Added to Cart" : "Removed from Cart";
-    },
-  },
-  mounted() {
-    window.scrollTo(0, 0);
-    this.isLoading = true;
-    let { id } = this.$route.params;
-    this.courseId = parseInt(id.toString());
-    this.fetchSingleCourse(this.courseId);
-    this.fetchObjectives(this.courseId);
-    this.fetchLessonList(this.courseId);
-    store.getters.isLoggedIn && this.checkEnrollStatus(this.courseId);
-  },
+/** listen for Event from Child */
+function onToggleCart(courseId?: number) {
+  if (courseId === undefined) return;
+  let myAction = inCart.value ? CartService.removeOneByCourse(courseId) : CartService.addNew(courseId);
+  myAction.then(() => handleSuccessCart(inCart.value)).catch(error => handleApiError(error));
+}
+
+/** CHECK IF ALREADY IN CART */
+function checkCartStatus(courseId: number) {
+  CartService.checkItemInCart(courseId).then(res => {
+    inCart.value = res.data.inCart;
+  });
+}
+
+/** AFTER ADDING TO CART */
+function handleSuccessCart(isInCart: boolean) {
+  inCart.value = !isInCart;
+  store.getCartCountServer(); //refresh store
+  return ElNotification({
+    type: "success",
+    title: notifMessage.value,
+    duration: 2000
+  });
+}
+
+/** on selected sort */
+function sortChanged() {
+  fetchReviewList(courseId.value, currentPage.value - 1);
+}
+
+const lessonCount = computed(() => {
+  return lessons.value.length;
+});
+
+const notifMessage = computed(() => {
+  return inCart.value ? "Added to Cart" : "Removed from Cart";
+});
+
+onMounted(() => {
+  window.scrollTo(0, 0);
+  isLoading.value = true;
+  let { id } = route.params;
+  courseId.value = parseInt(id.toString());
+  fetchSingleCourse(courseId.value);
+  fetchObjectives(courseId.value);
+  fetchLessonList(courseId.value);
+  store.getIsLoggedIn && checkEnrollStatus(courseId.value);
 });
 </script>
 
 <style>
-.mainStart {
-  margin: 0 2% 2% 5%;
-  padding: 2em;
-}
-
-.course-info {
-  margin: 0 2% 2% 7%;
-  width: 50%;
-  padding: 1em;
-  border: 1px solid var(--el-border-color-darker);
-}
-
-.darkBox {
-  background: var(--dark) center fixed;
-  width: 100%;
-  color: white;
-  height: 20%;
-}
-
-.courseSubtitle {
-  font-size: 18px;
-  width: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  word-break: normal;
-}
-
-.courseTitle {
-  width: 60%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.el-breadcrumb__inner.is-link {
-  color: var(--primary);
-}
-
-.obj-item {
-  margin-bottom: 2%;
-}
-
-.errorBox {
-  margin: 2% auto;
-  text-align: center;
-  align-self: center;
-  width: 100%;
-  font-weight: bold;
-}
-
-ul.lessonlist {
-  list-style-type: none;
-  margin: 0 1em;
-  padding: 0;
-}
-
-.myrating .el-rate__text {
-  color: white;
-}
-
-.course-img {
-  display: none;
-}
-
-.pager {
-  margin-top: 1em;
-}
-
-.biggy {
-  font-size: 24px;
-  font-weight: 700;
-  color: goldenrod;
-}
-
-@media screen and (max-width: 770px) {
-  course-details {
-    display: none;
-  }
-
-  .course-img {
-    display: unset;
-    aspect-ratio: 16/9;
-    height: auto;
-    width: 100%;
-    transform: scale(1.1);
-    margin-top: 2em;
-  }
-
-  .course-info {
-    margin-left: 1%;
-    width: unset;
-  }
-
-  .mainStart {
-    margin: unset;
-  }
-
-  .courseTitle,
-  .courseSubtitle {
-    width: unset;
-  }
-
-  .obj-item {
-    margin-bottom: 4%;
-  }
-}
+@import "@/styles/course-page.css";
 </style>

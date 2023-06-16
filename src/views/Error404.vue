@@ -15,14 +15,16 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "NotFound",
-  data() {
+  setup() {
     document.title = "404 Not Found | Wedemy";
     return {};
-  },
-};
+  }
+});
 </script>
 
 <style>

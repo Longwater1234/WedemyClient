@@ -2,22 +2,12 @@
 <template>
   <h2 class="cart-header">My Learning</h2>
   <div class="main-view" style="height: 70vh" v-loading="isLoading">
-    <el-alert
-      v-if="serverError.length"
-      :title="serverError"
-      type="error"
-      :closable="false"
-    ></el-alert>
+    <el-alert v-if="serverError.length" :title="serverError" type="error" :closable="false"></el-alert>
 
     <h3 class="serif-head">Courses you're enrolled in</h3>
     <!-- START COURSE CARD -->
     <div class="course-box">
-      <el-space
-        direction="vertical"
-        alignment="start"
-        :size="30"
-        style="margin-top: 2%; margin-left: 10%"
-      >
+      <el-space direction="vertical" alignment="start" :size="30" style="margin-top: 2%; margin-left: 10%">
         <!-- START OF SINGLE CARD -->
         <el-space v-if="courses.length" wrap size="large">
           <el-card
@@ -29,11 +19,7 @@
             :key="course.id"
             @click="goToCourse(course.courseId)"
           >
-            <img
-              :src="course.thumbUrl"
-              class="product-img"
-              :alt="course.title"
-            />
+            <img :src="course.thumbUrl" class="product-img" :alt="course.title" />
             <div style="padding: 14px">
               <div class="card-title">{{ course.title }}</div>
               <el-progress class="myprogress" :percentage="course.progress" />
@@ -43,9 +29,7 @@
         </el-space>
 
         <el-space v-else wrap size="large" fill>
-          <h4 style="margin: auto; color: grey">
-            You haven't enrolled in any course.
-          </h4>
+          <h4 style="margin: auto; color: grey">You haven't enrolled in any course.</h4>
         </el-space>
       </el-space>
     </div>
@@ -53,35 +37,30 @@
   </div>
 </template>
 
-<script lang="ts">
-import EnrollService from "@/services/EnrollService";
-import { Enrollment } from "@/types";
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import EnrollService from "@/service/EnrollService";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import type { EnrollmentDto } from "@/interfaces/custom";
 
-export default defineComponent({
-  name: "MyLearning",
-  data() {
-    document.title = `My Learning | Wedemy`;
-    return {
-      isLoading: true,
-      serverError: "",
-      courses: new Array<Enrollment>(),
-    };
-  },
-  methods: {
-    fetchAllEnrolled(page: number) {
-      EnrollService.getAllMyCourses(page)
-        .then((res) => (this.courses = res.data))
-        .catch((err) => (this.serverError = err.message))
-        .finally(() => (this.isLoading = false));
-    },
-    goToCourse(id: number) {
-      this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
-    },
-  },
-  mounted() {
-    this.fetchAllEnrolled(0);
-  },
+const isLoading = ref(true);
+const serverError = ref("");
+const courses = ref<EnrollmentDto[]>([]);
+const router = useRouter();
+
+function fetchAllEnrolled(page: number) {
+  EnrollService.getAllMyCourses(page)
+    .then(res => (courses.value = res.data))
+    .catch(err => (serverError.value = err.message))
+    .finally(() => (isLoading.value = false));
+}
+
+function goToCourse(id: number) {
+  router.push({ name: "ResumeCourse", params: { courseId: id } });
+}
+onMounted(() => {
+  document.title = "My Learning | Wedemy";
+  fetchAllEnrolled(0);
 });
 </script>
 

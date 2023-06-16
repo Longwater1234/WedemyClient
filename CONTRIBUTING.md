@@ -1,5 +1,7 @@
 # Wedemy TODO
-You may help add these missing features. Fork the project, create a new branch, add your edits, and submit your pull request. I will review before merging it.
+
+You may help add these missing features. Fork the project, create a new branch, add your edits, and submit your pull request.
+I will review before merging it.
 
 - [ ] CSS/Layout cleanup on mobile
 - [ ] Dark Mode
@@ -13,7 +15,7 @@ You may help add these missing features. Fork the project, create a new branch, 
 - [x] After Register, take user to sign in
 - [x] full screen loading, Single COurse View
 - [x] Mobile Layout, Single COurse View
-- [x] _Drawer_:  add list -> user ICON, my account, wishlist. and logout
+- [x] _Drawer_: add list -> user ICON, my account, wishlist. and logout
 - [x] some PHOTOS + PROMO TEXT on homepage. (unsplash)
 - [x] Layout mobile fix. (continous)
 - [x] Login, Logout, wishlist to server.
@@ -27,5 +29,3 @@ You may help add these missing features. Fork the project, create a new branch, 
 - [x] View all courses owned in Profile
 - [x] MAIN video player - single course
 - [x] Edit/View Profile
-
- 

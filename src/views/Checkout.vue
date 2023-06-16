@@ -36,139 +36,128 @@
   <!-- order summary here  -->
   <div class="order-brief">
     <el-collapse v-model="activeName">
-      <el-collapse-item
-        :style="{ fontSize: '16px' }"
-        :title="`Order Summary`"
-        name="1"
-      >
-        <ol class="cartlist">
-          <div class="carty" v-for="course in cartItems" :key="course.id">
-            <li>{{ course.title }}</li>
-            <el-divider></el-divider>
-          </div>
-        </ol>
+      <el-collapse-item :style="{ fontSize: '16px' }" :title="summaryTitle" name="1">
+        <ul class="cartlist">
+          <template v-for="course in cartItems" :key="course.id">
+            <li class="carty">{{ course.title }}</li>
+            <el-divider/>
+          </template>
+        </ul>
       </el-collapse-item>
     </el-collapse>
   </div>
   <!-- end of summary -->
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import CheckoutService from "@/services/CheckoutService";
+<script lang="ts" setup>
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import CheckoutService from "@/service/CheckoutService";
 import { ElMessage } from "element-plus";
-import dropin, { Dropin } from "braintree-web-drop-in";
-import CartService from "@/services/CartService";
-import { Course, PaymentObj } from "@/types";
-import store from "@/store";
-import { AxiosError, AxiosResponse } from "axios";
+import dropin, { type Dropin } from "braintree-web-drop-in";
+import CartService from "@/service/CartService";
+import type { Course } from "@/interfaces/wedemy";
+
+import type { AxiosResponse } from "axios";
+import { handleApiError } from "@/util/http_util";
+import { useRouter } from "vue-router";
+import type { PaymentObj } from "@/interfaces/custom";
+import { useStudentStore } from "@/stores";
 
 // SEE OFFICIAL DOCS:
 // https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#on-examples
-export default defineComponent({
-  data() {
-    let paymentInstance: Dropin | undefined;
-    return {
-      clientToken: "",
-      activeName: "1",
-      paymentInstance,
-      isReady: false,
-      isLoading: false,
-      isProcessing: false,
-      cartItems: new Array<Course>(),
-      payError: "",
-    };
-  },
-  methods: {
-    getClientToken() {
-      CheckoutService.getToken()
-        .then((res) => (this.clientToken = res.data.clientToken))
-        .then(() => this.initializePayment(this.clientToken))
-        .catch((error) => ElMessage.error(error.message));
-    },
+const paymentInstance = ref<Dropin | undefined>();
 
-    //automatic onLoad, AFTER above^
-    initializePayment(token: string) {
-      const self = this;
-      dropin
-        .create({
-          authorization: token,
-          container: "#paymentContainer",
-          paypal: {
-            //OPTIONAL, requires PayPal BUSINESS Account
-            flow: "checkout",
-            amount: self.totalPrice,
-            currency: "USD",
-          },
-        })
-        .then((instance: any) => {
-          self.paymentInstance = instance;
-          self.isReady = true;
-        })
-        .catch((error) => console.error(error));
-    },
+const clientToken = ref("");
+const activeName = ref("1");
+const totalPrice = ref(0.0);
 
-    //PAY button onClick
-    submitPayment() {
-      if (!this.isReady) return;
-      this.isProcessing = true;
-      this.paymentInstance
-        ?.requestPaymentMethod()
-        .then((payload) => {
-          //CREATE PAYMENT OBJECT for Server
-          let obj: PaymentObj = {
-            nonce: payload.nonce,
-            paymentMethod: payload.type,
-            totalAmount: this.totalPrice,
-            courses: this.courseIdArray,
-          };
-          return obj;
-        })
-        .then((obj) => CheckoutService.pay(obj))
-        .then((res) => this.handleSuccessPay(res))
-        .catch((err) => this.handleError(err))
-        .finally(() => (this.isProcessing = false));
-    },
+const isReady = ref(false);
+const isLoading = ref(false);
+const isProcessing = ref(false);
+const cartItems = ref<Course[]>([]);
+const payError = ref("");
+const summaryTitle = ref("Order Summary (some of your items)");
 
-    handleSuccessPay(res: AxiosResponse) {
-      store.getCartCountServer();
-      ElMessage.success(res.data.message);
-      //redirect to MyLearning
-      this.$router.replace({ name: "MyLearning" });
-    },
+const router = useRouter();
+const store = useStudentStore();
 
-    handleError(err: AxiosError) {
-      let mama = err.response ? err.response.data.message : err.message;
-      this.payError = mama;
-    },
+function getClientToken() {
+  CheckoutService.getToken()
+    .then(res => (clientToken.value = res.data.clientToken))
+    .then(() => initializePayment(clientToken.value))
+    .catch(error => handleApiError(error));
+}
 
-    fetchCartItems() {
-      CartService.getAllMine()
-        .then((res) => (this.cartItems = res.data.content))
-        .catch((error) => ElMessage.error(error.message))
-        .finally(() => (this.isLoading = false));
-    },
-  },
-  mounted() {
-    this.getClientToken();
-    this.fetchCartItems();
-  },
-  beforeUnmount() {
-    //clean up
-    this.paymentInstance?.teardown();
-  },
-  computed: {
-    totalPrice(): string {
-      return this.cartItems
-        .map((x) => x.price)
-        .reduce((a, b) => a + b, 0)
-        .toFixed(2);
-    },
-    courseIdArray(): number[] {
-      return this.cartItems.map((c) => c.id);
-    },
-  },
+//runs AFTER above^, getClientToken
+function initializePayment(token: string) {
+  dropin.create({
+      authorization: token,
+      container: "#paymentContainer",
+      paypal: {
+        /* OPTIONAL, this requires PayPal BUSINESS Account */
+        flow: "checkout",
+        amount: totalPrice.value,
+        currency: "USD"
+      }
+    })
+    .then(instance => {
+      paymentInstance.value = instance;
+      isReady.value = true;
+    })
+    .catch(error => console.error(error));
+}
+
+//PAY button onClick
+function submitPayment() {
+  if (!isReady.value) return;
+  isProcessing.value = true;
+  paymentInstance.value?.requestPaymentMethod()
+    .then(payload => {
+      //CREATE PAYMENT OBJECT for Server
+      let obj: PaymentObj = {
+        nonce: payload.nonce,
+        paymentMethod: payload.type,
+        totalAmount: totalPrice.value
+      };
+      return obj;
+    })
+    .then(obj => CheckoutService.pay(obj))
+    .then(res => handleSuccessPay(res))
+    .catch(err => handleApiError(err))
+    .finally(() => (isProcessing.value = false));
+}
+
+function handleSuccessPay(res: AxiosResponse) {
+  store.getCartCountServer();
+  ElMessage.success(res.data.message);
+  //redirect to MyLearning
+  router.replace({ name: "MyLearning" });
+}
+
+function fetchCartItems() {
+  CartService.getMinePaged(0)
+    .then(res => (cartItems.value = res.data.content))
+    .then(() => fetchMyTotalBill())
+    .catch(err => handleApiError(err))
+    .finally(() => (isLoading.value = false));
+}
+
+onMounted(() => {
+  getClientToken();
+  fetchCartItems();
 });
+
+onBeforeUnmount(() => {
+  //clean up
+  paymentInstance.value?.teardown();
+});
+
+
+async function fetchMyTotalBill() {
+  const res = await CartService.getMyTotalBill();
+  totalPrice.value = res.data.totalPrice;
+}
+
 </script>
 
 <style scoped>
@@ -189,7 +178,7 @@ export default defineComponent({
 }
 
 #checkout-btn {
-  width: 50% important;
+  width: 50% !important;
   text-align: center;
 }
 
@@ -199,13 +188,6 @@ export default defineComponent({
   width: 30vw;
   flex-direction: column;
   justify-self: center;
-}
-
-.total-x {
-  text-align: center;
-  margin: 0 auto;
-  width: 100vw;
-  font-size: 16px;
 }
 
 @media screen and (max-width: 600px) {

@@ -3,24 +3,13 @@
   <div class="main-body">
     <h2 class="serif-head">{{ categoryName }} Courses</h2>
 
-    <el-alert
-      v-if="serverError"
-      :title="serverError"
-      type="error"
-      :closable="false"
-    >
-    </el-alert>
+    <el-alert v-if="serverError" :title="serverError" type="error" :closable="false"> </el-alert>
 
     <div v-loading="isLoading"></div>
 
     <!-- START COURSE CARD -->
     <div class="course-box" :style="{ borderRadius: baseRadius }">
-      <el-space
-        direction="vertical"
-        alignment="start"
-        :size="30"
-        style="margin-top: 2%; margin-left: 10%"
-      >
+      <el-space direction="vertical" alignment="start" :size="30" style="margin-top: 2%; margin-left: 10%">
         <!-- START OF SINGLE CARD -->
         <el-space v-if="courses.length" wrap size="large">
           <el-card
@@ -30,26 +19,16 @@
             style="margin-bottom: 13px"
             v-for="course in courses"
             :key="course.id"
-            @click="goToCourse(course.id)"
+            @click="router.push(`/course/${course.id}`)"
           >
-            <img
-              :src="course.thumbUrl"
-              class="product-img"
-              :alt="course.title"
-            />
+            <img :src="course.thumbUrl" class="product-img" :alt="course.title" />
             <div style="padding: 14px">
               <div class="card-title">{{ course.title }}</div>
               <div class="card-author">
                 <span>{{ course.author }}</span>
               </div>
               <!-- rating from users -->
-              <el-rate
-                v-model="course.rating"
-                disabled
-                show-score
-                text-color="#ff9900"
-                score-template="{value} rating"
-              >
+              <el-rate v-model="course.rating" disabled show-score text-color="#ff9900" score-template="{value} rating">
               </el-rate>
               <div>${{ course.price }}</div>
             </div>
@@ -61,61 +40,43 @@
   </div>
 </template>
 
-<script lang="ts">
-import CourseService from "@/services/CourseService";
-import { Course } from "@/types";
-import { defineComponent } from "vue";
-import { AxiosError } from "axios";
-import { ElMessage } from "element-plus";
+<script lang="ts" setup>
+import CourseService from "@/service/CourseService";
+import type { Course } from "@/interfaces/wedemy";
+import { onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { handleApiError } from "@/util/http_util";
 
-export default defineComponent({
-  name: "Category",
-  data() {
-    document.title = "Wedemy";
-    return {
-      categoryName: "",
-      serverError: "",
-      baseRadius: "var(--el-border-radius-base)",
-      isLoading: false,
-      courses: new Array<Course>(),
-    };
-  },
-  methods: {
-    goToCourse(id: number) {
-      this.$router.push(`/course/${id}`);
-    },
-    fetchCoursesByCategory(name: string) {
-      this.isLoading = true;
-      CourseService.getByCategory(name)
-        .then((res) => (this.courses = res.data))
-        .catch((error) => this.handleError(error))
-        .finally(() => (this.isLoading = false));
-    },
+const router = useRouter();
+const route = useRoute();
 
-    /** display error  */
-    handleError(err: AxiosError) {
-      let mama = err.response ? err.response.data.message : err.message;
-      this.serverError = mama;
-    },
-  },
-  mounted() {
-    let { name } = this.$route.params;
-    this.categoryName = name ? name.toString() : "";
-    this.fetchCoursesByCategory(this.categoryName);
-    document.title = `Courses in ${this.categoryName} | Wedemy`;
-  },
-  watch: {
-    "$route.params.name": {
-      deep: false,
-      immediate: true,
-      handler: function (newVal: string) {
-        if (!newVal) return;
-        this.categoryName = newVal;
-        this.fetchCoursesByCategory(this.categoryName);
-        document.title = `Courses in ${this.categoryName} | Wedemy`;
-      },
-    },
-  },
+const categoryName = ref("");
+const serverError = ref("");
+const baseRadius = ref("var(--el-border-radius-base)");
+const isLoading = ref(false);
+const courses = ref<Course[]>([]);
+
+function fetchCoursesByCategory(name: string) {
+  isLoading.value = true;
+  CourseService.getByCategory(name)
+    .then(res => (courses.value = res.data))
+    .catch(error => handleApiError(error))
+    .finally(() => (isLoading.value = false));
+}
+
+onMounted(() => {
+  let { name } = route.params;
+  categoryName.value = name ? name.toString() : "";
+  fetchCoursesByCategory(categoryName.value);
+  document.title = `Courses in ${categoryName.value} | Wedemy`;
+});
+
+watch([route], function () {
+  let newVal = route.params.name;
+  if (!newVal) return;
+  categoryName.value = newVal.toString();
+  fetchCoursesByCategory(categoryName.value);
+  document.title = `Courses in ${categoryName.value} | Wedemy`;
 });
 </script>
 

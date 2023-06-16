@@ -4,15 +4,11 @@
     <div class="banner-image">
       <div id="header-box">
         <h2 class="serif-head">Find the right fit</h2>
-        <p>
-          The topics you want, taught by real-world experts. Courses as low as
-          $15.99
-        </p>
+        <p>The topics you want, taught by real-world experts. Courses as low as $15.99</p>
         <form @submit.prevent="handleSearch">
           <el-input
             :suffix-icon="Search"
             native-type="search"
-            type="search"
             v-model="searchItem"
             maxlength="40"
             placeholder="Search anything"
@@ -25,10 +21,9 @@
 
     <!-- START MAIN BODY -->
     <div class="main-body">
-      <div v-if="store.getters.isLoggedIn" style="margin-bottom: 2em">
+      <div v-if="store.getIsLoggedIn" style="margin-bottom: 2em">
         <h3 class="sub-heading">
-          Hi {{ trimSpace(store.state.username) }}! 👋 Pick up where you left
-          off in
+          Hi {{ getFirst(store.fullname) }}! 👋 Pick up where you left off in
           <router-link to="/account/learning">My Learning</router-link>
         </h3>
       </div>
@@ -36,23 +31,12 @@
       <h2 class="serif-head">Students are viewing</h2>
       <h3 class="sub-heading">Expand your skillset with these courses</h3>
 
-      <el-alert
-        v-if="serverError"
-        :title="serverError"
-        type="error"
-        :closable="false"
-      >
-      </el-alert>
+      <el-alert v-if="serverError" :title="serverError" type="error" :closable="false" />
+      <!-- 
+      <div ></div> -->
 
-      <div v-loading="isLoading"></div>
-
-      <div class="course-box" :style="{ borderRadius: baseRadius }">
-        <el-space
-          direction="vertical"
-          alignment="start"
-          :size="30"
-          style="margin-top: 2%; margin-left: 10%"
-        >
+      <div v-loading="isLoading" class="course-box" :style="{ borderRadius: baseRadius }">
+        <el-space direction="vertical" alignment="center" :size="30" style="margin-top: 2%; margin-left: 10%">
           <!-- START OF SINGLE CARD -->
           <el-space v-if="courses.length" wrap size="large">
             <el-card
@@ -62,13 +46,9 @@
               style="margin-bottom: 13px"
               v-for="course in courses"
               :key="course.id"
-              @click="goToCourse(course.id)"
+              @click="router.push(`/course/${course.id}`)"
             >
-              <img
-                :src="course.thumbUrl"
-                class="product-img"
-                :alt="course.title"
-              />
+              <img :src="course.thumbUrl" class="product-img" :alt="course.title" />
               <div style="padding: 14px">
                 <div class="card-title">{{ course.title }}</div>
                 <div class="card-author">
@@ -94,12 +74,7 @@
       <h2 class="serif-head">Top Categories</h2>
       <h3 class="sub-heading">Most Viewed by Students</h3>
       <div class="catArea">
-        <div
-          class="catSingle"
-          v-for="(item, index) in topCategs"
-          :key="index"
-          @click="goToCategory(item)"
-        >
+        <div class="catSingle" v-for="(item, index) in topCategs" :key="index" @click="goToCategory(item)">
           {{ item }}
         </div>
       </div>
@@ -107,73 +82,70 @@
   </div>
 </template>
 
-<script lang="ts">
-import CourseService from "@/services/CourseService";
-import { Course } from "@/types";
+<script lang="ts" setup>
+import CourseService from "@/service/CourseService";
+import type { Course } from "@/interfaces/wedemy";
 import { Search } from "@element-plus/icons-vue";
 import { ElNotification } from "element-plus";
-import { defineComponent, markRaw } from "vue";
+import { onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStudentStore } from "@/stores";
 
-export default defineComponent({
-  name: "Home",
-  inject: ["store"],
-  data() {
-    document.title = "Home | Wedemy";
-    return {
-      searchItem: "",
-      baseRadius: "var(--el-border-radius-base)",
-      courses: new Array<Course>(),
-      Search: markRaw(Search),
-      isLoading: true,
-      topCategs: ["Development", "Music", "PhotoVideo", "Finance"],
-      serverError: "",
-    };
-  },
-  methods: {
-    fetchAllCourses() {
-      CourseService.getTop()
-        .then((res) => (this.courses = res.data))
-        .catch((error) => (this.serverError = error.message))
-        .finally(() => (this.isLoading = false));
-    },
-    handleSearch() {
-      if (!this.searchItem) return;
-      if (this.searchItem.trim().length < 4) {
-        return ElNotification({
-          title: "Error",
-          type: "error",
-          duration: 2000,
-          message: "Query too short",
-        });
-      }
-      this.$router.push({
-        name: "SearchResults",
-        query: { q: encodeURI(this.searchItem.trim()) },
-        force: true,
-      });
-    },
-    goToCourse(id: number) {
-      this.$router.push(`/course/${id}`);
-    },
+const router = useRouter();
+const store = useStudentStore();
 
-    trimSpace(input: string): string {
-      return input.split(/\s+/)[0];
-    },
-    goToCategory(name: string) {
-      this.$router.push(`/category/${name}`);
-    },
-  },
-  mounted() {
-    window.scrollTo(0, 0);
-    this.fetchAllCourses();
-  },
+const searchItem = ref("");
+const baseRadius = ref("var(--el-border-radius-base)");
+const courses = ref<Course[]>([]);
+const isLoading = ref(true);
+const topCategs = reactive(["Development", "Music", "PhotoVideo", "Finance"]);
+const serverError = ref("");
+
+function fetchAllCourses() {
+  CourseService.getTop()
+    .then(res => (courses.value = res.data))
+    .catch(error => (serverError.value = error.message))
+    .finally(() => (isLoading.value = false));
+}
+
+function handleSearch() {
+  if (!searchItem.value) return;
+  if (searchItem.value.trim().length < 4) {
+    return ElNotification({
+      title: "Error",
+      type: "error",
+      duration: 2000,
+      message: "Query too short"
+    });
+  }
+  router.push({
+    name: "SearchResults",
+    query: { q: encodeURI(searchItem.value.trim()) },
+    force: true
+  });
+}
+
+// get first name only
+function getFirst(input: string): string {
+  if (!input) return "";
+  return input.split(/\s/)[0];
+}
+
+function goToCategory(name: string) {
+  router.push(`/category/${name}`);
+}
+
+onMounted(() => {
+  document.title = "Home | Wedemy";
+  window.scrollTo(0, 0);
+  fetchAllCourses();
 });
 </script>
 
 <style>
 .main-body {
   margin: auto;
-  width: 70%;
+  width: 70% !important;
   padding: 1em;
 }
 
@@ -246,7 +218,7 @@ export default defineComponent({
   background-color: var(--primary);
   cursor: pointer;
   border: none;
-  color: var(--background);
+  color: var(--vt-c-white-soft);
 }
 
 @media screen and (max-width: 770px) {

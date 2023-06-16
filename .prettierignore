@@ -1,0 +1,13 @@
+/dist/*
+.local
+.output.js
+node_modules/**
+
+**/*.svg
+**/*.png
+**/*.jpg
+**/*.sh
+package-lock.json
+/public/*
+**/Footer.vue
+**/Checkout.vue
