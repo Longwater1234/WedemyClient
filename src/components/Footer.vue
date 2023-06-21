@@ -50,14 +50,14 @@ import GithubButton from "vue-github-button";
 
 <style scoped lang="css">
 .m-footer {
-//width: inherit;
+  /*width: inherit;*/
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   padding: 0.25em;
   bottom: 0;
-//top: 30vh; height: max-content;
+  /*top: 30vh; height: max-content;*/
   color: white;
   margin-bottom: -10px;
   background-color: var(--vt-c-black-soft);

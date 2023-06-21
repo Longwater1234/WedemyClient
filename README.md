@@ -92,14 +92,14 @@ If you don't want to Register, You can still play around the live demo using any
 - (OPTIONAL) Free PayPal Business Account.
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)
 
-### 📕 Resources
+### 📕 Resources - learn more
 
 - [Vite](https://vitejs.dev/guide/) - official Guide
 - [Braintree Payments docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - [Google Login docs](https://developers.google.com/identity/gsi/web/guides/overview) - latest version
 - [Element Plus](https://element-plus.org/en-US/) - UI framework for Vue.
 - [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue, replacing VueX.
-- [sql-to-ts](https://rmp135.github.io/sql-ts/) - Useful Db_schema --> TS Interface convertor
+- [sql-to-ts](https://rmp135.github.io/sql-ts/) - Useful DbSchema (SQL) to TS Interface convertor
 
 ## Pull Requests & Contributions
 
