@@ -4,9 +4,16 @@
   "private": true,
   "author": "Davis Tibbz",
   "license": "MIT",
-  "homepage": "https://github.com/Longwater1234/wedemyvite",
+  "homepage": "https://github.com/Longwater1234/WedemyClient",
   "engines": {
-    "node": ">= 16.0"
+    "node": ">=16.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Longwater1234/WedemyClient.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Longwater1234/WedemyClient/issues"
   },
   "scripts": {
     "dev": "cross-env --max_old_space_size=4096 vite",
