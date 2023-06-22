@@ -8,8 +8,7 @@ class AuthService {
   loginUser({ email, password, responseToken }: LoginRequest) {
     const url = "/auth/login";
     const body = { email, password };
-    const options = { params: { responseToken: responseToken } };
-    return httpUtil.post(url, body, options);
+    return httpUtil.post(url, body, { params: { responseToken: responseToken } });
   }
 
   /**  Login using Spring FormLogin  */
