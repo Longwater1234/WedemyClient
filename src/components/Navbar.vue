@@ -122,7 +122,7 @@ const goToHome = () => {
 
 function handleSearch() {
   if (!searchItem.value.trim().length) return;
-  if (searchItem.value.trim().length < 1) {
+  if (searchItem.value.trim().length < 3) {
     return ElNotification({
       title: "Error",
       type: "error",
