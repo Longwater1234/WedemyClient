@@ -69,7 +69,7 @@
 
       <div style="margin-top: 13px">
         New user?
-        <router-link to="/signup" class="none" :style="{ fontWeight: '800' }"> Create an Account </router-link>
+        <router-link to="/signup" class="none" style="font-weight: 800"> Create an Account </router-link>
       </div>
     </div>
   </div>
