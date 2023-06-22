@@ -83,7 +83,7 @@
 
         <!--  CAPTCHA BOX -->
         <el-form-item>
-          <vue-hcaptcha ref="mycaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
+          <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
         </el-form-item>
 
         <el-form-item style="margin-top: 8px">
@@ -116,6 +116,7 @@ document.title = "SignUp | Wedemy";
 const signupFormRef = ref<FormInstance>();
 const router = useRouter();
 const responseToken = ref("");
+const myCaptcha = ref<VueHcaptcha>();
 
 /* validation for fullname */
 const checkName = (rule: any, value: string, callback: (arg?: Error) => void) => {
@@ -186,7 +187,7 @@ function handleSignup() {
     isLoading.value = true;
     submitToServer(signupForm)
       .then(() => redirectToLogin())
-      .catch(err => handleApiError(err))
+      .catch(err => displayError(err))
       .finally(() => (isLoading.value = false));
   });
 }
@@ -198,6 +199,16 @@ const submitToServer = async (payload: typeof signupForm) => {
 /** onSuccess captcha solve */
 function handleVerify(token: string) {
   responseToken.value = token;
+}
+
+function displayError(err: unknown) {
+  handleApiError(err);
+  resetCaptcha();
+}
+
+function resetCaptcha() {
+  responseToken.value = "";
+  myCaptcha.value?.reset();
 }
 
 function redirectToLogin() {

@@ -56,7 +56,7 @@
 
         <!--  CAPTCHA BOX -->
         <el-form-item>
-          <vue-hcaptcha ref="mycaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
+          <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
         </el-form-item>
 
         <div style="margin-top: 8px">
@@ -92,7 +92,7 @@ document.title = "Login | Wedemy";
 
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
-const mycaptcha = ref<VueHcaptcha>();
+const myCaptcha = ref<VueHcaptcha>();
 const router = useRouter();
 
 // validation for password
@@ -172,7 +172,7 @@ function displayError(err: any) {
 
 function resetCaptcha() {
   loginForm.responseToken = "";
-  mycaptcha.value?.reset();
+  myCaptcha.value?.reset();
 }
 
 onMounted(() => {
