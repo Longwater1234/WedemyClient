@@ -4,7 +4,7 @@
   <div class="main-view" style="height: 80vh" v-loading="isLoading">
     <!-- START HEADER -->
     <div class="profile-header">
-      <el-avatar :size="100" :src="attachAvatarLink(store.state.username)" />
+      <el-avatar :size="100" :src="attachAvatarLink(store.fullname)" />
       <p class="username">
         {{ userInfo.fullname }}
         <el-icon class="myEdit" @click="showEditDialog()"><Edit /></el-icon>
@@ -17,9 +17,9 @@
       <hr />
       <el-row :gutter="5" justify="space-around">
         <el-col v-for="item in summaryList" :key="item.title" :span="4">
-          <div class="mytitle">{{ toLower(item.title) }}</div>
+          <div class="my-title">{{ toLower(item.title) }}</div>
           <div class="myvalue">{{ item.value }}</div>
-          <div class="mysub">{{ item.subtitle }}</div>
+          <div class="my-sub">{{ item.subtitle }}</div>
         </el-col>
       </el-row>
       <hr />
@@ -30,22 +30,11 @@
     <div class="recently">
       <h3 class="serif-head">Your Recent Courses</h3>
       <div class="recentBox" v-if="courseList.length > 0">
-        <div
-          class="recentSingle"
-          v-for="item in courseList"
-          :key="item.id"
-          @click="goToCourse(item.courseId)"
-        >
+        <div class="recentSingle" v-for="item in courseList" :key="item.id" @click="goToCourse(item.courseId)">
           {{ item.title }}
           <el-progress class="myprogress" :percentage="item.progress" />
         </div>
-        <div
-          @click="goToLearning()"
-          class="recentSingle linky"
-          v-if="courseList.length > 2"
-        >
-          View All
-        </div>
+        <div @click="goToLearning()" class="recentSingle linky" v-if="courseList.length > 2">View All</div>
       </div>
       <div v-else class="nodata">No data</div>
     </div>
@@ -53,107 +42,89 @@
     <!-- START OF CERTIFICATES -->
     <div class="recently">
       <h3 class="serif-head">Your Certificates</h3>
-      <div class="nodata">
-        (TODO: Needs a cloud storage service like AWS S3 or similar)
-      </div>
+      <div class="nodata">(TODO: Needs a cloud storage service like AWS S3 or similar)</div>
     </div>
 
     <!-- EDIT PROFILE DIALOG -->
-    <el-dialog v-model="dialogShow" title="Update your Profile">
-      <el-form :model="userInfo" @submit.prevent="updateProfile">
+    <el-dialog v-model="dialogShow" title="Update your Profile" width="40%">
+      <el-form :model="userInfo" @submit.prevent="updateProfile" size="default">
         <el-form-item label="Your name">
-          <el-input v-model="userInfo.fullname" type="text" maxlength="70" />
+          <el-input v-model="userInfo.fullname" type="text" maxlength="70" style="width: 60% !important" />
         </el-form-item>
-        <el-button type="primary" :loading="formLoading" native-type="submit">
-          Submit
-        </el-button>
+        <el-button type="primary" :loading="formLoading" native-type="submit"> Submit </el-button>
       </el-form>
     </el-dialog>
   </div>
 </template>
 
-<script lang="ts">
-import EnrollService from "@/services/EnrollService";
-import ProfileService from "@/services/ProfileService";
-import {Enrollment, Summary, User} from "@/types";
+<script lang="ts" setup>
+import EnrollService from "@/service/EnrollService";
+import ProfileService from "@/service/ProfileService";
+import type { User } from "@/interfaces/wedemy";
 import { ElMessage } from "element-plus";
 import { Edit } from "@element-plus/icons-vue";
-import { defineComponent } from "vue";
-import { AxiosError } from "axios";
-import store from "@/store";
+import { onMounted, reactive, ref } from "vue";
+import type { EnrollmentDto, Summary } from "@/interfaces/custom";
+import { useRouter } from "vue-router";
+import { useStudentStore } from "@/stores";
+import { handleApiError } from "@/util/http_util";
 
-export default defineComponent({
-  name: "Profile",
-  inject: ["store"],
-  data() {
-    document.title = "My Profile | Wedemy";
-    return {
-      activeTab: "first",
-      isLoading: true,
-      formLoading: false,
-      dialogShow: false,
-      summaryList: new Array<Summary>(),
-      courseList: new Array<Enrollment>(),
-      userInfo: {} as User,
-    };
-  },
-  methods: {
-    attachAvatarLink(username: string) {
-      return `https://avatars.dicebear.com/api/initials/${username}.svg`;
-    },
-    getProfileInfo() {
-      ProfileService.getUserDetails().then((res) => (this.userInfo = res.data));
-      ProfileService.getUserSummary().then(
-        (res) => (this.summaryList = res.data)
-      );
-    },
-    toLower(item: string) {
-      return item.toLowerCase();
-    },
-    getUserProgress() {
-      EnrollService.getMySummary()
-        .then((res) => (this.courseList = res.data))
-        .catch((err) => ElMessage.error(err.message))
-        .finally(() => (this.isLoading = false));
-    },
-    goToLearning() {
-      this.$router.push("/account/learning");
-    },
+const router = useRouter();
+const store = useStudentStore();
 
-    showEditDialog() {
-      this.dialogShow = !this.dialogShow;
-    },
+const isLoading = ref(true);
+const formLoading = ref(false);
+const dialogShow = ref(false);
+const summaryList = ref<Summary[]>([]);
+const courseList = ref<EnrollmentDto[]>([]);
+const userInfo: Partial<User> = reactive({});
 
-    updateProfile() {
-      this.formLoading = true;
-      ProfileService.updateMine(this.userInfo)
-        .then((res) => {
-          this.userInfo = res.data;
-          this.dialogShow = false;
-          store.getAuthStatusServer();
-          ElMessage.success("Your profile has been updated!");
-        })
-        .catch((err) => this.handleError(err))
-        .finally(() => (this.formLoading = false));
-    },
+function attachAvatarLink(username: string) {
+  return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+}
+function getProfileInfo() {
+  ProfileService.getUserDetails().then(res => Object.assign(userInfo, res.data));
+  ProfileService.getUserSummary().then(res => (summaryList.value = res.data));
+}
 
-    /* display error  */
-    handleError(err: AxiosError) {
-      let mama = err.response ? err.response.data.message : err.message;
-      ElMessage.error(mama);
-    },
+function toLower(item?: string) {
+  return String(item).toLowerCase();
+}
 
-    goToCourse(id: number) {
-      this.$router.push({ name: "ResumeCourse", params: { courseId: id } });
-    },
-  },
-  components: {
-    Edit,
-  },
-  mounted() {
-    this.getProfileInfo();
-    this.getUserProgress();
-  },
+function getUserProgress() {
+  EnrollService.getMySummary()
+    .then(res => (courseList.value = res.data))
+    .catch(err => ElMessage.error(err.message))
+    .finally(() => (isLoading.value = false));
+}
+function goToLearning() {
+  router.push("/account/learning");
+}
+
+function showEditDialog() {
+  dialogShow.value = !dialogShow.value;
+}
+
+function updateProfile() {
+  formLoading.value = true;
+  ProfileService.updateMine(userInfo)
+    .then(res => {
+      Object.assign(userInfo, res.data);
+      dialogShow.value = false;
+      store.getLoginStatus();
+      ElMessage.success("Your profile has been updated!");
+    })
+    .catch(err => handleApiError(err));
+}
+
+function goToCourse(id: number) {
+  router.push({ name: "ResumeCourse", params: { courseId: id } });
+}
+
+onMounted(() => {
+  document.title = "My Profile | Wedemy";
+  getProfileInfo();
+  getUserProgress();
 });
 </script>
 
@@ -169,6 +140,7 @@ export default defineComponent({
 
 .myEdit {
   color: var(--primary);
+  cursor: pointer;
 }
 
 .username {
@@ -190,12 +162,12 @@ export default defineComponent({
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-.mytitle {
+.my-title {
   font-size: 1em;
   font-variant: small-caps;
 }
 
-.mysub {
+.my-sub {
   font-size: 1em;
 }
 
@@ -265,7 +237,7 @@ export default defineComponent({
     margin: 0 auto;
   }
 
-  .mysub {
+  .my-sub {
     font-size: 12px;
   }
 

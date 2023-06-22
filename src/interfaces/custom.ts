@@ -1,22 +1,4 @@
-export interface Course {
-  id: number;
-  author: string;
-  title: string;
-  subtitle: string;
-  price: number;
-  rating: number;
-  thumbUrl?: string;
-  category: string;
-}
-
-export interface User {
-  id: number;
-  email: string;
-  fullname: string;
-  password?: string;
-  confirmPass?: string;
-  createdAt?: string;
-}
+import type { Lesson, Review } from "@/interfaces/wedemy";
 
 export interface LoginRequest {
   email: string;
@@ -25,29 +7,12 @@ export interface LoginRequest {
   responseToken?: string;
 }
 
-export interface Enrollment {
-  id: number;
-  progress: number;
-  title: string;
-  thumbUrl: string;
-  courseId: number;
-}
-
 /* student summary on profile */
 export interface Summary {
   title: string;
   value: number;
   subtitle: string;
 }
-
-export interface Lesson {
-  id: string;
-  lessonName: string;
-  videokey: string;
-  lengthSeconds: string | number;
-  position: number;
-}
-
 export interface CustomLesson {
   id: string;
   video_time: string;
@@ -60,7 +25,6 @@ export interface PaymentObj {
   nonce: string;
   paymentMethod: string;
   totalAmount: string | number;
-  courses: number[] | unknown[];
 }
 
 /* for purchaseHistory page  */
@@ -70,15 +34,6 @@ export interface Sale {
   paymentMethod: string;
   totalPaid: number;
   numOfItems: number;
-}
-
-export interface Review {
-  id: number;
-  content: string;
-  courseId: number;
-  rating: number;
-  createdAt?: string;
-  fullname?: string;
 }
 
 /* for video player */
@@ -99,4 +54,50 @@ export interface WatchStatus {
   enrollId: number;
   currentLessonId: string;
   courseId: number;
+}
+
+export type SortParam = "createdAt" | "rating";
+
+export interface CategoryDto {
+  id: number;
+  category: string;
+}
+
+export interface ReviewDto extends Review {
+  fullname: string;
+}
+
+export interface EnrollmentDto {
+  id: number;
+  progress: number;
+  title: string;
+  thumbUrl: string;
+  courseId: number;
+}
+
+export interface UserDto {
+  id: number;
+  fullname: string;
+  email: string;
+  createdAt: Date | string;
+}
+
+export interface CustomLesson {
+  id: string;
+  video_time: string;
+  lesson_name: string;
+  is_watched: boolean;
+}
+
+/* for video player */
+export interface VideoRequest {
+  courseId: number;
+  enrollId?: number;
+  lessonId: string;
+}
+
+/* for video player */
+export interface VideoResponse {
+  enrollId: number;
+  lesson: Lesson;
 }

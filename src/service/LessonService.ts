@@ -1,12 +1,12 @@
-import http from "../axiosconfig";
+import { httpUtil } from "@/util/http_util";
 
 class LessonService {
   getLessonsByCourse(id: number) {
-    return http.get(`/lessons/course/${id}`);
+    return httpUtil.get(`/lessons/course/${id}`);
   }
 
   getWatchedList(courseId: number, enrollId: number) {
-    return http.get(`lessons/c/${courseId}/eid/${enrollId}`);
+    return httpUtil.get(`lessons/c/${courseId}/e/${enrollId}`);
   }
 }
 

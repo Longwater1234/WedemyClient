@@ -1,21 +1,19 @@
-<!--CART Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
+<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
-  <h3 class="cart-header">My Cart ({{ store.getters.getCartCount }})</h3>
+  <h3 class="cart-header">My Cart ({{ totalElements }})</h3>
 
-  <div class="jojo" v-loading="store.getters.isLoggedIn && isLoading">
+  <div class="cart-content" v-loading="store.getIsLoggedIn && isLoading">
     <div class="main-view" :class="{ wider: cartItems.length === 0 }">
       <!-- if nothing in cart -->
-      <div v-if="!store.getters.getCartCount" class="empty-view">
+      <div v-if="!store.getCartCount" class="empty-view">
         <el-empty description="Your cart is empty :("></el-empty>
 
         <router-link to="/">
-          <el-button plain class="btn purple" style="width: 15em">
-            Keep shopping
-          </el-button>
+          <el-button plain class="btn purple" style="width: 15em"> Keep shopping </el-button>
         </router-link>
       </div>
 
-      <!-- otherwise show list of Cart tems -->
+      <!-- otherwise show list of Cart items -->
       <div v-else>
         <mobile-summary :totalPrice="totalPrice"></mobile-summary>
 
@@ -23,21 +21,29 @@
           <el-space size="large" direction="vertical">
             <el-card class="w-card" shadow="hover">
               <router-link :to="{ name: 'Course', params: { id: course.id } }">
-                <el-col :span="10">
-                  <img :src="course.thumbUrl" alt="Thumbnail" class="w-thumb" />
-                </el-col>
-                <el-col style="text-align: left; padding-left: 1em">
-                  <div class="w-title">{{ course.title }}</div>
-                  <div class="noblue">{{ course.author }}</div>
-                  <div class="noblue">${{ course.price }}</div>
-                </el-col>
+                <el-row>
+                  <el-col :span="8">
+                    <img :src="course.thumbUrl" alt="Thumbnail" class="w-thumb" />
+                  </el-col>
+                  <el-col :span="14" class="txt-block">
+                    <div class="w-title">{{ course.title }}</div>
+                    <div class="noblue">{{ course.author }}</div>
+                    <div class="noblue">${{ course.price }}</div>
+                  </el-col>
+                </el-row>
               </router-link>
-              <el-icon class="w-delete" @click="removeCart(course.id)">
-                <delete-filled /> <span>Remove</span>
-              </el-icon>
+              <el-icon class="w-delete" @click="removeCart(course.id)"><delete-filled /> <span>Remove</span> </el-icon>
             </el-card>
           </el-space>
         </el-row>
+
+        <!-- PAGINATION -->
+        <el-pagination
+          layout="prev, pager, next"
+          :total="totalElements"
+          :page-size="5"
+          v-model:current-page="currentPage"
+        />
       </div>
     </div>
     <!-- END OF CARD LIST -->
@@ -49,69 +55,69 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
-import store from "@/store";
-import { Course } from "@/types";
+<script lang="ts" setup>
+import { onMounted, ref, watch } from "vue";
 import { DeleteFilled } from "@element-plus/icons-vue";
-import { ElMessage, ElNotification } from "element-plus";
-import CartService from "@/services/CartService";
+import { ElNotification } from "element-plus";
+import CartService from "@/service/CartService";
 import CartSummary from "@/components/CartSummary.vue";
 import MobileSummary from "@/components/MobileSummary.vue";
+import { useStudentStore } from "@/stores";
+import type { Course } from "@/interfaces/wedemy";
+import { handleApiError } from "@/util/http_util";
 
-export default defineComponent({
-  name: "Cart",
-  data() {
-    document.title = "Cart | Wedemy";
-    return {
-      cartItems: new Array<Course>(),
-      isLoading: true,
-    };
-  },
-  inject: ["store"],
-  methods: {
-    fetchCartItems() {
-      CartService.getAllMine()
-        .then((res) => (this.cartItems = res.data.content))
-        .catch((error) => ElMessage.error(error.message))
-        .finally(() => (this.isLoading = false));
-    },
-    removeCart(id: number) {
-      CartService.removeOneByCourse(id)
-        .then(() => this.handleSuccessCart())
-        .catch((err) => ElMessage.error(err.message));
-    },
-    handleSuccessCart() {
-      store.getCartCountServer();
-      this.fetchCartItems();
-      return ElNotification({
-        type: "success",
-        title: "Removed from cart",
-        duration: 2500,
-      });
-    },
-  },
-  mounted() {
-    store.getters.isLoggedIn && this.fetchCartItems();
-  },
-  components: {
-    DeleteFilled,
-    CartSummary,
-    MobileSummary,
-  },
-  computed: {
-    totalPrice(): string {
-      return this.cartItems
-        .map((x) => x.price)
-        .reduce((a, b) => a + b, 0)
-        .toFixed(2);
-    },
-  },
+const store = useStudentStore();
+const cartItems = ref<Course[]>([]);
+const isLoading = ref(true);
+const totalElements = ref(0); //pagination
+const currentPage = ref(1); // pagination
+const totalPrice = ref(0.0);
+
+function fetchCartItems(page: number) {
+  CartService.getMinePaged(page)
+    .then(res => {
+      cartItems.value = res.data.content;
+      totalElements.value = res.data.totalElements;
+    })
+    .then(() => fetchMyTotalBill())
+    .catch(error => handleApiError(error))
+    .finally(() => (isLoading.value = false));
+}
+
+async function fetchMyTotalBill() {
+  const res = await CartService.getMyTotalBill();
+  totalPrice.value = res.data.totalPrice;
+}
+
+function removeCart(id?: number) {
+  if (id === undefined) return;
+  CartService.removeOneByCourse(id)
+    .then(() => handleSuccessCart())
+    .catch(err => handleApiError(err));
+}
+
+function handleSuccessCart() {
+  store.getCartCountServer();
+  fetchCartItems(0);
+  ElNotification({
+    type: "success",
+    title: "Removed from cart",
+    duration: 2500
+  });
+}
+
+onMounted(() => {
+  document.title = "Cart | Wedemy";
+  store.getIsLoggedIn && fetchCartItems(0);
+});
+
+watch([currentPage], function () {
+  fetchCartItems(currentPage.value - 1);
 });
 </script>
 
-<style scoped>
-.jojo {
+<style scoped lang="scss">
+.cart-content {
   display: flex;
   height: 70vh;
   width: 100%;
@@ -138,12 +144,16 @@ export default defineComponent({
 
 .w-card {
   width: 40vw;
-  height: min-content;
+  height: max-content;
+}
+
+.txt-block {
+  text-align: left;
+  padding-left: 1em;
 }
 
 .w-thumb {
   width: 10em;
-  aspect-ratio: 16/9;
   margin-bottom: 20px;
 }
 
@@ -187,13 +197,8 @@ export default defineComponent({
   }
 
   .w-card {
-    width: 96vw;
+    width: 100vw;
     font-size: small;
-  }
-
-  .w-thumb {
-    width: 8em;
-    aspect-ratio: 16/9;
   }
 
   .mobile-only {
@@ -205,6 +210,13 @@ export default defineComponent({
     margin-left: 20em;
     bottom: 1em;
     font-size: 20px;
+  }
+
+  .txt-block {
+    text-align: left;
+    width: min-content;
+    margin-left: 1em;
+    //border: 1px solid green;
   }
 
   .w-delete span {

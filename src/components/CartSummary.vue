@@ -19,24 +19,14 @@
   </el-affix>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ArrowRight } from "@element-plus/icons-vue";
-import { defineComponent } from "vue";
 
-export default defineComponent({
-  name: "CartSummary",
-  data() {
-    return {};
-  },
-  props: {
-    totalPrice: {
-      type: String,
-      default: "0.0",
-    },
-  },
-  components: {
-    ArrowRight,
-  },
+defineProps({
+  totalPrice: {
+    type: Number,
+    default: 0
+  }
 });
 </script>
 

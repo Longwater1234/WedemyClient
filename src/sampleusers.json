@@ -1,26 +1,26 @@
 [
-    {
-        "email": "anna@example.com",
-        "pass": "anna_qwerty9876"
-    },
-    {
-        "email": "bob@example.com",
-        "pass": "bob_qwerty9876!"
-    },
-    {
-        "email": "coco@example.com",
-        "pass": "coco_qwerty9876!"
-    },
-    {
-        "email": "damian@example.com",
-        "pass": "damian_qwerty9876!"
-    },
-    {
-        "email": "eric@example.com",
-        "pass": "eric_qwerty9876!"
-    },
-    {
-        "email": "fiona@example.com",
-        "pass": "fiona_qwerty9876!"
-    }
+  {
+    "email": "anna@example.com",
+    "pass": "anna_qwerty9876"
+  },
+  {
+    "email": "bob@example.com",
+    "pass": "bob_qwerty9876!"
+  },
+  {
+    "email": "coco@example.com",
+    "pass": "coco_qwerty9876!"
+  },
+  {
+    "email": "damian@example.com",
+    "pass": "damian_qwerty9876!"
+  },
+  {
+    "email": "eric@example.com",
+    "pass": "eric_qwerty9876!"
+  },
+  {
+    "email": "fiona@example.com",
+    "pass": "fiona_qwerty9876!"
+  }
 ]

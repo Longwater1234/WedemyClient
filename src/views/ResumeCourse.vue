@@ -7,44 +7,45 @@
   ></div>
 </template>
 
-<script lang="ts">
-import EnrollService from "@/services/EnrollService";
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import EnrollService from "@/service/EnrollService";
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { handleApiError } from "@/util/http_util";
 
-export default defineComponent({
-  name: "ResumeCourse",
-  data() {
-    document.title = "Redirecting you...";
-    return {
-      isLoading: true,
-      courseId: 0,
-    };
-  },
-  methods: {
-    /* check with backend */
-    getRedirectLink(courseId: number) {
-      EnrollService.getLastViewed(courseId)
-        .then((res) => this.redirectToPlayer(res.data.lessonId))
-        .catch((error) => this.$router.replace('/account/learning'))
-        .finally(() => (this.isLoading = false));
-    },
-    redirectToPlayer(lessonId: string) {
-      this.$router.replace({
-        name: "VideoPlayer",
-        params: { courseId: this.courseId, lessonId: lessonId },
-      });
-    },
-  },
-  mounted() {
-    //call backend to verify user owns this course
-    let { courseId } = this.$route.params;
-    this.courseId = parseInt(courseId.toString());
-    setTimeout(() => {
-      this.getRedirectLink(this.courseId);
-    }, 500);
-  },
-  beforeUnmount() {
-    this.isLoading = false;
-  },
+const isLoading = ref(true);
+const courseId = ref(0);
+const router = useRouter();
+const route = useRoute();
+
+/* check with backend */
+const getRedirectLink = (courseId: number) => {
+  EnrollService.getLastViewed(courseId)
+    .then(res => redirectToPlayer(res.data.lessonId))
+    .catch(error => {
+      handleApiError(error);
+      router.replace("/account/learning");
+    })
+    .finally(() => (isLoading.value = false));
+};
+
+const redirectToPlayer = (lessonId?: string) => {
+  router.replace({
+    name: "VideoPlayer",
+    params: { courseId: courseId.value, lessonId: lessonId || "" }
+  });
+};
+
+onMounted(() => {
+  //call backend to verify user owns this course
+  let courseIdParam = route.params?.courseId;
+  courseId.value = courseIdParam ? parseInt(courseIdParam.toString()) : 0;
+  setTimeout(() => {
+    getRedirectLink(courseId.value);
+  }, 200);
+});
+
+onBeforeUnmount(() => {
+  isLoading.value = false;
 });
 </script>

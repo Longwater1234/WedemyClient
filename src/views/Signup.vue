@@ -6,12 +6,12 @@
 
       <!-- GOOGLE SIGN UP  -->
       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
-      <!-- <div
+      <!--      <div
         id="g_id_onload"
         :data-client_id="GOOGLE_CLIENT_ID"
         data-context="signup"
         data-ux_mode="popup"
-        :data-login_uri="SERVER_ROOT + `/oauth2/authorization/google`"
+        :data-login_uri="SERVER_ROOT + '/oauth2/authorization/google'"
         data-auto_prompt="false"
       ></div>
 
@@ -23,24 +23,17 @@
         data-text="signup_with"
         data-size="large"
         data-logo_alignment="left"
-      ></div> -->
+      ></div>-->
       <!-- END OF GOOGLE BUTTON -->
+
       <div>
         <router-link to="/login">
-          <el-button class="btn" type="warning">
-            Login with Test Account
-          </el-button>
+          <el-button class="btn" type="warning"> Login with Test Account </el-button>
         </router-link>
       </div>
 
       <!-- START SIGNUP FORM -->
-      <el-form
-        @submit.prevent
-        status-icon
-        :model="signupForm"
-        :rules="rules"
-        ref="signupForm"
-      >
+      <el-form @submit.prevent="handleSignup" status-icon :model="signupForm" :rules="rules" ref="signupFormRef">
         <el-form-item style="margin-top: 10px" prop="fullname" required>
           <el-input
             placeholder="Name"
@@ -90,21 +83,11 @@
 
         <!--  CAPTCHA BOX -->
         <el-form-item>
-          <vue-hcaptcha
-            ref="mycaptcha"
-            :sitekey="HCAPTCHA_KEY"
-            @verify="handleVerify"
-          ></vue-hcaptcha>
+          <vue-hcaptcha ref="mycaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
         </el-form-item>
 
         <el-form-item style="margin-top: 8px">
-          <el-button
-            class="btn purple"
-            @click="handleSignup('signupForm')"
-            style="font-weight: bold"
-            :loading="isLoading"
-            native-type="submit"
-          >
+          <el-button class="btn purple" style="font-weight: bold" :loading="isLoading" native-type="submit">
             Sign Up
           </el-button>
         </el-form-item>
@@ -112,161 +95,131 @@
 
       <div style="margin-top: 13px">
         Already have an account?
-        <router-link to="/login" :style="{ fontWeight: '800' }">
-          LogIn
-        </router-link>
+        <router-link to="/login" style="font-weight: 800"> Login </router-link>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import AuthService from "@/services/AuthService";
+<script lang="ts" setup>
+import AuthService from "@/service/AuthService";
 import { ElMessage } from "element-plus";
-import isEmail from "validator/lib/isEmail";
+import type { FormInstance, FormRules } from "element-plus";
+import { Lock, User, Message } from "@element-plus/icons-vue";
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import { handleApiError } from "@/util/http_util";
+import { useRouter } from "vue-router";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
-import { Lock, User, Message } from "@element-plus/icons-vue/dist/lib";
-import { markRaw } from "@vue/reactivity";
 
-export default {
-  name: "SignUp",
-  data() {
-    document.title = "SignUp | Wedemy";
+document.title = "SignUp | Wedemy";
 
-    /* validation for fullname */
-    const checkName = (rule, value, callback) => {
-      let reg = /[^ 0-9a-z_\.\-']/gi;
-      if (!value) {
-        return callback(new Error("Name can't be empty"));
-      }
-      setTimeout(() => {
-        if (value.length < 2) {
-          callback(new Error("Name is too short"));
-        } else if (reg.test(this.signupForm.fullname)) {
-          callback(new Error("Name contains illegal characters"));
-        } else {
-          callback();
-        }
-      }, 100);
-    };
+const signupFormRef = ref<FormInstance>();
+const router = useRouter();
+const responseToken = ref("");
 
-    // validation for email
-    const checkEmail = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("E-mail can't be empty"));
-      } else if (!isEmail(this.signupForm.email)) {
-        callback(new Error("Email is invalid"));
-      } else {
-        callback();
-      }
-    };
-
-    // validation for password
-    const checkPassword = (rule, value, callback) => {
-      let passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gi;
-      if (!value) {
-        callback(new Error("Password can't be empty"));
-      } else if (value.length < 8) {
-        return callback(new Error("Minimum length is 8 characters"));
-      } else if (!passwordReg.test(value)) {
-        callback(new Error("Required at least 1 digit and 1 letter"));
-      } else {
-        callback();
-      }
-    };
-
-    // validation for confirm password
-    const checkRepeatPass = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error("Re-enter the password"));
-      } else if (value !== this.signupForm.password) {
-        callback(new Error("Passwords don't match!"));
-      } else {
-        callback();
-      }
-    };
-
-    return {
-      signupForm: {
-        fullname: "",
-        email: "",
-        password: "",
-        confirmPass: "",
-      },
-
-      // rules for the validation
-      rules: {
-        fullname: [{ validator: checkName, trigger: "blur" }],
-        email: [{ validator: checkEmail, trigger: "blur" }],
-        password: [{ validator: checkPassword, trigger: "blur" }],
-        confirmPass: [{ validator: checkRepeatPass, trigger: "blur" }],
-      },
-
-      //other
-      User: markRaw(User),
-      Lock: markRaw(Lock),
-      Message: markRaw(Message),
-      isLoading: false,
-      responseToken: "",
-      GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
-      SERVER_ROOT: process.env.VUE_APP_BACKEND_ROOT_URL,
-      HCAPTCHA_KEY: process.env.VUE_APP_HCAPTCHA_CLIENT_KEY,
-    };
-  },
-  methods: {
-    handleSignup(formName) {
-      const self = this;
-      this.$refs[formName].validate((valid) => {
-        if (!valid || !this.responseToken) return;
-        this.isLoading = true;
-        this.submitToServer(this.signupForm, this.responseToken)
-          .then(() => this.redirectToLogin())
-          .catch((error) => self.handleError(error))
-          .finally(() => (this.isLoading = false));
-      });
-    },
-    submitToServer: async (payload, responseToken) => {
-      await AuthService.registerUser({ ...payload }, responseToken);
-    },
-    redirectToLogin() {
-      ElMessage.success("Welcome to Wedemy. Please Login");
-      setTimeout(() => {
-        window.location.replace("/login");
-      }, 500);
-    },
-
-    /** onSuccess captcha solve */
-    handleVerify(token) {
-      this.responseToken = token;
-    },
-    handleError(err) {
-      let mama = err.response ? err.response.data.message : err.message;
-      ElMessage.error(mama);
-      setTimeout(() => {
-        this.resetCaptcha();
-      }, 200);
-    },
-    resetCaptcha() {
-      this.responseToken = "";
-      this.$refs.mycaptcha.reset();
-    },
-  },
-  mounted() {
-    //attach GoogleAuth script
-    const scripta = document.createElement("script");
-    scripta.src = `https://accounts.google.com/gsi/client`;
-    scripta.id = "google_client";
-    document.getElementById("baba").appendChild(scripta);
-  },
-  components: {
-    VueHcaptcha,
-  },
-  beforeUnmount() {
-    //detach GoogleLogin script
-    document.getElementById("google_client").remove();
-    this.responseToken = "";
-  },
+/* validation for fullname */
+const checkName = (rule: any, value: string, callback: (arg?: Error) => void) => {
+  let reg = /[^ \p{sc=Han}0-9a-zA-Z_.'-]/i;
+  if (!value) {
+    return callback(new Error("Name can't be empty"));
+  }
+  setTimeout(() => {
+    if (value.length < 2) {
+      callback(new Error("Name is too short"));
+    } else if (reg.test(signupForm.fullname)) {
+      callback(new Error("Name contains illegal characters"));
+    } else {
+      callback();
+    }
+  }, 100);
 };
+
+// validation for password
+const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
+  let passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gi;
+  if (!value) {
+    callback(new Error("Password can't be empty"));
+  } else if (value.length < 8) {
+    return callback(new Error("Minimum length is 8 characters"));
+  } else if (!passwordReg.test(value)) {
+    callback(new Error("Required at least 1 digit and 1 letter"));
+  } else {
+    callback();
+  }
+};
+
+// validation for confirm password
+const checkRepeatPass = (rule: any, value: string, callback: (arg?: Error) => void) => {
+  if (!value) {
+    callback(new Error("Re-enter the password"));
+  } else if (value !== signupForm.password) {
+    callback(new Error("Passwords don't match!"));
+  } else {
+    callback();
+  }
+};
+
+const signupForm = reactive({
+  fullname: "",
+  email: "",
+  password: "",
+  confirmPass: ""
+});
+
+// rules for the validation
+const rules = reactive<FormRules>({
+  fullname: [{ validator: checkName, trigger: "blur" }],
+  email: [{ required: true, type: "email", trigger: "blur" }],
+  password: [{ validator: checkPassword, trigger: "blur" }],
+  confirmPass: [{ validator: checkRepeatPass, trigger: "blur" }]
+});
+
+const isLoading = ref(false);
+
+const HCAPTCHA_KEY = computed(() => {
+  return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
+});
+
+function handleSignup() {
+  signupFormRef.value?.validate(valid => {
+    if (!valid) return;
+    isLoading.value = true;
+    submitToServer(signupForm)
+      .then(() => redirectToLogin())
+      .catch(err => handleApiError(err))
+      .finally(() => (isLoading.value = false));
+  });
+}
+
+const submitToServer = async (payload: typeof signupForm) => {
+  await AuthService.registerUser({ ...payload }, responseToken.value);
+};
+
+/** onSuccess captcha solve */
+function handleVerify(token: string) {
+  responseToken.value = token;
+}
+
+function redirectToLogin() {
+  ElMessage.success("Welcome to Wedemy. Please Login");
+  setTimeout(() => {
+    router.replace("/login");
+    window.location.reload();
+  }, 500);
+}
+
+onMounted(() => {
+  //attach GoogleAuth script
+  const scripta = document.createElement("script");
+  scripta.src = "https://accounts.google.com/gsi/client";
+  scripta.id = "google_client";
+  document.getElementById("g-login")?.appendChild(scripta); //see index.html
+});
+
+onBeforeUnmount(() => {
+  //detach above script
+  document.getElementById("google_client")?.remove();
+});
 </script>
 
 <style>
