@@ -8,8 +8,8 @@
 [![Package - typescript](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/dev/typescript?color=blue)](https://www.npmjs.com/package/typescript)
 
 (Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3, Vite, Typescript, Pinia, and Element Plus.
-All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
-GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
+At checkout, payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple
+Pay, GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
 (DEV) mode. Users may authenticate with simple username and password, or with Google.
 
 ### Disclaimer ⚠
@@ -20,7 +20,8 @@ GooglePay, Venmo and many other methods. This project implements Credit-Card and
 
 ## Backend Repo
 
-The backend for the Demo is a separate Java Springboot application [available here](https://github.com/Longwater1234/WedemyServer).
+The backend for the Demo is a separate Java Springboot
+application [available here](https://github.com/Longwater1234/WedemyServer).
 However, you may use any Backend framework or language you like with this project.
 
 ## Install
@@ -43,7 +44,8 @@ on [deployment](https://vitejs.dev/guide/static-deploy.html), depending on your 
 
 ## [Live Demo](https://wedemy.up.railway.app/) - updated 2023 Jan
 
-PLEASE READ: The Demo uses Sandbox (Dev) Mode of Braintree Payments. **No actual money will be deducted on Checkout**. You
+PLEASE READ: The Demo uses Sandbox (Dev) Mode of Braintree Payments. **No actual money will be deducted on Checkout**.
+You
 **should** use test credit-card
 numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java). Also, this
 demo serves embedded video from YouTube (for simplicity).
@@ -90,12 +92,14 @@ If you don't want to Register, You can still play around the live demo using any
 - (OPTIONAL) Free PayPal Business Account.
 - IMPORTANT ⚠: Remember to create an `.env` file at root folder and fill in appropriate values (see _.env.sample_)
 
-### 📕 Resources
+### 📕 Resources - learn more
 
+- [Vite](https://vitejs.dev/guide/) - official Guide
 - [Braintree Payments docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
 - [Google Login docs](https://developers.google.com/identity/gsi/web/guides/overview) - latest version
-- [Element Plus UI](https://element-plus.org/en-US/) - CSS framework for Vue.
+- [Element Plus](https://element-plus.org/en-US/) - UI framework for Vue.
 - [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue, replacing VueX.
+- [sql-to-ts](https://rmp135.github.io/sql-ts/) - Useful DbSchema (SQL) to TS Interface convertor
 
 ## Pull Requests & Contributions
 

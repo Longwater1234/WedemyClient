@@ -8,8 +8,7 @@ class AuthService {
   loginUser({ email, password, responseToken }: LoginRequest) {
     const url = "/auth/login";
     const body = { email, password };
-    const options: AxiosRequestConfig = { params: responseToken };
-    return httpUtil.post(url, body, options);
+    return httpUtil.post(url, body, { params: { responseToken: responseToken } });
   }
 
   /**  Login using Spring FormLogin  */
@@ -32,8 +31,8 @@ class AuthService {
   }
 
   /** Register submits form to Server */
-  registerUser(load: Partial<User>) {
-    return httpUtil.post("/auth/register", load);
+  registerUser(load: Partial<User>, responseToken: string) {
+    return httpUtil.post("/auth/register", load, { params: { responseToken: responseToken } });
   }
 }
 

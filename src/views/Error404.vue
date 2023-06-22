@@ -2,8 +2,8 @@
 <template>
   <div class="widescreen">
     <h1 style="margin-top: 50px">¯\_(ツ)_/¯</h1>
-    <h1 style="margin-top: 50px">Error 404</h1>
-    <h2>Hmm, You seem to be lost...</h2>
+    <div class="error-num">404</div>
+    <div>Hmm, You seem to be lost...🙄</div>
     <br />
 
     <!-- BUTTON STARTS HERE -->
@@ -27,13 +27,21 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .widescreen {
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
   width: 50%;
   height: 70vh;
   color: black;
+}
+
+.error-num {
+  margin-top: 50px;
+  font-size: 10rem;
 }
 
 .shortbaby {
