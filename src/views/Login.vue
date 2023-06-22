@@ -86,12 +86,14 @@ import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import { useStudentStore } from "@/stores";
 import type { LoginRequest, UserDto } from "@/interfaces/custom";
 import sampleUserList from "@/sampleusers.json";
+import { useRouter } from "vue-router";
 
 document.title = "Login | Wedemy";
 
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
 const mycaptcha = ref<VueHcaptcha>();
+const router = useRouter();
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
@@ -155,9 +157,10 @@ function toggleAccount() {
   loginForm.password = userAccount.pass;
 }
 
-function redirectToHome() {
+async function redirectToHome() {
   ElMessage.success("Welcome back!");
-  window.location.replace("/");
+  await router.replace("/");
+  window.location.reload();
 }
 
 function displayError(err: any) {

@@ -8,7 +8,7 @@ class AuthService {
   loginUser({ email, password, responseToken }: LoginRequest) {
     const url = "/auth/login";
     const body = { email, password };
-    const options = { params: responseToken };
+    const options = { params: { responseToken: responseToken } };
     return httpUtil.post(url, body, options);
   }
 
@@ -33,7 +33,7 @@ class AuthService {
 
   /** Register submits form to Server */
   registerUser(load: Partial<User>, responseToken: string) {
-    return httpUtil.post("/auth/register", load, { params: { responseToken } });
+    return httpUtil.post("/auth/register", load, { params: { responseToken: responseToken } });
   }
 }
 
