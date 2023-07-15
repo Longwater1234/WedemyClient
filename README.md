@@ -1,5 +1,5 @@
 <h1>
-<div align="center"><img src="src/assets/logo_final_purple.png" alt="wedemy-logo"/> </div>
+<div align="center"><img src="./src/assets/logo_final_purple.png" alt="wedemy-logo"/> </div>
 <div>WedemyClient</div>
 </h1>
 
