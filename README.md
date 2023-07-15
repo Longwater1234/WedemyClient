@@ -24,8 +24,8 @@ Pay, GooglePay, Venmo and many other methods. This project implements Credit-Car
 ## Backend Repo
 
 The backend for the Demo is a separate Java Springboot
-application [available here](https://github.com/Longwater1234/WedemyServer).
-However, you may use any Backend framework or language you like with this project.
+application [available here](https://github.com/Longwater1234/WedemyServer) with API Docs. However, you may use any
+Backend framework or language you like with this project.
 
 ## Install
 
@@ -37,22 +37,22 @@ npm install
 ## Usage
 
 In local development, the app runs on port 5173 by default. You can change it in [vite.config.ts](vite.config.ts).
-Remember to create an `.env` file at root folder and fill in appropriate values (see `.env.sample`). Don't commit this file!
+Create an `.env` file at root folder and fill in appropriate values (see `.env.sample`).
 
 ```sh
 npm run dev
 ```
 
 For production, run `npm run build`, then follow official Vite guide
-on [deployment](https://vitejs.dev/guide/static-deploy.html), depending on your hosting of choice.
+on [deployment](https://vitejs.dev/guide/static-deploy.html), depending on your hosting of choice. Remember to set ENV
+variables.
 
 ## [Live Demo](https://wedemy.up.railway.app/)
 
 PLEASE READ: The Demo uses Sandbox (Dev) Mode of Braintree Payments. **No actual money will be deducted on Checkout**.
 You **should** use test credit-card
 numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java). Also, this
-demo serves embedded video from YouTube (just for simplicity). In reality, you should use customizable video hosting
-platform.
+demo serves embedded video from YouTube (just for simplicity). Google Login is disabled in the demo.
 
 ### Test Accounts for Demo
 
