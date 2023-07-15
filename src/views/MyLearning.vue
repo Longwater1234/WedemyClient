@@ -43,12 +43,13 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { EnrollmentDto } from "@/interfaces/custom";
 
-const isLoading = ref(true);
+const isLoading = ref(false);
 const serverError = ref("");
 const courses = ref<EnrollmentDto[]>([]);
 const router = useRouter();
 
 function fetchAllEnrolled(page: number) {
+  isLoading.value = true;
   EnrollService.getAllMyCourses(page)
     .then(res => (courses.value = res.data))
     .catch(err => (serverError.value = err.message))
