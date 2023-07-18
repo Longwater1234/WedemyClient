@@ -47,7 +47,7 @@ For production, run `npm run build`, then follow official Vite guide
 on [deployment](https://vitejs.dev/guide/static-deploy.html), depending on your hosting of choice. Remember to set ENV
 variables.
 
-## [Live Demo](https://wedemy.up.railway.app/)
+## [Live Demo](https://wedemy.up.railway.app/) - updated June 2023
 
 PLEASE READ: The Demo uses Sandbox (Dev) Mode of Braintree Payments. **No actual money will be deducted on Checkout**.
 You **should** use test credit-card
@@ -65,7 +65,7 @@ page and click **Login with Test Account** button.
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account (for payments handling)
 - (OPTIONAL) Free PayPal Business Account.
 
-### 📕 Resources - learn more
+## Resources - learn more
 
 - [Vite](https://vitejs.dev/guide/) - official Guide
 - [Vue DevTools](https://devtools.vuejs.org/guide/installation.html) - for any Browser
@@ -88,6 +88,7 @@ This project is [MIT](https://github.com/Longwater1234/WedemyClient/blob/master/
 
 ### Credits
 
+- Logo by author. MIT Licensed.
 - Homepage banner image: [Avi Richards, Unsplash](https://unsplash.com/@avirichards)
-- Video content: all creators listed in "Credits" page in the Demo.
+- Demo Video content: all creators listed in "Credits" page.
 - Main font used: [Fira Sans](https://fonts.google.com/specimen/Fira%20Sans)

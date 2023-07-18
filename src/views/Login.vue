@@ -115,6 +115,7 @@ const isLoading = ref(false);
 const GOOGLE_CLIENT_ID = computed(() => {
   return import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 });
+
 const SERVER_ROOT = computed(() => {
   return import.meta.env.VITE_APP_BACKEND_ROOT_URL;
 });
