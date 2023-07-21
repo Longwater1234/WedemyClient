@@ -4,7 +4,7 @@ You may help complete this TODO list. Fork the project, create a new branch, add
 I will review before merging it.
 
 - [x] CSS/Layout cleanup on mobile
-- [ ] Dark Mode
+- [ ] Full Dark Mode
 - [ ] Admin + Instructor Panel (as separate project?)
 - [ ] Certificates of Completion
 - [ ] Download Receipts after Purchase

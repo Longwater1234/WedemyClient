@@ -57,9 +57,10 @@
 <script lang="ts" setup>
 import CourseService from "@/service/CourseService";
 import type { Course } from "@/interfaces/wedemy";
-import { computed, onMounted, ref, watch } from "vue";
-import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { handleApiError } from "@/util/http_util";
+import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue";
 
 const searchQuery = ref("");
 const isLoading = ref(false);
@@ -92,7 +93,7 @@ onMounted(() => {
   fetchCoursesByTitle(searchQuery.value);
 });
 
-onBeforeRouteLeave(() => {
+onBeforeUnmount(() => {
   searchQuery.value = "";
 });
 
@@ -127,8 +128,8 @@ const numOfResults = computed((): number => {
 .pager {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin: 0 auto;
+  justify-content: start;
+  margin: 0 10%;
 }
 
 .course-box {
