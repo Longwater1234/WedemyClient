@@ -13,8 +13,8 @@ class CourseService {
     return httpUtil.get(`/courses/cat/${category}`);
   }
 
-  findByTitle(title: string) {
-    return httpUtil.get("/courses/search", { params: { title } });
+  findByTitle(title: string, page = 0) {
+    return httpUtil.get("/courses/search", { params: { title, page } });
   }
 
   getObjectivesByCourse(id: number) {

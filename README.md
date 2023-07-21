@@ -13,7 +13,8 @@
 (Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3, Vite, Typescript, Pinia, and Element Plus.
 At checkout, payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple
 Pay, GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only. This is the
-Student-facing web app -- does NOT include Instructor or Admin panel.
+Student-facing web app -- does NOT include Instructor or Admin panel. Users may log in with either email/password or
+with Google.
 
 ### Disclaimer ⚠
 
@@ -25,7 +26,7 @@ Student-facing web app -- does NOT include Instructor or Admin panel.
 
 The backend for the Demo is a separate Java Springboot
 application [available here](https://github.com/Longwater1234/WedemyServer) with API Docs. However, you may use any
-Backend framework or language you like with this project.
+server framework or language you like with this project.
 
 ## Install
 
@@ -37,7 +38,7 @@ npm install
 ## Usage
 
 In local development, the app runs on port 5173 by default. You can change it in [vite.config.ts](vite.config.ts).
-Create an `.env` file at root folder and fill in appropriate values (see `.env.sample`).
+Create an `.env` file at project root and fill in appropriate values (see `.env.sample`).
 
 ```sh
 npm run dev
@@ -45,7 +46,7 @@ npm run dev
 
 For production, run `npm run build`, then follow official Vite guide
 on [deployment](https://vitejs.dev/guide/static-deploy.html), depending on your hosting of choice. Remember to set ENV
-variables.
+variables on your target Cloud platform.
 
 ## [Live Demo](https://wedemy.up.railway.app/) - updated June 2023
 
@@ -68,12 +69,12 @@ page and click **Login with Test Account** button.
 ## Resources - learn more
 
 - [Vite](https://vitejs.dev/guide/) - official Guide
-- [Vue DevTools](https://devtools.vuejs.org/guide/installation.html) - for any Browser
 - [Braintree Payments docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
-- [Google Login docs](https://developers.google.com/identity/gsi/web/guides/overview) - latest version
-- [Element Plus](https://element-plus.org/en-US/) - UI framework for Vue.
-- [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue, replacing VueX.
-- [sql-to-ts](https://rmp135.github.io/sql-ts/) - Useful DbSchema (SQL) to TS Interface convertor
+- [Google Login docs](https://developers.google.com/identity/gsi/web/guides/overview) - latest version for Web
+- [Element Plus](https://element-plus.org/en-US/) - UI framework for VueJS.
+- [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue (replacing VueX)
+- [Vue DevTools](https://devtools.vuejs.org/guide/installation.html) -✨ for any Browser
+- [sql-to-ts](https://rmp135.github.io/sql-ts/) -✨ useful Db schema (SQL) to TS Interface generator
 
 ## Pull Requests & Contributions
 
@@ -90,5 +91,5 @@ This project is [MIT](https://github.com/Longwater1234/WedemyClient/blob/master/
 
 - Logo by author. MIT Licensed.
 - Homepage banner image: [Avi Richards, Unsplash](https://unsplash.com/@avirichards)
-- Demo Video content: all creators listed in "Credits" page.
-- Main font used: [Fira Sans](https://fonts.google.com/specimen/Fira%20Sans)
+- Demo video content: all creators listed on "Credits" webpage.
+- Web font used: [Fira Sans](https://fonts.google.com/specimen/Fira%20Sans)
