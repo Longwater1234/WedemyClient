@@ -13,7 +13,8 @@
 (Frontend Repo). Clone of Udemy, PWA (progressive web app) built using Vue 3, Vite, Typescript, Pinia, and Element Plus.
 At checkout, payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple
 Pay, GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only. This is the
-Student-facing web app -- does NOT include Instructor or Admin panel.
+Student-facing web app -- does NOT include Instructor or Admin panel. Users may log in with either email/password or
+with Google.
 
 ### Disclaimer ⚠
 
