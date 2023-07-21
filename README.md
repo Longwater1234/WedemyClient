@@ -69,12 +69,12 @@ page and click **Login with Test Account** button.
 ## Resources - learn more
 
 - [Vite](https://vitejs.dev/guide/) - official Guide
-- [Vue DevTools](https://devtools.vuejs.org/guide/installation.html) - for any Browser
 - [Braintree Payments docs](https://developer.paypal.com/braintree/docs/guides/drop-in/setup-and-integration/javascript/v3)
-- [Google Login docs](https://developers.google.com/identity/gsi/web/guides/overview) - latest version
-- [Element Plus](https://element-plus.org/en-US/) - UI framework for Vue.
-- [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue, replacing VueX.
-- [sql-to-ts](https://rmp135.github.io/sql-ts/) - Useful DbSchema (SQL) to Typescript Interface convertor
+- [Google Login docs](https://developers.google.com/identity/gsi/web/guides/overview) - latest version for Web
+- [Element Plus](https://element-plus.org/en-US/) - UI framework for VueJS.
+- [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue (replacing VueX)
+- [Vue DevTools](https://devtools.vuejs.org/guide/installation.html) -✨ for any Browser
+- [sql-to-ts](https://rmp135.github.io/sql-ts/) -✨ useful Db schema (SQL) to TS Interface generator
 
 ## Pull Requests & Contributions
 
@@ -91,5 +91,5 @@ This project is [MIT](https://github.com/Longwater1234/WedemyClient/blob/master/
 
 - Logo by author. MIT Licensed.
 - Homepage banner image: [Avi Richards, Unsplash](https://unsplash.com/@avirichards)
-- Demo Video content: all creators listed in "Credits" page.
-- Main font used: [Fira Sans](https://fonts.google.com/specimen/Fira%20Sans)
+- Demo video content: all creators listed on "Credits" webpage.
+- Web font used: [Fira Sans](https://fonts.google.com/specimen/Fira%20Sans)
