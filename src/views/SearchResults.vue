@@ -75,7 +75,7 @@ const currentPage = ref(1); //pagination
 
 function fetchCoursesByTitle(title: string) {
   isLoading.value = true;
-  CourseService.findByTitle(title)
+  CourseService.findByTitle(title, currentPage.value - 1)
     .then(res => {
       courses.value = res.data.content;
       isFirst.value = res.data.first;
