@@ -114,7 +114,7 @@ const responseToken = ref("");
 
 /* validation for fullname */
 const checkName = (rule: any, value: string, callback: (arg?: Error) => void) => {
-  let reg = /[^ \p{Han}0-9a-zA-Z_.'-]/i;
+  const reg = /[^ \p{Han}0-9a-zA-Z_.'-]/i;
   if (!value) {
     return callback(new Error("Name can't be empty"));
   }
@@ -131,7 +131,7 @@ const checkName = (rule: any, value: string, callback: (arg?: Error) => void) =>
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
-  let passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gi;
+  const passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gi;
   if (!value) {
     callback(new Error("Password can't be empty"));
   } else if (value.length < 8) {
