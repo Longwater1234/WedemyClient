@@ -89,7 +89,7 @@ This project is [MIT](https://github.com/Longwater1234/WedemyClient/blob/master/
 
 ### Credits
 
-- Logo by author. MIT Licensed.
+- Logo by author. [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1) License. Feel free to remix or reuse.
 - Homepage banner image: [Avi Richards, Unsplash](https://unsplash.com/@avirichards)
 - Demo video content: all creators listed on "Credits" webpage.
-- Web font used: [Fira Sans](https://fonts.google.com/specimen/Fira%20Sans)
+- Web font used: [Fira Sans](https://fonts.google.com/specimen/Fira%20Sans) by Mozilla Foundation
