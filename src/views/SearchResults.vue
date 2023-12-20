@@ -2,7 +2,7 @@
 <template>
   <div style="height: 80vh">
     <h2 class="most-pop">{{ numOfResults }} results for '{{ decodeURI(searchQuery) }}'</h2>
-    <el-alert v-if="serverError.length" :title="serverError" type="error" :closable="false"> </el-alert>
+    <el-alert v-if="serverError.length" :title="serverError" type="error" :closable="false" />
 
     <div v-loading="isLoading"></div>
 
@@ -88,7 +88,7 @@ function fetchCoursesByTitle(title: string) {
 onMounted(() => {
   document.title = "Search Results | Wedemy";
   window.scrollTo(0, 0);
-  let { q } = route.query;
+  const { q } = route.query;
   searchQuery.value = q ? q.toString() : "";
   fetchCoursesByTitle(searchQuery.value);
 });
@@ -104,7 +104,7 @@ function addPage(value: number) {
 }
 
 watch([route], function () {
-  let newVal = route.query?.q;
+  const newVal = route.query?.q;
   if (!newVal) return;
   isLoading.value = true;
   searchQuery.value = newVal.toString();

@@ -38,7 +38,7 @@ const redirectToPlayer = (lessonId?: string) => {
 
 onMounted(() => {
   //call backend to verify user owns this course
-  let courseIdParam = route.params?.courseId;
+  const courseIdParam = route.params?.courseId;
   courseId.value = courseIdParam ? parseInt(courseIdParam.toString()) : 0;
   setTimeout(() => {
     getRedirectLink(courseId.value);

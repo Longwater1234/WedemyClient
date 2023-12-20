@@ -29,6 +29,7 @@ module.exports = {
   rules: {
     semi: ["warn", "always"],
     quotes: ["warn", "double"],
+    "prefer-const": 1,
     "unused-imports/no-unused-imports": "error",
     "vue/multi-word-component-names": [0, "never"],
     "@typescript-eslint/no-unused-vars": [

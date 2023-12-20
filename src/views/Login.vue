@@ -133,8 +133,8 @@ async function handleLogin() {
 }
 
 async function submitToServer(payload: LoginRequest) {
-  let res = await AuthService.loginUser({ ...payload });
-  let user: UserDto = res.data.userInfo;
+  const res = await AuthService.loginUser({ ...payload });
+  const user: UserDto = res.data.userInfo;
   store.$patch({
     id: user.id,
     fullname: user.fullname,
