@@ -4,7 +4,7 @@
 </h1>
 
 ![Version](https://img.shields.io/badge/version-1.2.0-blue.svg?cacheSeconds=2592000)
-![Prerequisite](https://img.shields.io/badge/node-16.x-blue.svg)
+![Prerequisite](https://img.shields.io/badge/node-20.x-blue.svg)
 [![Package - vue](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/vue?color=blue)](https://www.npmjs.com/package/vue)
 [![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)](https://www.npmjs.com/package/vite)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyClient)](https://github.com/Longwater1234/WedemyClient/blob/master/LICENSE)
@@ -30,7 +30,7 @@ server framework or language you like with this project.
 ## Install
 
 ```sh
-# Requires node 18.x or higher
+# Requires node 20.x or higher
 npm install
 ```
 
