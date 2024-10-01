@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
-    "@techassi/vue-youtube-iframe": "^1.0.6",
     "@hcaptcha/vue3-hcaptcha": "^1.2.1",
+    "@techassi/vue-youtube-iframe": "^1.0.6",
     "@vueuse/core": "^9.13.0",
     "axios": "~1.5.0",
     "braintree-web-drop-in": "^1.36.1",
@@ -53,6 +53,7 @@
     "@vue/tsconfig": "^0.1.3",
     "cross-env": "^7.0.3",
     "eslint": "^8.34.0",
+    "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "eslint-plugin-vue": "^9.9.0",
     "husky": "^8.0.0",
