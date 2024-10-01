@@ -76,7 +76,8 @@ export interface User {
   fullname: string;
   id?: number;
   password: string | null;
-  userRole?: any;
+  userRole?: string;
+  enabled: boolean;
 }
 export interface Wishlist {
   courseId: number;
