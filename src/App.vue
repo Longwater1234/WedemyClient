@@ -1,9 +1,7 @@
 <template>
-  <el-scrollbar>
-    <Navbar :categories="categories" v-if="!computedHideNavbar" />
-    <router-view />
-    <Footer v-if="!computedHideFooter" />
-  </el-scrollbar>
+  <Navbar :categories="categories" v-if="!computedHideNavbar" />
+  <router-view />
+  <Footer v-if="!computedHideFooter" />
 </template>
 
 <script lang="ts" setup>

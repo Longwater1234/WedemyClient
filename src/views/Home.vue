@@ -142,7 +142,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style lang="scss" scoped>
 .main-body {
   margin: auto;
   width: 70% !important;
