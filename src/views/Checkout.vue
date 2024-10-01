@@ -160,7 +160,7 @@ async function fetchMyTotalBill() {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .main-view-checkout {
   text-align: center;
   display: flex;

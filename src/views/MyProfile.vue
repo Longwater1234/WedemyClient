@@ -128,7 +128,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .main-view {
   text-align: center;
   justify-content: center;

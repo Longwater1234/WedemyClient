@@ -1,8 +1,8 @@
 <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div align="center" style="height: 80vh">
-    <div class="loginContainer">
-      <h3 class="loginHeader">Sign Up and Start Learning!</h3>
+    <div class="login-container">
+      <h3 class="login-header">Sign Up and Start Learning!</h3>
 
       <!-- GOOGLE SIGN UP  -->
       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
@@ -228,7 +228,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
-.loginHeader {
+.login-header {
   border-bottom: solid 1px #d1d7dc;
   color: #1c1d1f;
   display: block;
@@ -236,14 +236,14 @@ onBeforeUnmount(() => {
   padding: 24px 64px 24px 24px;
 }
 
-.loginContainer {
+.login-container {
   color: #1c1d1f;
   width: 380px;
   text-align: center;
 }
 
 @media screen and (max-width: 600px) {
-  .loginContainer {
+  .login-container {
     width: 250px;
   }
 }
