@@ -110,7 +110,6 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import { useRouter } from "vue-router";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
-import type { UserDto } from "@/interfaces/custom";
 
 const signupFormRef = ref<FormInstance>();
 const router = useRouter();
