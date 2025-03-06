@@ -26,6 +26,12 @@
       ></div>
       <!-- END OF GOOGLE BUTTON -->
 
+      <div>
+        <router-link to="/login">
+          <el-button class="btn" type="warning"> Login with Test Account</el-button>
+        </router-link>
+      </div>
+
       <!-- START SIGNUP FORM -->
       <el-form @submit.prevent="handleSignup" status-icon :model="signupForm" :rules="rules" ref="signupFormRef">
         <el-form-item style="margin-top: 10px" prop="fullname" required>
@@ -76,9 +82,9 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <!--        <el-form-item>
-          <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
-        </el-form-item>-->
+        <el-form-item>
+          <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
+        </el-form-item>
 
         <el-form-item style="margin-top: 8px">
           <el-button class="btn purple" style="font-weight: bold" :loading="isLoading" native-type="submit">
@@ -89,7 +95,7 @@
 
       <div style="margin-top: 13px">
         Already have an account?
-        <router-link to="/login" style="font-weight: 800"> LogIn </router-link>
+        <router-link to="/login" style="font-weight: 800"> LogIn</router-link>
       </div>
     </div>
   </div>
@@ -103,14 +109,13 @@ import { Lock, User, Message } from "@element-plus/icons-vue";
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import { useRouter } from "vue-router";
-// import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
-
-document.title = "SignUp | Wedemy";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
+import type { UserDto } from "@/interfaces/custom";
 
 const signupFormRef = ref<FormInstance>();
 const router = useRouter();
 const responseToken = ref("");
-// const myCaptcha = ref<VueHcaptcha>();
+const myCaptcha = ref<VueHcaptcha>();
 
 /* validation for fullname */
 const checkName = (rule: any, value: string, callback: (arg?: Error) => void) => {
@@ -158,7 +163,8 @@ const signupForm = reactive({
   fullname: "",
   email: "",
   password: "",
-  confirmPass: ""
+  confirmPass: "",
+  responseToken: ""
 });
 
 // rules for the validation
@@ -174,32 +180,44 @@ const isLoading = ref(false);
 const GOOGLE_CLIENT_ID = computed(() => {
   return import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 });
+
 const SERVER_ROOT = computed(() => {
   return import.meta.env.VITE_APP_BACKEND_ROOT_URL;
 });
 
-function handleSignup() {
-  signupFormRef.value?.validate(valid => {
-    if (!valid) return;
-    isLoading.value = true;
-    submitToServer(signupForm)
-      .then(() => redirectToLogin())
-      .catch(err => displayError(err))
-      .finally(() => (isLoading.value = false));
-  });
+const HCAPTCHA_KEY = computed(() => {
+  return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
+});
+
+/**
+ * Validate then submit form to backend
+ */
+async function handleSignup() {
+  const valid = await signupFormRef.value?.validate();
+  if (!valid) return;
+  isLoading.value = true;
+  submitToServer(signupForm)
+    .then(() => redirectToLogin())
+    .catch(err => displayError(err))
+    .finally(() => (isLoading.value = false));
 }
 
 function displayError(err: unknown) {
   handleApiError(err);
-  // setTimeout(() => {
-  //   resetCaptcha();
-  // }, 200);
+  setTimeout(() => {
+    resetCaptcha();
+  }, 200);
 }
 
-// function resetCaptcha() {
-//   responseToken.value = "";
-//   mycaptcha.value?.reset();
-// }
+function resetCaptcha() {
+  responseToken.value = "";
+  myCaptcha.value?.reset();
+}
+
+/** onSuccess captcha solve */
+function handleVerify(token: string) {
+  signupForm.responseToken = token;
+}
 
 const submitToServer = async (payload: typeof signupForm) => {
   await AuthService.registerUser({ ...payload }, responseToken.value);
@@ -214,6 +232,7 @@ function redirectToLogin() {
 }
 
 onMounted(() => {
+  document.title = "SignUp | Wedemy";
   //attach GoogleAuth script
   const scripta = document.createElement("script");
   scripta.src = "https://accounts.google.com/gsi/client";

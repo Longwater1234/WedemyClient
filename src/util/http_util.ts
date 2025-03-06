@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios";
+import type { AxiosError } from "axios";
+import axios from "axios";
 import { ElMessage } from "element-plus";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_ROOT_URL;

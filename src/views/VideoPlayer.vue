@@ -50,14 +50,14 @@
                 :key="item.id"
               >
                 <div>
-                  <div>{{ item.lesson_name }}</div>
+                  <div>{{ item.lessonName }}</div>
                   <div>
                     <clock class="videolen" />
-                    {{ item.video_time }}
+                    {{ item.videoTime }}
                   </div>
                 </div>
                 <div>
-                  <input type="checkbox" :checked="item.is_watched" disabled />
+                  <input type="checkbox" :checked="item.isWatched" disabled />
                 </div>
               </div>
             </div>

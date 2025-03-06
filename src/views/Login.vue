@@ -26,6 +26,10 @@
       ></div>
       <!-- END OF GOOGLE BUTTON -->
 
+      <div>
+        <el-button class="btn" type="warning" @click="randomAccount"> Use a Test Account</el-button>
+      </div>
+
       <!-- START LOGIN FORM BELOW -->
       <el-form @submit.prevent="handleLogin" status-icon :model="loginForm" :rules="rules" ref="loginFormRef">
         <el-form-item style="margin-top: 10px" prop="email">
@@ -51,13 +55,9 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <!--        <el-form-item>
-          <vue-hcaptcha
-            ref="mycaptcha"
-            :sitekey="HCAPTCHA_KEY"
-            @verify="handleVerify"
-          ></vue-hcaptcha>
-        </el-form-item>-->
+        <el-form-item>
+          <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
+        </el-form-item>
 
         <div style="margin-top: 8px">
           <el-button class="btn purple" style="font-weight: bold" native-type="submit" :loading="isLoading">
@@ -69,7 +69,7 @@
 
       <div style="margin-top: 13px">
         New user?
-        <router-link to="/signup" class="none" style="font-weight: 800"> Create an Account </router-link>
+        <router-link to="/signup" class="none" style="font-weight: 800"> Create an Account</router-link>
       </div>
     </div>
   </div>
@@ -83,12 +83,13 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import type { FormInstance, FormRules } from "element-plus";
 import { useStudentStore } from "@/stores";
+import sampleUserList from "@/sampleusers.json";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import type { LoginRequest, UserDto } from "@/interfaces/custom";
-
-document.title = "Login | Wedemy";
 
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
+const myCaptcha = ref<VueHcaptcha>();
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
@@ -99,7 +100,7 @@ const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void
   }
 };
 
-const loginForm = reactive({
+const loginForm = reactive<LoginRequest>({
   email: "",
   password: "",
   responseToken: ""
@@ -119,9 +120,14 @@ const GOOGLE_CLIENT_ID = computed(() => {
 const SERVER_ROOT = computed(() => {
   return import.meta.env.VITE_APP_BACKEND_ROOT_URL;
 });
-//const HCAPTCHA_KEY = import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY,
 
-/** on formSubmit */
+const HCAPTCHA_KEY = computed(() => {
+  return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
+});
+
+/**
+ * Validate then submit form to backend
+ */
 async function handleLogin() {
   const isValid = await loginFormRef.value?.validate();
   if (!isValid) return;
@@ -150,9 +156,20 @@ function redirectToHome() {
 }
 
 /** onSuccess captcha solve */
-// function handleVerify(token: string) {
-//   loginForm.responseToken = token;
-// }
+function handleVerify(token: string) {
+  loginForm.responseToken = token;
+}
+
+/**
+ * Randomize test account
+ */
+function randomAccount() {
+  const len = sampleUserList.length;
+  const randomIndex = Math.floor(Math.random() * len + 1);
+  const userAccount = sampleUserList[randomIndex];
+  loginForm.email = userAccount.email;
+  loginForm.password = userAccount.pass;
+}
 
 function displayError(err: any) {
   handleApiError(err);
@@ -163,10 +180,11 @@ function displayError(err: any) {
 
 function resetCaptcha() {
   loginForm.responseToken = "";
-  //this.$refs.mycaptcha.reset();
+  myCaptcha.value?.reset();
 }
 
 onMounted(() => {
+  document.title = "Login | Wedemy";
   //attach GoogleAuth script
   const script = document.createElement("script");
   script.src = "https://accounts.google.com/gsi/client";

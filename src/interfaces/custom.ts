@@ -15,9 +15,9 @@ export interface Summary {
 }
 export interface CustomLesson {
   id: string;
-  video_time: string;
-  lesson_name: string;
-  is_watched: boolean;
+  videoTime: string;
+  lessonName: string;
+  isWatched: boolean;
 }
 
 /* for checkout, send to server */

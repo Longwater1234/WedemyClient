@@ -230,10 +230,6 @@ onMounted(() => {
     height: 100%;
   }
 
-  .flex {
-    display: block;
-  }
-
   .catArea {
     flex-wrap: nowrap;
     overflow-x: scroll;
