@@ -273,6 +273,6 @@ onMounted(() => {
 });
 </script>
 
-<style>
-@import "@/styles/course-page.css";
+<style scoped>
+@import "@/styles/course-page.scss";
 </style>

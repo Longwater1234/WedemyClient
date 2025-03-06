@@ -65,7 +65,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .main-body {
   margin: 2%;
   padding: 1em;

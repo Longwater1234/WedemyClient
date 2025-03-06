@@ -6,7 +6,7 @@ import "element-plus/dist/index.css";
 import App from "./App.vue";
 import router from "./router";
 import "./permission";
-import "./styles/main.css";
+import "./styles/main.scss";
 import { httpUtil } from "@/util/http_util";
 import type { AxiosError, AxiosResponse } from "axios";
 import YoutubeIframe from "@techassi/vue-youtube-iframe";

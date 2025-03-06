@@ -80,7 +80,7 @@ watch([route], function () {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .underscore {
   padding-bottom: 0.5em;
   border-bottom: 1px rgba(0, 0, 0, 0.2) solid;
