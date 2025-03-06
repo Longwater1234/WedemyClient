@@ -17,7 +17,7 @@
   },
   "scripts": {
     "dev": "cross-env --max_old_space_size=4096 vite",
-    "build": "rimraf dist && vite build",
+    "build": "rimraf dist && vite build && cp serve.json dist/",
     "preview": "vite preview",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
