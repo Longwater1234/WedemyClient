@@ -1,4 +1,5 @@
 /dist/*
+/assets/*
 .local
 .output.js
 node_modules/**

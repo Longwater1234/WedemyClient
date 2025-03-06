@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
-    "@hcaptcha/vue3-hcaptcha": "^1.2.1",
+    "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@techassi/vue-youtube-iframe": "^1.0.6",
     "@vueuse/core": "^9.13.0",
     "axios": "^1.8.1",
