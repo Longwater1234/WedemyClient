@@ -96,7 +96,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .salesList {
   align-self: flex-start;
   width: 80% !important;

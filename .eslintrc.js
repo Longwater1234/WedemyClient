@@ -31,6 +31,7 @@ module.exports = {
     quotes: ["warn", "double"],
     "prefer-const": 1,
     "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/consistent-type-imports": "error",
     "vue/multi-word-component-names": [0, "never"],
     "@typescript-eslint/no-unused-vars": [
       "warn",

@@ -21,7 +21,7 @@ export interface Course {
   price: number;
   rating?: number;
   subtitle: string | null;
-  thumbUrl: string | null;
+  thumbUrl: string;
   title: string;
 }
 export interface EnrollProgress {
@@ -76,7 +76,8 @@ export interface User {
   fullname: string;
   id?: number;
   password: string | null;
-  userRole?: any;
+  userRole?: string;
+  enabled: boolean;
 }
 export interface Wishlist {
   courseId: number;
