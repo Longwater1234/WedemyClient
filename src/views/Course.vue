@@ -212,7 +212,7 @@ function checkEnrollStatus(courseId: number) {
 /** listen for event from Child */
 function onToggleWishlist(courseId?: number) {
   if (courseId === undefined) return;
-  let myAction = inWishlist.value ? WishlistService.removeOneByCourse(courseId) : WishlistService.addNew(courseId);
+  const myAction = inWishlist.value ? WishlistService.removeOneByCourse(courseId) : WishlistService.addNew(courseId);
   myAction.then(() => (inWishlist.value = !inWishlist.value)).catch(error => handleApiError(error));
 }
 
@@ -226,7 +226,7 @@ function checkWishlistStatus(courseId: number) {
 /** listen for Event from Child */
 function onToggleCart(courseId?: number) {
   if (courseId === undefined) return;
-  let myAction = inCart.value ? CartService.removeOneByCourse(courseId) : CartService.addNew(courseId);
+  const myAction = inCart.value ? CartService.removeOneByCourse(courseId) : CartService.addNew(courseId);
   myAction.then(() => handleSuccessCart(inCart.value)).catch(error => handleApiError(error));
 }
 
@@ -264,7 +264,7 @@ const notifMessage = computed(() => {
 onMounted(() => {
   window.scrollTo(0, 0);
   isLoading.value = true;
-  let { id } = route.params;
+  const { id } = route.params;
   courseId.value = parseInt(id.toString());
   fetchSingleCourse(courseId.value);
   fetchObjectives(courseId.value);

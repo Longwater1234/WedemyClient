@@ -1,10 +1,9 @@
 # Wedemy TODO
 
 You may help complete this TODO list. Fork the project, create a new branch, add your edits, and submit your pull request.
-I will review before merging it.
+Before you push your commit, please run `npm run lint`. I will review before merging it.
 
 - [x] CSS/Layout cleanup on mobile
-- [ ] Dark Mode
+- [ ] Full Dark Mode
 - [ ] Admin + Instructor Panel (as separate project?)
-- [ ] Certificates of Completion
 - [ ] Download Receipts after Purchase

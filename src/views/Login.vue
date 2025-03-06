@@ -82,18 +82,13 @@ import { Lock, Message } from "@element-plus/icons-vue";
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import type { FormInstance, FormRules } from "element-plus";
-import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import { useStudentStore } from "@/stores";
 import type { LoginRequest, UserDto } from "@/interfaces/custom";
-import sampleUserList from "@/sampleusers.json";
-import { useRouter } from "vue-router";
 
 document.title = "Login | Wedemy";
 
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
-const myCaptcha = ref<VueHcaptcha>();
-const router = useRouter();
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
@@ -117,9 +112,14 @@ const rules = reactive<FormRules>({
 });
 
 const isLoading = ref(false);
-const HCAPTCHA_KEY = computed(() => {
-  return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
+const GOOGLE_CLIENT_ID = computed(() => {
+  return import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
 });
+
+const SERVER_ROOT = computed(() => {
+  return import.meta.env.VITE_APP_BACKEND_ROOT_URL;
+});
+//const HCAPTCHA_KEY = import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY,
 
 /** on formSubmit */
 async function handleLogin() {
@@ -132,14 +132,9 @@ async function handleLogin() {
     .finally(() => (isLoading.value = false));
 }
 
-/** onSuccess captcha solve */
-function handleVerify(token: string) {
-  loginForm.responseToken = token;
-}
-
 async function submitToServer(payload: LoginRequest) {
-  let res = await AuthService.loginUser({ ...payload });
-  let user: UserDto = res.data.userInfo;
+  const res = await AuthService.loginUser({ ...payload });
+  const user: UserDto = res.data.userInfo;
   store.$patch({
     id: user.id,
     fullname: user.fullname,
@@ -149,19 +144,15 @@ async function submitToServer(payload: LoginRequest) {
   await store.getCartCountServer();
 }
 
-function toggleAccount() {
-  let len = sampleUserList.length;
-  let randomIndex = Math.floor(Math.random() * len + 1);
-  let userAccount = sampleUserList[randomIndex];
-  loginForm.email = userAccount.email;
-  loginForm.password = userAccount.pass;
+function redirectToHome() {
+  ElMessage.success("Welcome back!");
+  window.location.replace("/");
 }
 
-async function redirectToHome() {
-  ElMessage.success("Welcome back!");
-  await router.replace("/");
-  window.location.reload();
-}
+/** onSuccess captcha solve */
+// function handleVerify(token: string) {
+//   loginForm.responseToken = token;
+// }
 
 function displayError(err: any) {
   handleApiError(err);
@@ -172,7 +163,7 @@ function displayError(err: any) {
 
 function resetCaptcha() {
   loginForm.responseToken = "";
-  myCaptcha.value?.reset();
+  //this.$refs.mycaptcha.reset();
 }
 
 onMounted(() => {

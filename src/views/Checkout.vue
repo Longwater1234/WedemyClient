@@ -114,7 +114,7 @@ function submitPayment() {
   paymentInstance.value?.requestPaymentMethod()
     .then(payload => {
       //CREATE PAYMENT OBJECT for Server
-      let obj: PaymentObj = {
+      const obj: PaymentObj = {
         nonce: payload.nonce,
         paymentMethod: payload.type,
         totalAmount: totalPrice.value

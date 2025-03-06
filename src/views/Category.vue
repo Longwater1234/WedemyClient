@@ -65,14 +65,14 @@ function fetchCoursesByCategory(name: string) {
 }
 
 onMounted(() => {
-  let { name } = route.params;
+  const { name } = route.params;
   categoryName.value = name ? name.toString() : "";
   fetchCoursesByCategory(categoryName.value);
   document.title = `Courses in ${categoryName.value} | Wedemy`;
 });
 
 watch([route], function () {
-  let newVal = route.params.name;
+  const newVal = route.params.name;
   if (!newVal) return;
   categoryName.value = newVal.toString();
   fetchCoursesByCategory(categoryName.value);

@@ -18,18 +18,18 @@
   "scripts": {
     "dev": "cross-env --max_old_space_size=4096 vite",
     "build": "rimraf dist && vite build",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit",
     "lint": "eslint src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
-    "format": "prettier --write src/**",
-    "copy": "cp serve.json dist/serve.json",
-    "prod": "npx serve ./dist/",
-    "start": "npm run copy && npm run prod"
+    "pretty": "prettier --write src/**",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@techassi/vue-youtube-iframe": "^1.0.6",
     "@hcaptcha/vue3-hcaptcha": "^1.2.1",
     "@vueuse/core": "^9.13.0",
-    "axios": "^1.3.5",
+    "axios": "~1.5.0",
     "braintree-web-drop-in": "^1.36.1",
     "element-plus": "^2.3.3",
     "pinia": "^2.0.36",
@@ -62,9 +62,9 @@
     "rimraf": "^3.0.2",
     "sass": "^1.62.0",
     "typescript": "^4.8.4",
-    "vite": "^4.3.6",
+    "vite": "^4.5.2",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-pwa": "^0.14.7",
+    "vite-plugin-pwa": "^0.16.4",
     "vue-tsc": "^1.6.5"
   }
 }

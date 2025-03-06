@@ -187,7 +187,7 @@ function postReview() {
   formReview.courseId = courseId.value;
   isLoading.value = true;
   toggleReviewDialog();
-  let service = formReview.id ? ReviewService.editMine(formReview.id, formReview) : ReviewService.addNew(formReview);
+  const service = formReview.id ? ReviewService.editMine(formReview.id, formReview) : ReviewService.addNew(formReview);
 
   service
     .then(res => handleOKReview(res))
@@ -197,7 +197,7 @@ function postReview() {
 
 /** play next video */
 async function refreshPlayer(lessonId: string) {
-  let link = `/videoplayer/course/${singleCourse.id}/lesson/${lessonId}`;
+  const link = `/videoplayer/course/${singleCourse.id}/lesson/${lessonId}`;
   await router.push({ path: link, force: true });
   window.location.reload(); //in case vue-router fails
 }
@@ -211,7 +211,7 @@ function toggleReviewDialog() {
 function updateWatchStatus(obj: Partial<WatchStatus>) {
   EnrollService.updateStatus(obj)
     .then(res => {
-      let nextLessonId: string = res.data.nextLessonId;
+      const nextLessonId: string = res.data.nextLessonId;
       if (!nextLessonId) {
         //🎉 COURSE COMPLETED!
         ElMessage.success(res.data.message);
@@ -238,10 +238,10 @@ function getMyReview(courseId: number) {
 }
 
 onMounted(() => {
-  let { lessonId } = route.params;
-  let courseIdParam = route.params.courseId;
-  let numCourseId = courseIdParam ? parseInt(courseIdParam.toString()) : 0;
-  let req: VideoRequest = {
+  const { lessonId } = route.params;
+  const courseIdParam = route.params.courseId;
+  const numCourseId = courseIdParam ? parseInt(courseIdParam.toString()) : 0;
+  const req: VideoRequest = {
     courseId: numCourseId,
     lessonId: lessonId.toString()
   };
