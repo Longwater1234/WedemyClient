@@ -82,9 +82,9 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <el-form-item>
-          <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
-        </el-form-item>
+        <!--        <el-form-item>
+                  <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify" />
+                </el-form-item>-->
 
         <el-form-item style="margin-top: 8px">
           <el-button class="btn purple" style="font-weight: bold" :loading="isLoading" native-type="submit">
@@ -109,15 +109,14 @@ import { Lock, User, Message } from "@element-plus/icons-vue";
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import { useRouter } from "vue-router";
-import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
-import type { UserDto } from "@/interfaces/custom";
+// import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 
 const signupFormRef = ref<FormInstance>();
 const router = useRouter();
 const responseToken = ref("");
-const myCaptcha = ref<VueHcaptcha>();
+// const myCaptcha = ref<VueHcaptcha>();
 
-/* validation for fullname */
+/** validation for fullname */
 const checkName = (rule: any, value: string, callback: (arg?: Error) => void) => {
   const reg = /[^ \p{Han}0-9a-zA-Z_.'-]/i;
   if (!value) {
@@ -185,9 +184,9 @@ const SERVER_ROOT = computed(() => {
   return import.meta.env.VITE_APP_BACKEND_ROOT_URL;
 });
 
-const HCAPTCHA_KEY = computed(() => {
-  return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
-});
+// const HCAPTCHA_KEY = computed(() => {
+//   return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
+// });
 
 /**
  * Validate then submit form to backend
@@ -211,7 +210,7 @@ function displayError(err: unknown) {
 
 function resetCaptcha() {
   responseToken.value = "";
-  myCaptcha.value?.reset();
+  //myCaptcha.value?.reset();
 }
 
 /** onSuccess captcha solve */

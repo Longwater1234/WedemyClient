@@ -21,7 +21,7 @@
     "preview": "vite preview",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
-    "pretty": "prettier --write src/**",
+    "pretty": "prettier --write src/",
     "prepare": "husky install"
   },
   "dependencies": {
