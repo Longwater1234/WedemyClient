@@ -110,6 +110,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import { useRouter } from "vue-router";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
+import type { UserDto } from "@/interfaces/custom";
 
 const signupFormRef = ref<FormInstance>();
 const router = useRouter();
@@ -162,7 +163,8 @@ const signupForm = reactive({
   fullname: "",
   email: "",
   password: "",
-  confirmPass: ""
+  confirmPass: "",
+  responseToken: ""
 });
 
 // rules for the validation
@@ -187,15 +189,17 @@ const HCAPTCHA_KEY = computed(() => {
   return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
 });
 
-function handleSignup() {
-  signupFormRef.value?.validate(valid => {
-    if (!valid) return;
-    isLoading.value = true;
-    submitToServer(signupForm)
-      .then(() => redirectToLogin())
-      .catch(err => displayError(err))
-      .finally(() => (isLoading.value = false));
-  });
+/**
+ * Validate then submit form to backend
+ */
+async function handleSignup() {
+  const valid = await signupFormRef.value?.validate();
+  if (!valid) return;
+  isLoading.value = true;
+  submitToServer(signupForm)
+    .then(() => redirectToLogin())
+    .catch(err => displayError(err))
+    .finally(() => (isLoading.value = false));
 }
 
 function displayError(err: unknown) {
@@ -208,6 +212,11 @@ function displayError(err: unknown) {
 function resetCaptcha() {
   responseToken.value = "";
   myCaptcha.value?.reset();
+}
+
+/** onSuccess captcha solve */
+function handleVerify(token: string) {
+  signupForm.responseToken = token;
 }
 
 const submitToServer = async (payload: typeof signupForm) => {

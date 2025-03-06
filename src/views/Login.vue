@@ -125,7 +125,9 @@ const HCAPTCHA_KEY = computed(() => {
   return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
 });
 
-/** on formSubmit */
+/**
+ * Validate then submit form to backend
+ */
 async function handleLogin() {
   const isValid = await loginFormRef.value?.validate();
   if (!isValid) return;
