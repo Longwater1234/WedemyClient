@@ -1,17 +1,17 @@
 import type { AxiosRequestConfig } from "axios";
 import { httpUtil } from "@/util/http_util";
-import type { LoginRequest } from "@/interfaces/custom";
-import type { User } from "@/interfaces/wedemy";
+import type { LoginRequest, RegisterRequest } from "@/interfaces/custom";
 
 class AuthService {
-  /** Login using custom JSON login */
-  loginUser({ email, password, responseToken }: LoginRequest) {
+  /** Login using custom Springboot JSON login */
+  loginUser(loginRequest: LoginRequest, responseToken: string) {
     const url = "/auth/login";
+    const { email, password } = loginRequest;
     const body = { email, password };
     return httpUtil.post(url, body, { params: { responseToken: responseToken } });
   }
 
-  /**  Login using Spring FormLogin  */
+  /**  Login using Springboot FormLogin  */
   loginUserForm(email: string, password: string, responseToken: string) {
     const params = new URLSearchParams();
     params.append("email", email);
@@ -31,8 +31,8 @@ class AuthService {
   }
 
   /** Register submits form to Server */
-  registerUser(load: Partial<User>, responseToken: string) {
-    return httpUtil.post("/auth/register", load, { params: { responseToken: responseToken } });
+  registerUser(payload: RegisterRequest, responseToken: string) {
+    return httpUtil.post("/auth/register", payload, { params: { responseToken: responseToken } });
   }
 }
 

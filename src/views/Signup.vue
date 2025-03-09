@@ -109,6 +109,7 @@ import { Lock, User, Message } from "@element-plus/icons-vue";
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import { useRouter } from "vue-router";
+import type { RegisterRequest } from "@/interfaces/custom";
 // import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 
 const signupFormRef = ref<FormInstance>();
@@ -116,7 +117,7 @@ const router = useRouter();
 const responseToken = ref("");
 // const myCaptcha = ref<VueHcaptcha>();
 
-/** validation for fullname */
+/* validation for fullname */
 const checkName = (rule: any, value: string, callback: (arg?: Error) => void) => {
   const reg = /[^ \p{Han}0-9a-zA-Z_.'-]/i;
   if (!value) {
@@ -135,7 +136,7 @@ const checkName = (rule: any, value: string, callback: (arg?: Error) => void) =>
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
-  const passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gi;
+  const passwordReg = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/g;
   if (!value) {
     callback(new Error("Password can't be empty"));
   } else if (value.length < 8) {
@@ -158,12 +159,11 @@ const checkRepeatPass = (rule: any, value: string, callback: (arg?: Error) => vo
   }
 };
 
-const signupForm = reactive({
+const signupForm = reactive<RegisterRequest>({
   fullname: "",
   email: "",
   password: "",
-  confirmPass: "",
-  responseToken: ""
+  confirmPass: ""
 });
 
 // rules for the validation
@@ -215,10 +215,10 @@ function resetCaptcha() {
 
 /** onSuccess captcha solve */
 function handleVerify(token: string) {
-  signupForm.responseToken = token;
+  responseToken.value = token;
 }
 
-const submitToServer = async (payload: typeof signupForm) => {
+const submitToServer = async (payload: RegisterRequest) => {
   await AuthService.registerUser({ ...payload }, responseToken.value);
 };
 
