@@ -89,6 +89,7 @@ import type { LoginRequest, UserDto } from "@/interfaces/custom";
 
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
+const responseToken = ref("");
 // const myCaptcha = ref<VueHcaptcha>();
 
 // validation for password
@@ -102,8 +103,7 @@ const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void
 
 const loginForm = reactive<LoginRequest>({
   email: "",
-  password: "",
-  responseToken: ""
+  password: ""
 });
 
 // rules for the validation
@@ -121,9 +121,9 @@ const SERVER_ROOT = computed(() => {
   return import.meta.env.VITE_APP_BACKEND_ROOT_URL;
 });
 
-const HCAPTCHA_KEY = computed(() => {
-  return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
-});
+// const HCAPTCHA_KEY = computed(() => {
+//   return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
+// });
 
 /**
  * Validate then submit form to backend
@@ -138,8 +138,12 @@ async function handleLogin() {
     .finally(() => (isLoading.value = false));
 }
 
+/**
+ * Submit form to backend, and if ok, store result to Pinia
+ * @param payload login data
+ */
 async function submitToServer(payload: LoginRequest) {
-  const res = await AuthService.loginUser({ ...payload });
+  const res = await AuthService.loginUser({ ...payload }, responseToken.value);
   const user: UserDto = res.data.userInfo;
   store.$patch({
     id: user.id,
@@ -157,7 +161,7 @@ function redirectToHome() {
 
 /** onSuccess captcha solve */
 function handleVerify(token: string) {
-  loginForm.responseToken = token;
+  responseToken.value = token;
 }
 
 /**
@@ -169,7 +173,8 @@ function handleVerify(token: string) {
   const userAccount = sampleUserList[randomIndex];
   loginForm.email = userAccount.email;
   loginForm.password = userAccount.pass;
-}*/
+}
+*/
 
 function displayError(err: any) {
   handleApiError(err);
@@ -179,8 +184,8 @@ function displayError(err: any) {
 }
 
 function resetCaptcha() {
-  loginForm.responseToken = "";
-  //myCaptcha.value?.reset();
+  responseToken.value = "";
+  // myCaptcha.value?.reset();
 }
 
 onMounted(() => {
