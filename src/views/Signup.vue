@@ -110,6 +110,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import { useRouter } from "vue-router";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
+import type { RegisterRequest } from "@/interfaces/custom";
 
 const signupFormRef = ref<FormInstance>();
 const router = useRouter();
@@ -158,12 +159,11 @@ const checkRepeatPass = (rule: any, value: string, callback: (arg?: Error) => vo
   }
 };
 
-const signupForm = reactive({
+const signupForm = reactive<RegisterRequest>({
   fullname: "",
   email: "",
   password: "",
-  confirmPass: "",
-  responseToken: ""
+  confirmPass: ""
 });
 
 // rules for the validation
@@ -215,10 +215,10 @@ function resetCaptcha() {
 
 /** onSuccess captcha solve */
 function handleVerify(token: string) {
-  signupForm.responseToken = token;
+  responseToken.value = token;
 }
 
-const submitToServer = async (payload: typeof signupForm) => {
+const submitToServer = async (payload: RegisterRequest) => {
   await AuthService.registerUser({ ...payload }, responseToken.value);
 };
 
