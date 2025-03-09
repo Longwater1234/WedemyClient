@@ -136,7 +136,7 @@ const checkName = (rule: any, value: string, callback: (arg?: Error) => void) =>
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
-  const passwordReg = /^(?=.*[0-9])(?=.*[a-zA-Z]).*([a-zA-Z0-9]+?)?$/gi;
+  const passwordReg = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
   if (!value) {
     callback(new Error("Password can't be empty"));
   } else if (value.length < 8) {
