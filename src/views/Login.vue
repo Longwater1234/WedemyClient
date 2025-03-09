@@ -90,6 +90,7 @@ import type { LoginRequest, UserDto } from "@/interfaces/custom";
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
 const myCaptcha = ref<VueHcaptcha>();
+const responseToken = ref("");
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
@@ -102,8 +103,7 @@ const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void
 
 const loginForm = reactive<LoginRequest>({
   email: "",
-  password: "",
-  responseToken: ""
+  password: ""
 });
 
 // rules for the validation
@@ -138,8 +138,12 @@ async function handleLogin() {
     .finally(() => (isLoading.value = false));
 }
 
+/**
+ * Submit form to backend, and if ok, store result to Pinia
+ * @param payload login data
+ */
 async function submitToServer(payload: LoginRequest) {
-  const res = await AuthService.loginUser({ ...payload });
+  const res = await AuthService.loginUser({ ...payload }, responseToken.value);
   const user: UserDto = res.data.userInfo;
   store.$patch({
     id: user.id,
@@ -157,7 +161,7 @@ function redirectToHome() {
 
 /** onSuccess captcha solve */
 function handleVerify(token: string) {
-  loginForm.responseToken = token;
+  responseToken.value = token;
 }
 
 /**
@@ -179,7 +183,7 @@ function displayError(err: any) {
 }
 
 function resetCaptcha() {
-  loginForm.responseToken = "";
+  responseToken.value = "";
   myCaptcha.value?.reset();
 }
 

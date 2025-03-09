@@ -3,8 +3,6 @@ import type { Lesson, Review } from "@/interfaces/wedemy";
 export interface LoginRequest {
   email: string;
   password: string;
-  /* from Hcaptcha */
-  responseToken?: string;
 }
 
 /* student summary on profile */
@@ -100,4 +98,12 @@ export interface VideoRequest {
 export interface VideoResponse {
   enrollId: number;
   lesson: Lesson;
+}
+
+/** for Signup.vue */
+export interface RegisterRequest {
+  fullname: string;
+  email: string;
+  password: string;
+  confirmPass: string;
 }
