@@ -92,6 +92,11 @@ const store = useStudentStore();
 const myCaptcha = ref<VueHcaptcha>();
 const responseToken = ref("");
 
+interface SampleUser {
+  email: string;
+  pass: string;
+}
+
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
   if (!value) {
@@ -170,9 +175,9 @@ function handleVerify(token: string) {
 function randomAccount() {
   const len = sampleUserList.length;
   const randomIndex = Math.floor(Math.random() * len + 1);
-  const userAccount = sampleUserList[randomIndex];
-  loginForm.email = userAccount.email;
-  loginForm.password = userAccount.pass;
+  const account: SampleUser = sampleUserList[randomIndex];
+  loginForm.email = account.email;
+  loginForm.password = account.pass;
 }
 
 function displayError(err: any) {
