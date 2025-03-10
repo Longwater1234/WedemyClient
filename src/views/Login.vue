@@ -6,7 +6,7 @@
 
       <!-- GOOGLE SIGN IN, SEE DOCS  -->
       <!-- https://developers.google.com/identity/gsi/web/guides/display-button -->
-      <div
+      <!-- <div
         id="g_id_onload"
         :data-client_id="GOOGLE_CLIENT_ID"
         data-context="signin"
@@ -23,7 +23,7 @@
         data-text="signin_with"
         data-size="large"
         data-logo_alignment="left"
-      ></div>
+      ></div> -->
       <!-- END OF GOOGLE BUTTON -->
 
       <div>
