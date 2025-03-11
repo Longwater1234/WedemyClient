@@ -86,9 +86,11 @@ import { useStudentStore } from "@/stores";
 //import sampleUserList from "@/sampleusers.json";
 //import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import type { LoginRequest, UserDto } from "@/interfaces/custom";
+import { useRouter } from "vue-router";
 
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
+const router = useRouter();
 const responseToken = ref("");
 // const myCaptcha = ref<VueHcaptcha>();
 
@@ -156,7 +158,8 @@ async function submitToServer(payload: LoginRequest) {
 
 function redirectToHome() {
   ElMessage.success("Welcome back!");
-  window.location.replace("/");
+  router.replace("/");
+  //window.location.replace("/");
 }
 
 /** onSuccess captcha solve */

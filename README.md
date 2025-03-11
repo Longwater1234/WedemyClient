@@ -64,6 +64,7 @@ page and click **Login with Test Account** button.
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account (for payments handling)
 - (OPTIONAL) Free PayPal Business Account.
+- (OPTIONAL) Free HCaptcha account (login and SignUp pages)
 
 ## Resources - learn more
 

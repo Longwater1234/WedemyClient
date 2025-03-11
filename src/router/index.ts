@@ -95,7 +95,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/About.vue")
   },
   {
-    path: "/Error500",
+    path: "/error500",
     name: "ServerError",
     component: () => import("@/views/Error500.vue"),
     meta: {

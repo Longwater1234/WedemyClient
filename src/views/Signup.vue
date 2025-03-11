@@ -224,10 +224,7 @@ const submitToServer = async (payload: RegisterRequest) => {
 
 function redirectToLogin() {
   ElMessage.success("Welcome to Wedemy. Please Login");
-  setTimeout(() => {
-    router.replace("/login");
-    window.location.reload();
-  }, 500);
+  router.replace("/login");
 }
 
 onMounted(() => {
