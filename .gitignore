@@ -33,3 +33,4 @@ coverage
 *.sln
 *.sw?
 /tsconfig.tsbuildinfo
+delete_me/
