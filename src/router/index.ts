@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/account/profile",
     name: "Profile",
     component: () => import("@/views/MyProfile.vue"),
-    meta: { requireLogin: true }
+    meta: { requireLogin: true, hideFooter: true }
   },
   {
     path: "/account/wishlist",
@@ -87,7 +87,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/credits",
     name: "Credits",
-    component: () => import("@/views/Credits.vue")
+    component: () => import("@/views/Credits.vue"),
+    meta: {
+      hideFooter: true
+    }
   },
   {
     path: "/about",

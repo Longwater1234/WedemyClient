@@ -79,24 +79,38 @@ const summaryList = ref<Summary[]>([]);
 const courseList = ref<EnrollmentDto[]>([]);
 const userInfo: Partial<User> = reactive({});
 
-function attachAvatarLink(username: string) {
-  return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+/**
+ * Generate URL for avatar from logged in username
+ * @param username logged in username
+ * @return url of image
+ */
+function attachAvatarLink(username: string): string {
+  return `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURI(username)}`;
 }
+
+/**
+ * fetch logged-in user data
+ */
 function getProfileInfo() {
   ProfileService.getUserDetails().then(res => Object.assign(userInfo, res.data));
   ProfileService.getUserSummary().then(res => (summaryList.value = res.data));
 }
 
-function toLower(item?: string) {
+function toLower(item?: string): string {
   return String(item).toLowerCase();
 }
 
+/**
+ * Fetch current user progress
+ */
 function getUserProgress() {
   EnrollService.getMySummary()
     .then(res => (courseList.value = res.data))
     .catch(err => ElMessage.error(err.message))
     .finally(() => (isLoading.value = false));
 }
+
+/** go to learning page */
 function goToLearning() {
   router.push("/account/learning");
 }
