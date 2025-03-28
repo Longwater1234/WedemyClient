@@ -100,3 +100,11 @@ export interface RegisterRequest {
   password: string;
   confirmPass: string;
 }
+
+export interface LessonDto {
+  id: string;
+  lessonName: string;
+  position: number;
+  isWatched: number; // used as boolean. (1= true, 0 = false)
+  videoTime: string;
+}

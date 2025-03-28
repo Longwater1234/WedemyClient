@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div v-loading.fullscreen.lock="isLoading" class="darkBox">
     <el-alert class="errorBox" v-if="errorMessage.length" :title="errorMessage" type="error" :closable="false">

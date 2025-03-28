@@ -26,9 +26,9 @@
       ></div> -->
       <!-- END OF GOOGLE BUTTON -->
 
-      <!--      <div>
+      <div>
         <el-button class="btn" type="warning" @click="randomAccount"> Use a Test Account</el-button>
-      </div>-->
+      </div>
 
       <!-- START LOGIN FORM BELOW -->
       <el-form @submit.prevent="handleLogin" status-icon :model="loginForm" :rules="rules" ref="loginFormRef">
@@ -55,9 +55,9 @@
         </el-form-item>
 
         <!--  CAPTCHA BOX -->
-        <!--        <el-form-item>
-                  <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
-                </el-form-item>-->
+        <el-form-item>
+          <vue-hcaptcha ref="myCaptcha" :sitekey="HCAPTCHA_KEY" @verify="handleVerify"></vue-hcaptcha>
+        </el-form-item>
 
         <div style="margin-top: 8px">
           <el-button class="btn purple" style="font-weight: bold" native-type="submit" :loading="isLoading">
@@ -83,11 +83,12 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { handleApiError } from "@/util/http_util";
 import type { FormInstance, FormRules } from "element-plus";
 import { useStudentStore } from "@/stores";
-//import sampleUserList from "@/sampleusers.json";
-//import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
+import sampleUserList from "@/sampleusers.json";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import type { LoginRequest, UserDto } from "@/interfaces/custom";
 import { useRouter } from "vue-router";
 
+const router = useRouter();
 const loginFormRef = ref<FormInstance>();
 const store = useStudentStore();
 const myCaptcha = ref<VueHcaptcha>();
@@ -97,9 +98,6 @@ interface SampleUser {
   email: string;
   pass: string;
 }
-const router = useRouter();
-const responseToken = ref("");
-// const myCaptcha = ref<VueHcaptcha>();
 
 // validation for password
 const checkPassword = (rule: any, value: string, callback: (arg?: Error) => void) => {
@@ -130,9 +128,9 @@ const SERVER_ROOT = computed(() => {
   return import.meta.env.VITE_APP_BACKEND_ROOT_URL;
 });
 
-// const HCAPTCHA_KEY = computed(() => {
-//   return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
-// });
+const HCAPTCHA_KEY = computed(() => {
+  return import.meta.env.VITE_APP_HCAPTCHA_CLIENT_KEY;
+});
 
 /**
  * Validate then submit form to backend
@@ -166,7 +164,6 @@ async function submitToServer(payload: LoginRequest) {
 function redirectToHome() {
   ElMessage.success("Welcome back!");
   router.replace("/");
-  //window.location.replace("/");
 }
 
 /** onSuccess captcha solve */
@@ -177,14 +174,13 @@ function handleVerify(token: string) {
 /**
  * Randomize test account
  */
-/*function randomAccount() {
+function randomAccount() {
   const len = sampleUserList.length;
   const randomIndex = Math.floor(Math.random() * len + 1);
   const account: SampleUser = sampleUserList[randomIndex];
   loginForm.email = account.email;
   loginForm.password = account.pass;
 }
-*/
 
 function displayError(err: any) {
   handleApiError(err);
@@ -195,7 +191,7 @@ function displayError(err: any) {
 
 function resetCaptcha() {
   responseToken.value = "";
-  // myCaptcha.value?.reset();
+  myCaptcha.value?.reset();
 }
 
 onMounted(() => {
