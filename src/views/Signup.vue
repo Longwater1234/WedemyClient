@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div align="center" style="height: 80vh">
     <div class="login-container">
@@ -224,10 +223,7 @@ const submitToServer = async (payload: RegisterRequest) => {
 
 function redirectToLogin() {
   ElMessage.success("Welcome to Wedemy. Please Login");
-  setTimeout(() => {
-    router.replace("/login");
-    window.location.reload();
-  }, 500);
+  router.replace("/login");
 }
 
 onMounted(() => {

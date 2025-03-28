@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div class="main-view">
     <h3>{{ singleCourse.title }}</h3>
@@ -57,7 +56,7 @@
                   </div>
                 </div>
                 <div>
-                  <input type="checkbox" :checked="item.isWatched" disabled />
+                  <input type="checkbox" :checked="item.isWatched === 1" disabled />
                 </div>
               </div>
             </div>
@@ -86,7 +85,7 @@
 
 <script lang="ts" setup>
 import type { Course, Review } from "@/interfaces/wedemy";
-import type { CustomLesson, VideoRequest, VideoResponse, WatchStatus } from "@/interfaces/custom";
+import type { LessonDto, VideoRequest, VideoResponse, WatchStatus } from "@/interfaces/custom";
 import CourseService from "@/service/CourseService";
 import EnrollService from "@/service/EnrollService";
 import LessonService from "@/service/LessonService";
@@ -109,7 +108,7 @@ const courseId = ref(0);
 const lessonId = ref("");
 const videoResponse: Partial<VideoResponse> = reactive({});
 const singleCourse: Partial<Course> = reactive({});
-const lessonList = ref<CustomLesson[]>([]);
+const lessonList = ref<LessonDto[]>([]);
 const status: Partial<WatchStatus> = reactive({});
 const errorMsg = ref("");
 // eslint-disable-next-line no-undef

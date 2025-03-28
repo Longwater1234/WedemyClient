@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My wishlist ({{ wishlistCount }})</h3>
 
@@ -69,7 +68,7 @@ function fetchWishlist(page: number) {
   WishlistService.getMinePaged(page)
     .then(res => {
       wishlistItems.value = res.data.content;
-      totalElements.value = res.data.totalElements;
+      totalElements.value = res.data.page.totalElements;
     })
     .catch(err => handleApiError(err))
     .finally(() => (isLoading.value = false));

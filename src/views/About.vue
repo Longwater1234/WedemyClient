@@ -1,4 +1,6 @@
 <template>
+  <!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
+
   <h2 class="cart-header">About</h2>
   <div class="main-view" style="height: 70vh">
     <p>Clone of Udemy, PWA (progressive web app) built using Vue 3 + Typescript + Element Plus, and Pinia (no VueX).</p>

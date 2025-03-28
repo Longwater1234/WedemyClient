@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div class="main-body">
     <h2 class="serif-head">{{ categoryName }} Courses</h2>

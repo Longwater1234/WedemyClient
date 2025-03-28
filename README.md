@@ -3,7 +3,7 @@
 <div>WedemyClient</div>
 </h1>
 
-![Version](https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
 ![Prerequisite](https://img.shields.io/badge/node-20.x-blue.svg)
 [![Package - vue](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/vue?color=blue)](https://www.npmjs.com/package/vue)
 [![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)](https://www.npmjs.com/package/vite)
@@ -64,6 +64,7 @@ page and click **Login with Test Account** button.
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account (for payments handling)
 - (OPTIONAL) Free PayPal Business Account.
+- (OPTIONAL) Free HCaptcha account (login and SignUp pages)
 
 ## Resources - learn more
 
@@ -74,6 +75,12 @@ page and click **Login with Test Account** button.
 - [Pinia docs](https://pinia.vuejs.org/) - modern store for Vue (replacing VueX)
 - [Vue DevTools](https://devtools.vuejs.org/guide/installation.html) -✨ plugin for all major Browsers
 - [sql-to-ts](https://rmp135.github.io/sql-ts/) -✨ quick Db Schema (SQL) --> TS Interface generator
+
+## Deploying your App 🌍
+
+This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. Popular PaaS with CI/CD for VueJS projects
+include: Heroku, AWS Amplify, Vercel, Netlify, Azure Web Apps. The following may **require** a Dockerfile:
+Dokku, Railway, Render.com, Fly.io. Do not forget to set ENV variables as shown in `env.sample` file!
 
 ## Pull Requests & Contributions
 

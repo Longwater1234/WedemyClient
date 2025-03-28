@@ -12,7 +12,9 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.path === "/login" || to.path === "/signup") {
     const isLoggedIn = await studentStore.getLoginStatus();
-    if (isLoggedIn) return next("/");
+    if (isLoggedIn) {
+      return next("/");
+    }
     return next();
   }
   if (to.meta && !to.meta.requireLogin) {

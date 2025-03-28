@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My Cart ({{ totalElements }})</h3>
 
@@ -77,7 +76,7 @@ function fetchCartItems(page: number) {
   CartService.getMinePaged(page)
     .then(res => {
       cartItems.value = res.data.content;
-      totalElements.value = res.data.totalElements;
+      totalElements.value = res.data.page.totalElements;
     })
     .then(() => fetchMyTotalBill())
     .catch(error => handleApiError(error))
