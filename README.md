@@ -3,7 +3,7 @@
 <div>WedemyClient</div>
 </h1>
 
-![Version](https://img.shields.io/badge/version-1.2.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000)
 ![Prerequisite](https://img.shields.io/badge/node-20.x-blue.svg)
 [![Package - vue](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/vue?color=blue)](https://www.npmjs.com/package/vue)
 [![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)](https://www.npmjs.com/package/vite)
@@ -64,6 +64,7 @@ page and click **Login with Test Account** button.
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account (for payments handling)
 - (OPTIONAL) Free PayPal Business Account.
+- (OPTIONAL) Free HCaptcha account (login and SignUp pages)
 
 ## Resources - learn more
 

@@ -113,7 +113,8 @@ const searchItem = ref("");
 const router = useRouter();
 
 const attachAvatarLink = (username: string) => {
-  return `https://api.dicebear.com/9.x/initials/svg?seed=${username}`;
+  //d4dae1d9-20d0-47fc-9fc7-2eabbd190852
+  return `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURI(username)}`;
 };
 
 const goToHome = () => {

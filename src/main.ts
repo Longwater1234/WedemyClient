@@ -22,7 +22,7 @@ httpUtil.interceptors.response.use(
   (response: AxiosResponse) => response,
   function (error: AxiosError) {
     if (error.response && error.response.status === 500) {
-      return router.replace("/Error500");
+      return router.replace("/error500");
     }
     return Promise.reject(error);
   }

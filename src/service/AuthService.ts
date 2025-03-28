@@ -14,7 +14,7 @@ class AuthService {
   /**  Login using Springboot FormLogin  */
   loginUserForm(email: string, password: string, responseToken: string) {
     const params = new URLSearchParams();
-    params.append("email", email);
+    params.append("username", email);
     params.append("password", password);
     params.append("responseToken", responseToken);
 

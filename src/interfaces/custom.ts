@@ -80,13 +80,6 @@ export interface UserDto {
   createdAt: Date | string;
 }
 
-export interface CustomLesson {
-  id: string;
-  video_time: string;
-  lesson_name: string;
-  is_watched: boolean;
-}
-
 /* for video player */
 export interface VideoRequest {
   courseId: number;

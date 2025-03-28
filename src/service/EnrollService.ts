@@ -16,7 +16,7 @@ class EnrollService {
 
   /** for Profile page */
   getMySummary() {
-    return httpUtil.get("/enroll/progress/summary/");
+    return httpUtil.get("/enroll/progress/summary");
   }
 
   /** courses with percent progress */
