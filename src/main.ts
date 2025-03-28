@@ -1,8 +1,9 @@
+//  Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License
+
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
-// @ts-ignore
 import App from "./App.vue";
 import router from "./router";
 import "./permission";

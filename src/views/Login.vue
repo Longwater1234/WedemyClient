@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div align="center" style="height: 80vh">
     <div class="login-container">

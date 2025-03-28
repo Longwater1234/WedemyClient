@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <h3 class="cart-header">My Cart ({{ totalElements }})</h3>
 

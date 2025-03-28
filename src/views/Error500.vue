@@ -1,4 +1,3 @@
-<!-- Copyright (c) 2022. Davis Tibbz. Github: https://github.com/longwater1234. MIT License  -->
 <template>
   <div class="widescreen">
     <h1 style="margin-top: 50px">ಥ_ಥ</h1>
