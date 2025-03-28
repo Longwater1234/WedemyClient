@@ -21,6 +21,11 @@ const useStudentStore = defineStore({
     };
   },
   actions: {
+    /**
+     * Get from backend login status of currnet user
+     *
+     * @returns TRUE if logged in, else FALSE
+     */
     async getLoginStatus(): Promise<boolean> {
       try {
         if (this.fullname !== "") {
@@ -39,6 +44,11 @@ const useStudentStore = defineStore({
         return false;
       }
     },
+    /**
+     * Get quantity of items in cart for this user
+     *
+     * @returns cart items count
+     */
     async getCartCountServer(): Promise<number> {
       try {
         const res = await httpUtil.get("/cart/mine/count");
@@ -49,8 +59,11 @@ const useStudentStore = defineStore({
         return 0;
       }
     },
+    /**
+     * Make a logout request to backend
+     */
     async logoutUser() {
-      await httpUtil.post("/logout", null);
+      await httpUtil.post("/auth/logout", {});
       this.$reset();
     }
   },
