@@ -76,6 +76,12 @@ page and click **Login with Test Account** button.
 - [Vue DevTools](https://devtools.vuejs.org/guide/installation.html) -✨ plugin for all major Browsers
 - [sql-to-ts](https://rmp135.github.io/sql-ts/) -✨ quick Db Schema (SQL) --> TS Interface generator
 
+## Deploying your App 🌍
+
+This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. Popular PaaS with CI/CD for VueJS projects
+include: Heroku, AWS Amplify, Vercel, Netlify, Azure Web Apps. The following may **require** a Dockerfile:
+Dokku, Railway, Render.com, Fly.io. Do not forget to set ENV variables as shown in `env.sample` file!
+
 ## Pull Requests & Contributions
 
 Contributions, issues and feature requests are welcome!
