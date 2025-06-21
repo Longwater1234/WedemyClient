@@ -21,6 +21,8 @@ with Google.
 > Wedemy is an open-source project developed for learning purposes only. It is NOT associated with or endorsed
 > by Udemy, Inc. Any resemblance to Udemy or its services is purely inspirational.
 
+![screenshot_home](./public/screenshot_home.png)
+
 ## Backend Repo
 
 The backend for the Demo is a separate Java Springboot
@@ -78,7 +80,8 @@ page and click **Login with Test Account** button.
 
 ## Deploying your App 🌍
 
-This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. Popular PaaS with CI/CD for VueJS projects
+This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. Popular PaaS with
+CI/CD for VueJS projects
 include: Heroku, AWS Amplify, Vercel, Netlify, Azure Web Apps. The following may **require** a Dockerfile:
 Dokku, Railway, Render.com, Fly.io. Do not forget to set ENV variables as shown in `env.sample` file!
 
