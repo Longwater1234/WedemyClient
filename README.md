@@ -21,7 +21,7 @@ with Google.
 > Wedemy is an open-source project developed for learning purposes only. It is NOT associated with or endorsed
 > by Udemy, Inc. Any resemblance to Udemy or its services is purely inspirational.
 
-![screenshot_home](./public/screenshot_home.png)
+![screenshot_home](public/screenshot_home.png)
 
 ## Backend Repo
 
