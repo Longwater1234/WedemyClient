@@ -20,10 +20,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, type PropType } from "vue";
+import { type PropType } from "vue";
 import type { ReviewDto } from "@/interfaces/custom";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
+
+dayjs.extend(relativeTime);
 
 const props = defineProps({
   review: {
@@ -37,17 +39,13 @@ const props = defineProps({
  * @return relative time passed
  */
 function getPrettyDate(): string {
-  return dayjs(String(props.review?.createdAt)).fromNow();
+  return dayjs(String(props.review?.updatedAt)).fromNow();
 }
 
 const attachAvatarLink = (username?: string): string => {
   if (!username) return "";
   return `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURI(username)}`;
 };
-
-onMounted(() => {
-  dayjs.extend(relativeTime);
-});
 </script>
 
 <style scoped>
