@@ -3,7 +3,7 @@
 <div>WedemyClient</div>
 </h1>
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-2.1.0-blue.svg?cacheSeconds=2592000)
 ![Prerequisite](https://img.shields.io/badge/node-20.x-blue.svg)
 [![Package - vue](https://img.shields.io/github/package-json/dependency-version/Longwater1234/wedemyclient/vue?color=blue)](https://www.npmjs.com/package/vue)
 [![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)](https://www.npmjs.com/package/vite)
@@ -20,6 +20,8 @@ with Google.
 
 > Wedemy is an open-source project developed for learning purposes only. It is NOT associated with or endorsed
 > by Udemy, Inc. Any resemblance to Udemy or its services is purely inspirational.
+
+![screenshot_home](public/screenshot_home.png)
 
 ## Backend Repo
 
@@ -78,7 +80,8 @@ page and click **Login with Test Account** button.
 
 ## Deploying your App 🌍
 
-This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. Popular PaaS with CI/CD for VueJS projects
+This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. Popular PaaS with
+CI/CD for VueJS projects
 include: Heroku, AWS Amplify, Vercel, Netlify, Azure Web Apps. The following may **require** a Dockerfile:
 Dokku, Railway, Render.com, Fly.io. Do not forget to set ENV variables as shown in `env.sample` file!
 

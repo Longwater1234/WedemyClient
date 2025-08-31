@@ -112,8 +112,7 @@ defineProps({
 const searchItem = ref("");
 const router = useRouter();
 
-const attachAvatarLink = (username: string) => {
-  //d4dae1d9-20d0-47fc-9fc7-2eabbd190852
+const attachAvatarLink = (username: string): string => {
   return `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURI(username)}`;
 };
 
