@@ -14,14 +14,16 @@
     </div>
     <div class="row grey">
       Updated: &nbsp;
-      <vue-timeago.es :datetime="props.review?.updatedAt" />
+      {{ getPrettyDate() }}
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from "vue";
+import { onMounted, type PropType } from "vue";
 import type { ReviewDto } from "@/interfaces/custom";
+import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from "dayjs";
 
 const props = defineProps({
   review: {
@@ -29,9 +31,23 @@ const props = defineProps({
   }
 });
 
-const attachAvatarLink = (username?: string) => {
-  return `https://avatars.dicebear.com/api/initials/${username}.svg`;
+/**
+ * Format the review creation date
+ *
+ * @return relative time passed
+ */
+function getPrettyDate(): string {
+  return dayjs(String(props.review?.createdAt)).fromNow();
+}
+
+const attachAvatarLink = (username?: string): string => {
+  if (!username) return "";
+  return `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURI(username)}`;
 };
+
+onMounted(() => {
+  dayjs.extend(relativeTime);
+});
 </script>
 
 <style scoped>
