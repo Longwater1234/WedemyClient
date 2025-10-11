@@ -1,6 +1,6 @@
 <h1>
 <div align="center"><img src="src/assets/logo_final_purple.png" alt="wedemy-logo"/> </div>
-<div>WedemyClient</div>
+<div>WedemyClien.</div>
 </h1>
 
 ![Version](https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000)
