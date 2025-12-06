@@ -6,7 +6,7 @@
   "license": "MIT",
   "homepage": "https://github.com/Longwater1234/WedemyClient",
   "engines": {
-    "node": ">=20.x"
+    "node": ">=22.x"
   },
   "repository": {
     "type": "git",

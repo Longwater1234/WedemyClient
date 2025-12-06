@@ -30,7 +30,7 @@ server framework or language you like with this project.
 ## Install
 
 ```sh
-# Requires node 20.x or higher
+# Requires node 22.x or higher
 npm install
 ```
 
