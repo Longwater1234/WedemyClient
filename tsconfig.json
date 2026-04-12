@@ -1,24 +1,23 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
-    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "strict": true,
-    "ignoreDeprecations": "5.0",
-    "incremental": true,
+    "skipLibCheck": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "jsx": "preserve",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "incremental": true
   },
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
-  ],
-  "exclude": ["node_modules", "dist", "**/*.js"]
+  ]
 }

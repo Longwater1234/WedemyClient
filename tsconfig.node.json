@@ -1,8 +1,10 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.node.json",
-  "include": ["vite.config.*", "vitest.config.*", "cypress.config.*", "playwright.config.*"],
+  "include": ["vite.config.*", "vitest.config.*", "env.d.ts"],
   "compilerOptions": {
     "composite": true,
-    "types": ["node", "vite/client", "element-plus/global", "vite-plugin-pwa/client"]
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
   }
 }
