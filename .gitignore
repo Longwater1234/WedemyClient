@@ -34,3 +34,4 @@ coverage
 *.sw?
 /tsconfig.tsbuildinfo
 delete_me/
+package-lock.json

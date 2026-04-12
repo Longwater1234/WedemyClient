@@ -22,7 +22,7 @@
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "pretty": "prettier --write src/",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
@@ -63,9 +63,15 @@
     "rimraf": "^6.0.1",
     "sass": "^1.86.0",
     "typescript": "^5.8.2",
-    "vite": "^7.2.6",
+    "vite": "^8.0.8",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-pwa": "^1.2.0",
     "vue-tsc": "^2.2.8"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.5",
+    "vite-plugin-pwa": {
+      "vite": "^8.0.8"
+    }
   }
 }
